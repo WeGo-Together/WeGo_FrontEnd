@@ -25,7 +25,44 @@ const eslintConfig = [
       perfectionist: perfectionist,
     },
     rules: {
-      'no-unused-vars': 'off', // JS용 기본 비활성화
+      /**
+       * 함수 선언 규칙
+       * - 함수 선언문(function foo(){}) 사용 금지
+       * - 화살표 함수(const foo = () => {}) 사용 필수
+       *
+       * 이유: 일관성 있는 코드 스타일 유지
+       */
+      'func-style': [
+        'error',
+        'expression',
+        {
+          allowArrowFunctions: true,
+        },
+      ],
+      /**
+       * 삼항 연산자 사용 규칙
+       * - 삼항 연산자 중첩 완전 금지
+       *
+       * 이유: 코드 가독성 확보
+       */
+      'no-nested-ternary': 'error',
+      /**
+       * 사용되지 않는 변수 규칙
+       * - 변수명이 언더스코어(_)로 시작하면 미사용 허용
+       * - 예: const _unusedVar = 1; ✅
+       * - 예: const unusedVar = 1; ❌
+       *
+       * 이유:
+       * - API 응답이나 배열 구조분해에서 일부 값만 필요할 때 명시적 표현
+       * - 예: const [first, _second, third] = array;
+       * - 예: const { data, _meta } = response;
+       */
+      // JS용 기본 규칙 비활성화 (TS 규칙 사용)
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
       // export 정렬
       'simple-import-sort/exports': 'warn',
       // import 정렬
@@ -68,10 +105,6 @@ const eslintConfig = [
             callback: '^on[A-Z].*',
           },
         },
-      ],
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
     },
   },
