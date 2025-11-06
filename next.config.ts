@@ -4,6 +4,7 @@ import type { NextConfig } from 'next';
 import type { Configuration as WebpackConfig } from 'webpack';
 
 const nextConfig: NextConfig = {
+  reactCompiler: true,
   images: {
     //이미지 경로는 사양에 맞게 수정하여 적용
     remotePatterns: [
