@@ -1,7 +1,7 @@
 import localFont from 'next/font/local';
 
-export const primary = localFont({
+export const pretendard = localFont({
   src: [{ path: '../assets/fonts/PretendardVariable.woff2', weight: '45 920' }],
-  variable: '--font-primary',
+  variable: '--font-pretendard',
   display: 'swap',
 });

@@ -2,7 +2,7 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 
-import { primary } from './font';
+import { pretendard } from './font';
 import { Providers } from './Providers';
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
-      <body className={`${primary.className} antialiased`}>
+      <body className={`${pretendard.className} ${pretendard.variable} antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>

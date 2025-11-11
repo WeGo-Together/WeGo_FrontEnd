@@ -1,0 +1,44 @@
+@theme {
+  /* Brand colors */
+  --color-brand-primary: #5189fa;
+  --color-brand-secondary: #eef3ff;
+  --color-brand-tertiary: #315296;
+
+  /* Point colors */
+  --color-point-purple: #a855f7;
+  --color-point-cyan: #06b6d4;
+  --color-point-pink: #ec4899;
+  --color-point-rose: #f43f5e;
+  --color-point-orange: #f97316;
+  --color-point-yellow: #eab308;
+
+  /* Background colors */
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f1f5f9;
+  --color-background-tertiary: #e2e8f0;
+  --color-background-inverse: #e2e8f0;
+
+  /* Interaction colors */
+  --color-interaction-inactive: #94a3b8;
+  --color-interaction-hover: #416ec8;
+  --color-interaction-pressed: #3b63b5;
+
+  /* Border colors */
+  --color-border-primary: #e2e8f0;
+
+  /* Text colors */
+  --color-text-primary: #1e293b;
+  --color-text-secondary: #334155;
+  --color-text-tertiary: #0f172a;
+  --color-text-default: #64748b;
+  --color-text-inverse: #ffffff;
+  --color-text-disabled: #94a3b8;
+
+  /* Status colors */
+  --color-status-danger: #fc4b4b;
+
+  /* Icon colors */
+  --color-icon-primary: #64748b;
+  --color-icon-inverse: #f8fafc;
+  --color-icon-brand: #74a1fb;
+}
