@@ -2,12 +2,12 @@ import '@/app/globals.css';
 
 import type { Preview } from '@storybook/nextjs';
 
-import { primary } from '../src/app/font';
+import { pretendard } from '../src/app/font';
 
 (() => {
   console.log('body className added');
   const addFontClass = () => {
-    document.body.classList.add(primary.className);
+    document.body.classList.add(pretendard.className);
   };
 
   if (document.readyState === 'loading') {
