@@ -6,7 +6,7 @@ Next.js 프로젝트 기본 세팅
 
 ### 프레임워크 & 라이브러리
 
-- **Next.js 15** - React 프레임워크 (Turbopack 지원)
+- **Next.js 16** - React 프레임워크 (Turbopack)
 - **React 19** - UI 라이브러리
 - **TypeScript** - 타입 안정성
 - **Tailwind CSS** - 유틸리티 기반 스타일링
@@ -19,7 +19,8 @@ Next.js 프로젝트 기본 세팅
   - Next.js 규칙 검사
 - **Prettier** - 코드 포매팅
   - Tailwind CSS 클래스 정렬 지원
-- **Husky + lint-staged** - Git hooks를 통한 커밋 전 자동 검사
+- **Husky + lint-staged**
+  - Git hooks를 통한 커밋 전 자동검사(Eslint 규칙, Conventional Commit 만족 여부)
 
 ### API & 상태 관리
 
