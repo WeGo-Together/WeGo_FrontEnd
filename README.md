@@ -14,13 +14,16 @@ Next.js 프로젝트 기본 세팅
 ### 개발 도구
 
 - **ESLint** - 코드 품질 검사 및 자동 수정
-  - Import 자동 정렬 지원 (simple-import-sort)
-  - JSX 속성 자동 정렬 지원 (perfectionist)
-  - Next.js 규칙 검사
+  - `simple-import-sort`: Import 문 자동 정렬
+  - `eslint-plugin-perfectionist`: JSX 속성 자동 정렬
+  - Next.js 권장 규칙 적용
 - **Prettier** - 코드 포매팅
-  - Tailwind CSS 클래스 정렬 지원
+  - `prettier-plugin-tailwindcss`: Tailwind CSS 클래스 자동 정렬
+- **commitLint**
+  - commit message 규칙 검사
 - **Husky + lint-staged**
-  - Git hooks를 통한 커밋 전 자동검사(Eslint 규칙, Conventional Commit 만족 여부)
+  - Pre-commit: ESLint 자동 검사 및 수정
+  - Commit-msg: Commit 메시지 규칙 검증
 
 ### API & 상태 관리
 
@@ -61,6 +64,9 @@ npm run storybook
 
 # Storybook 빌드
 npm run build-storybook
+
+# Orval API 클라이언트 생성
+npx orval
 ```
 
 ## 참고
