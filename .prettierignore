@@ -24,3 +24,7 @@ public
 # 기타 무시할 항목
 *.min.js
 *.snap
+
+# Codecov YAML
+codecov.yml
+.codecov.yml
