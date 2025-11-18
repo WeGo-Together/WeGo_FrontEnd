@@ -2,7 +2,7 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 
-import { pretendard } from './font';
+import { pretendard } from '../lib/fonts';
 import { Providers } from './Providers';
 
 export const metadata: Metadata = {

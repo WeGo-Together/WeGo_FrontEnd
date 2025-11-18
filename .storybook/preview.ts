@@ -2,7 +2,7 @@ import '@/app/globals.css';
 
 import type { Preview } from '@storybook/nextjs';
 
-import { pretendard } from '../src/app/font';
+import { pretendard } from '../src/lib/fonts';
 
 (() => {
   console.log('body className added');
