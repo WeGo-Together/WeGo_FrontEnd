@@ -51,17 +51,31 @@ export const httpClient = async <T>(config: BaseAPIConfig): Promise<T> => {
   }
 
   // body 처리
+  let body: string | FormData | undefined = undefined;
+
   const hasBody = !['GET', 'HEAD'].includes(config.method.toUpperCase());
-  const body = hasBody && config.data ? JSON.stringify(config.data) : undefined;
+  const isFormData = config.data instanceof FormData;
+
+  if (hasBody && config.data) {
+    body = isFormData ? (config.data as FormData) : JSON.stringify(config.data);
+  }
+
+  // headers 처리
+  const headers: Record<string, string> = {
+    ...(!isFormData && { 'Content-Type': 'application/json' }),
+    ...(token && { Authorization: `Bearer ${token}` }),
+    ...(config.headers || {}),
+  };
+
+  // FormData일 때는 Content-Type 제거 (브라우저가 자동으로 boundary와 함께 설정)
+  if (isFormData && headers['Content-Type']) {
+    delete headers['Content-Type'];
+  }
 
   // fetch 호출
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${config.url}${queryString}`, {
     method: config.method,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token && { Authorization: `Bearer ${token}` }),
-      ...config.headers,
-    },
+    headers,
     body,
     signal: config.signal,
     cache: 'no-store',
