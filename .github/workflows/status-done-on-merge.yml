@@ -1,0 +1,30 @@
+name: Auto Update Status to Done on PR Merge
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  update-to-done:
+    # PR이 실제로 merge된 경우만 (close만 된 경우 제외)
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make script executable
+        run: chmod +x .github/scripts/auto-done-on-merge.sh
+
+      - name: Update linked issues to Done
+        env:
+          GITHUB_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+          PROJECT_ID: ${{ vars.PROJECT_ID }}
+          STATUS_FIELD_ID: ${{ vars.PROJECT_STATUS_FIELD_ID }}
+          DONE_OPTION_ID: ${{ vars.PROJECT_STATUS_DONE_OPTION_ID }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+        run: .github/scripts/auto-done-on-merge.sh
