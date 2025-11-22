@@ -1,0 +1,29 @@
+name: Auto Update Status Daily Based on Dates
+
+on:
+  schedule:
+    # 매일 자정 (UTC 기준, KST는 +9시간이므로 15:00 UTC = 00:00 KST)
+    - cron: '0 15 * * *'
+  workflow_dispatch: # 수동 실행 가능
+
+jobs:
+  update-status:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make script executable
+        run: chmod +x .github/scripts/status-update-daily-auto.sh
+
+      - name: Update issue statuses
+        env:
+          GITHUB_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+          PROJECT_ID: ${{ vars.PROJECT_ID }}
+          STATUS_FIELD_ID: ${{ vars.PROJECT_STATUS_FIELD_ID }}
+          IN_PROGRESS_OPTION_ID: ${{ vars.PROJECT_STATUS_IN_PROGRESS_OPTION_ID }}
+          DONE_OPTION_ID: ${{ vars.PROJECT_STATUS_DONE_OPTION_ID }}
+          START_DATE_FIELD_ID: ${{ vars.PROJECT_START_DATE_FIELD_ID }}
+          TARGET_DATE_FIELD_ID: ${{ vars.PROJECT_TARGET_DATE_FIELD_ID }}
+        run: .github/scripts/status-update-daily-auto.sh
