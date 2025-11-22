@@ -2,6 +2,8 @@
 
 Next.js 프로젝트 기본 세팅
 
+> **주의**: 이 프로젝트는 pnpm을 사용합니다. npm은 지원하지 않습니다.
+
 ## 주요 기능
 
 ### 프레임워크 & 라이브러리
@@ -10,6 +12,14 @@ Next.js 프로젝트 기본 세팅
 - **React 19** - UI 라이브러리
 - **TypeScript** - 타입 안정성
 - **Tailwind CSS** - 유틸리티 기반 스타일링
+
+### 패키지 관리
+
+- **pnpm (via Corepack)** - 빠르고 효율적인 패키지 매니저
+  - npm보다 빠른 설치 속도
+  - 디스크 공간 절약 (하드 링크 사용)
+  - strict mode로 의존성 관리
+  - Corepack을 통해 프로젝트별 pnpm 버전 관리
 
 ### 개발 도구
 
@@ -24,6 +34,7 @@ Next.js 프로젝트 기본 세팅
 - **Husky + lint-staged**
   - Pre-commit: ESLint 자동 검사 및 수정
   - Commit-msg: Commit 메시지 규칙 검증
+- **only-allow** - pnpm만 사용 가능하도록 제한 (npm 차단)
 
 ### API & 상태 관리
 
@@ -44,29 +55,55 @@ Next.js 프로젝트 기본 세팅
 - **@faker-js/faker** - 테스트 데이터 생성
 - **@svgr/webpack** - SVG를 React 컴포넌트로 변환
 
+## 설치
+
+### 1. Corepack 활성화 (최초 1회)
+
+이 프로젝트는 global pnpm 설치 대신 Node.js 내장 Corepack을 사용합니다.
+
+```bash
+# Windows: 관리자 권한으로 PowerShell/CMD 실행 후
+corepack enable
+
+# macOS/Linux: sudo 권한으로 실행
+sudo corepack enable
+```
+
+### 2. 의존성 설치
+
+```bash
+pnpm install
+```
+
 ## 스크립트
 
 ```bash
 # 개발 서버 실행
-npm run dev
+pnpm dev
 
 # 프로덕션 빌드
-npm run build
+pnpm build
 
 # 프로덕션 서버 실행
-npm start
+pnpm start
 
 # 린트 검사
-npm run lint
+pnpm lint
+
+# 테스트 실행
+pnpm test
+
+# 테스트 커버리지
+pnpm test:coverage
 
 # Storybook 실행
-npm run storybook
+pnpm storybook
 
 # Storybook 빌드
-npm run build-storybook
+pnpm build-storybook
 
 # Orval API 클라이언트 생성
-npx orval
+pnpm orval
 ```
 
 ## 폴더 구조
