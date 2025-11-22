@@ -38,7 +38,16 @@ module.exports = async ({ github, context, core }) => {
 
   let comment;
 
-  if (!hasChanges) {
+  if (buildStatus === 'failure') {
+    // 빌드 실패
+    console.log('❌ Storybook 빌드가 실패했습니다.');
+    comment = `## 🎨 Storybook Report
+              
+❌ **스토리북 빌드에 실패했습니다**
+
+build log를 확인하시고 로직을 수정해주세요.`;
+  }
+  else if (!hasChanges) {
     // Story 변경사항 없음
     comment = `## 🎨 Storybook Report
 

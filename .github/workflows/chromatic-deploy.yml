@@ -51,15 +51,23 @@ jobs:
           autoAcceptChanges: main
           exitZeroOnChanges: true
           onlyChanged: true
+        continue-on-error: true
 
       - name: Create Storybook report
         if: always()
         uses: actions/github-script@v7
         env:
           HAS_CHANGES: ${{ steps.check-stories.outputs.has_changes }}
+          BUILD_STATUS: ${{ steps.chromatic.outcome }}
           STORYBOOK_URL: ${{ steps.chromatic.outputs.storybookUrl }}
           BUILD_URL: ${{ steps.chromatic.outputs.buildUrl }}
         with:
           script: |
             const script = require('./.github/scripts/chromatic-comment.cjs');
             await script({ github, context, core });
+
+      - name: Fail if build failed
+        if: steps.check-stories.outputs.has_changes == 'true' && steps.chromatic.outcome == 'failure'
+        run: |
+          echo "::error::Storybook build failed! Please check the logs."
+          exit 1
