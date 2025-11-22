@@ -1,10 +1,22 @@
-# My App
+<div align="center">
+  
+# 🔥 WeGo 🔥
 
-Next.js 프로젝트 기본 세팅
+</div>
 
 > **주의**: 이 프로젝트는 pnpm을 사용합니다. npm은 지원하지 않습니다.
 
-## 주요 기능
+<details>
+  <summary><h2>📜 개발 관련 문서</h2></summary>
+
+- [[🔗 프로젝트 가이드 문서(기본 제공)]](https://codeit.notion.site/fd8eae01cd8e41e39d01c81c3a942814)
+- [[🔗 SWAGGER(기본 제공)]](https://fe-adv-project-together-dallaem.vercel.app/)
+- [[🔗 디자인 시안(기본 제공)]](https://fe-adv-project-together-dallaem.vercel.app/)
+
+</details>
+
+<details>
+  <summary><h2>ℹ️ 주요 설정</h2></summary>
 
 ### 프레임워크 & 라이브러리
 
@@ -55,7 +67,10 @@ Next.js 프로젝트 기본 세팅
 - **@faker-js/faker** - 테스트 데이터 생성
 - **@svgr/webpack** - SVG를 React 컴포넌트로 변환
 
-## 설치
+</details>
+
+<details>
+  <summary><h2>🚀 의존성 설치 가이드</h2></summary>
 
 ### 1. Corepack 활성화 (최초 1회)
 
@@ -106,7 +121,10 @@ pnpm build-storybook
 pnpm orval
 ```
 
-## 폴더 구조
+</details>
+
+<details>
+  <summary><h2>📁 폴더 구조</h2></summary>
 
 ```
 my-app
@@ -182,6 +200,4 @@ my-app
 │     └─ typography.css                  # 타이포그래피 설정
 ```
 
-## 참고
-
-프로젝트 세팅은 [Project Setup Guide](https://github.com/Chiman2937/Project-Setup-Guide/tree/main)를 기반으로 생성했습니다.
+</details>
