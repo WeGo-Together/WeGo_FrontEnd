@@ -52,6 +52,8 @@ jobs:
       - name: Create coverage report
         if: always()
         uses: actions/github-script@v7
+        env:
+          TEST_OUTCOME: ${{ steps.test.outcome }}
         with:
           script: |
             const script = require('./.github/scripts/coverage-comment.cjs');
