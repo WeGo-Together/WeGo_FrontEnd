@@ -66,8 +66,8 @@ updated_count=0
 skipped_count=0
 error_count=0
 
-# 각 아이템 처리
-echo "$response" | jq -c '.data.node.items.nodes[]' | while read -r item; do
+# 프로세스 치환 사용 (while 루프가 서브셸에서 실행되지 않도록)
+while read -r item; do
   item_id=$(echo "$item" | jq -r '.id')
   issue_number=$(echo "$item" | jq -r '.content.number // "N/A"')
   issue_title=$(echo "$item" | jq -r '.content.title // "Unknown"')
@@ -121,7 +121,7 @@ echo "$response" | jq -c '.data.node.items.nodes[]' | while read -r item; do
     continue
   fi
   
-  # 날짜 비교 수정 (문자열 비교)
+  # 날짜 비교
   if [ "$TODAY" \> "$start_date" ] || [ "$TODAY" = "$start_date" ]; then
     if [ "$TODAY" \< "$target_date" ] || [ "$TODAY" = "$target_date" ]; then
       echo "  → Today is within date range, updating to In Progress..."
@@ -171,7 +171,7 @@ echo "$response" | jq -c '.data.node.items.nodes[]' | while read -r item; do
   fi
   
   echo ""
-done
+done < <(echo "$response" | jq -c '.data.node.items.nodes[]')
 
 echo "============================================"
 echo "=== Summary ==="
