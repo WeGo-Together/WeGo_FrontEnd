@@ -6,7 +6,7 @@ on:
 
 jobs:
   update-to-done:
-    # PR이 실제로 merge된 경우만 (close만 된 경우 제외)
+    # PR이 실제로 merge된 경우만 (close만 된 경우 제외) 
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
