@@ -121,47 +121,52 @@ echo "$response" | jq -c '.data.node.items.nodes[]' | while read -r item; do
     continue
   fi
   
-  # 날짜 비교 (YYYY-MM-DD 형식이므로 문자열 비교 가능)
-  if [[ "$TODAY" >= "$start_date" ]] && [[ "$TODAY" <= "$target_date" ]]; then
-    echo "  → Today is within date range, updating to In Progress..."
-    
-    # 이미 In Progress면 스킵
-    if [ "$current_status_option_id" = "$IN_PROGRESS_OPTION_ID" ]; then
-      echo "  ⊘ Already In Progress"
-      ((skipped_count++))
-      echo ""
-      continue
-    fi
-    
-    # Status를 In Progress로 변경
-    update_response=$(gh api graphql \
-      -f query='mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
-        updateProjectV2ItemFieldValue(input: {
-          projectId: $projectId,
-          itemId: $itemId,
-          fieldId: $fieldId,
-          value: { singleSelectOptionId: $optionId }
-        }) {
-          projectV2Item {
-            id
+  # 날짜 비교 수정 (문자열 비교)
+  if [ "$TODAY" \> "$start_date" ] || [ "$TODAY" = "$start_date" ]; then
+    if [ "$TODAY" \< "$target_date" ] || [ "$TODAY" = "$target_date" ]; then
+      echo "  → Today is within date range, updating to In Progress..."
+      
+      # 이미 In Progress면 스킵
+      if [ "$current_status_option_id" = "$IN_PROGRESS_OPTION_ID" ]; then
+        echo "  ⊘ Already In Progress"
+        ((skipped_count++))
+        echo ""
+        continue
+      fi
+      
+      # Status를 In Progress로 변경
+      update_response=$(gh api graphql \
+        -f query='mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+          updateProjectV2ItemFieldValue(input: {
+            projectId: $projectId,
+            itemId: $itemId,
+            fieldId: $fieldId,
+            value: { singleSelectOptionId: $optionId }
+          }) {
+            projectV2Item {
+              id
+            }
           }
-        }
-      }' \
-      -f projectId="$PROJECT_ID" \
-      -f itemId="$item_id" \
-      -f fieldId="$STATUS_FIELD_ID" \
-      -f optionId="$IN_PROGRESS_OPTION_ID" 2>&1)
-    
-    if echo "$update_response" | jq -e '.data.updateProjectV2ItemFieldValue.projectV2Item.id' > /dev/null 2>&1; then
-      echo "  ✓ Updated to In Progress"
-      ((updated_count++))
+        }' \
+        -f projectId="$PROJECT_ID" \
+        -f itemId="$item_id" \
+        -f fieldId="$STATUS_FIELD_ID" \
+        -f optionId="$IN_PROGRESS_OPTION_ID" 2>&1)
+      
+      if echo "$update_response" | jq -e '.data.updateProjectV2ItemFieldValue.projectV2Item.id' > /dev/null 2>&1; then
+        echo "  ✓ Updated to In Progress"
+        ((updated_count++))
+      else
+        echo "  ✗ Failed to update status"
+        echo "  Response: $update_response"
+        ((error_count++))
+      fi
     else
-      echo "  ✗ Failed to update status"
-      echo "  Response: $update_response"
-      ((error_count++))
+      echo "  ⊘ Skipped (after target date)"
+      ((skipped_count++))
     fi
   else
-    echo "  ⊘ Skipped (outside date range)"
+    echo "  ⊘ Skipped (before start date)"
     ((skipped_count++))
   fi
   
