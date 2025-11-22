@@ -1,6 +1,8 @@
 module.exports = async ({ github, context }) => {
   const fs = require('fs');
 
+  // GitHub Actions에서 테스트 결과 확인
+  const testOutcome = process.env.TEST_OUTCOME;
   /**
    * PR에 코멘트를 작성하거나 업데이트하는 함수
    */
@@ -34,10 +36,25 @@ module.exports = async ({ github, context }) => {
     }
   }
 
+  // Handle "tests failed" scenario
+  if (testOutcome === 'failure') {
+    console.log('❌ 테스트가 실패했습니다.');
+
+    const failedComment = `## 📊 Coverage Report
+              
+❌ **테스트 실행에 실패했습니다**
+
+테스트 실행에 실패했으므로 Coverage Report 생성에 실패했습니다.
+
+test log를 확인하시고 로직을 수정해주세요.`;
+
+    await postOrUpdateComment(failedComment);
+    return;
+  }
+
   // Check if current coverage exists
   let currentCoverage;
   let hasNoTests = false;
-  let testsFailed = false;
 
   try {
     const coverageData = fs.readFileSync('coverage/coverage-summary.json', 'utf8');
@@ -51,42 +68,7 @@ module.exports = async ({ github, context }) => {
   } catch (error) {
     // Coverage file doesn't exist
     console.log('⚠️ Coverage 파일을 찾을 수 없습니다.');
-
-    // 테스트 파일이 있는지 확인
-    const { execSync } = require('child_process');
-    try {
-      const testFiles = execSync(
-        'find . -path ./node_modules -prune -o -path ./.next -prune -o -type f \\( -name "*.test.*" -o -name "*.spec.*" \\) -print',
-        { encoding: 'utf8' }
-      ).trim();
-
-      if (testFiles) {
-        // 테스트 파일은 있는데 coverage가 없음 = 테스트 실패
-        testsFailed = true;
-      } else {
-        // 테스트 파일이 없음
-        hasNoTests = true;
-      }
-    } catch (findError) {
-      // find 명령 실패 시 테스트 없음으로 간주
-      hasNoTests = true;
-    }
-  }
-
-  // Handle "tests failed" scenario
-  if (testsFailed) {
-    console.log('❌ 테스트가 실패했습니다.');
-
-    const failedComment = `## 📊 Coverage Report
-              
-❌ **테스트 실행에 실패했습니다**
-
-테스트 실행에 실패했으므로 Coverage Report 생성에 실패했습니다.
-
-test log를 확인하시고 로직을 수정해주세요.`;
-
-    await postOrUpdateComment(failedComment);
-    return;
+    hasNoTests = true;
   }
 
   // Handle "no tests" scenario
@@ -165,12 +147,7 @@ test log를 확인하시고 로직을 수정해주세요.`;
   if (isFirstRun) {
     header = `첫 번째 coverage report입니다. 앞으로의 PR들은 이 기준선과의 차이를 보여줍니다.\n\n현재 coverage: **${current.lines.pct.toFixed(2)}%**\n\n`;
   } else {
-    const direction =
-      coveragePercentDiff > 0
-        ? '증가'
-        : coveragePercentDiff < 0
-          ? '감소'
-          : '유지';
+    const direction = coveragePercentDiff > 0 ? '증가' : coveragePercentDiff < 0 ? '감소' : '유지';
     const emoji = coveragePercentDiff > 0 ? '📈' : coveragePercentDiff < 0 ? '📉' : '➡️';
     header = `${emoji} **#${context.issue.number}**을 **main**에 병합하면 coverage가 \`${Math.abs(coveragePercentDiff).toFixed(2)}%\` ${direction}합니다.\n\n`;
   }
