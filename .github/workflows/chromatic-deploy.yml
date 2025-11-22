@@ -46,6 +46,42 @@ jobs:
           exitZeroOnChanges: true
           onlyChanged: true
 
+      - name: Comment PR
+        if: steps.check-stories.outputs.has_changes == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const storybookUrl = '${{ steps.chromatic.outputs.storybookUrl }}';
+            const buildUrl = '${{ steps.chromatic.outputs.buildUrl }}';
+
+            const comment = `## 🎨 Storybook Published
+
+            📚 [View Storybook](${storybookUrl})
+            🔍 [View Build Details](${buildUrl})
+
+            ✨ Chromatic에서 비주얼 변경사항을 확인하세요.`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
       - name: Skip Chromatic
         if: steps.check-stories.outputs.has_changes == 'false'
-        run: echo "No story changes detected. Skipping Chromatic."
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = `## 🎨 Storybook Report
+
+            ℹ️ **Story 변경사항이 감지되지 않았습니다**
+
+            이 PR에는 Story 변경이 없어서 빌드를 스킵했습니다.`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
