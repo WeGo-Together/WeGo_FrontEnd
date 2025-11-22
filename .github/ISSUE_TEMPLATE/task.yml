@@ -1,0 +1,21 @@
+name: Task
+description: Task 등록용 템플릿입니다.
+labels: []
+assignees: []
+
+body:
+  - type: textarea
+    id: task-content
+    attributes:
+      label: ✨ 작업 내용
+      description: 무엇을 할 작업인지 간단히 작성해주세요.
+      placeholder: |
+        - 회원가입 페이지 MarkDown, CSS 작성
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ### 📋 이슈 생성 가이드
+        하단에서 **Assignee**, **Milestone**, **point 라벨**을 선택해주세요.
