@@ -62,12 +62,20 @@ item_count=$(echo "$response" | jq '.data.node.items.nodes | length')
 echo "Found $item_count items in project"
 echo ""
 
+# 카운터 초기화
 updated_count=0
 skipped_count=0
 error_count=0
 
-# 프로세스 치환 사용 (while 루프가 서브셸에서 실행되지 않도록)
+# set -e 임시 해제 (루프 내에서 에러가 발생해도 계속 진행)
+set +e
+
+# 프로세스 치환 사용
 while read -r item; do
+  if [ -z "$item" ] || [ "$item" = "null" ]; then
+    continue
+  fi
+  
   item_id=$(echo "$item" | jq -r '.id')
   issue_number=$(echo "$item" | jq -r '.content.number // "N/A"')
   issue_title=$(echo "$item" | jq -r '.content.title // "Unknown"')
@@ -108,7 +116,7 @@ while read -r item; do
   # Done 상태면 스킵
   if [ "$current_status_option_id" = "$DONE_OPTION_ID" ]; then
     echo "  ⊘ Skipped (already Done)"
-    ((skipped_count++))
+    skipped_count=$((skipped_count + 1))
     echo ""
     continue
   fi
@@ -116,7 +124,7 @@ while read -r item; do
   # 날짜가 없으면 스킵
   if [ -z "$start_date" ] || [ -z "$target_date" ]; then
     echo "  ⊘ Skipped (missing dates)"
-    ((skipped_count++))
+    skipped_count=$((skipped_count + 1))
     echo ""
     continue
   fi
@@ -129,7 +137,7 @@ while read -r item; do
       # 이미 In Progress면 스킵
       if [ "$current_status_option_id" = "$IN_PROGRESS_OPTION_ID" ]; then
         echo "  ⊘ Already In Progress"
-        ((skipped_count++))
+        skipped_count=$((skipped_count + 1))
         echo ""
         continue
       fi
@@ -155,23 +163,26 @@ while read -r item; do
       
       if echo "$update_response" | jq -e '.data.updateProjectV2ItemFieldValue.projectV2Item.id' > /dev/null 2>&1; then
         echo "  ✓ Updated to In Progress"
-        ((updated_count++))
+        updated_count=$((updated_count + 1))
       else
         echo "  ✗ Failed to update status"
         echo "  Response: $update_response"
-        ((error_count++))
+        error_count=$((error_count + 1))
       fi
     else
       echo "  ⊘ Skipped (after target date)"
-      ((skipped_count++))
+      skipped_count=$((skipped_count + 1))
     fi
   else
     echo "  ⊘ Skipped (before start date)"
-    ((skipped_count++))
+    skipped_count=$((skipped_count + 1))
   fi
   
   echo ""
 done < <(echo "$response" | jq -c '.data.node.items.nodes[]')
+
+# set -e 다시 활성화
+set -e
 
 echo "============================================"
 echo "=== Summary ==="
@@ -179,3 +190,7 @@ echo "Total items processed: $item_count"
 echo "Updated to In Progress: $updated_count"
 echo "Skipped: $skipped_count"
 echo "Errors: $error_count"
+echo "============================================"
+
+# 성공으로 종료
+exit 0
