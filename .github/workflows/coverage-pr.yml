@@ -40,12 +40,6 @@ jobs:
         run: npm run test:coverage
         continue-on-error: true
 
-      - name: Fail if tests exist but failed
-        if: steps.check-tests.outputs.has_tests == 'true' && steps.test.outcome == 'failure'
-        run: |
-          echo "::error::Tests failed! Please fix the failing tests."
-          exit 1
-
       - name: Download base coverage
         uses: dawidd6/action-download-artifact@v3
         with:
@@ -56,8 +50,15 @@ jobs:
         continue-on-error: true
 
       - name: Create coverage report
+        if: always()
         uses: actions/github-script@v7
         with:
           script: |
             const script = require('./.github/scripts/coverage-comment.cjs');
             await script({ github, context });
+
+      - name: Fail if tests exist but failed
+        if: steps.check-tests.outputs.has_tests == 'true' && steps.test.outcome == 'failure'
+        run: |
+          echo "::error::Tests failed! Please fix the failing tests."
+          exit 1
