@@ -1,5 +1,6 @@
 module.exports = async ({ github, context, core }) => {
   const hasChanges = process.env.HAS_CHANGES === 'true';
+  const buildStatus = process.env.BUILD_STATUS || 'success';  // ← 이 줄 추가!
   const storybookUrl = process.env.STORYBOOK_URL || '';
   const buildUrl = process.env.BUILD_URL || '';
 
