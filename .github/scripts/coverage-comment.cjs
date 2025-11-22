@@ -1,26 +1,10 @@
 module.exports = async ({ github, context }) => {
   const fs = require('fs');
 
-  // Check if current coverage exists
-  let currentCoverage;
-  try {
-    currentCoverage = JSON.parse(fs.readFileSync('coverage/coverage-summary.json', 'utf8'));
-  } catch (error) {
-    console.log('❌ No coverage file generated. Tests may have failed.');
-
-    // Post error comment
-    const errorComment = `
-## 📊 Coverage Report
-              
-⚠️ **Unable to generate coverage report**
-
-Coverage file not found. This usually means:
-- Tests failed to run
-- \`npm run test:coverage\` didn't generate coverage
-- Coverage directory is not created
-
-Please check the test execution logs above.`;
-
+  /**
+   * PR에 코멘트를 작성하거나 업데이트하는 함수
+   */
+  async function postOrUpdateComment(commentBody) {
     const { data: comments } = await github.rest.issues.listComments({
       owner: context.repo.owner,
       repo: context.repo.repo,
@@ -36,18 +20,87 @@ Please check the test execution logs above.`;
         owner: context.repo.owner,
         repo: context.repo.repo,
         comment_id: botComment.id,
-        body: errorComment,
+        body: commentBody,
       });
+      console.log('✅ Coverage 코멘트가 업데이트되었습니다.');
     } else {
       await github.rest.issues.createComment({
         issue_number: context.issue.number,
         owner: context.repo.owner,
         repo: context.repo.repo,
-        body: errorComment,
+        body: commentBody,
       });
+      console.log('✅ Coverage 코멘트가 생성되었습니다.');
     }
+  }
 
-    return; // Exit early
+  // Check if current coverage exists
+  let currentCoverage;
+  let hasNoTests = false;
+  let testsFailed = false;
+
+  try {
+    const coverageData = fs.readFileSync('coverage/coverage-summary.json', 'utf8');
+    currentCoverage = JSON.parse(coverageData);
+
+    // Check if there are actually no test files (coverage exists but is empty)
+    const totalLines = currentCoverage.total?.lines?.total || 0;
+    if (totalLines === 0) {
+      hasNoTests = true;
+    }
+  } catch (error) {
+    // Coverage file doesn't exist
+    console.log('⚠️ Coverage 파일을 찾을 수 없습니다.');
+
+    // 테스트 파일이 있는지 확인
+    const { execSync } = require('child_process');
+    try {
+      const testFiles = execSync(
+        'find . -path ./node_modules -prune -o -path ./.next -prune -o -type f \\( -name "*.test.*" -o -name "*.spec.*" \\) -print',
+        { encoding: 'utf8' }
+      ).trim();
+
+      if (testFiles) {
+        // 테스트 파일은 있는데 coverage가 없음 = 테스트 실패
+        testsFailed = true;
+      } else {
+        // 테스트 파일이 없음
+        hasNoTests = true;
+      }
+    } catch (findError) {
+      // find 명령 실패 시 테스트 없음으로 간주
+      hasNoTests = true;
+    }
+  }
+
+  // Handle "tests failed" scenario
+  if (testsFailed) {
+    console.log('❌ 테스트가 실패했습니다.');
+
+    const failedComment = `## 📊 Coverage Report
+              
+❌ **테스트 실행에 실패했습니다**
+
+테스트 실행에 실패했으므로 Coverage Report 생성에 실패했습니다.
+
+test log를 확인하시고 로직을 수정해주세요.`;
+
+    await postOrUpdateComment(failedComment);
+    return;
+  }
+
+  // Handle "no tests" scenario
+  if (hasNoTests) {
+    console.log('ℹ️ 이 PR에서 테스트 파일을 찾을 수 없습니다.');
+
+    const noTestsComment = `## 📊 Coverage Report
+              
+ℹ️ **테스트 파일이 감지되지 않았습니다**
+
+이 PR에는 test file이 없어서 Report를 생성하지 못했습니다.`;
+
+    await postOrUpdateComment(noTestsComment);
+    return;
   }
 
   // Check if base coverage exists
@@ -56,7 +109,7 @@ Please check the test execution logs above.`;
   try {
     baseCoverage = JSON.parse(fs.readFileSync('base-coverage/coverage-summary.json', 'utf8'));
   } catch (error) {
-    console.log('⚠️ No base coverage found. This is the first run.');
+    console.log('⚠️ 기준 coverage를 찾을 수 없습니다. 첫 실행입니다.');
     isFirstRun = true;
     // Use empty baseline
     baseCoverage = {
@@ -110,21 +163,21 @@ Please check the test execution logs above.`;
   // Header
   let header;
   if (isFirstRun) {
-    header = `This is the first coverage report. Future PRs will show diff against this baseline.\n\nCurrent coverage: **${current.lines.pct.toFixed(2)}%**\n\n`;
+    header = `첫 번째 coverage report입니다. 앞으로의 PR들은 이 기준선과의 차이를 보여줍니다.\n\n현재 coverage: **${current.lines.pct.toFixed(2)}%**\n\n`;
   } else {
     const direction =
       coveragePercentDiff > 0
-        ? 'increase'
+        ? '증가'
         : coveragePercentDiff < 0
-          ? 'decrease'
-          : 'remain the same';
+          ? '감소'
+          : '유지';
     const emoji = coveragePercentDiff > 0 ? '📈' : coveragePercentDiff < 0 ? '📉' : '➡️';
-    header = `${emoji} Merging **#${context.issue.number}** into **main** will ${direction} coverage by \`${Math.abs(coveragePercentDiff).toFixed(2)}%\`.\n\n`;
+    header = `${emoji} **#${context.issue.number}**을 **main**에 병합하면 coverage가 \`${Math.abs(coveragePercentDiff).toFixed(2)}%\` ${direction}합니다.\n\n`;
   }
 
   // Coverage Diff Table
   const diffTable = `
-### Coverage Summary
+### Coverage 요약
 
 \`\`\`diff
 @@             Coverage Diff             @@
@@ -141,15 +194,12 @@ ${formatRow('Misses', true, '', baseMisses, currentMisses, missesDiff)}
 \`\`\`
 `;
 
-  // Impacted Files (skip for first run)
+  // Impacted Files
   let impactedTable = '';
-  console.log('isFirstRun:', isFirstRun);
-  console.log('Total files in current coverage:', Object.keys(currentCoverage).length);
-  console.log('Total files in base coverage:', Object.keys(baseCoverage).length);
 
   if (isFirstRun) {
     impactedTable =
-      '\n### Impacted Files\n\n📋 **Baseline established**\n\nThis is the first coverage report. Future PRs will show which files are impacted by coverage changes.';
+      '\n### 영향받은 파일\n\n📋 **기준선이 설정되었습니다**\n\n첫 번째 coverage report입니다. 앞으로의 PR들은 coverage 변경으로 영향받은 파일들을 보여줍니다.';
   } else {
     const impactedFiles = [];
     for (const file of Object.keys(currentCoverage)) {
@@ -171,43 +221,18 @@ ${formatRow('Misses', true, '', baseMisses, currentMisses, missesDiff)}
     }
 
     if (impactedFiles.length > 0) {
-      impactedTable = '\n### Impacted Files\n\n| File | Coverage Δ |\n|------|------------|\n';
+      impactedTable = '\n### 영향받은 파일\n\n| 파일 | Coverage 변화 |\n|------|------------|\n';
       impactedFiles.forEach((f) => {
         impactedTable += `| \`${f.name}\` | \`${f.current}% (${f.diff >= 0 ? '+' : ''}${f.diff}%)\` ${f.arrow} |\n`;
       });
     } else {
       impactedTable =
-        '\n### Impacted Files\n\n✅ **No files were impacted by this PR**\n\nAll modified files maintained their current coverage.';
+        '\n### 영향받은 파일\n\n✅ **이 PR로 영향받은 파일이 없습니다**\n\n수정된 모든 파일이 현재 coverage를 유지했습니다.';
     }
   }
 
   // Final comment
   const comment = `## 📊 Coverage Report\n\n${header}\n${diffTable}${impactedTable}`;
 
-  // Find and update or create comment
-  const { data: comments } = await github.rest.issues.listComments({
-    owner: context.repo.owner,
-    repo: context.repo.repo,
-    issue_number: context.issue.number,
-  });
-
-  const botComment = comments.find(
-    (comment) => comment.user.type === 'Bot' && comment.body.includes('## 📊 Coverage Report'),
-  );
-
-  if (botComment) {
-    await github.rest.issues.updateComment({
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      comment_id: botComment.id,
-      body: comment,
-    });
-  } else {
-    await github.rest.issues.createComment({
-      issue_number: context.issue.number,
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      body: comment,
-    });
-  }
+  await postOrUpdateComment(comment);
 };
