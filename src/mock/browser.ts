@@ -1,8 +1,6 @@
 import { setupWorker } from 'msw/browser';
 
-import { handlers } from './handlers';
-
-export const worker = setupWorker(...handlers);
+export const worker = setupWorker();
 
 // worker.events.on('request:start', ({ request }) => {
 //   console.log('MSW Client intercepted:', request.method, request.url);
