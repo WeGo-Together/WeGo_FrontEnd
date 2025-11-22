@@ -1,0 +1,30 @@
+name: Auto Update Point Estimate on Label Change
+
+on:
+  issues:
+    types: [opened, labeled, unlabeled, edited]
+
+jobs:
+  estimate-sync-auto:
+    runs-on: ubuntu-latest
+    if: github.event.issue.state == 'open'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make script executable
+        run: chmod +x .github/scripts/estimate-sync-project-auto.sh
+
+      - name: Sync issue to project
+        env:
+          GITHUB_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+          PROJECT_ID: ${{ vars.PROJECT_ID }}
+          ESTIMATE_FIELD_ID: ${{ vars.PROJECT_ESTIMATE_FIELD_ID }}
+          START_DATE_FIELD_ID: ${{ vars.PROJECT_START_DATE_FIELD_ID }}
+          TARGET_DATE_FIELD_ID: ${{ vars.PROJECT_TARGET_DATE_FIELD_ID }}
+          ISSUE_ID: ${{ github.event.issue.node_id }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_LABELS: ${{ toJson(github.event.issue.labels) }}
+        run: .github/scripts/estimate-sync-project-auto.sh
