@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import { expect, within } from '@storybook/test';
 
 import { Button } from './Button';
 
@@ -89,54 +88,6 @@ export const Disabled: Story = {
     size: 'lg',
     children: 'Disabled Button',
     disabled: true,
-  },
-};
-
-// ❌ 이 스토리는 의도적으로 실패합니다
-export const FailingTest: Story = {
-  args: {
-    variant: 'primary',
-    size: 'lg',
-    children: 'Test Button',
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const button = canvas.getByRole('button');
-
-    // 의도적으로 실패하는 테스트
-    await expect(button).toHaveTextContent('Wrong Text'); // 실제로는 "Test Button"
-  },
-};
-
-// ❌ 존재하지 않는 요소를 찾으려고 시도 (실패)
-export const MissingElement: Story = {
-  args: {
-    variant: 'primary',
-    size: 'lg',
-    children: 'Button',
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    // 존재하지 않는 요소를 찾으려 함 - 실패!
-    const nonExistent = canvas.getByTestId('does-not-exist');
-    await expect(nonExistent).toBeInTheDocument();
-  },
-};
-
-// ❌ 잘못된 스타일 검증 (실패)
-export const WrongStyle: Story = {
-  args: {
-    variant: 'primary',
-    size: 'lg',
-    children: 'Styled Button',
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const button = canvas.getByRole('button');
-
-    // primary는 bg-primary-600이지만 bg-red-500을 기대 - 실패!
-    await expect(button).toHaveClass('bg-red-500');
   },
 };
 
