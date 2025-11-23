@@ -3,6 +3,9 @@ module.exports = async ({ github, context }) => {
 
   // GitHub Actions에서 테스트 결과 확인
   const testOutcome = process.env.TEST_OUTCOME;
+  const buildUrl = process.env.BUILD_URL || '';
+  const now = new Date().toISOString().replace('T', ' ').split('.')[0];
+
   /**
    * PR에 코멘트를 작성하거나 업데이트하는 함수
    */
@@ -41,12 +44,16 @@ module.exports = async ({ github, context }) => {
     console.log('❌ 테스트가 실패했습니다.');
 
     const failedComment = `## 📊 Coverage Report
-              
+
 ❌ **테스트 실행에 실패했습니다**
 
-테스트 실행에 실패했으므로 Coverage Report 생성에 실패했습니다.
+test log를 확인하시고 로직을 수정해주세요.
 
-test log를 확인하시고 로직을 수정해주세요.`;
+| Status | Build Log | Updated (UTC) |
+|--------|-----------|---------------|
+| ❌ Failed | [View Logs](${buildUrl}) | ${now} |
+              
+`;
 
     await postOrUpdateComment(failedComment);
     return;
@@ -76,10 +83,15 @@ test log를 확인하시고 로직을 수정해주세요.`;
     console.log('ℹ️ 이 PR에서 테스트 파일을 찾을 수 없습니다.');
 
     const noTestsComment = `## 📊 Coverage Report
-              
+
 ℹ️ **테스트 파일이 감지되지 않았습니다**
 
-이 PR에는 test file이 없어서 Report를 생성하지 못했습니다.`;
+이 PR에는 test file이 없어서 Report를 생성하지 못했습니다.
+
+| Status | Build Log | Updated (UTC) |
+|--------|-----------|---------------|
+| ⏭️ Skipped | - | ${now} |
+`;
 
     await postOrUpdateComment(noTestsComment);
     return;
@@ -208,8 +220,17 @@ ${formatRow('Misses', true, '', baseMisses, currentMisses, missesDiff)}
     }
   }
 
+  // Status table
+  const statusTable = `| Status | Build Log | Updated (UTC) |
+|--------|-----------|---------------|
+| ✅ Ready | [View Build](${buildUrl}) | ${now} |
+
+`;
+
   // Final comment
-  const comment = `## 📊 Coverage Report\n\n${header}\n${diffTable}${impactedTable}`;
+  const comment = `## 📊 Coverage Report
+
+${statusTable}${header}\n${diffTable}${impactedTable}`;
 
   await postOrUpdateComment(comment);
 };
