@@ -9,6 +9,8 @@
 <details>
   <summary><h2>📜 개발 관련 문서</h2></summary>
 
+- [[🔗 프로젝트 수행 계획서]](https://www.notion.so/MSWProvider-2b353353e9c1804b9b25d269c0c0f5b4?source=copy_link)
+
 - [[🔗 프로젝트 가이드 문서(기본 제공)]](https://codeit.notion.site/fd8eae01cd8e41e39d01c81c3a942814)
 - [[🔗 SWAGGER(기본 제공)]](https://fe-adv-project-together-dallaem.vercel.app/)
 - [[🔗 디자인 시안(기본 제공)]](https://fe-adv-project-together-dallaem.vercel.app/)
@@ -123,9 +125,6 @@ pnpm storybook
 
 # Storybook 빌드
 pnpm build-storybook
-
-# Orval API 클라이언트 생성
-pnpm orval
 ```
 
 </details>
