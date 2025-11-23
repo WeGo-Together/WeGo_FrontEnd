@@ -33,17 +33,17 @@ jobs:
           SANITIZED="$(echo "$RAW" | tr '[:upper:]' '[:lower:]' | sed 's#[^a-z0-9._-]#-#g')"
           PORT=$(( 5000 + $(echo -n "$SANITIZED" | cksum | awk '{print $1 % 1000}') ))
 
-          echo "app_dir=wego-$SANITIZED" >> $GITHUB_OUTPUT
+          echo "app_dir=preview-$SANITIZED" >> $GITHUB_OUTPUT
           echo "branch=$SANITIZED" >> $GITHUB_OUTPUT
           echo "app_port=$PORT" >> $GITHUB_OUTPUT
-          echo "pm2_app_name=wego-$SANITIZED" >> $GITHUB_OUTPUT
+          echo "pm2_app_name=preview-$SANITIZED" >> $GITHUB_OUTPUT
 
           echo "[DEBUG][META] ✅ RAW=$RAW"
           echo "[DEBUG][META] ✅ SANITIZED=$SANITIZED"
-          echo "[DEBUG][META] ✅ APP_DIR=wego-$SANITIZED"
+          echo "[DEBUG][META] ✅ APP_DIR=preview-$SANITIZED"
           echo "[DEBUG][META] ✅ BRANCH=$SANITIZED"
           echo "[DEBUG][META] ✅ APP_PORT=$PORT"
-          echo "[DEBUG][META] ✅ PM2_APP_NAME=wego-$SANITIZED"
+          echo "[DEBUG][META] ✅ PM2_APP_NAME=preview-$SANITIZED"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
