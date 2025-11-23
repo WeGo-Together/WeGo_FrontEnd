@@ -45,7 +45,7 @@ jobs:
           username: ${{ secrets.AWS_EC2_USERNAME }}
           key: ${{ secrets.AWS_EC2_PEM_KEY }}
           source: scripts/ec2/ec2-cleanup.sh
-          target: /home/ubuntu/scripts/ec2/
+          target: /home/ubuntu/
 
       - name: Cleanup Preview Environment
         uses: appleboy/ssh-action@v1
