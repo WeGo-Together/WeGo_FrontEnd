@@ -9,6 +9,7 @@ jobs:
   ec2-production-deploy:
     runs-on: ubuntu-latest
     env:
+      APP_DOMAIN: new-project-final.link
       APP_DIR: wego-production
       APP_PORT: 3000
       PM2_APP_NAME: wego-production
@@ -18,6 +19,7 @@ jobs:
       SCRIPTS_DIR: /home/ubuntu/scripts/ec2
       SETUP_SCRIPT: ec2-setup.sh
       DEPLOY_SCRIPT: ec2-deploy.sh
+      NGINX_SCRIPT: ec2-nginx.sh
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -87,3 +89,17 @@ jobs:
               "$PM2_APP_NAME" \
               "$COMPRESSED_FILE_NAME" \
               "${{ vars.ENV_VARIABLE }}"
+
+      - name: NGINX Setup
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PEM_KEY }}
+          envs: APP_DOMAIN, APP_PORT, SCRIPTS_DIR, NGINX_SCRIPT
+          script: |
+            chmod +x $SCRIPTS_DIR/$NGINX_SCRIPT
+            $SCRIPTS_DIR/$NGINX_SCRIPT \
+              "main" \
+              "$APP_DOMAIN" \
+              "$APP_PORT"

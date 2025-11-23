@@ -102,7 +102,58 @@ else
   echo "✅ Nginx 설정이 추가되었습니다."
 fi
 
-# 5. .npmrc 설정
+# 6. Nginx template 파일 생성
+TEMPLATE_PATH="/home/ubuntu/templates/example.nginx.tpl"
+
+# example.nginx.tpl 파일을 EC2 home/ubuntu/templates 경로에 저장
+# example.nginx.tpl 파일이 EC2 에 저장되어있다면 패스
+if [ ! -f "$TEMPLATE_PATH" ]; then
+  mkdir -p /home/ubuntu/templates
+
+  cat << 'EOF' > "$TEMPLATE_PATH"
+# HTTP → HTTPS 리다이렉트
+server {
+  listen 80;
+  server_name ${SUB_APP_DOMAIN}${APP_DOMAIN};
+  
+  location / {
+    return 301 https://$host$request_uri;
+  }
+}
+
+# HTTPS 서버 블록
+server {
+  listen 443 ssl http2;
+  server_name ${SUB_APP_DOMAIN}${APP_DOMAIN};
+
+  ssl_certificate /etc/letsencrypt/live/new-project-final.link/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/new-project-final.link/privkey.pem;
+  ssl_protocols TLSv1.2 TLSv1.3;
+  ssl_prefer_server_ciphers on;
+
+  location / {
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+
+    proxy_pass http://127.0.0.1:${APP_PORT};
+
+    add_header X-Debug-Host $host always;
+    add_header X-Debug-Server $server_name always;
+  }
+}
+EOF
+
+  echo "⚙️ example.nginx.tpl 파일이 생성되었습니다."
+else
+  echo "✅ example.nginx.tpl 가 이미 존재합니다."
+fi
+
+# 7. .npmrc 설정
 if [ ! -f "$NPMRC_PATH" ]; then
   echo "⚙️ .npmrc 파일을 생성중입니다."
   echo "store-dir=$PNPM_STORE_PATH" > "$NPMRC_PATH"
@@ -112,7 +163,7 @@ else
   echo "✅ .npmrc 가 이미 존재합니다."
 fi
 
-# 6. 필요한 디렉토리 생성
+# 8. 필요한 디렉토리 생성
 echo "📁 필수 디렉토리 생성을 시작합니다."
 mkdir -p /home/ubuntu/.pnpm-store
 mkdir -p /home/ubuntu/scripts/ec2
