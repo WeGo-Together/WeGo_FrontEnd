@@ -26,7 +26,6 @@ jobs:
           else
             echo "has_changes=false" >> $GITHUB_OUTPUT
           fi
-
       - name: Setup pnpm
         if: steps.check-stories.outputs.has_changes == 'true'
         uses: pnpm/action-setup@v4
@@ -65,7 +64,6 @@ jobs:
           script: |
             const script = require('./.github/scripts/chromatic-comment.cjs');
             await script({ github, context, core });
-
       - name: Fail if build failed
         if: steps.check-stories.outputs.has_changes == 'true' && steps.chromatic.outcome == 'failure'
         run: |

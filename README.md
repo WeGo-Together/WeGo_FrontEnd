@@ -70,7 +70,7 @@
 </details>
 
 <details>
-  <summary><h2>🚀 의존성 설치 가이드</h2></summary>
+  <summary><h2>🚀 프로젝트 설치 및 가이드</h2></summary>
 
 ### 1. Corepack 활성화 (최초 1회)
 
@@ -84,7 +84,14 @@ corepack enable
 sudo corepack enable
 ```
 
-### 2. 의존성 설치
+### 2. 프로젝트 다운로드
+
+```bash
+git clone https://github.com/WeGo-Together/WeGo_FrontEnd.git
+cd wego
+```
+
+### 3. 의존성 설치
 
 ```bash
 pnpm install

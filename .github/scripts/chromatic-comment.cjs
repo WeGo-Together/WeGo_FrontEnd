@@ -1,8 +1,9 @@
 module.exports = async ({ github, context, core }) => {
   const hasChanges = process.env.HAS_CHANGES === 'true';
-  const buildStatus = process.env.BUILD_STATUS || 'success';  // ← 이 줄 추가!
+  const buildStatus = process.env.BUILD_STATUS || 'success'; // ← 이 줄 추가!
   const storybookUrl = process.env.STORYBOOK_URL || '';
   const buildUrl = process.env.BUILD_URL || '';
+  const now = new Date().toISOString().replace('T', ' ').split('.')[0];
 
   /**
    * PR에 코멘트를 작성하거나 업데이트하는 함수
@@ -43,20 +44,26 @@ module.exports = async ({ github, context, core }) => {
     // 빌드 실패
     console.log('❌ Storybook 빌드가 실패했습니다.');
     comment = `## 🎨 Storybook Report
-              
-❌ **스토리북 빌드에 실패했습니다**
 
-build log를 확인하시고 로직을 수정해주세요.`;
-  }
-  else if (!hasChanges) {
+❌ **Story 생성에 실패했습니다**
+
+build log를 확인하시고 로직을 수정해주세요.
+
+| Status | Storybook | Build Log | Updated (UTC) |
+|--------|-----------|-----------|---------------|
+| ❌ Failed | - | [View Logs](${buildUrl}) | ${now} |`;
+  } else if (!hasChanges) {
     // Story 변경사항 없음
     comment = `## 🎨 Storybook Report
 
 ℹ️ **Story 변경사항이 감지되지 않았습니다**
 
-이 PR에는 Story 변경이 없어서 빌드를 스킵했습니다.`;
-  }
-  else {
+이 PR에는 Story 변경이 없어서 빌드를 스킵했습니다.
+
+| Status | Storybook | Build Log | Updated (UTC) |
+|--------|-----------|-----------|---------------|
+| ⏭️ Skipped | - | - | ${now} |`;
+  } else {
     // Story 변경사항 있음
     comment = `## 🎨 Storybook Report
 
@@ -64,8 +71,9 @@ build log를 확인하시고 로직을 수정해주세요.`;
 
 Chromatic에서 비주얼 변경사항을 확인하세요.
 
-📚 [View Storybook](${storybookUrl})
-🔍 [View Build Details](${buildUrl})`;
+| Status | Storybook | Build Log | Updated (UTC) |
+|--------|-----------|-----------|---------------|
+| ✅ Ready | [View Storybook](${storybookUrl}) | [View Build](${buildUrl}) | ${now} |`;
   }
 
   await postOrUpdateComment(comment);

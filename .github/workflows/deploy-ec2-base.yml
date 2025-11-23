@@ -1,0 +1,105 @@
+name: Deploy Production to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ec2-production-deploy:
+    runs-on: ubuntu-latest
+    env:
+      APP_DOMAIN: new-project-final.link
+      APP_DIR: wego-production
+      APP_PORT: 3000
+      PM2_APP_NAME: wego-production
+      COMPRESSED_FILE_NAME: nextjs-app.tar.gz
+      NPMRC_PATH: /home/ubuntu/.npmrc
+      PNPM_STORE_PATH: /home/ubuntu/.pnpm-store
+      SCRIPTS_DIR: /home/ubuntu/scripts/ec2
+      SETUP_SCRIPT: ec2-setup.sh
+      DEPLOY_SCRIPT: ec2-deploy.sh
+      NGINX_SCRIPT: ec2-nginx.sh
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Project
+        run: pnpm run build
+
+      - name: Compress Files
+        run: tar -czvf ${{ env.COMPRESSED_FILE_NAME }} .next package.json pnpm-lock.yaml
+
+      - name: Send Scripts to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PEM_KEY }}
+          source: scripts/
+          target: /home/ubuntu/
+
+      - name: Send Compress Files to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.AWS_EC2_HOST}}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PEM_KEY }}
+          source: ${{ env.COMPRESSED_FILE_NAME }}
+          target: /home/ubuntu/${{ env.APP_DIR }}/build
+
+      - name: Initial EC2 Setup
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.AWS_EC2_HOST}}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PEM_KEY }}
+          envs: >
+            NPMRC_PATH, PNPM_STORE_PATH, SCRIPTS_DIR, SETUP_SCRIPT
+          script: |
+            echo "Debug: SCRIPTS_DIR=$SCRIPTS_DIR"
+            echo "Debug: SETUP_SCRIPT=$SETUP_SCRIPT"
+            chmod +x $SCRIPTS_DIR/$SETUP_SCRIPT
+            $SCRIPTS_DIR/$SETUP_SCRIPT "$NPMRC_PATH" "$PNPM_STORE_PATH"
+
+      - name: Deploy Application
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PEM_KEY }}
+          envs: APP_DIR, APP_PORT, PM2_APP_NAME, COMPRESSED_FILE_NAME, SCRIPTS_DIR, DEPLOY_SCRIPT
+          script: |
+            chmod +x $SCRIPTS_DIR/$DEPLOY_SCRIPT
+            $SCRIPTS_DIR/$DEPLOY_SCRIPT \
+              "$APP_DIR" \
+              "$APP_PORT" \
+              "$PM2_APP_NAME" \
+              "$COMPRESSED_FILE_NAME" \
+              "${{ vars.ENV_VARIABLE }}"
+
+      - name: NGINX Setup
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PEM_KEY }}
+          envs: APP_DOMAIN, APP_PORT, SCRIPTS_DIR, NGINX_SCRIPT
+          script: |
+            chmod +x $SCRIPTS_DIR/$NGINX_SCRIPT
+            $SCRIPTS_DIR/$NGINX_SCRIPT \
+              "main" \
+              "$APP_DOMAIN" \
+              "$APP_PORT"
