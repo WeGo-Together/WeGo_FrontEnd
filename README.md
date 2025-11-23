@@ -9,9 +9,13 @@
 <details>
   <summary><h2>📜 개발 관련 문서</h2></summary>
 
+  - [[🔗 팀장 가이드]](https://www.notion.so/codeit/FESI-26b6fd228e8d807c8e53e1bd3cf7a965)
 - [[🔗 프로젝트 가이드 문서(기본 제공)]](https://codeit.notion.site/fd8eae01cd8e41e39d01c81c3a942814)
+
+- [[🔗 프로젝트 수행 계획서]](https://www.notion.so/2-2af53353e9c18079b7cac176ac018106?source=copy_link)
 - [[🔗 SWAGGER(기본 제공)]](https://fe-adv-project-together-dallaem.vercel.app/)
 - [[🔗 디자인 시안(기본 제공)]](https://fe-adv-project-together-dallaem.vercel.app/)
+
 
 </details>
 
