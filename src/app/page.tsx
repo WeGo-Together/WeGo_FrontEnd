@@ -1,12 +1,8 @@
-import Image from 'next/image';
+const HomePage = async () => {
+  const res = await fetch('https://invalid-url-that-does-not-exist-12345.com/api');
+  const data = await res.json();
 
-const HomePage = () => {
-  return (
-    <div>
-      <Image width={500} alt='test' height={500} src='/non-existent-image.png' />
-      첫번째 PR
-    </div>
-  );
+  return <div>{data.content}첫번째 PR</div>;
 };
 
 export default HomePage;
