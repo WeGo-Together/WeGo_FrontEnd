@@ -1,5 +1,6 @@
 module.exports = async ({ github, context, core, branch, appDomain, success }) => {
   const buildLogUrl = `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`;
+  const now = new Date().toISOString().replace('T', ' ').split('.')[0];
 
   let commentBody;
 
@@ -7,18 +8,23 @@ module.exports = async ({ github, context, core, branch, appDomain, success }) =
     const previewUrl = `https://${branch}.preview.${appDomain}`;
     commentBody = `## 🚀 PR Preview Report
 
-✨ Build가 성공적으로 완료되었습니다.
+✨ **Build가 성공적으로 완료되었습니다.**
 
-🔗 **Preview Link**: ${previewUrl}
-🔗 **Build Log**: ${buildLogUrl}`;
+Preview에서 변경사항을 확인하세요.
+
+| Status | Preview | Build Log | Updated (UTC) |
+|--------|---------|-----------|---------------|
+| ✅ Ready | [Visit Preview](${previewUrl}) | [View Logs](${buildLogUrl}) | ${now} |`;
   } else {
     commentBody = `## 🚀 PR Preview Report
 
-❌ Build에 실패했습니다.
+❌ **Build에 실패했습니다.**
 
 Build log를 확인하시고 로직을 수정해주세요.
 
-🔗 **Build Log**: ${buildLogUrl}`;
+| Status | Preview | Build Log | Updated (UTC) |
+|--------|---------|-----------|---------------|
+| ❌ Failed | - | [View Logs](${buildLogUrl}) | ${now} |`;
   }
 
   // 기존 코멘트 찾기
