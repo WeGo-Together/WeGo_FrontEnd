@@ -139,78 +139,82 @@ my-app
 │
 ├─ 📁 src
 │  ├─ 📁 api                            # API 관련
-│  │  ├─ 📄 httpClient.ts               # HTTP 클라이언트 (fetch 래퍼)
+│  │  ├─ 🔷 httpClient.ts               # HTTP 클라이언트 (fetch 래퍼)
 │  │  ├─ 📁 endpoints                   # API 엔드포인트 함수
-│  │  │  └─ 📄 getUser.ts
+│  │  │  ├─ 🔷 getUser.ts               # getUser API 함수
+│  │  │  ├─ 🎭 getUser.msw.ts           # getUser 모킹 핸들러
+│  │  │  ├─ 🔷 getPosts.ts
+│  │  │  └─ 🎭 getPosts.msw.ts
 │  │  └─ 📁 types                       # API 타입 정의
-│  │     └─ 📄 index.ts
+│  │     └─ 🔷 index.ts
 │  │
 │  ├─ 📁 app                            # Next.js App Router
-│  │  ├─ 📄 layout.tsx                  # 루트 레이아웃
-│  │  ├─ 📄 page.tsx                    # 홈 페이지
+│  │  ├─ 🧩 layout.tsx                  # 루트 레이아웃
+│  │  ├─ 🧩 page.tsx                    # 홈 페이지
 │  │  ├─ 📁 login
-│  │  │  └─ 📄 page.tsx
+│  │  │  └─ 🧩 page.tsx
 │  │  └─ 📁 details
 │  │     └─ 📁 [id]
-│  │        └─ 📄 page.tsx
+│  │        └─ 🧩 page.tsx
 │  │
 │  ├─ 📁 assets                         # 정적 리소스
 │  │  ├─ 📁 fonts                       # 로컬 폰트
-│  │  │  └─ 📄 PretendardVariable.woff2
+│  │  │  └─ PretendardVariable.woff2
 │  │  └─ 📁 icons                       # SVG 아이콘
-│  │     └─ 📄 icon_check_blue.svg
+│  │     └─ icon_check_blue.svg
 │  │
 │  ├─ 📁 components                     # 컴포넌트
 │  │  ├─ 📁 common                      # 공통 컴포넌트
 │  │  │  ├─ 📁 Button
-│  │  │  │  ├─ 📄 Button.tsx
-│  │  │  │  └─ 📄 Button.test.tsx
+│  │  │  │  ├─ 🧩 Button.tsx
+│  │  │  │  ├─ 🧪 Button.test.tsx
+│  │  │  │  └─ 📖 Button.stories.tsx
 │  │  │  ├─ 📁 Input
-│  │  │  │  └─ 📄 Input.tsx
+│  │  │  │  └─ 🧩 Input.tsx
 │  │  │  └─ 📁 Modal
-│  │  │     └─ 📄 Modal.tsx
+│  │  │     └─ 🧩 Modal.tsx
 │  │  │
 │  │  └─ 📁 pages                       # 페이지별 컴포넌트
 │  │     ├─ 📁 login
-│  │     │  ├─ 📄 LoginForm.tsx
-│  │     │  └─ 📄 SocialLoginButtons.tsx
+│  │     │  ├─ 🧩 LoginForm.tsx
+│  │     │  └─ 🧩 SocialLoginButtons.tsx
 │  │     └─ 📁 details
-│  │        ├─ 📄 DetailsHeader.tsx
-│  │        └─ 📄 DetailsContent.tsx
+│  │        ├─ 🧩 DetailsHeader.tsx
+│  │        └─ 🧩 DetailsContent.tsx
 │  │
 │  ├─ 📁 hooks                          # Custom Hooks
-│  │  ├─ 📄 useAuth.ts
-│  │  └─ 📄 useDebounce.ts
+│  │  ├─ 🔷 useAuth.ts
+│  │  └─ 🔷 useDebounce.ts
 │  │
 │  ├─ 📁 lib                            # 유틸리티 & 설정
-│  │  ├─ 📄 utils.ts                    # 공통 유틸리티
-│  │  └─ 📄 queryClient.ts              # React Query 설정
+│  │  ├─ 🔷 utils.ts                    # 공통 유틸리티
+│  │  └─ 🔷 queryClient.ts              # React Query 설정
 │  │
 │  ├─ 📁 mocks                          # MSW 모킹
-│  │  ├─ 📄 index.ts                    # MSW 초기화
-│  │  ├─ 📄 handlers.ts                 # 모킹 핸들러
-│  │  ├─ 📄 browser.ts                  # 브라우저용 worker
-│  │  └─ 📄 server.ts                   # 서버용 server
+│  │  ├─ 🔷 index.ts                    # MSW 초기화
+│  │  ├─ 🎭 handlers.ts                 # 모든 핸들러 통합 export
+│  │  ├─ 🎭 browser.ts                  # 브라우저용 worker
+│  │  └─ 🎭 server.ts                   # 서버용 server
 │  │
 │  ├─ 📁 providers                      # Provider 컴포넌트
-│  │  ├─ 📄 QueryProvider.tsx           # React Query Provider
-│  │  └─ 📄 LazyMotionProvider.tsx      # Framer Motion Provider
+│  │  ├─ 🧩 QueryProvider.tsx           # React Query Provider
+│  │  └─ 🧩 LazyMotionProvider.tsx      # Framer Motion Provider
 │  │
 │  ├─ 📁 stores                         # 전역 상태 (Zustand)
-│  │  ├─ 📄 useAuthStore.ts
-│  │  ├─ 📄 useModalStore.ts
-│  │  └─ 📄 useUserStore.ts
+│  │  ├─ 🔷 useAuthStore.ts
+│  │  ├─ 🔷 useModalStore.ts
+│  │  └─ 🔷 useUserStore.ts
 │  │
 │  ├─ 📁 styles                         # 스타일
-│  │  ├─ 📄 base.css                       # 기본 스타일
-│  │  ├─ 📄 colors.css                     # 색상 변수
-│  │  ├─ 📄 typography.css                 # 타이포그래피
-│  │  ├─ 📄 layout.css                     # 레이아웃
-│  │  └─ 📄 animations.css                 # 애니메이션
+│  │  ├─ 🎨 base.css                    # 기본 스타일
+│  │  ├─ 🎨 colors.css                  # 색상 변수
+│  │  ├─ 🎨 typography.css              # 타이포그래피
+│  │  ├─ 🎨 layout.css                  # 레이아웃
+│  │  └─ 🎨 animations.css              # 애니메이션
 │  │
 │  └─ 📁 types                          # TypeScript 타입
-│     ├─ 📄 common.ts                   # 공통 타입
-│     └─ 📄 user.ts                     # 사용자 타입
+│     ├─ 🔷 common.ts                   # 공통 타입
+│     └─ 🔷 user.ts                     # 사용자 타입
 ```
 
 </details>
