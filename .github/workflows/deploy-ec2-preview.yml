@@ -1,11 +1,11 @@
-name: Deploy Production to EC2
+name: Deploy Preview to EC2
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
-  ec2-production-deploy:
+  preview-deploy:
     runs-on: ubuntu-latest
     env:
       APP_DOMAIN: new-project-final.link
@@ -133,3 +133,35 @@ jobs:
               "$BRANCH" \
               "$APP_DOMAIN" \
               "$APP_PORT"
+
+      - name: Comment PR - Success
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const commentPR = require('./.github/scripts/deploy-comment.cjs');
+            await commentPR({
+              github,
+              context,
+              core,
+              branch: '${{ steps.meta.outputs.branch }}',
+              appDomain: '${{ env.APP_DOMAIN }}',
+              success: true
+            });
+
+      - name: Comment PR - Failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const commentPR = require('./.github/scripts/deploy-comment.cjs');
+            await commentPR({
+              github,
+              context,
+              core,
+              branch: '${{ steps.meta.outputs.branch }}',
+              appDomain: '${{ env.APP_DOMAIN }}',
+              success: false
+            });
