@@ -1,15 +1,16 @@
 import { redirect } from 'next/navigation';
 
 interface BaseAPIConfig {
-  url: string;
   method: string;
   headers?: Record<string, string>;
   params?: Record<string, unknown>;
   data?: unknown;
   signal?: AbortSignal;
+  credentials?: RequestCredentials;
+  cache?: RequestCache;
 }
 
-export const httpClient = async <T>(config: BaseAPIConfig): Promise<T> => {
+export const httpClient = async <T>(url: string, config: BaseAPIConfig): Promise<T> => {
   const isServer = typeof window === 'undefined';
   const environment = isServer ? '🔵 SERVER' : '🟢 CLIENT';
   const isDev = process.env.NODE_ENV === 'development';
@@ -18,7 +19,7 @@ export const httpClient = async <T>(config: BaseAPIConfig): Promise<T> => {
   if (isDev) {
     console.groupCollapsed(`${environment} 📤 API Request`);
     console.log('Method:', config.method.toUpperCase());
-    console.log('URL:', config.url);
+    console.log('URL:', url);
     console.log('Params:', config.params);
     console.log('Data:', config.data);
     console.groupEnd();
@@ -73,12 +74,13 @@ export const httpClient = async <T>(config: BaseAPIConfig): Promise<T> => {
   }
 
   // fetch 호출
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${config.url}${queryString}`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}${queryString}`, {
     method: config.method,
     headers,
     body,
     signal: config.signal,
-    cache: 'no-store',
+    cache: config.cache ?? 'no-store',
+    credentials: config.credentials,
   });
 
   // 401 처리
