@@ -1,11 +1,11 @@
-name: Deploy Production to EC2
+name: Deploy Preview to EC2
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
-  ec2-production-deploy:
+  preview-deploy:
     runs-on: ubuntu-latest
     env:
       APP_DOMAIN: new-project-final.link
