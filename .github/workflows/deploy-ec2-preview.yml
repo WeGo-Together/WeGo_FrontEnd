@@ -1,0 +1,135 @@
+name: Deploy Production to EC2
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  ec2-production-deploy:
+    runs-on: ubuntu-latest
+    env:
+      APP_DOMAIN: new-project-final.link
+      # 브랜치명 계산 필요
+      # APP_DIR: wego-production
+      # 앱 포트 계산 필요
+      # APP_PORT: 3000
+      # pm2 앱 이름 계산 필요
+      # PM2_APP_NAME: wego-production
+      COMPRESSED_FILE_NAME: nextjs-app.tar.gz
+      NPMRC_PATH: /home/ubuntu/.npmrc
+      PNPM_STORE_PATH: /home/ubuntu/.pnpm-store
+      SCRIPTS_DIR: /home/ubuntu/scripts/ec2
+      SETUP_SCRIPT: ec2-setup.sh
+      DEPLOY_SCRIPT: ec2-deploy.sh
+      NGINX_SCRIPT: ec2-nginx.sh
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compute branch name & port
+        id: meta
+        run: |
+          RAW="${{ github.ref_name }}"
+          SANITIZED="$(echo "$RAW" | tr '[:upper:]' '[:lower:]' | sed 's#[^a-z0-9._-]#-#g')"
+          PORT=$(( 5000 + $(echo -n "$SANITIZED" | cksum | awk '{print $1 % 1000}') ))
+
+          echo "app_dir=wego-$SANITIZED" >> $GITHUB_OUTPUT
+          echo "branch=$SANITIZED" >> $GITHUB_OUTPUT
+          echo "app_port=$PORT" >> $GITHUB_OUTPUT
+          echo "pm2_app_name=wego-$SANITIZED" >> $GITHUB_OUTPUT
+
+          echo "[DEBUG][META] ✅ RAW=$RAW"
+          echo "[DEBUG][META] ✅ SANITIZED=$SANITIZED"
+          echo "[DEBUG][META] ✅ APP_DIR=wego-$SANITIZED"
+          echo "[DEBUG][META] ✅ BRANCH=$SANITIZED"
+          echo "[DEBUG][META] ✅ APP_PORT=$PORT"
+          echo "[DEBUG][META] ✅ PM2_APP_NAME=wego-$SANITIZED"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Project
+        run: pnpm run build
+
+      - name: Compress Files
+        run: tar -czvf ${{ env.COMPRESSED_FILE_NAME }} .next package.json pnpm-lock.yaml
+
+      - name: Send Scripts to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PEM_KEY }}
+          source: scripts/
+          target: /home/ubuntu/
+
+      - name: Send Compress Files to EC2
+        uses: appleboy/scp-action@v0.1.7
+        env:
+          APP_DIR: ${{ steps.meta.outputs.app_dir }}
+        with:
+          host: ${{ secrets.AWS_EC2_HOST}}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PEM_KEY }}
+          source: ${{ env.COMPRESSED_FILE_NAME }}
+          target: /home/ubuntu/${{ env.APP_DIR }}/build
+
+      - name: Initial EC2 Setup
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.AWS_EC2_HOST}}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PEM_KEY }}
+          envs: >
+            NPMRC_PATH, PNPM_STORE_PATH, SCRIPTS_DIR, SETUP_SCRIPT
+          script: |
+            chmod +x $SCRIPTS_DIR/$SETUP_SCRIPT
+            $SCRIPTS_DIR/$SETUP_SCRIPT "$NPMRC_PATH" "$PNPM_STORE_PATH"
+
+      - name: Deploy Application
+        uses: appleboy/ssh-action@v1
+        env:
+          APP_DIR: ${{ steps.meta.outputs.app_dir }}
+          APP_PORT: ${{ steps.meta.outputs.app_port }}
+          PM2_APP_NAME: ${{ steps.meta.outputs.pm2_app_name }}
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PEM_KEY }}
+          envs: >
+            APP_DIR, APP_PORT, PM2_APP_NAME, COMPRESSED_FILE_NAME, SCRIPTS_DIR, DEPLOY_SCRIPT
+          script: |
+            chmod +x $SCRIPTS_DIR/$DEPLOY_SCRIPT
+            $SCRIPTS_DIR/$DEPLOY_SCRIPT \
+              "$APP_DIR" \
+              "$APP_PORT" \
+              "$PM2_APP_NAME" \
+              "$COMPRESSED_FILE_NAME" \
+              "${{ vars.ENV_VARIABLE }}"
+
+      - name: NGINX Setup
+        uses: appleboy/ssh-action@v1
+        env:
+          APP_PORT: ${{ steps.meta.outputs.app_port }}
+          BRANCH: ${{ steps.meta.outputs.branch }}
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USERNAME }}
+          key: ${{ secrets.AWS_EC2_PEM_KEY }}
+          envs: >
+            BRANCH, APP_DOMAIN, APP_PORT, SCRIPTS_DIR, NGINX_SCRIPT
+          script: |
+            chmod +x $SCRIPTS_DIR/$NGINX_SCRIPT
+            $SCRIPTS_DIR/$NGINX_SCRIPT \
+              "$BRANCH" \
+              "$APP_DOMAIN" \
+              "$APP_PORT"
