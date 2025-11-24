@@ -3,8 +3,8 @@ import { redirect } from 'next/navigation';
 interface BaseAPIConfig {
   method: string;
   headers?: Record<string, string>;
-  params?: Record<string, unknown>;
-  data?: unknown;
+  params?: object;
+  data?: string | FormData;
   signal?: AbortSignal;
   credentials?: RequestCredentials;
   cache?: RequestCache;
@@ -52,26 +52,22 @@ export const httpClient = async <T>(url: string, config: BaseAPIConfig): Promise
   }
 
   // body 처리
-  let body: string | FormData | undefined = undefined;
-
   const hasBody = !['GET', 'HEAD'].includes(config.method.toUpperCase());
   const isFormData = config.data instanceof FormData;
+
+  let body: string | FormData | undefined = undefined;
 
   if (hasBody && config.data) {
     body = isFormData ? (config.data as FormData) : JSON.stringify(config.data);
   }
 
-  // headers 처리
+  // headers 처리 (Content-Type 제외)
+  const { 'Content-Type': _contentType, ...restHeaders } = config.headers || {};
   const headers: Record<string, string> = {
-    ...(!isFormData && { 'Content-Type': 'application/json' }),
     ...(token && { Authorization: `Bearer ${token}` }),
-    ...(config.headers || {}),
+    ...(!isFormData && { 'Content-Type': 'application/json' }),
+    ...restHeaders,
   };
-
-  // FormData일 때는 Content-Type 제거 (브라우저가 자동으로 boundary와 함께 설정)
-  if (isFormData && headers['Content-Type']) {
-    delete headers['Content-Type'];
-  }
 
   // fetch 호출
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}${queryString}`, {
@@ -102,8 +98,7 @@ export const httpClient = async <T>(url: string, config: BaseAPIConfig): Promise
   }
 
   // 빈 응답 처리
-  const contentType = response.headers.get('content-type');
-  if (!contentType?.includes('application/json')) {
+  if (!response.headers.get('content-type')?.includes('application/json')) {
     const text = await response.text();
     return text as unknown as T;
   }
