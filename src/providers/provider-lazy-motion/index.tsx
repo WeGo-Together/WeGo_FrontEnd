@@ -9,10 +9,10 @@ import { LazyMotion } from 'motion/react';
 
 const loadFeatures = () => import('@/lib/feature').then((res) => res.default);
 
-export default function LazyMotionProvider({ children }: { children: React.ReactNode }) {
+export const LazyMotionProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <LazyMotion features={loadFeatures} strict>
       {children}
     </LazyMotion>
   );
-}
+};

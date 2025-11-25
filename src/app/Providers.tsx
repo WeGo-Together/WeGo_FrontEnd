@@ -1,7 +1,5 @@
 'use client';
-import LazyMotionProvider from '@/providers/LazyMotionProvider';
-import { MSWProvider } from '@/providers/MSWProvider';
-import { QueryProvider } from '@/providers/QueryProvider';
+import { LazyMotionProvider, MSWProvider, QueryProvider } from '@/providers';
 
 interface Props {
   children: React.ReactNode;
