@@ -20,16 +20,20 @@ jobs:
             const author = context.payload.pull_request.user.login;
 
             const reviewerMap = {
-              'Chiman2937': ['Chiman2937'],
+              'Chiman2937': ['HopeFullee', 'wooktori'],
             };
 
             const reviewers = reviewerMap[author];
 
             if (reviewers) {
-              await github.rest.pulls.requestReviewers({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: context.payload.pull_request.number,
-                reviewers: reviewers
-              });
+              reviewers = reviewers.filter(reviewer => reviewer !== author);
+              
+              if (reviewers.length > 0) {
+                await github.rest.pulls.requestReviewers({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: context.payload.pull_request.number,
+                  reviewers: reviewers
+                });
+              }
             }
