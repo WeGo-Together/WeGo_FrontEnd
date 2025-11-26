@@ -35,23 +35,37 @@ jobs:
 
             // Discord 웹훅 전송
             const payload = {
-              content: `${message} PR 리뷰 받을 준비가 완료됐어요!`,
+              content: `${message} PR 리뷰 받을 준비가 완료됐어요! 🚀`,
               embeds: [{
-                title: context.payload.pull_request.title,
+                title: `📝 ${context.payload.pull_request.title}`,
                 url: context.payload.pull_request.html_url,
-                color: 3066993,
+                description: context.payload.pull_request.body?.substring(0, 200) || 'PR 설명이 없습니다.',
+                color: 5763719,  // 색상 (hex를 decimal로: #57F287 = 초록)
+                thumbnail: {
+                  url: context.payload.pull_request.user.avatar_url  // 작성자 프로필 이미지
+                },
                 fields: [
                   {
-                    name: '작성자',
+                    name: '👤 작성자',
                     value: context.payload.pull_request.user.login,
                     inline: true
                   },
                   {
-                    name: '브랜치',
-                    value: context.payload.pull_request.head.ref,
+                    name: '🌿 브랜치',
+                    value: `\`${context.payload.pull_request.head.ref}\``,
+                    inline: true
+                  },
+                  {
+                    name: '📊 변경사항',
+                    value: `+${context.payload.pull_request.additions} -${context.payload.pull_request.deletions}`,
                     inline: true
                   }
-                ]
+                ],
+                footer: {
+                  text: 'WeGo PR Review System',
+                  icon_url: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'
+                },
+                timestamp: new Date().toISOString()
               }]
             };
 
