@@ -1,0 +1,62 @@
+name: Discord PR Review Ready Mention
+
+on:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  notify:
+    if: github.event.label.name == 'Ready For Review!'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord notification
+        uses: actions/github-script@v7
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          script: |
+            const discordIdMap = {
+              'Chiman2937': '472760360932474921',
+            };
+
+            // 테스트: 본인에게만 멘션
+            const assignees = ['Chiman2937'];
+
+            // Discord 멘션 생성
+            const mentions = assignees
+              .map(username => {
+                const discordId = discordIdMap[username];
+                return discordId ? `<@${discordId}>` : null;
+              })
+              .filter(mention => mention !== null)
+              .join(' ');
+
+            const message = mentions || '@here';
+
+            // Discord 웹훅 전송
+            const payload = {
+              content: `${message} PR 리뷰 받을 준비가 완료됐어요!`,
+              embeds: [{
+                title: context.payload.pull_request.title,
+                url: context.payload.pull_request.html_url,
+                color: 3066993,
+                fields: [
+                  {
+                    name: '작성자',
+                    value: context.payload.pull_request.user.login,
+                    inline: true
+                  },
+                  {
+                    name: '브랜치',
+                    value: context.payload.pull_request.head.ref,
+                    inline: true
+                  }
+                ]
+              }]
+            };
+
+            await fetch(process.env.DISCORD_WEBHOOK, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
