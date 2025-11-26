@@ -23,7 +23,7 @@ jobs:
               'Chiman2937': ['HopeFullee', 'wooktori'],
             };
 
-            const reviewers = reviewerMap[author];
+            let reviewers = reviewerMap[author];
 
             if (reviewers) {
               reviewers = reviewers.filter(reviewer => reviewer !== author);
