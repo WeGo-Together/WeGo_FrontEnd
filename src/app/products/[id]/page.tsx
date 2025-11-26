@@ -1,9 +1,7 @@
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+'use client';
+import { use } from 'react';
 
-import { prefetchProduct } from '@/api/endpoints/product/product-get-item';
-import { getQueryClient } from '@/lib/queryClient';
-
-import Item from './Item';
+import { useGetProduct } from '@/hooks/use-product/use-product-get-item';
 
 interface ProductItemPageProps {
   params: Promise<{
@@ -11,16 +9,15 @@ interface ProductItemPageProps {
   }>;
 }
 
-const ProductItemPage = async ({ params }: ProductItemPageProps) => {
-  const { id } = await params;
-  const queryClient = getQueryClient();
-
-  await prefetchProduct(queryClient, Number(id));
+const ProductItemPage = ({ params }: ProductItemPageProps) => {
+  const { id } = use(params);
+  const { data } = useGetProduct(Number(id));
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <Item />
-    </HydrationBoundary>
+    <div>
+      {data?.id}
+      {data?.name}
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
-import { ProductItemResponse, ProductListResponse } from '@/types/endpoints/products/types';
+import { GetProductItemResponse, GetProductListResponse } from '@/types/endpoints/products/types';
 
-export const mockProductList: ProductListResponse = {
+export const mockProductList: GetProductListResponse = {
   nextCursor: null,
   list: [
     {
@@ -30,7 +30,7 @@ export const mockProductList: ProductListResponse = {
   ],
 };
 
-export const mockProductItem: ProductItemResponse = {
+export const mockProductItem: GetProductItemResponse = {
   id: 1,
   name: `아이템 1`,
   image: 'https://via.placeholder.com/150',

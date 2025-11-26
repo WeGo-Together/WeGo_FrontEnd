@@ -1,27 +1,20 @@
 'use client';
-import { useEffect } from 'react';
 
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-
-import { prefetchProductsInfinite } from '@/api/endpoints/product/product-get-list';
-import { getQueryClient } from '@/lib/queryClient';
-
-import List from './List';
+import { useGetProductsInfinite } from '@/hooks/use-product/use-product-get-list';
 
 const ProductsPage = () => {
-  const queryClient = getQueryClient();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await prefetchProductsInfinite(queryClient);
-    };
-    fetchData();
-  }, []);
-
+  const { data, fetchNextPage } = useGetProductsInfinite({
+    keyword: '',
+  });
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <List />
-    </HydrationBoundary>
+    <div>
+      <div>
+        {data?.map((item) => (
+          <div key={item.id}>{item.name}</div>
+        ))}
+      </div>
+      <button onClick={() => fetchNextPage()}>next</button>
+    </div>
   );
 };
 
