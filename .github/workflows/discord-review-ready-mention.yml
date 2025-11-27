@@ -17,13 +17,19 @@ jobs:
           script: |
             const discordIdMap = {
               'Chiman2937': '472760360932474921',
+              'HopeFullee': '215837654808264704',
+              'claudia99503': '1196405542751571979',
+              'yoorli': '1252243063066067057',
+              'wooktori': '410687167329992714'
             };
 
-            // 테스트: 본인에게만 멘션
-            const assignees = ['Chiman2937'];
+            // PR에 지정된 리뷰어들의 GitHub username 추출
+            const reviewers = context.payload.pull_request.requested_reviewers?.map(
+              reviewer => reviewer.login
+            ) || [];
 
             // Discord 멘션 생성
-            const mentions = assignees
+            const mentions = reviewers
               .map(username => {
                 const discordId = discordIdMap[username];
                 return discordId ? `<@${discordId}>` : null;
@@ -33,13 +39,20 @@ jobs:
 
             const message = mentions || '@here';
 
+            // PR 본문에서 연결된 이슈 추출 (예: #123, Closes #123, Fixes #123 등)
+            const prBody = context.payload.pull_request.body || '';
+            const issueMatches = prBody.match(/#(\d+)/g);
+            const linkedIssues = issueMatches 
+              ? issueMatches.map(match => `[${match}](${context.payload.repository.html_url}/issues/${match.slice(1)})`).join(', ')
+              : '연결된 이슈 없음';
+
             // Discord 웹훅 전송
             const payload = {
               content: `${message} PR 리뷰 받을 준비가 완료됐어요! 🚀`,
               embeds: [{
-                title: `📝 ${context.payload.pull_request.title}`,
+                title: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`,
                 url: context.payload.pull_request.html_url,
-                description: context.payload.pull_request.body?.substring(0, 200) || 'PR 설명이 없습니다.',
+                description: `🔗 **연결된 이슈**: ${linkedIssues}`,
                 color: 5763719,  // 색상 (hex를 decimal로: #57F287 = 초록)
                 thumbnail: {
                   url: context.payload.pull_request.user.avatar_url  // 작성자 프로필 이미지
