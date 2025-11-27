@@ -18,10 +18,11 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
           script: |
+            const core = require('@actions/core');
             const discordIdMap = {
               'yoorli': '1252243063066067057',
               'HopeFullee': '215837654808264704',
-              'claudia99503': 1196405542751571979',
+              'claudia99503': '1196405542751571979',
               'Chiman2937': '472760360932474921',
               'wooktori': '410687167329992714'
             };
@@ -35,6 +36,9 @@ jobs:
 
             const authorDiscordId = discordIdMap[prAuthor];
             const mention = authorDiscordId ? `<@${authorDiscordId}>` : '@here';
+            const content = mention 
+              ? `${mention} **${reviewer}**님이 [PR #${prNumber}: ${prTitle}](${reviewUrl})을 ${statusEmoji} **${statusText}**했습니다.`
+              : `**${reviewer}**님이 [PR #${prNumber}: ${prTitle}](${reviewUrl})을 ${statusEmoji} **${statusText}**했습니다.`;
 
             // 리뷰 상태에 따른 메시지
             const statusEmoji = reviewState === 'approved' ? '✅' : '🔄';
@@ -42,7 +46,7 @@ jobs:
             const color = reviewState === 'approved' ? 5763719 : 15158332;
 
             const payload = {
-              content: `${mention} **${reviewer}**님이 [PR #${prNumber}: ${prTitle}](${reviewUrl})을 ${statusEmoji} **${statusText}**했습니다.`,
+              content: content,
               embeds: [{
                 color: color
               }]
@@ -52,4 +56,10 @@ jobs:
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload)
+            }).then(res => {
+              if (!res.ok) {
+                throw new Error(`Discord API error: ${res.status} ${res.statusText}`);
+              }
+            }).catch(err => {
+              core.setFailed(`Failed to send Discord notification: ${err.message}`);
             });
