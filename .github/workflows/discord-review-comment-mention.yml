@@ -1,0 +1,55 @@
+name: Discord PR Review Notification
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    # approved 또는 changes_requested만 처리
+    if: |
+      github.event.review.state == 'approved' || 
+      github.event.review.state == 'changes_requested'
+    steps:
+      - name: Send Discord notification
+        uses: actions/github-script@v7
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          script: |
+            const discordIdMap = {
+              'yoorli': '1252243063066067057',
+              'HopeFullee': '215837654808264704',
+              'claudia99503': 1196405542751571979',
+              'Chiman2937': '472760360932474921',
+              'wooktori': '410687167329992714'
+            };
+
+            const prAuthor = context.payload.pull_request.user.login;
+            const reviewer = context.payload.review.user.login;
+            const reviewState = context.payload.review.state;
+            const prNumber = context.payload.pull_request.number;
+            const prTitle = context.payload.pull_request.title;
+            const reviewUrl = context.payload.review.html_url;
+
+            const authorDiscordId = discordIdMap[prAuthor];
+            const mention = authorDiscordId ? `<@${authorDiscordId}>` : '@here';
+
+            // 리뷰 상태에 따른 메시지
+            const statusEmoji = reviewState === 'approved' ? '✅' : '🔄';
+            const statusText = reviewState === 'approved' ? '승인' : '변경 요청';
+            const color = reviewState === 'approved' ? 5763719 : 15158332;
+
+            const payload = {
+              content: `${mention} **${reviewer}**님이 [PR #${prNumber}: ${prTitle}](${reviewUrl})을 ${statusEmoji} **${statusText}**했습니다.`,
+              embeds: [{
+                color: color
+              }]
+            };
+
+            await fetch(process.env.DISCORD_WEBHOOK, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
