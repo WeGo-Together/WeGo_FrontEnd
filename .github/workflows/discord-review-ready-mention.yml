@@ -10,12 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send Discord notification
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_ID_MAP: ${{ secrets.DISCORD_ID_MAP }}
         with:
           script: |
+            // 디버깅용 출력
+            console.log(context.payload.pull_request, null, 2);
+
             // PR 생성한 유저의 디스코드ID 추출
             const discordIdMap = JSON.parse(process.env.DISCORD_ID_MAP);
             const githubUser = '${{ github.event.pull_request.user.login }}';
