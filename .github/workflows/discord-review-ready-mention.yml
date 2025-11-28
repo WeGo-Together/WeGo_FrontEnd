@@ -13,64 +13,64 @@ jobs:
         uses: actions/github-script@v7
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_MAP: ${{ secrets.DISCORD_ID_MAP }}
         with:
           script: |
-            const discordIdMap = {
-              'Chiman2937': '472760360932474921',
-              'HopeFullee': '215837654808264704',
-              'claudia99503': '1196405542751571979',
-              'yoorli': '1252243063066067057',
-              'wooktori': '410687167329992714'
-            };
+            // PR 생성한 유저의 디스코드ID 추출
+            const discordIdMap = JSON.parse(process.env.DISCORD_ID_MAP);
+            const githubUser = '${{ github.event.pull_request.user.login }}';
+            const myDiscordId = discordIdMap[githubUser];
+
+            // discordIdMap에 등록된 모든 유저의 Github username 추출
+            const everyone = Object.keys(discordIdMap) || [];
 
             // PR에 지정된 리뷰어들의 GitHub username 추출
-            const reviewers = context.payload.pull_request.requested_reviewers?.map(
+            const reviewers = github.context.payload.pull_request.requested_reviewers?.map(
               reviewer => reviewer.login
             ) || [];
 
-            // Discord 멘션 생성
-            const mentions = reviewers
-              .map(username => {
-                const discordId = discordIdMap[username];
-                return discordId ? `<@${discordId}>` : null;
-              })
-              .filter(mention => mention !== null)
+            // Discord 멘션 생성 (모두에게)
+            const mentions = Object.values(discordIdMap)
+              .map(discordId => `<@${discordId}>`)
               .join(' ');
 
-            const message = mentions || '@here';
+            // 담당 리뷰어 텍스트 생성
+            const reviewerText = reviewers.length > 0 
+              ? reviewers.map(username => `@${username}`).join(', ')
+              : '지정되지 않음';
 
             // PR 본문에서 연결된 이슈 추출 (예: #123, Closes #123, Fixes #123 등)
-            const prBody = context.payload.pull_request.body || '';
+            const prBody = github.context.payload.pull_request.body || '';
             const issueMatches = prBody.match(/#(\d+)/g);
             const linkedIssues = issueMatches 
-              ? issueMatches.map(match => `[${match}](${context.payload.repository.html_url}/issues/${match.slice(1)})`).join(', ')
+              ? issueMatches.map(match => `[${match}](${github.context.payload.repository.html_url}/issues/${match.slice(1)})`).join(', ')
               : '연결된 이슈 없음';
 
             // Discord 웹훅 전송
             const payload = {
-              content: `${message} PR 리뷰 받을 준비가 완료됐어요! 🚀`,
+              content: `${mentions} PR 리뷰 받을 준비가 완료됐어요! 🚀`,
               embeds: [{
-                title: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`,
-                url: context.payload.pull_request.html_url,
-                description: `🔗 **연결된 이슈**: ${linkedIssues}`,
+                title: `#${github.context.payload.pull_request.number} ${github.context.payload.pull_request.title}`,
+                url: github.context.payload.pull_request.html_url,
+                description: `🔗 **연결된 이슈**: ${linkedIssues}\n👥 **담당 리뷰어**: ${reviewerText}`,
                 color: 5763719,  // 색상 (hex를 decimal로: #57F287 = 초록)
                 thumbnail: {
-                  url: context.payload.pull_request.user.avatar_url  // 작성자 프로필 이미지
+                  url: github.context.payload.pull_request.user.avatar_url  // 작성자 프로필 이미지
                 },
                 fields: [
                   {
                     name: '👤 작성자',
-                    value: context.payload.pull_request.user.login,
+                    value: github.context.payload.pull_request.user.login,
                     inline: true
                   },
                   {
                     name: '🌿 브랜치',
-                    value: `\`${context.payload.pull_request.head.ref}\``,
+                    value: `\`${github.context.payload.pull_request.head.ref}\``,
                     inline: true
                   },
                   {
                     name: '📊 변경사항',
-                    value: `+${context.payload.pull_request.additions} -${context.payload.pull_request.deletions}`,
+                    value: `+${github.context.payload.pull_request.additions} -${github.context.payload.pull_request.deletions}`,
                     inline: true
                   }
                 ],
