@@ -20,11 +20,6 @@ jobs:
           DISCORD_ID_MAP: ${{ secrets.DISCORD_ID_MAP }}
         with:
           script: |
-            // 디버깅용 출력
-            // console.log(context.payload.pull_request, null, 2);
-            // const requestedReviewers = context.payload.pull_request.requested_reviewers;
-            // console.log('Requested Reviewers:', requestedReviewers);
-
             // PR 생성한 유저의 디스코드ID 추출
             const discordIdMap = JSON.parse(process.env.DISCORD_ID_MAP);
             const githubUser = '${{ github.event.pull_request.user.login }}';
@@ -38,8 +33,6 @@ jobs:
               reviewer => reviewer.login
             ) || [];
 
-            console.log(`reviewers: ${reviewers}`);
-
             // Discord 멘션 생성 (모두에게)
             const mentions = Object.values(discordIdMap)
               .map(discordId => `<@${discordId}>`)
@@ -52,7 +45,6 @@ jobs:
 
             // PR 본문에서 연결된 이슈 추출 (예: #123, Closes #123, Fixes #123 등)
             const prBody = context.payload.pull_request.body || '';
-            console.log(`prBody: ${prBody}`);
             const issueMatches = prBody.match(/#(\d+)/g);
             const linkedIssues = issueMatches 
               ? issueMatches.map(match => `[${match}](${context.payload.repository.html_url}/issues/${match.slice(1)})`).join(', ')
@@ -60,7 +52,7 @@ jobs:
 
             // Discord 웹훅 전송
             const payload = {
-              content: `${mentions} PR 리뷰 받을 준비가 완료됐어요! 🚀`,
+              content: `${mentions}\n\nPR 리뷰 받을 준비가 완료됐어요! 🚀`,
               embeds: [{
                 title: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`,
                 url: context.payload.pull_request.html_url,
