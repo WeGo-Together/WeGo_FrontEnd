@@ -20,7 +20,11 @@ jobs:
             const author = context.payload.pull_request.user.login;
 
             const reviewerMap = {
-              'Chiman2937': ['HopeFullee', 'yoorli'],
+              'yoorli': ['Chiman2937'],
+              'claudia99503': ['HopeFullee'],
+              'HopeFullee': ['claudia99503'],
+              'wooktori': ['yoorli'],
+              'Chiman2937': ['wooktori'],
             };
 
             let reviewers = reviewerMap[author];
