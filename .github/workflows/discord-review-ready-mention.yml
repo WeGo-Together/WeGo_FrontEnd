@@ -13,7 +13,7 @@ jobs:
         uses: actions/github-script@v7
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          DISCORD_MAP: ${{ secrets.DISCORD_ID_MAP }}
+          DISCORD_ID_MAP: ${{ secrets.DISCORD_ID_MAP }}
         with:
           script: |
             // PR 생성한 유저의 디스코드ID 추출
