@@ -22,6 +22,8 @@ jobs:
           script: |
             // 디버깅용 출력
             console.log(context.payload.pull_request, null, 2);
+            const requestedReviewers = context.payload.pull_request.requested_reviewers;
+            console.log('Requested Reviewers:', requestedReviewers);
 
             // PR 생성한 유저의 디스코드ID 추출
             const discordIdMap = JSON.parse(process.env.DISCORD_ID_MAP);
