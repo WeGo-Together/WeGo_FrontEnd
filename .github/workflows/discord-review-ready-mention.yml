@@ -25,7 +25,7 @@ jobs:
             const everyone = Object.keys(discordIdMap) || [];
 
             // PR에 지정된 리뷰어들의 GitHub username 추출
-            const reviewers = github.context.payload.pull_request.requested_reviewers?.map(
+            const reviewers = context.payload.pull_request.requested_reviewers?.map(
               reviewer => reviewer.login
             ) || [];
 
