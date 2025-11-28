@@ -38,6 +38,8 @@ jobs:
               reviewer => reviewer.login
             ) || [];
 
+            console.log(`reviewers: ${reviewers}`);
+
             // Discord 멘션 생성 (모두에게)
             const mentions = Object.values(discordIdMap)
               .map(discordId => `<@${discordId}>`)
@@ -49,38 +51,38 @@ jobs:
               : '지정되지 않음';
 
             // PR 본문에서 연결된 이슈 추출 (예: #123, Closes #123, Fixes #123 등)
-            const prBody = github.context.payload.pull_request.body || '';
-            console.log(prBody);
+            const prBody = context.payload.pull_request.body || '';
+            console.log(`prBody: ${prBody}`);
             const issueMatches = prBody.match(/#(\d+)/g);
             const linkedIssues = issueMatches 
-              ? issueMatches.map(match => `[${match}](${github.context.payload.repository.html_url}/issues/${match.slice(1)})`).join(', ')
+              ? issueMatches.map(match => `[${match}](${context.payload.repository.html_url}/issues/${match.slice(1)})`).join(', ')
               : '연결된 이슈 없음';
 
             // Discord 웹훅 전송
             const payload = {
               content: `${mentions} PR 리뷰 받을 준비가 완료됐어요! 🚀`,
               embeds: [{
-                title: `#${github.context.payload.pull_request.number} ${github.context.payload.pull_request.title}`,
-                url: github.context.payload.pull_request.html_url,
+                title: `#${context.payload.pull_request.number} ${context.payload.pull_request.title}`,
+                url: context.payload.pull_request.html_url,
                 description: `🔗 **연결된 이슈**: ${linkedIssues}\n👥 **담당 리뷰어**: ${reviewerText}`,
                 color: 5763719,  // 색상 (hex를 decimal로: #57F287 = 초록)
                 thumbnail: {
-                  url: github.context.payload.pull_request.user.avatar_url  // 작성자 프로필 이미지
+                  url: context.payload.pull_request.user.avatar_url  // 작성자 프로필 이미지
                 },
                 fields: [
                   {
                     name: '👤 작성자',
-                    value: github.context.payload.pull_request.user.login,
+                    value: context.payload.pull_request.user.login,
                     inline: true
                   },
                   {
                     name: '🌿 브랜치',
-                    value: `\`${github.context.payload.pull_request.head.ref}\``,
+                    value: `\`${context.payload.pull_request.head.ref}\``,
                     inline: true
                   },
                   {
                     name: '📊 변경사항',
-                    value: `+${github.context.payload.pull_request.additions} -${github.context.payload.pull_request.deletions}`,
+                    value: `+${context.payload.pull_request.additions} -${context.payload.pull_request.deletions}`,
                     inline: true
                   }
                 ],
