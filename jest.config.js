@@ -29,7 +29,7 @@ const jestConfig = async () => {
   return {
     ...nextJestConfig,
     moduleNameMapper: {
-      '\\.svg$': '<rootDir>/__mocks__/svg.tsx',
+      '\\.svg$': '<rootDir>/src/mock/svg.tsx',
       ...nextJestConfig.moduleNameMapper,
     },
   };
