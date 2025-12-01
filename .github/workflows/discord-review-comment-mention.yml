@@ -36,7 +36,7 @@ jobs:
             const authorDiscordId = discordIdMap[prAuthor];
             const mention = authorDiscordId ? `<@${authorDiscordId}>` : '@here';
             const content = authorDiscordId
-              ? `${mention} /n/n **${reviewer}**님이 [PR #${prNumber}](${reviewUrl})을 ${statusEmoji} **${statusText}**했습니다.`
+              ? `${mention}\n**${reviewer}**님이 [PR #${prNumber}](${reviewUrl})을 ${statusEmoji} **${statusText}**했습니다.`
               : `**${reviewer}**님이 [PR #${prNumber}](${reviewUrl})을 ${statusEmoji} **${statusText}**했습니다.`;
 
             const payload = {
@@ -47,13 +47,13 @@ jobs:
                 url: reviewUrl,
                 fields: [
                   {
-                    name: '리뷰어',
+                    name: '👥 리뷰어',
                     value: reviewer,
                     inline: true
                   },
                   {
-                    name: '상태',
-                    value: statusText,
+                    name: '💡 상태',
+                    value: `${statusEmoji} ${statusText}`,
                     inline: true
                   }
                 ]
