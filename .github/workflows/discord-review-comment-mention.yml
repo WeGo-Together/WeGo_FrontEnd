@@ -19,7 +19,6 @@ jobs:
           DISCORD_ID_MAP: ${{ secrets.DISCORD_ID_MAP }}
         with:
           script: |
-            const core = require('@actions/core');
             const discordIdMap = JSON.parse(process.env.DISCORD_ID_MAP);
 
             const prAuthor = context.payload.pull_request.user.login;
