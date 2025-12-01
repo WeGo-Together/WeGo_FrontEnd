@@ -1,0 +1,73 @@
+name: Discord PR Review Notification
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    # approved 또는 changes_requested만 처리
+    if: |
+      github.event.review.state == 'approved' || 
+      github.event.review.state == 'changes_requested'
+    steps:
+      - name: Send Discord notification
+        uses: actions/github-script@v7
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_ID_MAP: ${{ secrets.DISCORD_ID_MAP }}
+        with:
+          script: |
+            const discordIdMap = JSON.parse(process.env.DISCORD_ID_MAP);
+
+            const prAuthor = context.payload.pull_request.user.login;
+            const reviewer = context.payload.review.user.login;
+            const reviewState = context.payload.review.state;
+            const prNumber = context.payload.pull_request.number;
+            const prTitle = context.payload.pull_request.title;
+            const reviewUrl = context.payload.review.html_url;
+
+            // 리뷰 상태에 따른 메시지
+            const statusEmoji = reviewState === 'approved' ? '✅' : '🔄';
+            const statusText = reviewState === 'approved' ? '승인' : '변경 요청';
+            const color = reviewState === 'approved' ? 5763719 : 15158332;
+
+            const authorDiscordId = discordIdMap[prAuthor];
+            const mention = authorDiscordId ? `<@${authorDiscordId}>` : '@here';
+            const content = authorDiscordId
+              ? `${mention}\n**${reviewer}**님이 [PR #${prNumber}](${reviewUrl})을 ${statusEmoji} **${statusText}**했습니다.`
+              : `**${reviewer}**님이 [PR #${prNumber}](${reviewUrl})을 ${statusEmoji} **${statusText}**했습니다.`;
+
+            const payload = {
+              content: content,
+              embeds: [{
+                color: color,
+                title: `#${prNumber}: ${prTitle}`,
+                url: reviewUrl,
+                fields: [
+                  {
+                    name: '👥 리뷰어',
+                    value: reviewer,
+                    inline: true
+                  },
+                  {
+                    name: '💡 상태',
+                    value: `${statusEmoji} ${statusText}`,
+                    inline: true
+                  }
+                ]
+              }]
+            };
+
+            await fetch(process.env.DISCORD_WEBHOOK, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            }).then(res => {
+              if (!res.ok) {
+                throw new Error(`Discord API error: ${res.status} ${res.statusText}`);
+              }
+            }).catch(err => {
+              core.setFailed(`Failed to send Discord notification: ${err.message}`);
+            });
