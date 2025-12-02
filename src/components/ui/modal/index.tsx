@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import IconClose from '@/assets/icons/icon-close.svg';
+import Icon from '@/components/shared/icon';
 import { cn } from '@/lib/utils';
 
 interface ModalContextType {
@@ -124,7 +124,7 @@ export const ModalContent = ({ children }: ModalContentProps) => {
 
     const modal = modalRef.current;
     const focusableElements = modal.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      'button:not([disabled]), a[href]:not([tabindex="-1"]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
     );
     const firstElement = focusableElements[0] as HTMLElement;
     const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
@@ -217,7 +217,7 @@ export const ModalCloseButton = () => {
       type='button'
       onClick={close}
     >
-      <IconClose className='size-5 cursor-pointer text-gray-500' />
+      <Icon id='x' className='size-5 cursor-pointer text-gray-500' />
     </button>
   );
 };
