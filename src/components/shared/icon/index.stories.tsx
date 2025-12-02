@@ -16,7 +16,7 @@ const meta = {
     id: {
       control: 'select',
       options: [
-        'calender',
+        'calendar',
         'chevron-down',
         'chevron-true',
         'congratulate',
@@ -51,7 +51,7 @@ type Story = StoryObj<typeof meta>;
 
 // 표 형식 갤러리
 const iconData = [
-  { id: 'calender', enableChangeColor: true },
+  { id: 'calendar', enableChangeColor: true },
   { id: 'chevron-down', enableChangeColor: true },
   { id: 'chevron-true', enableChangeColor: true },
   { id: 'congratulate', enableChangeColor: false },

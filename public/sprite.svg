@@ -2,7 +2,7 @@
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
 >
-  <symbol fill="none" viewBox="0 0 24 24" id="calender" xmlns="http://www.w3.org/2000/svg">
+  <symbol fill="none" viewBox="0 0 24 24" id="calendar" xmlns="http://www.w3.org/2000/svg">
     <path
       stroke="currentColor"
       stroke-linecap="round"
@@ -30,7 +30,7 @@
     />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="congratulate" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#da)">
+    <g clip-path="url(#ea)">
       <path
         fill="#ffdc2d"
         d="M2.599 22.259c-1.214.48-2.414-.721-1.934-1.934l5.903-14.92 10.95 10.95z"
@@ -57,8 +57,18 @@
       <circle cx="18.512" cy="19.561" r=".745" fill="#ff6f00" />
     </g>
     <defs>
-      <clipPath id="da"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
+      <clipPath id="ea"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
     </defs>
+  </symbol>
+  <symbol fill="none" viewBox="0 0 24 24" id="cowbell" xmlns="http://www.w3.org/2000/svg">
+    <path
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M18 8A6 6 0 1 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"
+    />
+    <circle cx="17" cy="4" r="4" fill="currentColor" />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="home" xmlns="http://www.w3.org/2000/svg">
     <path
@@ -111,7 +121,7 @@
     />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="plus-circle" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#ha)">
+    <g clip-path="url(#ia)">
       <path
         fill="#00c9ec"
         d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12"
@@ -125,7 +135,7 @@
       />
     </g>
     <defs>
-      <clipPath id="ha"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
+      <clipPath id="ia"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
     </defs>
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="search" xmlns="http://www.w3.org/2000/svg">
@@ -184,6 +194,38 @@
     <path
       fill="#7c868f"
       d="M12 16q1.875 0 3.187-1.312Q16.5 13.375 16.5 11.5t-1.313-3.187T12 7 8.812 8.313 7.5 11.5t1.312 3.188T12 16m0-1.8q-1.125 0-1.913-.787A2.6 2.6 0 0 1 9.3 11.5q0-1.125.787-1.912A2.6 2.6 0 0 1 12 8.8q1.125 0 1.912.787.788.788.788 1.913t-.788 1.912A2.6 2.6 0 0 1 12 14.2m0 4.8q-3.349 0-6.113-1.8-2.761-1.8-4.362-4.75a1.907 1.907 0 0 1-.187-1.437q.062-.238.187-.463 1.6-2.95 4.362-4.75T12 4t6.112 1.8 4.363 4.75a1.906 1.906 0 0 1 .188 1.438 2 2 0 0 1-.188.462q-1.6 2.95-4.363 4.75Q15.35 19 12 19m0-2a9.54 9.54 0 0 0 5.187-1.488A9.77 9.77 0 0 0 20.8 11.5a9.77 9.77 0 0 0-3.613-4.012A9.55 9.55 0 0 0 12 6a9.55 9.55 0 0 0-5.188 1.487A9.77 9.77 0 0 0 3.2 11.5a9.77 9.77 0 0 0 3.612 4.012A9.54 9.54 0 0 0 12 17"
+    />
+  </symbol>
+  <symbol fill="none" viewBox="0 0 92 40" id="wego-logo" xmlns="http://www.w3.org/2000/svg">
+    <path
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="m12 14 4.378 12 4.865-12 4.379 12L30 14"
+    />
+    <circle cx="75" cy="20" r="7" stroke="currentColor" stroke-width="2" />
+    <path
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M63.7 14.615a7.167 7.167 0 1 0 0 11.106v-4.554"
+    />
+    <circle cx="41" cy="20" r="7" stroke="currentColor" stroke-width="2" />
+    <circle cx="40" cy="21" r="1" fill="currentColor" />
+    <circle cx="44" cy="21" r="1" fill="currentColor" />
+    <path
+      stroke="currentColor"
+      stroke-width="2"
+      d="m34.5 19 1.639-.745a24 24 0 0 1 8.09-2.08L46.5 16"
+    />
+    <path
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="m34 21-2.049 2.342c-.566.646-.106 1.658.753 1.658H35.5"
     />
   </symbol>
   <symbol fill="none" viewBox="0 0 20 20" id="x" xmlns="http://www.w3.org/2000/svg">
