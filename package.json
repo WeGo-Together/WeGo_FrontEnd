@@ -12,7 +12,8 @@
     "build-storybook": "storybook build",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "sprite": "node scripts/sprite/generate-sprite.cjs"
   },
   "devEngines": {
     "runtime": {
@@ -87,6 +88,8 @@
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.0",
     "storybook": "^10.0.5",
+    "svg-sprite": "^2.0.4",
+    "svgo": "^4.0.0",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.5",
     "typescript": "^5"
