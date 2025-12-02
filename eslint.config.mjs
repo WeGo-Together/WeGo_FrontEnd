@@ -22,6 +22,7 @@ const eslintConfig = defineConfig([
     'build/**',
     'next-env.d.ts',
     '.github/**',
+    'scripts/**',
   ]),
   {
     plugins: {
