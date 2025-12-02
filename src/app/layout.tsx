@@ -2,7 +2,7 @@ import '@/styles/globals.css';
 
 import type { Metadata } from 'next';
 
-import { Header, LayoutWrapper } from '@/components/layout';
+import { LayoutWrapper } from '@/components/layout';
 import { initMocks } from '@/mock';
 
 import { pretendard } from '../lib/fonts';
@@ -23,12 +23,9 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body className={`${pretendard.className} ${pretendard.variable} antialiased`}>
-        <LayoutWrapper>
-          <Providers>
-            <Header />
-            <main>{children}</main>
-          </Providers>
-        </LayoutWrapper>
+        <Providers>
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </Providers>
       </body>
     </html>
   );
