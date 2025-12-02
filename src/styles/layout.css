@@ -10,10 +10,18 @@
   --z-overlay: 40;
 }
 
-@utility layout-center {
+@utility flex-center {
   @apply flex items-center justify-center;
 }
 
-@utility layout-center-col {
+@utility flex-between {
+  @apply flex items-center justify-between;
+}
+
+@utility flex-col-center {
   @apply flex flex-col items-center justify-center;
+}
+
+@utility flex-col-between {
+  @apply flex flex-col items-center justify-between;
 }
