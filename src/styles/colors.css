@@ -1,44 +1,34 @@
 @theme {
-  /* Brand colors */
-  --color-brand-primary: #5189fa;
-  --color-brand-secondary: #eef3ff;
-  --color-brand-tertiary: #315296;
+  /* Mono colors */
+  --color-mono-white: #ffffff;
+  --color-mono-black: #000000;
 
-  /* Point colors */
-  --color-point-purple: #a855f7;
-  --color-point-cyan: #06b6d4;
-  --color-point-pink: #ec4899;
-  --color-point-rose: #f43f5e;
-  --color-point-orange: #f97316;
-  --color-point-yellow: #eab308;
+  /* Gray colors */
+  --color-gray-50: #f8f9fb;
+  --color-gray-100: #f2f4f7;
+  --color-gray-200: #e8ecef;
+  --color-gray-300: #dee1e6;
+  --color-gray-400: #cfd4da;
+  --color-gray-500: #adb6bd;
+  --color-gray-600: #7c868f;
+  --color-gray-700: #495058;
+  --color-gray-800: #353a40;
+  --color-gray-900: #212429;
+  --color-gray-950: #1a1d21;
 
-  /* Background colors */
-  --color-background-primary: #ffffff;
-  --color-background-secondary: #f1f5f9;
-  --color-background-tertiary: #e2e8f0;
-  --color-background-inverse: #e2e8f0;
+  /* Mint colors */
+  --color-mint-50: #ecfdff;
+  --color-mint-100: #cff9fe;
+  --color-mint-200: #a5f0fc;
+  --color-mint-300: #67e3f9;
+  --color-mint-400: #22d3ee;
+  --color-mint-500: #00c9ec;
+  --color-mint-600: #049bc9;
+  --color-mint-700: #0e7090;
+  --color-mint-800: #155b75;
+  --color-mint-900: #164c63;
+  --color-mint-950: #0d2d3a;
 
-  /* Interaction colors */
-  --color-interaction-inactive: #94a3b8;
-  --color-interaction-hover: #416ec8;
-  --color-interaction-pressed: #3b63b5;
-
-  /* Border colors */
-  --color-border-primary: #e2e8f0;
-
-  /* Text colors */
-  --color-text-primary: #1e293b;
-  --color-text-secondary: #334155;
-  --color-text-tertiary: #0f172a;
-  --color-text-default: #64748b;
-  --color-text-inverse: #ffffff;
-  --color-text-disabled: #94a3b8;
-
-  /* Status colors */
-  --color-status-danger: #fc4b4b;
-
-  /* Icon colors */
-  --color-icon-primary: #64748b;
-  --color-icon-inverse: #f8fafc;
-  --color-icon-brand: #74a1fb;
+  /* Error colors */
+  --color-error-500: #f04438;
 }

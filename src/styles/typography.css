@@ -1,120 +1,209 @@
-/* 4xl */
-@utility text-4xl-medium {
-  @apply text-[40px] leading-[48px] font-medium;
+/* display-lg */
+@utility text-display-lg {
+  @apply text-[48px] leading-[60px] tracking-[-0.02em];
 }
 
-/* 3xl */
-@utility text-3xl-bold {
-  @apply text-[32px] leading-[38px] font-bold;
+@utility text-display-lg-regular {
+  @apply text-display-lg font-normal;
 }
 
-@utility text-3xl-semibold {
-  @apply text-[32px] leading-[38px] font-semibold;
+@utility text-display-lg-medium {
+  @apply text-display-lg font-medium;
 }
 
-/* 2xl */
-@utility text-2xl-bold {
-  @apply text-[24px] leading-[28px] font-bold;
+@utility text-display-lg-semibold {
+  @apply text-display-lg font-semibold;
 }
 
-@utility text-2xl-semibold {
-  @apply text-[24px] leading-[28px] font-semibold;
+@utility text-display-lg-bold {
+  @apply text-display-lg font-bold;
 }
 
-@utility text-2xl-medium {
-  @apply text-[24px] leading-[28px] font-medium;
+/* display-md */
+@utility text-display-md {
+  @apply text-[36px] leading-[44px] tracking-[-0.02em];
 }
 
-@utility text-2xl-regular {
-  @apply text-[24px] leading-[28px] font-normal;
+@utility text-display-md-regular {
+  @apply text-display-md font-normal;
 }
 
-/* xl */
-@utility text-xl-bold {
-  @apply text-[20px] leading-[24px] font-bold;
+@utility text-display-md-medium {
+  @apply text-display-md font-medium;
 }
 
-@utility text-xl-semibold {
-  @apply text-[20px] leading-[24px] font-semibold;
+@utility text-display-md-semibold {
+  @apply text-display-md font-semibold;
 }
 
-@utility text-xl-medium {
-  @apply text-[20px] leading-[24px] font-medium;
+@utility text-display-md-bold {
+  @apply text-display-md font-bold;
 }
 
-@utility text-xl-regular {
-  @apply text-[20px] leading-[24px] font-normal;
+/* display-sm */
+@utility text-display-sm {
+  @apply text-[30px] leading-[38px];
 }
 
-/* 2lg */
-@utility text-2lg-bold {
-  @apply text-[18px] leading-[21px] font-bold;
+@utility text-display-sm-regular {
+  @apply text-display-sm font-normal;
 }
 
-@utility text-2lg-semibold {
-  @apply text-[18px] leading-[21px] font-semibold;
+@utility text-display-sm-medium {
+  @apply text-display-sm font-medium;
 }
 
-@utility text-2lg-medium {
-  @apply text-[18px] leading-[21px] font-medium;
+@utility text-display-sm-semibold {
+  @apply text-display-sm font-semibold;
 }
 
-@utility text-2lg-regular {
-  @apply text-[18px] leading-[21px] font-normal;
+@utility text-display-sm-bold {
+  @apply text-display-sm font-bold;
 }
 
-/* lg */
-@utility text-lg-bold {
-  @apply text-[16px] leading-[19px] font-bold;
+/* display-xs */
+@utility text-display-xs {
+  @apply text-[30px] leading-[38px];
 }
 
-@utility text-lg-semibold {
-  @apply text-[16px] leading-[19px] font-semibold;
+@utility text-display-xs-regular {
+  @apply text-display-xs font-normal;
 }
 
-@utility text-lg-medium {
-  @apply text-[16px] leading-[19px] font-medium;
+@utility text-display-xs-medium {
+  @apply text-display-xs font-medium;
 }
 
-@utility text-lg-regular {
-  @apply text-[16px] leading-[19px] font-normal;
+@utility text-display-xs-semibold {
+  @apply text-display-xs font-semibold;
 }
 
-/* md */
-@utility text-md-bold {
-  @apply text-[14px] leading-[17px] font-bold;
+@utility text-display-xs-bold {
+  @apply text-display-xs font-bold;
 }
 
-@utility text-md-semibold {
-  @apply text-[14px] leading-[17px] font-semibold;
+/* text-xl */
+@utility text-text-xl {
+  @apply text-[20px] leading-[30px];
 }
 
-@utility text-md-medium {
-  @apply text-[14px] leading-[17px] font-medium;
+@utility text-text-xl-regular {
+  @apply text-text-xl font-normal;
 }
 
-@utility text-md-regular {
-  @apply text-[14px] leading-[17px] font-normal;
+@utility text-text-xl-medium {
+  @apply text-text-xl font-medium;
 }
 
-/* sm */
-@utility text-sm-semibold {
-  @apply text-[13px] leading-[16px] font-semibold;
+@utility text-text-xl-semibold {
+  @apply text-text-xl font-semibold;
 }
 
-@utility text-sm-medium {
-  @apply text-[13px] leading-[16px] font-medium;
+@utility text-text-xl-bold {
+  @apply text-text-xl font-bold;
 }
 
-/* xs */
-@utility text-xs-semibold {
-  @apply text-[12px] leading-[14px] font-semibold;
+/* text-lg */
+@utility text-text-lg {
+  @apply text-[18px] leading-[28px];
 }
 
-@utility text-xs-medium {
-  @apply text-[12px] leading-[14px] font-medium;
+@utility text-text-lg-regular {
+  @apply text-text-lg font-normal;
 }
 
-@utility text-xs-regular {
-  @apply text-[12px] leading-[14px] font-normal;
+@utility text-text-lg-medium {
+  @apply text-text-lg font-medium;
+}
+
+@utility text-text-lg-semibold {
+  @apply text-text-lg font-semibold;
+}
+
+@utility text-text-lg-bold {
+  @apply text-text-lg font-bold;
+}
+
+/* text-md */
+@utility text-text-md {
+  @apply text-[16px] leading-[24px];
+}
+
+@utility text-text-md-regular {
+  @apply text-text-md font-normal;
+}
+
+@utility text-text-md-medium {
+  @apply text-text-md font-medium;
+}
+
+@utility text-text-md-semibold {
+  @apply text-text-md font-semibold;
+}
+
+@utility text-text-md-bold {
+  @apply text-text-md font-bold;
+}
+
+/* text-sm */
+@utility text-text-sm {
+  @apply text-[14px] leading-[20px];
+}
+
+@utility text-text-sm-regular {
+  @apply text-text-sm font-normal;
+}
+
+@utility text-text-sm-medium {
+  @apply text-text-sm font-medium;
+}
+
+@utility text-text-sm-semibold {
+  @apply text-text-sm font-semibold;
+}
+
+@utility text-text-sm-bold {
+  @apply text-text-sm font-bold;
+}
+
+/* text-xs */
+@utility text-text-xs {
+  @apply text-[12px] leading-[18px];
+}
+
+@utility text-text-xs-regular {
+  @apply text-text-xs font-normal;
+}
+
+@utility text-text-xs-medium {
+  @apply text-text-xs font-medium;
+}
+
+@utility text-text-xs-semibold {
+  @apply text-text-xs font-semibold;
+}
+
+@utility text-text-xs-bold {
+  @apply text-text-xs font-bold;
+}
+
+/* text-2xs */
+@utility text-text-2xs {
+  @apply text-[10px] leading-[14px];
+}
+
+@utility text-text-2xs-regular {
+  @apply text-text-2xs font-normal;
+}
+
+@utility text-text-2xs-medium {
+  @apply text-text-2xs font-medium;
+}
+
+@utility text-text-2xs-semibold {
+  @apply text-text-2xs font-semibold;
+}
+
+@utility text-text-2xs-bold {
+  @apply text-text-2xs font-bold;
 }
