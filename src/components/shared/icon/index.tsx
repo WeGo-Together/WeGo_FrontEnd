@@ -1,7 +1,7 @@
 import { type ComponentProps } from 'react';
 
 type IconId =
-  | 'calender'
+  | 'calendar'
   | 'chevron-down'
   | 'chevron-true'
   | 'congratulate'
