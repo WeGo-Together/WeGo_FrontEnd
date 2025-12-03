@@ -1,0 +1,18 @@
+import { cn } from '@/lib/utils';
+
+interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  required?: boolean;
+}
+
+export const Label = ({ children, className, required, ...props }: LabelProps) => {
+  return (
+    <label {...props} className={cn('text-text-sm-medium flex items-center px-2', className)}>
+      <span className='text-gray-700'>{children}</span>
+      {required && (
+        <span aria-hidden='true' className='text-mint-500'>
+          *
+        </span>
+      )}
+    </label>
+  );
+};
