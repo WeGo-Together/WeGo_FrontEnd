@@ -2,10 +2,11 @@ import '@/styles/globals.css';
 
 import type { Metadata } from 'next';
 
+import { LayoutWrapper } from '@/components/layout';
 import { initMocks } from '@/mock';
 
 import { pretendard } from '../lib/fonts';
-import { Providers } from './Providers';
+import { Providers } from './providers';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -22,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body className={`${pretendard.className} ${pretendard.variable} antialiased`}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </Providers>
       </body>
     </html>
   );

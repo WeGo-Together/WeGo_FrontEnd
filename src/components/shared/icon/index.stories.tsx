@@ -3,7 +3,9 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import Icon from '.';
+import { ICONS } from '@/types/icons';
+
+import { Icon } from '.';
 
 const meta = {
   title: 'Components/Icon',
@@ -15,25 +17,7 @@ const meta = {
   argTypes: {
     id: {
       control: 'select',
-      options: [
-        'calender',
-        'chevron-down',
-        'chevron-true',
-        'congratulate',
-        'home',
-        'map-pin',
-        'message',
-        'plus',
-        'plus-circle',
-        'search',
-        'unread-false',
-        'unread-true',
-        'user',
-        'users',
-        'visibility-false',
-        'visibility-true',
-        'x',
-      ] as const,
+      options: ICONS.map((icon) => icon.id),
       description: 'Icon identifier',
     },
     className: {
@@ -50,25 +34,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // 표 형식 갤러리
-const iconData = [
-  { id: 'calender', enableChangeColor: true },
-  { id: 'chevron-down', enableChangeColor: true },
-  { id: 'chevron-true', enableChangeColor: true },
-  { id: 'congratulate', enableChangeColor: false },
-  { id: 'home', enableChangeColor: true },
-  { id: 'map-pin', enableChangeColor: true },
-  { id: 'message', enableChangeColor: true },
-  { id: 'plus', enableChangeColor: true },
-  { id: 'plus-circle', enableChangeColor: false },
-  { id: 'search', enableChangeColor: true },
-  { id: 'unread-false', enableChangeColor: true },
-  { id: 'unread-true', enableChangeColor: false },
-  { id: 'user', enableChangeColor: true },
-  { id: 'users', enableChangeColor: true },
-  { id: 'visibility-false', enableChangeColor: false },
-  { id: 'visibility-true', enableChangeColor: false },
-  { id: 'x', enableChangeColor: true },
-] as const;
+const iconData = ICONS;
 
 export const IconTable: Story = {
   args: {
