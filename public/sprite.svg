@@ -20,7 +20,7 @@
       d="m4 6 4 4 4-4"
     />
   </symbol>
-  <symbol fill="none" viewBox="0 0 16 16" id="chevron-true" xmlns="http://www.w3.org/2000/svg">
+  <symbol fill="none" viewBox="0 0 16 16" id="chevron-up" xmlns="http://www.w3.org/2000/svg">
     <path
       stroke="currentColor"
       stroke-linecap="round"
@@ -30,7 +30,7 @@
     />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="congratulate" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#ea)">
+    <g clip-path="url(#da)">
       <path
         fill="#ffdc2d"
         d="M2.599 22.259c-1.214.48-2.414-.721-1.934-1.934l5.903-14.92 10.95 10.95z"
@@ -57,18 +57,18 @@
       <circle cx="18.512" cy="19.561" r=".745" fill="#ff6f00" />
     </g>
     <defs>
-      <clipPath id="ea"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
+      <clipPath id="da"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
     </defs>
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="cowbell" xmlns="http://www.w3.org/2000/svg">
     <path
-      stroke="currentColor"
+      stroke="#495058"
       stroke-linecap="round"
       stroke-linejoin="round"
       stroke-width="2"
       d="M18 8A6 6 0 1 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"
     />
-    <circle cx="17" cy="4" r="4" fill="currentColor" />
+    <circle cx="17" cy="4" r="4" fill="#00c9ec" />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="home" xmlns="http://www.w3.org/2000/svg">
     <path
@@ -113,7 +113,7 @@
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="plus" xmlns="http://www.w3.org/2000/svg">
     <path
-      stroke="currentColor"
+      stroke="#000"
       stroke-linecap="round"
       stroke-linejoin="round"
       stroke-width="2"
@@ -158,13 +158,13 @@
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="unread-true" xmlns="http://www.w3.org/2000/svg">
     <path
-      stroke="#495058"
+      stroke="currentColor"
       stroke-linecap="round"
       stroke-linejoin="round"
       stroke-width="2"
       d="M18 8A6 6 0 1 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"
     />
-    <circle cx="17" cy="4" r="4" fill="#00c9ec" />
+    <circle cx="17" cy="4" r="4" fill="currentColor" />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="user" xmlns="http://www.w3.org/2000/svg">
     <path
@@ -198,30 +198,26 @@
   </symbol>
   <symbol fill="none" viewBox="0 0 92 40" id="wego-logo" xmlns="http://www.w3.org/2000/svg">
     <path
-      stroke="currentColor"
+      stroke="#000"
       stroke-linecap="round"
       stroke-linejoin="round"
       stroke-width="2"
       d="m12 14 4.378 12 4.865-12 4.379 12L30 14"
     />
-    <circle cx="75" cy="20" r="7" stroke="currentColor" stroke-width="2" />
+    <circle cx="75" cy="20" r="7" stroke="#000" stroke-width="2" />
     <path
-      stroke="currentColor"
+      stroke="#000"
       stroke-linecap="round"
       stroke-linejoin="round"
       stroke-width="2"
       d="M63.7 14.615a7.167 7.167 0 1 0 0 11.106v-4.554"
     />
-    <circle cx="41" cy="20" r="7" stroke="currentColor" stroke-width="2" />
-    <circle cx="40" cy="21" r="1" fill="currentColor" />
-    <circle cx="44" cy="21" r="1" fill="currentColor" />
+    <circle cx="41" cy="20" r="7" stroke="#00c9ec" stroke-width="2" />
+    <circle cx="40" cy="21" r="1" fill="#00c9ec" />
+    <circle cx="44" cy="21" r="1" fill="#00c9ec" />
+    <path stroke="#00c9ec" stroke-width="2" d="m34.5 19 1.639-.745a24 24 0 0 1 8.09-2.08L46.5 16" />
     <path
-      stroke="currentColor"
-      stroke-width="2"
-      d="m34.5 19 1.639-.745a24 24 0 0 1 8.09-2.08L46.5 16"
-    />
-    <path
-      stroke="currentColor"
+      stroke="#00c9ec"
       stroke-linecap="round"
       stroke-linejoin="round"
       stroke-width="2"
