@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import Icon from '@/components/shared/icon';
+import { Icon } from '@/components/shared';
 
 export const GNB = () => {
   return (
