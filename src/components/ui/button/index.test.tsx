@@ -11,6 +11,11 @@ describe('버튼 컴포넌트 테스트', () => {
     expect(element).toBeInTheDocument();
   });
 
+  test('기본 type이 button인지 테스트', () => {
+    render(<Button>Click</Button>);
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'button');
+  });
+
   test('default(primary) variant 테스트', () => {
     render(<Button>버튼</Button>);
 

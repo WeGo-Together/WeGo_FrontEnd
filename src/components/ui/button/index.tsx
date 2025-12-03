@@ -28,11 +28,19 @@ const buttonVariants = cva(
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'tertiary';
   size?: 'md' | 'sm';
+  type?: 'button' | 'submit' | 'reset';
 }
 
-export const Button = ({ className, variant, size, children, ...props }: ButtonProps) => {
+export const Button = ({
+  className,
+  variant,
+  size,
+  children,
+  type = 'button',
+  ...props
+}: ButtonProps) => {
   return (
-    <button className={cn(buttonVariants({ variant, size }), className)} {...props}>
+    <button className={cn(buttonVariants({ variant, size }), className)} type={type} {...props}>
       {children}
     </button>
   );
