@@ -1,4 +1,4 @@
-import Icon from '@/components/shared/icon';
+import { Icon } from '../../../icon';
 
 type CardInfoRowProps = {
   iconId: 'map-pin' | 'calendar';
