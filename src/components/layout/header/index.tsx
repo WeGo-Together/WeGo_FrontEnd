@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export const Header = () => {
   return (
-    <header className='sticky top-0 h-14 w-full bg-white px-4 py-2'>
+    <header className='sticky top-0 z-100 h-14 w-full bg-white px-4 py-2'>
       <nav className='flex-between'>
         <Link href={'/'}>
           <svg width={92} height={40}>
