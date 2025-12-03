@@ -4,7 +4,7 @@ import { User } from '@/types/service/user';
 
 import { mockUserItems } from './users-mock';
 
-const getUserItemMock = http.get(`http://localhost:4000/api/v1/users/:userId`, ({ params }) => {
+const getUserItemMock = http.get(`*/api/v1/users/:userId`, ({ params }) => {
   const id = Number(params.userId);
   const user = mockUserItems.find((item) => item.id === id);
 
@@ -15,7 +15,7 @@ const getUserItemMock = http.get(`http://localhost:4000/api/v1/users/:userId`, (
   return HttpResponse.json(user);
 });
 
-const updateUserItemMock = http.patch(`http://localhost:4000/api/v1/users`, async ({ request }) => {
+const updateUserItemMock = http.patch(`*/api/v1/users`, async ({ request }) => {
   const body = (await request.json()) as User;
   return HttpResponse.json({
     ...mockUserItems[0],
@@ -23,20 +23,17 @@ const updateUserItemMock = http.patch(`http://localhost:4000/api/v1/users`, asyn
   });
 });
 
-const deleteUserItemMock = http.delete(`http://localhost:4000/api/v1/users`, async () => {
+const deleteUserItemMock = http.delete(`*/api/v1/users`, async () => {
   return new HttpResponse(null, { status: 204 });
 });
 
-const followUserItemMock = http.post(`http://localhost:4000/api/v1/follows`, async () => {
+const followUserItemMock = http.post(`*/api/v1/follows`, async () => {
   return new HttpResponse(null, { status: 204 });
 });
 
-const unfollowUserItemMock = http.delete(
-  `http://localhost:4000/api/v1/follows/:followId`,
-  async () => {
-    return new HttpResponse(null, { status: 204 });
-  },
-);
+const unfollowUserItemMock = http.delete(`*/api/v1/follows/:followId`, async () => {
+  return new HttpResponse(null, { status: 204 });
+});
 
 export const userHandlers = [
   getUserItemMock,
