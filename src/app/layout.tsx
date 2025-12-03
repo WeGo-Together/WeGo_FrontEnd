@@ -6,7 +6,7 @@ import { Header, LayoutWrapper } from '@/components/layout';
 import { initMocks } from '@/mock';
 
 import { pretendard } from '../lib/fonts';
-import { Providers } from './Providers';
+import { Providers } from './providers';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
