@@ -1,32 +1,15 @@
 import { type ComponentProps } from 'react';
 
-type IconId =
-  | 'calendar'
-  | 'chevron-down'
-  | 'chevron-true'
-  | 'congratulate'
-  | 'home'
-  | 'map-pin'
-  | 'message'
-  | 'plus'
-  | 'plus-circle'
-  | 'search'
-  | 'unread-false'
-  | 'unread-true'
-  | 'user'
-  | 'users'
-  | 'visibility-false'
-  | 'visibility-true'
-  | 'x';
+import { IconId } from '@/types/icons';
 
 type IconProps = ComponentProps<'svg'> & {
   id: IconId;
 };
 
-export default function Icon({ id, ...props }: IconProps) {
+export const Icon = ({ id, ...props }: IconProps) => {
   return (
     <svg width='24' height='24' {...props}>
       <use href={`/sprite.svg#${id}`} />
     </svg>
   );
-}
+};
