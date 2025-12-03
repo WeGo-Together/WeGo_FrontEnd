@@ -4,7 +4,7 @@ const createJestConfig = nextJest({
   dir: './',
 });
 
-const config = {
+const customJestConfig = {
   coverageProvider: 'v8',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
@@ -24,4 +24,15 @@ const config = {
   coverageDirectory: 'coverage',
 };
 
-export default createJestConfig(config);
+const jestConfig = async () => {
+  const nextJestConfig = await createJestConfig(customJestConfig)();
+  return {
+    ...nextJestConfig,
+    moduleNameMapper: {
+      '\\.svg$': '<rootDir>/src/mock/svg.tsx',
+      ...nextJestConfig.moduleNameMapper,
+    },
+  };
+};
+
+export default jestConfig;

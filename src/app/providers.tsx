@@ -1,4 +1,5 @@
 'use client';
+import { ModalProvider } from '@/components/ui/modal';
 import { LazyMotionProvider, MSWProvider, QueryProvider } from '@/providers';
 
 interface Props {
@@ -9,7 +10,9 @@ export const Providers = ({ children }: Props) => {
   return (
     <QueryProvider>
       <MSWProvider>
-        <LazyMotionProvider>{children}</LazyMotionProvider>
+        <LazyMotionProvider>
+          <ModalProvider>{children}</ModalProvider>
+        </LazyMotionProvider>
       </MSWProvider>
     </QueryProvider>
   );
