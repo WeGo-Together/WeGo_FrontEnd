@@ -1,3 +1,3 @@
-export * from './hint';
-export * from './input';
-export * from './label';
+export { Hint } from './hint';
+export { Input } from './input';
+export { Label } from './label';

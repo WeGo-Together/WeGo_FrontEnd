@@ -2,68 +2,62 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import { FormInput } from './index';
 
-const meta: Meta<typeof FormInput> = {
-  title: 'shared/FormInput',
+const meta = {
+  title: 'Components/FormInput',
   component: FormInput,
   tags: ['autodocs'],
-  argTypes: {
-    required: { control: 'boolean' },
-    labelName: { control: 'text' },
-    placeholder: { control: 'text' },
-    type: {
-      control: { type: 'select' },
-      options: ['text', 'email', 'password'],
-    },
-    hintMessage: { control: 'text' },
-    id: { control: 'text' },
+  parameters: {
+    layout: 'centered',
   },
-};
+  args: {
+    labelName: '라벨',
+    placeholder: '값을 입력하세요',
+  },
+} satisfies Meta<typeof FormInput>;
 
 export default meta;
 
-type Story = StoryObj<typeof FormInput>;
+type Story = StoryObj<typeof meta>;
 
-// 기본 스토리
+// 기본 텍스트 인풋
 export const Default: Story = {
   args: {
-    id: 'email', // 변경: 실제로 id 사용 예시를 보여주는 게 좋음
-    required: true,
-    labelName: '아이디',
-    placeholder: '아이디를 입력해주세요.',
-    type: 'email',
-  },
-};
-
-// 닉네임 스토리
-export const Nickname: Story = {
-  args: {
-    id: 'nickname',
-    required: true,
-    labelName: '닉네임',
-    placeholder: '닉네임을 입력해주세요.',
     type: 'text',
+    hintMessage: '',
+    required: false,
   },
 };
 
-// 비밀번호 스토리
+// 힌트가 있는 인풋
+export const WithHint: Story = {
+  args: {
+    type: 'text',
+    labelName: '이메일',
+    placeholder: 'name@example.com',
+    hintMessage: '가입에 사용할 이메일을 입력하세요.',
+    required: true,
+  },
+};
+
+// 비밀번호 인풋 (눈 아이콘 토글 동작 확인용)
 export const Password: Story = {
   args: {
-    id: 'password',
-    required: true,
-    labelName: '비밀번호',
-    placeholder: '비밀번호를 입력해주세요.',
     type: 'password',
+    labelName: '비밀번호',
+    placeholder: '비밀번호를 입력하세요',
+    hintMessage: '영문, 숫자, 특수문자를 포함해 주세요.',
+    required: true,
   },
 };
 
-// 에러 메시지 스토리
-export const WithError: Story = {
+// 에러 상태 예시 (스타일은 프로젝트 스타일에 맞춰 조정)
+export const ErrorState: Story = {
   args: {
-    id: 'email-with-error',
+    type: 'text',
+    labelName: '닉네임',
+    placeholder: '닉네임을 입력하세요',
+    hintMessage: '이미 사용 중인 닉네임입니다.',
     required: true,
-    labelName: '아이디',
-    placeholder: '아이디를 입력해주세요.',
-    type: 'email',
-    hintMessage: '올바른 이메일 형식이 아닙니다.',
+    className: ' [&>input]:border-red-500', // 필요에 따라 Input에 에러 스타일 적용
   },
 };

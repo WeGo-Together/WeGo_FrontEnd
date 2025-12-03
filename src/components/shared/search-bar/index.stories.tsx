@@ -1,33 +1,42 @@
+// SearchBar.stories.tsx
+
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import { SearchBar } from './index';
 
-const meta: Meta<typeof SearchBar> = {
-  title: 'shared/SearchBar',
+const meta = {
+  title: 'Components/SearchBar',
   component: SearchBar,
   tags: ['autodocs'],
-  argTypes: {
-    className: { control: 'text' },
-    placeholder: { control: 'text' },
-    onIconClick: { action: 'search icon clicked' },
+  parameters: {
+    layout: 'centered',
   },
-};
+  argTypes: {
+    onSearch: { action: 'searched' },
+    onChange: { action: 'changed' },
+  },
+  args: {
+    placeholder: '검색어를 입력하세요',
+  },
+} satisfies Meta<typeof SearchBar>;
 
 export default meta;
 
-type Story = StoryObj<typeof SearchBar>;
+type Story = StoryObj<typeof meta>;
 
-// 기본 스토리
-export const Default: Story = {
+// 기본 검색바
+export const Default: Story = {};
+
+// 넓은 너비를 가진 검색바 예시
+export const FullWidth: Story = {
   args: {
-    placeholder: '원하는 모임을 검색해보세요.',
+    className: 'w-[440px]',
   },
 };
 
-// 커스텀 스타일 스토리 예시
-export const WithCustomWrapper: Story = {
+// 긴 placeholder 예시
+export const WithLongPlaceholder: Story = {
   args: {
-    placeholder: '원하는 모임을 검색해보세요.',
-    className: 'max-w-md mx-auto',
+    placeholder: '검색어를 입력한 뒤 엔터를 누르거나 아이콘을 클릭하세요',
   },
 };

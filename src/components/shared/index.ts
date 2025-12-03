@@ -1,3 +1,3 @@
-export * from './form-input';
-export * from './icon';
-export * from './search-bar';
+export { FormInput } from './form-input';
+export { Icon } from './icon';
+export { SearchBar } from './search-bar';
