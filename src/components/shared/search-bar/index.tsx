@@ -1,21 +1,18 @@
 import { Input } from '@/components/ui';
+import { cn } from '@/lib/utils';
 
-interface SearchBarProps {
-  className?: string;
-  placeholder?: string;
+interface SearchBarProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  onIconClick?: () => void;
 }
 
-export const SearchBar = ({ className, placeholder, ...props }: SearchBarProps) => {
+export const SearchBar = ({ className, placeholder, onIconClick, ...props }: SearchBarProps) => {
   return (
-    <div className={`flex w-full flex-col gap-2 ${className ?? ''}`}>
+    <div className={cn('flex w-full flex-col gap-2', className)}>
       <Input
-        id='password'
-        className='focus:border-mint-500 rounded-3xl border border-transparent bg-gray-100 focus:outline-none'
+        className='focus:border-mint-500 rounded-3xl border border-transparent bg-gray-100'
         placeholder={placeholder}
         type='search'
-        onIconClick={() => {
-          console.log('Search icon clicked');
-        }}
+        onIconClick={onIconClick}
         {...props}
       />
     </div>

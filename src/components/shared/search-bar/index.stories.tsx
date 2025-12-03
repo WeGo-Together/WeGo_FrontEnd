@@ -9,6 +9,7 @@ const meta: Meta<typeof SearchBar> = {
   argTypes: {
     className: { control: 'text' },
     placeholder: { control: 'text' },
+    onIconClick: { action: 'search icon clicked' },
   },
 };
 
@@ -20,5 +21,13 @@ type Story = StoryObj<typeof SearchBar>;
 export const Default: Story = {
   args: {
     placeholder: '원하는 모임을 검색해보세요.',
+  },
+};
+
+// 커스텀 스타일 스토리 예시
+export const WithCustomWrapper: Story = {
+  args: {
+    placeholder: '원하는 모임을 검색해보세요.',
+    className: 'max-w-md mx-auto',
   },
 };

@@ -1,9 +1,17 @@
-interface HintProps extends React.InputHTMLAttributes<HTMLInputElement> {
+import { cn } from '@/lib/utils';
+
+interface HintProps extends React.HTMLAttributes<HTMLParagraphElement> {
   message?: string;
 }
 
-export const Hint = ({ className, message }: HintProps) => {
+export const Hint = ({ className, message, ...props }: HintProps) => {
   return (
-    <p className={`text-error-500 text-text-sm-medium w-full px-2 ${className ?? ''}`}>{message}</p>
+    <p
+      {...props}
+      className={cn('text-error-500 text-text-sm-medium w-full px-2', className)}
+      aria-live='polite'
+    >
+      {message}
+    </p>
   );
 };

@@ -10,8 +10,12 @@ const meta: Meta<typeof FormInput> = {
     required: { control: 'boolean' },
     labelName: { control: 'text' },
     placeholder: { control: 'text' },
-    inputType: { control: 'text' },
+    type: {
+      control: { type: 'select' },
+      options: ['text', 'email', 'password'],
+    },
     hintMessage: { control: 'text' },
+    id: { control: 'text' },
   },
 };
 
@@ -22,29 +26,44 @@ type Story = StoryObj<typeof FormInput>;
 // 기본 스토리
 export const Default: Story = {
   args: {
+    id: 'email', // 변경: 실제로 id 사용 예시를 보여주는 게 좋음
     required: true,
     labelName: '아이디',
     placeholder: '아이디를 입력해주세요.',
-    inputType: 'email',
+    type: 'email',
   },
 };
 
 // 닉네임 스토리
 export const Nickname: Story = {
   args: {
+    id: 'nickname',
     required: true,
     labelName: '닉네임',
     placeholder: '닉네임을 입력해주세요.',
-    inputType: 'text',
+    type: 'text',
   },
 };
 
 // 비밀번호 스토리
 export const Password: Story = {
   args: {
+    id: 'password',
     required: true,
     labelName: '비밀번호',
     placeholder: '비밀번호를 입력해주세요.',
-    inputType: 'password',
+    type: 'password',
+  },
+};
+
+// 에러 메시지 스토리
+export const WithError: Story = {
+  args: {
+    id: 'email-with-error',
+    required: true,
+    labelName: '아이디',
+    placeholder: '아이디를 입력해주세요.',
+    type: 'email',
+    hintMessage: '올바른 이메일 형식이 아닙니다.',
   },
 };

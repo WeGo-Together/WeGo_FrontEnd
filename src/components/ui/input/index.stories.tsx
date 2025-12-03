@@ -3,13 +3,17 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Input } from './index';
 
 const meta: Meta<typeof Input> = {
-  title: 'UI/Input', // Storybook 사이드바에 표시될 경로
+  title: 'UI/Input',
   component: Input,
-  tags: ['autodocs'], // Docs 자동 생성
+  tags: ['autodocs'],
   argTypes: {
     placeholder: { control: 'text' },
-    type: { control: 'text' },
+    type: {
+      control: { type: 'select' },
+      options: ['text', 'password', 'search'],
+    },
     disabled: { control: 'boolean' },
+    onIconClick: { action: 'icon clicked' },
   },
 };
 
@@ -33,8 +37,8 @@ export const Password: Story = {
   },
 };
 
-// Custom
-export const Custom: Story = {
+// 검색용 스토리
+export const Search: Story = {
   args: {
     placeholder: '검색해보세요',
     type: 'search',
