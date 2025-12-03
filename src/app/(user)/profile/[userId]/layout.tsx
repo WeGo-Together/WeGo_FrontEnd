@@ -3,8 +3,8 @@ import { redirect } from 'next/navigation';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
 import { API } from '@/api';
+import { getQueryClient } from '@/lib/query-client';
 import { userKeys } from '@/lib/query-key/query-key-user';
-import { getQueryClient } from '@/lib/queryClient';
 
 interface Props {
   children: React.ReactNode;
