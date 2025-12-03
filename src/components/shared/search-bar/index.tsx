@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { Icon } from '@/components/shared/icon';
+import { Icon } from '@/components/icon';
 import { Input } from '@/components/ui';
 import { cn } from '@/lib/utils';
 

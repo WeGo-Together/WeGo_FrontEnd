@@ -2,7 +2,7 @@
 
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { Icon } from '@/components/shared/icon';
+import { Icon } from '@/components/icon';
 
 import { Input } from './index';
 
