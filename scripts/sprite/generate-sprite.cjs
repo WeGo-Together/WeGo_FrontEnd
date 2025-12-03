@@ -4,13 +4,26 @@ const path = require('path');
 const SVGSpriter = require('svg-sprite');
 const prettier = require('prettier');
 
-// 색상 변환 제외할 파일명 목록
-const EXCLUDE_COLOR_TRANSFORM = [
-  'congratulate',
-  'plus-circle',
-  'visibility-false',
-  'visibility-true',
+// 색상 변환 적용 파일명 목록
+const INCLUDE_COLOR_TRANSFORM = [
+  'calendar',
+  'chevron-down',
+  'chevron-up',
+  // 'congratulate',
+  // 'cowbell',
+  'home',
+  'map-pin',
+  'message',
+  // 'plus-circle',
+  'search',
+  'unread-false',
   'unread-true',
+  'user',
+  'users',
+  // 'visibility-false',
+  // 'visibility-true',
+  // 'wego-logo',
+  'x',
 ];
 
 const config = {
@@ -37,7 +50,7 @@ const config = {
         }
 
         const fileName = path.basename(filePath, '.svg').replace(/^icon-/, '');
-        const shouldTransformColors = !EXCLUDE_COLOR_TRANSFORM.includes(fileName);
+        const shouldTransformColors = INCLUDE_COLOR_TRANSFORM.includes(fileName);
 
         const svgoConfig = {
           plugins: [
@@ -70,7 +83,44 @@ const config = {
   },
 };
 
+// TypeScript 타입 파일 생성 함수
+async function generateTypeFile(iconIds) {
+  const icons = iconIds.map((id) => ({
+    id,
+    enableChangeColor: INCLUDE_COLOR_TRANSFORM.includes(id),
+  }));
+
+  const typeContent = `// This file is auto-generated. Do not edit manually.
+
+export const ICONS = [
+  ${icons.map((icon) => `{ id: '${icon.id}', enableChangeColor: ${icon.enableChangeColor} }`).join(',\n  ')},
+] as const;
+
+export type IconId = typeof ICONS[number]['id'];
+`;
+
+  const typesDir = path.join(__dirname, '../../src/types/icons');
+  const typeFilePath = path.join(typesDir, 'index.ts');
+
+  try {
+    const formatted = await prettier.format(typeContent, {
+      parser: 'typescript',
+      printWidth: 100,
+      tabWidth: 2,
+      singleQuote: true,
+      trailingComma: 'all',
+    });
+
+    fs.mkdirSync(typesDir, { recursive: true });
+    fs.writeFileSync(typeFilePath, formatted);
+    console.log('✅ Type file generated:', typeFilePath);
+  } catch (err) {
+    console.error('⚠️  Type file generation failed:', err.message);
+  }
+}
+
 const spriter = new SVGSpriter(config);
+const iconIds = [];
 
 const iconsDir = path.join(__dirname, '../../public/icons');
 const files = fs.readdirSync(iconsDir);
@@ -79,6 +129,8 @@ files.forEach((file) => {
   if (file.endsWith('.svg')) {
     const filePath = path.join(iconsDir, file);
     const content = fs.readFileSync(filePath, 'utf8');
+    const iconId = path.basename(file, '.svg').replace(/^icon-/, '');
+    iconIds.push(iconId);
     spriter.add(filePath, null, content);
   }
 });
@@ -110,5 +162,9 @@ spriter.compile(async (error, result) => {
       }
     }
   }
+
   console.log('✅ Sprite generated and formatted!');
+
+  // 타입 파일 생성
+  await generateTypeFile(iconIds.sort());
 });
