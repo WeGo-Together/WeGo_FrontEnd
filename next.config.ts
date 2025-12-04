@@ -14,6 +14,14 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'plus.unsplash.com',
+      },
     ],
     //imagesSizes, deviceSizes는 기본 설정
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
