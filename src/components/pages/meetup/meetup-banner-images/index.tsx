@@ -1,14 +1,14 @@
 'use client';
 
+import 'swiper/css';
+import 'swiper/css/pagination';
+
 import './index.css';
 
 import Image from 'next/image';
 
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-import 'swiper/css';
-import 'swiper/css/pagination';
 
 interface Props {
   images: string[];
