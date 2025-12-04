@@ -57,14 +57,14 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
       {children}
       {mounted &&
         createPortal(
-          <div className='pointer-events-none fixed inset-0 z-99999 flex items-center justify-center'>
+          <div>
             <AnimatePresence mode='popLayout'>
               {toasts.map((t, i) => {
                 const toastIndex = toasts.length - 1 - i;
                 return (
                   <m.div
                     key={t.id}
-                    className='pointer-events-auto absolute bottom-35'
+                    className='pointer-events-auto absolute bottom-35 left-1/2 z-99999 -translate-x-1/2'
                     animate={{
                       opacity: toastIndex > 2 ? 0 : 1 - toastIndex * 0.01,
                       y: toastIndex * 10,
