@@ -67,9 +67,11 @@ jobs:
 
       - name: Build Project
         run: pnpm run build
+        env:
+          NEXT_PUBLIC_API_BASE_URL: ${{ vars.NEXT_PUBLIC_API_BASE_URL }}
 
       - name: Compress Files
-        run: tar -czvf ${{ env.COMPRESSED_FILE_NAME }} .next package.json pnpm-lock.yaml
+        run: tar -czvf ${{ env.COMPRESSED_FILE_NAME }} .next package.json pnpm-lock.yaml public next.config.ts
 
       - name: Send Scripts to EC2
         uses: appleboy/scp-action@v0.1.7
@@ -121,8 +123,7 @@ jobs:
               "$APP_DIR" \
               "$APP_PORT" \
               "$PM2_APP_NAME" \
-              "$COMPRESSED_FILE_NAME" \
-              "${{ vars.ENV_VARIABLE }}"
+              "$COMPRESSED_FILE_NAME"
 
       - name: NGINX Setup
         uses: appleboy/ssh-action@v1
