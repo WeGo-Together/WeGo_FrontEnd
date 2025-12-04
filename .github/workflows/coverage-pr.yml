@@ -16,6 +16,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Create initial Report
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const script = require('./.github/scripts/coverage-initial-comment.cjs');
+            await script({ github, context });
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
 
