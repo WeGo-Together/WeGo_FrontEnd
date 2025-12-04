@@ -7,7 +7,6 @@ import { useToast } from './core';
 const meta = {
   title: 'Components/Toast',
   component: Toast,
-  decorators: [(Story) => <Story />],
   parameters: {
     layout: 'centered',
   },
