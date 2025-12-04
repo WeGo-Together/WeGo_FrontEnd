@@ -13,7 +13,7 @@ declare global {
 
 const config = {
   enabledInDevelopment: true,
-  enabledInProduction: false,
+  enabledInProduction: true,
   onUnhandledRequest: 'bypass' as const, // bypass | warn | error
 };
 

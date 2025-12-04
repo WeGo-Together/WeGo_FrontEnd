@@ -9,7 +9,7 @@ export const ICONS = [
   { id: 'home', enableChangeColor: true },
   { id: 'map-pin', enableChangeColor: true },
   { id: 'message', enableChangeColor: true },
-  { id: 'plus', enableChangeColor: false },
+  { id: 'plus', enableChangeColor: true },
   { id: 'plus-circle', enableChangeColor: false },
   { id: 'search', enableChangeColor: true },
   { id: 'unread-false', enableChangeColor: true },
