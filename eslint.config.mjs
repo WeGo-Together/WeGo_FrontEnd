@@ -103,6 +103,8 @@ const eslintConfig = defineConfig([
         'warn',
         {
           groups: [
+            // Swiper CSS imports
+            ['swiper/css*'],
             // CSS imports
             ['\\.css$'],
             // Next.js (일반 import)

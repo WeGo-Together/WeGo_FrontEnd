@@ -1,3 +1,3 @@
-import { usersHandlers } from './service/users/users-handler';
+import { userHandlers } from './service/user/users-handler';
 
-export const handlers = [...usersHandlers];
+export const handlers = [...userHandlers];
