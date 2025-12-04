@@ -20,7 +20,7 @@ module.exports = async ({ github, context }) => {
   });
 
   const botComment = comments.find(
-    (comment) => comment.user.type === 'Bot' && comment.body.includes('## 🚀 PR Preview Report'),
+    (comment) => comment.user.type === 'Bot' && comment.body.includes('## 📊 Coverage Report'),
   );
 
   // 기존 코멘트 있으면 수정, 없으면 생성
