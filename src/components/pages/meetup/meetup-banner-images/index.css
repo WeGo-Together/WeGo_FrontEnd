@@ -1,0 +1,18 @@
+/* 
+  기존 SwiperJs Pagination Style 덮어쓰기 (커스텀 색상, 위치 변경)
+*/
+
+.swiper-pagination-bullet {
+  background-color: #ffffff; /* Inactive bullet color */
+  opacity: 0.5;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #ffffff;
+  opacity: 1;
+}
+
+.swiper-pagination {
+  pointer-events: none;
+  bottom: 10px !important;
+}

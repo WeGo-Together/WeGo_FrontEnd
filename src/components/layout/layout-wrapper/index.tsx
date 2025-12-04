@@ -7,7 +7,7 @@ interface Props {
 
 export const LayoutWrapper = ({ children }: Props) => {
   return (
-    <div className='relative mx-auto max-w-[440px] bg-blue-200'>
+    <div className='relative mx-auto max-w-[440px] bg-white'>
       <Header />
       <main className='min-h-[calc(100vh-112px)]'>{children}</main>
       <GNB />
