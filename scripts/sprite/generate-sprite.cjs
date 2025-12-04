@@ -17,6 +17,7 @@ const INCLUDE_COLOR_TRANSFORM = [
   // 'plus-circle',
   'plus',
   'search',
+  'small-x',
   'unread-false',
   'unread-true',
   'user',
