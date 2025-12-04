@@ -1,6 +1,6 @@
 'use client';
 
-import { FollowingCard } from '../message-followingCard';
+import { FollowingCard } from '../message-following-card';
 
 interface FollowingItem {
   name: string;
