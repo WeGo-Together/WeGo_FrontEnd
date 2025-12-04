@@ -5,7 +5,7 @@ import {
   MeetupMembers,
 } from '@/components/pages/meetup';
 
-const MeetupPage = () => {
+const MeetupDetailPage = () => {
   return (
     <div>
       <MeetupBannerImages images={DUMMY_MEETUP_DATA.bannerImages} />
@@ -20,7 +20,7 @@ const MeetupPage = () => {
   );
 };
 
-export default MeetupPage;
+export default MeetupDetailPage;
 
 // 바인딩 테스트용 더미 데이터임 (무시하세요)
 export const DUMMY_MEETUP_DATA = {

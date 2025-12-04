@@ -24,3 +24,7 @@ export interface UpdateMePayload {
 }
 
 export type UpdateMeResponse = GetUserResponse;
+
+export interface Follow {
+  followeeId: number;
+}

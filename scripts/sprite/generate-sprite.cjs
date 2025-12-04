@@ -15,6 +15,7 @@ const INCLUDE_COLOR_TRANSFORM = [
   'map-pin',
   'message',
   // 'plus-circle',
+  'plus',
   'search',
   'unread-false',
   'unread-true',
