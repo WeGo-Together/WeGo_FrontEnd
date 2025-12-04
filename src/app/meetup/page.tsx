@@ -58,7 +58,7 @@ const MOCK_MEETINGS = [
   },
 ];
 
-export default function MeetingsPage() {
+export default function MeetupPage() {
   return (
     <main className='min-h-screen bg-[#F1F5F9]'>
       <section className='flex w-full flex-col gap-4 px-4 py-4'>
