@@ -10,3 +10,4 @@ export {
   ModalTitle,
   useModal,
 } from './modal';
+export { Toast } from './toast';
