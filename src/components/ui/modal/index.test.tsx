@@ -94,4 +94,32 @@ describe('Modal', () => {
       expect(screen.queryByText('테스트 모달')).not.toBeInTheDocument();
     });
   });
+
+  test('Modal이 열린 상태에서는 Tab 키로 Modal 내부에서만 Focus가 순환한다.', async () => {
+    const user = userEvent.setup();
+    // 모달 열기
+    const openButton = screen.getByText('모달 열기');
+    await user.click(openButton);
+
+    // 모달이 열리면 첫 번째 focusable 요소에 포커스
+    expect(screen.getByText('첫 번째 버튼')).toHaveFocus();
+
+    // Tab으로 다음 요소로 이동
+    await user.keyboard('{Tab}');
+    expect(screen.getByText('두 번째 버튼')).toHaveFocus();
+
+    await user.keyboard('{Tab}');
+    expect(screen.getByText('세 번째 버튼')).toHaveFocus();
+
+    await user.keyboard('{Tab}');
+    expect(screen.getByLabelText('모달 닫기')).toHaveFocus();
+
+    // 마지막 요소에서 Tab 누르면 첫 번째로 순환
+    await user.keyboard('{Tab}');
+    expect(screen.getByText('첫 번째 버튼')).toHaveFocus();
+
+    // Shift+Tab으로 역방향 이동
+    await user.keyboard('{Shift>}{Tab}{/Shift}');
+    expect(screen.getByLabelText('모달 닫기')).toHaveFocus();
+  });
 });
