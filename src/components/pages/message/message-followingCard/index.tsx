@@ -1,5 +1,7 @@
 import Image from 'next/image';
 
+import { cn } from '@/lib/utils';
+
 interface FollowingCardProps {
   name: string;
   profileImage: string;
@@ -22,7 +24,7 @@ const FollowingCard = ({
   return (
     <div
       data-testid='following-card'
-      className='flex items-center gap-3 bg-white p-5 hover:cursor-pointer'
+      className='flex cursor-pointer items-center gap-3 bg-white p-5'
       onClick={onClick}
     >
       <Image
@@ -35,7 +37,11 @@ const FollowingCard = ({
       <div className='flex flex-1 flex-col'>
         <span className='text-text-md-bold text-gray-800'>{name}</span>
         <span
-          className={`text-text-sm-medium line-clamp-1 ${type === 'following' ? 'text-gray-500' : 'text-gray-700'}`}
+          className={cn(
+            'text-text-sm-medium line-clamp-1',
+            type === 'following' && 'text-gray-500',
+            type === 'message' && 'text-gray-700',
+          )}
         >
           {profileMessage}
         </span>
@@ -43,7 +49,7 @@ const FollowingCard = ({
       {/* 탭이 following 인지 message인지에 따라 달라지는 요소. */}
       {type === 'following' ? (
         <button
-          className='text-text-xs-semibold rounded-lg bg-gray-100 px-5 py-1 text-gray-800 transition hover:cursor-pointer hover:opacity-80'
+          className='text-text-xs-semibold cursor-pointer rounded-lg bg-gray-100 px-5 py-1 text-gray-800 transition hover:opacity-80'
           onClick={(e) => {
             e.stopPropagation();
             onMessageClick?.();
