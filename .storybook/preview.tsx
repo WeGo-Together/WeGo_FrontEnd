@@ -2,6 +2,7 @@ import '@/styles/globals.css';
 
 import type { Preview } from '@storybook/nextjs';
 
+import { Providers } from '../src/app/providers';
 import { pretendard } from '../src/lib/fonts';
 
 (() => {
@@ -26,6 +27,13 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <Providers>
+        <Story />
+      </Providers>
+    ),
+  ],
 };
 
 export default preview;

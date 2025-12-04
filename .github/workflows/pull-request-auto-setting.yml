@@ -1,4 +1,4 @@
-name: Auto Apply Reviewers
+name: Auto Apply PR Settings
 
 on:
   pull_request:
@@ -29,6 +29,7 @@ jobs:
 
             let reviewers = reviewerMap[author];
 
+            // 리뷰어 등록
             if (reviewers) {
               reviewers = reviewers.filter(reviewer => reviewer !== author);
               
@@ -41,3 +42,11 @@ jobs:
                 });
               }
             }
+
+            // 본인을 담당자로 등록
+            await github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              assignees: [author]
+            });

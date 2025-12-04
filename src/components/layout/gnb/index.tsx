@@ -1,10 +1,10 @@
 import Link from 'next/link';
 
-import { Icon } from '@/components/shared';
+import { Icon } from '@/components/icon';
 
 export const GNB = () => {
   return (
-    <nav className='sticky bottom-0 z-100 h-14 bg-white py-2'>
+    <nav className='sticky bottom-0 z-100 h-14 border-t-1 border-gray-200 bg-white py-2'>
       <ul className='flex w-full justify-evenly gap-4'>
         {NAV_MENU.map(({ path, svgId }) => (
           <li key={path}>
