@@ -1,6 +1,10 @@
 import { TabNavigation } from '@/components/shared';
 
-import { SCHEDULE_TABS } from '../constants';
+const SCHEDULE_TABS = [
+  { label: '현재 모임', path: '/schedule/current' },
+  { label: '나의 모임', path: '/schedule/my' },
+  { label: '모임 이력', path: '/schedule/history' },
+];
 
 export default function ScheduleMyPage() {
   return (
