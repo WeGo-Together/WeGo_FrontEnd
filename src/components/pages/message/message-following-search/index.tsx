@@ -1,7 +1,6 @@
 'use client';
-import { Icon } from '@/components/shared';
-import { Button } from '@/components/ui/button';
-import { ModalContent, ModalTitle, useModal } from '@/components/ui/modal';
+import { Icon } from '@/components/icon';
+import { Button, ModalContent, ModalTitle, useModal } from '@/components/ui';
 
 const FollowerModal = () => {
   const { close } = useModal();
@@ -12,6 +11,7 @@ const FollowerModal = () => {
     close();
   };
 
+  // 모달 모양 바뀌면 적용하기!
   return (
     <ModalContent>
       <ModalTitle className='mb-3'>팔로우 할 닉네임을 입력하세요</ModalTitle>
@@ -37,25 +37,18 @@ const FollowerModal = () => {
   );
 };
 
-const Following = () => {
+export const FollowingSearch = () => {
   const { open } = useModal();
   return (
-    <div>
-      <div
-        className='mb-5 flex items-center gap-5 px-5 py-4 transition-all hover:cursor-pointer hover:opacity-80'
-        onClick={() => open(<FollowerModal />)}
-      >
-        <div className='rounded-full border-2 border-dashed border-gray-400 bg-gray-100 p-2'>
-          <Icon id='plus' className='size-6 text-gray-700' />
-        </div>
-
-        <span className='text-text-md-bold'>팔로우 추가</span>
+    <div
+      className='flex items-center gap-5 px-5 py-4 transition-all hover:cursor-pointer hover:opacity-80'
+      onClick={() => open(<FollowerModal />)}
+    >
+      <div className='rounded-full border-2 border-dashed border-gray-400 bg-gray-100 p-2'>
+        <Icon id='plus' className='size-6 text-gray-700' />
       </div>
 
-      <div>친구목록</div>
-      {/* 친구 가져오기 */}
+      <span className='text-text-md-bold'>팔로우 추가</span>
     </div>
   );
 };
-
-export default Following;
