@@ -20,7 +20,11 @@ const FollowingCard = ({
   onMessageClick,
 }: FollowingCardProps) => {
   return (
-    <div className='flex items-center gap-3 bg-white p-5 hover:cursor-pointer' onClick={onClick}>
+    <div
+      data-testid='following-card'
+      className='flex items-center gap-3 bg-white p-5 hover:cursor-pointer'
+      onClick={onClick}
+    >
       <Image
         width={48}
         className='size-12 rounded-full object-cover'
