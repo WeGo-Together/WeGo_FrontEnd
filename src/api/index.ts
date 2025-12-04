@@ -1,10 +1,10 @@
-import { usersServiceRemote } from './service';
+import { userServiceRemote } from './service';
 
 const provideAPIService = () => {
-  const usersService = usersServiceRemote();
+  const userService = userServiceRemote();
 
   return {
-    usersService,
+    usersService: userService,
   };
 };
 
