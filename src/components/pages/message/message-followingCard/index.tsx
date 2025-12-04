@@ -1,0 +1,61 @@
+import Image from 'next/image';
+
+interface FollowingCardProps {
+  name: string;
+  profileImage: string;
+  profileMessage: string;
+  type: 'following' | 'message';
+  count?: number;
+  onClick?: () => void;
+  onMessageClick?: () => void;
+}
+
+const FollowingCard = ({
+  name,
+  profileImage,
+  profileMessage,
+  type,
+  count = 0,
+  onClick,
+  onMessageClick,
+}: FollowingCardProps) => {
+  return (
+    <div className='flex items-center gap-3 bg-white p-5 hover:cursor-pointer' onClick={onClick}>
+      <Image
+        width={48}
+        className='size-12 rounded-full object-cover'
+        alt={name}
+        height={48}
+        src={profileImage}
+      />
+      <div className='flex flex-1 flex-col'>
+        <span className='text-text-md-bold text-gray-800'>{name}</span>
+        <span
+          className={`text-text-sm-medium line-clamp-1 ${type === 'following' ? 'text-gray-500' : 'text-gray-700'}`}
+        >
+          {profileMessage}
+        </span>
+      </div>
+      {/* 탭이 following 인지 message인지에 따라 달라지는 요소. */}
+      {type === 'following' ? (
+        <button
+          className='text-text-xs-semibold rounded-lg bg-gray-100 px-5 py-1 text-gray-800 transition hover:cursor-pointer hover:opacity-80'
+          onClick={(e) => {
+            e.stopPropagation();
+            onMessageClick?.();
+          }}
+        >
+          메세지
+        </button>
+      ) : (
+        <span
+          className={`bg-mint-500 text-mono-white text-text-xs-bold rounded-full px-2 py-0.5 ${count === 0 ? 'opacity-0' : ''} `}
+        >
+          {count > 99 ? '99+' : count}
+        </span>
+      )}
+    </div>
+  );
+};
+
+export default FollowingCard;
