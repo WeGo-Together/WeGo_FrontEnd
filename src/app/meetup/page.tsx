@@ -61,7 +61,7 @@ const MOCK_MEETINGS = [
 export default function MeetingsPage() {
   return (
     <main className='min-h-screen bg-[#F1F5F9]'>
-      <section className='mx-auto flex w-full max-w-[432px] flex-col gap-4 px-4 py-4'>
+      <section className='flex w-full flex-col gap-4 px-4 py-4'>
         {MOCK_MEETINGS.map((meeting) => (
           <Card
             key={meeting.id}
