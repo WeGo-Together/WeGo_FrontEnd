@@ -1,12 +1,17 @@
 'use client';
 
-import { useForm } from '@tanstack/react-form';
+import { type AnyFieldApi, useForm } from '@tanstack/react-form';
 
 import { FormInput } from '@/components/shared';
 import { Button } from '@/components/ui';
 import { loginSchema } from '@/lib/schema/auth';
 
-const getHintMessage = (errors: unknown[], isTouched: boolean, submissionAttempts: number) => {
+const getHintMessage = (field: AnyFieldApi) => {
+  const {
+    meta: { errors, isTouched },
+  } = field.state;
+  const { submissionAttempts } = field.form.state;
+
   const firstError = errors[0] as { message?: string } | undefined;
   const showError = isTouched || submissionAttempts > 0;
 
@@ -40,10 +45,7 @@ export const LoginForm = () => {
       <div className='flex-col-center w-full gap-4'>
         <form.Field name='email'>
           {(field) => {
-            const {
-              meta: { errors, isTouched },
-            } = field.state;
-            const hintMessage = getHintMessage(errors, isTouched, form.state.submissionAttempts);
+            const hintMessage = getHintMessage(field);
 
             return (
               <FormInput
@@ -63,10 +65,7 @@ export const LoginForm = () => {
 
         <form.Field name='password'>
           {(field) => {
-            const {
-              meta: { errors, isTouched },
-            } = field.state;
-            const hintMessage = getHintMessage(errors, isTouched, form.state.submissionAttempts);
+            const hintMessage = getHintMessage(field);
 
             return (
               <FormInput
@@ -88,19 +87,14 @@ export const LoginForm = () => {
         selector={(state) => ({
           canSubmit: state.canSubmit,
           isSubmitting: state.isSubmitting,
+          isPristine: state.isPristine,
         })}
       >
-        {({ canSubmit, isSubmitting }) => {
-          const disabled = !canSubmit || isSubmitting;
+        {({ canSubmit, isSubmitting, isPristine }) => {
+          const disabled = !canSubmit || isSubmitting || isPristine;
 
           return (
-            <Button
-              className='border-none'
-              disabled={disabled}
-              size='md'
-              type='submit'
-              variant='primary'
-            >
+            <Button disabled={disabled} size='md' type='submit' variant='primary'>
               로그인하기
             </Button>
           );
