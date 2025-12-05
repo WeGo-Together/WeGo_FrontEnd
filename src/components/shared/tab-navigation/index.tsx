@@ -51,7 +51,7 @@ export const TabNavigation = ({ tabs, paramName = 'tab', basePath = '' }: TabNav
   const currentTab = searchParams.get(paramName) || tabs[0].value;
 
   return (
-    <nav className='relative h-11 bg-white'>
+    <nav className='sticky top-0 z-50 h-11 bg-white'>
       <ul className='flex h-full w-full px-4'>
         {tabs.map((tab) => (
           <TabItem

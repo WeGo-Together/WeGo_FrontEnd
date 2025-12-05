@@ -49,3 +49,13 @@ export const ManyTags: Story = {
     tags: ['#러닝', '#아침운동', '#주말', '#건강', '#친목', '#초보환영'],
   },
 };
+
+export const WithActions: Story = {
+  args: {
+    ...Default.args,
+    leaveAndChatActions: {
+      onLeave: () => alert('모임 탈퇴'),
+      onChat: () => alert('채팅 입장'),
+    },
+  },
+};

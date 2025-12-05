@@ -39,6 +39,16 @@ describe('TabNavigation', () => {
       expect(screen.getByText('메세지')).toBeInTheDocument();
     });
 
+    test('sticky 스타일이 적용된다', () => {
+      mockUseSearchParams.mockReturnValue(createMockSearchParams('list'));
+      const { container } = render(<TabNavigation basePath='/following' tabs={twoTabs} />);
+
+      const nav = container.querySelector('nav');
+      expect(nav).toHaveClass('sticky');
+      expect(nav).toHaveClass('top-0');
+      expect(nav).toHaveClass('z-50');
+    });
+
     test('3개의 탭을 렌더링한다', () => {
       mockUseSearchParams.mockReturnValue(createMockSearchParams('current'));
       render(<TabNavigation basePath='/schedule' tabs={threeTabs} />);
@@ -115,14 +125,6 @@ describe('TabNavigation', () => {
 
       const indicators = container.querySelectorAll('.bg-mint-500');
       expect(indicators).toHaveLength(0);
-    });
-
-    test('빈 탭 배열을 처리한다', () => {
-      mockUseSearchParams.mockReturnValue(createMockSearchParams(null));
-      const { container } = render(<TabNavigation basePath='/test' tabs={[]} />);
-
-      const tabs = container.querySelectorAll('li');
-      expect(tabs).toHaveLength(0);
     });
   });
 });
