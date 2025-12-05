@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import FollowingCard from '.';
+import { FollowingCard } from '.';
 
 const meta = {
   title: 'Components/Following Card',
