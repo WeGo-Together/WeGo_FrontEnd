@@ -2,6 +2,7 @@
 
 import { use } from 'react';
 
+import { ProfileCard } from '@/components/pages/profile';
 import { useFollowUser, useGetUser, useUnfollowUser } from '@/hooks/use-user';
 
 interface Props {
@@ -12,7 +13,7 @@ const ProfilePage = ({ params }: Props) => {
   const { userId: id } = use(params);
   const userId = Number(id);
 
-  const { data } = useGetUser({ userId });
+  const { data: user } = useGetUser({ userId });
   const { mutate: followUser } = useFollowUser({ followeeId: userId });
 
   const { mutate: unfollowUser } = useUnfollowUser({ followeeId: userId });
@@ -25,11 +26,14 @@ const ProfilePage = ({ params }: Props) => {
     unfollowUser();
   };
 
+  console.log(user);
+
   return (
     <div>
-      <p>{data?.id}</p>
+      {user && <ProfileCard user={user} />}
+      {/* <p>{data?.id}</p>
       <p>{data?.nickName}</p>
-      <p>{data?.mbti}</p>
+      <p>{data?.mbti}</p> */}
 
       <button onClick={handleFollowClick}>팔로우</button>
       <button onClick={handleUnfollowClick}>팔로우 취소</button>
