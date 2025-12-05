@@ -39,13 +39,13 @@ describe('TabNavigation', () => {
       expect(screen.getByText('메세지')).toBeInTheDocument();
     });
 
-    test('sticky 스타일이 적용된다', () => {
+    test('sticky 스타일이 적용된다 (Header 아래 고정)', () => {
       mockUseSearchParams.mockReturnValue(createMockSearchParams('list'));
       const { container } = render(<TabNavigation basePath='/following' tabs={twoTabs} />);
 
       const nav = container.querySelector('nav');
       expect(nav).toHaveClass('sticky');
-      expect(nav).toHaveClass('top-0');
+      expect(nav).toHaveClass('top-14');
       expect(nav).toHaveClass('z-50');
     });
 
