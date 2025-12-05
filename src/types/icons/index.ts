@@ -12,6 +12,7 @@ export const ICONS = [
   { id: 'plus', enableChangeColor: true },
   { id: 'plus-circle', enableChangeColor: false },
   { id: 'search', enableChangeColor: true },
+  { id: 'small-x', enableChangeColor: true },
   { id: 'unread-false', enableChangeColor: true },
   { id: 'unread-true', enableChangeColor: true },
   { id: 'user', enableChangeColor: true },
