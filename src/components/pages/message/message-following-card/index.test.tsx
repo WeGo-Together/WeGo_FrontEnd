@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import FollowingCard from '.';
+import { FollowingCard } from '.';
 
 describe('FollowingCard 컴포넌트 테스트', () => {
   const defaultProps = {
