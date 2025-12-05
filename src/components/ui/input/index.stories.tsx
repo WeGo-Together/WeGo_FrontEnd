@@ -1,93 +1,61 @@
-// Input.stories.tsx
-
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import { Icon } from '@/components/icon';
 
 import { Input } from './index';
 
-const meta = {
+const meta: Meta<typeof Input> = {
   title: 'Components/Input',
   component: Input,
   tags: ['autodocs'],
-  parameters: {
-    layout: 'centered',
-  },
   argTypes: {
+    placeholder: { control: 'text' },
     type: {
-      control: 'text',
+      control: { type: 'select' },
+      options: ['text', 'email', 'password', 'search'],
     },
-    placeholder: {
-      control: 'text',
-    },
-    disabled: {
-      control: 'boolean',
-    },
-    className: {
-      control: 'text',
-    },
+    disabled: { control: 'boolean' },
+    className: { control: 'text' },
   },
-  args: {
-    placeholder: '값을 입력하세요',
-    type: 'text',
-  },
-} satisfies Meta<typeof Input>;
+};
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Input>;
 
-// 기본 인풋
+// 기본 텍스트 인풋
 export const Default: Story = {
-  render: (args) => (
-    <div className='w-[440px]'>
-      <Input {...args} />
-    </div>
-  ),
+  args: {
+    placeholder: '텍스트를 입력하세요',
+    type: 'text',
+  },
 };
 
 // 비밀번호 인풋
 export const Password: Story = {
   args: {
-    type: 'password',
     placeholder: '비밀번호를 입력하세요',
+    type: 'password',
   },
-  render: (args) => (
-    <div className='w-[440px]'>
-      <Input {...args} />
-    </div>
-  ),
 };
 
-// 오른쪽에 검색 아이콘 버튼이 있는 인풋
-export const WithSearchIcon: Story = {
+// 검색 아이콘이 포함된 인풋
+export const WithIconButton: Story = {
   args: {
-    type: 'search',
     placeholder: '검색어를 입력하세요',
+    type: 'search',
+    iconButton: (
+      <button className='absolute top-4 right-5 h-6 w-6' aria-label='검색 실행' type='button'>
+        <Icon id='search' className='text-mint-600' />
+      </button>
+    ),
   },
-  render: (args) => (
-    <div className='w-[440px]'>
-      <Input
-        {...args}
-        iconButton={
-          <button className='absolute top-4 right-5 h-6 w-6' aria-label='검색 실행' type='button'>
-            <Icon id='search' className='text-mint-600' />
-          </button>
-        }
-      />
-    </div>
-  ),
 };
 
 // 비활성화된 인풋
 export const Disabled: Story = {
   args: {
+    placeholder: '입력할 수 없습니다',
     disabled: true,
-    placeholder: '비활성 상태',
   },
-  render: (args) => (
-    <div className='w-[440px]'>
-      <Input {...args} />
-    </div>
-  ),
 };
