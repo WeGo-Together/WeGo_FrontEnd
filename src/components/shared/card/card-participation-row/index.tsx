@@ -12,7 +12,7 @@ export const CardParticipationRow = ({
   progress,
 }: CardParticipationRowProps) => {
   return (
-    <div className='mt-[14px] flex items-center'>
+    <div className='mt-3 flex h-[18px] items-center'>
       <div className='flex min-w-0 flex-1 items-center gap-1.5'>
         <Icon id='users' width={12} className='shrink-0 text-gray-600' height={12} />
         <div className='h-[6px] w-[200px] overflow-hidden rounded-full bg-gray-200 sm:w-[210px]'>

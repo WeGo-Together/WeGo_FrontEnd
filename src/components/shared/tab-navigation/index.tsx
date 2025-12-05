@@ -1,20 +1,24 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 
 export interface Tab {
   label: string;
-  path: string;
+  value: string;
 }
 
 interface TabNavigationProps {
   tabs: Tab[];
+  paramName?: string;
+  basePath?: string;
 }
 
-interface TabItemProps extends Tab {
+interface TabItemProps {
+  label: string;
+  href: string;
   isActive: boolean;
 }
 
@@ -27,10 +31,10 @@ const TAB_TEXT_STYLES = {
 const INDICATOR_STYLES = 'absolute bottom-0 left-0 z-10 h-[2px] w-full bg-mint-500';
 const BASE_LINE_STYLES = 'absolute bottom-0 left-0 right-0 h-[2px] bg-gray-200';
 
-const TabItem = ({ label, path, isActive }: TabItemProps) => (
+const TabItem = ({ label, href, isActive }: TabItemProps) => (
   <li className='relative flex-1'>
     <Link
-      href={path}
+      href={href}
       className={cn(
         TAB_TEXT_STYLES.base,
         isActive ? TAB_TEXT_STYLES.active : TAB_TEXT_STYLES.inactive,
@@ -42,14 +46,20 @@ const TabItem = ({ label, path, isActive }: TabItemProps) => (
   </li>
 );
 
-export const TabNavigation = ({ tabs }: TabNavigationProps) => {
-  const pathname = usePathname();
+export const TabNavigation = ({ tabs, paramName = 'tab', basePath = '' }: TabNavigationProps) => {
+  const searchParams = useSearchParams();
+  const currentTab = searchParams.get(paramName) || tabs[0].value;
 
   return (
-    <nav className='relative h-11 bg-white'>
+    <nav className='sticky top-0 z-50 h-11 bg-white'>
       <ul className='flex h-full w-full px-4'>
         {tabs.map((tab) => (
-          <TabItem key={tab.path} {...tab} isActive={pathname === tab.path} />
+          <TabItem
+            key={tab.value}
+            href={`${basePath}?${paramName}=${tab.value}`}
+            isActive={currentTab === tab.value}
+            label={tab.label}
+          />
         ))}
       </ul>
       <div className={BASE_LINE_STYLES} />
