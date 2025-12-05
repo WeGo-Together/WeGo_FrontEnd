@@ -39,10 +39,12 @@ describe('Card', () => {
     const user = userEvent.setup();
     const handleClick = jest.fn();
 
-    render(<Card {...defaultProps} onClick={handleClick} />);
+    const { container } = render(<Card {...defaultProps} onClick={handleClick} />);
 
-    const button = screen.getByRole('button');
-    await user.click(button);
+    const card = container.querySelector('.cursor-pointer');
+    expect(card).toBeInTheDocument();
+
+    await user.click(card!);
 
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
