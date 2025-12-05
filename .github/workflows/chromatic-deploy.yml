@@ -18,6 +18,14 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Create initial Report
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const script = require('./.github/scripts/chromatic-initial-comment.cjs');
+            await script({ github, context });
+
       - name: Check if stories changed
         id: check-stories
         run: |
@@ -64,6 +72,7 @@ jobs:
           script: |
             const script = require('./.github/scripts/chromatic-comment.cjs');
             await script({ github, context, core });
+
       - name: Fail if build failed
         if: steps.check-stories.outputs.has_changes == 'true' && steps.chromatic.outcome == 'failure'
         run: |

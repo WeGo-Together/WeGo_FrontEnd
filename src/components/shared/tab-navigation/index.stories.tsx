@@ -11,8 +11,16 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     tabs: {
-      description: '표시할 탭 목록 (2개 or 3개)',
+      description: '표시할 탭 목록 (2-3개)',
       control: 'object',
+    },
+    basePath: {
+      description: '기본 경로',
+      control: 'text',
+    },
+    paramName: {
+      description: '쿼리 파라미터 이름 (기본: tab)',
+      control: 'text',
     },
   },
 } satisfies Meta<typeof TabNavigation>;
@@ -25,16 +33,17 @@ type Story = StoryObj<typeof meta>;
  */
 export const TwoTabsFirst: Story = {
   args: {
+    basePath: '/following',
     tabs: [
-      { label: '팔로잉', path: '/following' },
-      { label: '메세지', path: '/message' },
+      { label: '팔로잉', value: 'list' },
+      { label: '메세지', value: 'message' },
     ],
   },
   parameters: {
     nextjs: {
       appDirectory: true,
       navigation: {
-        pathname: '/following',
+        query: { tab: 'list' },
       },
     },
   },
@@ -45,16 +54,17 @@ export const TwoTabsFirst: Story = {
  */
 export const TwoTabsSecond: Story = {
   args: {
+    basePath: '/following',
     tabs: [
-      { label: '팔로잉', path: '/following' },
-      { label: '메세지', path: '/message' },
+      { label: '팔로잉', value: 'list' },
+      { label: '메세지', value: 'message' },
     ],
   },
   parameters: {
     nextjs: {
       appDirectory: true,
       navigation: {
-        pathname: '/message',
+        query: { tab: 'message' },
       },
     },
   },
@@ -65,17 +75,18 @@ export const TwoTabsSecond: Story = {
  */
 export const ThreeTabsFirst: Story = {
   args: {
+    basePath: '/schedule',
     tabs: [
-      { label: '현재 모임', path: '/schedule/current' },
-      { label: '나의 모임', path: '/schedule/my' },
-      { label: '모임 이력', path: '/schedule/history' },
+      { label: '현재 모임', value: 'current' },
+      { label: '나의 모임', value: 'my' },
+      { label: '모임 이력', value: 'history' },
     ],
   },
   parameters: {
     nextjs: {
       appDirectory: true,
       navigation: {
-        pathname: '/schedule/current',
+        query: { tab: 'current' },
       },
     },
   },
@@ -86,17 +97,18 @@ export const ThreeTabsFirst: Story = {
  */
 export const ThreeTabsSecond: Story = {
   args: {
+    basePath: '/schedule',
     tabs: [
-      { label: '현재 모임', path: '/schedule/current' },
-      { label: '나의 모임', path: '/schedule/my' },
-      { label: '모임 이력', path: '/schedule/history' },
+      { label: '현재 모임', value: 'current' },
+      { label: '나의 모임', value: 'my' },
+      { label: '모임 이력', value: 'history' },
     ],
   },
   parameters: {
     nextjs: {
       appDirectory: true,
       navigation: {
-        pathname: '/schedule/my',
+        query: { tab: 'my' },
       },
     },
   },
@@ -107,17 +119,18 @@ export const ThreeTabsSecond: Story = {
  */
 export const ThreeTabsThird: Story = {
   args: {
+    basePath: '/schedule',
     tabs: [
-      { label: '현재 모임', path: '/schedule/current' },
-      { label: '나의 모임', path: '/schedule/my' },
-      { label: '모임 이력', path: '/schedule/history' },
+      { label: '현재 모임', value: 'current' },
+      { label: '나의 모임', value: 'my' },
+      { label: '모임 이력', value: 'history' },
     ],
   },
   parameters: {
     nextjs: {
       appDirectory: true,
       navigation: {
-        pathname: '/schedule/history',
+        query: { tab: 'history' },
       },
     },
   },

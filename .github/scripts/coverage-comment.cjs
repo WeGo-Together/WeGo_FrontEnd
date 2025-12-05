@@ -122,9 +122,9 @@ test log를 확인하시고 로직을 수정해주세요.
   // Calculate stats
   const currentIssueNumber = context.issue.number;
 
-  const baseCoveragePercent = base.lines.pct;
-  const currentCoveragePercent = current.lines.pct;
-  const coveragePercentDiff = currentCoveragePercent - baseCoveragePercent;
+  const baseCoveragePercent = base.lines.pct.toFixed(2);
+  const currentCoveragePercent = current.lines.pct.toFixed(2);
+  const coveragePercentDiff = (currentCoveragePercent - baseCoveragePercent).toFixed(2);
 
   const baseFiles = Object.keys(baseCoverage).filter((key) => key !== 'total').length;
   const currentFiles = Object.keys(currentCoverage).filter((key) => key !== 'total').length;

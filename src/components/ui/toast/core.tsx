@@ -35,7 +35,8 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
 
   const run = (toastContent: React.ReactNode, options?: ToastOption) => {
     const duration = options?.duration ?? 3000;
-    const toastId = Date.now().toString();
+    //const toastId = Date.now().toString();
+    const toastId = crypto.randomUUID();
     const nextToastContent: ToastItem = {
       id: toastId,
       content: toastContent,

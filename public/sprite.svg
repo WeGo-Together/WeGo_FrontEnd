@@ -70,6 +70,15 @@
     />
     <circle cx="17" cy="4" r="4" fill="#00c9ec" />
   </symbol>
+  <symbol fill="none" viewBox="0 0 20 20" id="edit" xmlns="http://www.w3.org/2000/svg">
+    <path
+      stroke="#7c868f"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.33"
+      d="M15 4.268a1.768 1.768 0 0 1 2.5 2.5L7.083 17.184l-3.333.834.833-3.334z"
+    />
+  </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="home" xmlns="http://www.w3.org/2000/svg">
     <path
       stroke="currentColor"
@@ -121,7 +130,7 @@
     />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="plus-circle" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#ia)">
+    <g clip-path="url(#ja)">
       <path
         fill="#00c9ec"
         d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12"
@@ -135,7 +144,7 @@
       />
     </g>
     <defs>
-      <clipPath id="ia"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
+      <clipPath id="ja"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
     </defs>
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="search" xmlns="http://www.w3.org/2000/svg">
@@ -145,6 +154,32 @@
       stroke-linejoin="round"
       stroke-width="2"
       d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16M21 21l-4.35-4.35"
+    />
+  </symbol>
+  <symbol fill="none" viewBox="0 0 8 8" id="small-x" xmlns="http://www.w3.org/2000/svg">
+    <path
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-width="1.4"
+      d="m.7.7 6 6M6.7.7l-6 6"
+    />
+  </symbol>
+  <symbol fill="none" viewBox="0 0 20 20" id="tag" xmlns="http://www.w3.org/2000/svg">
+    <path
+      stroke="#a5afb6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.5"
+      d="m17.158 11.175-5.975 5.975a1.667 1.667 0 0 1-2.358 0L1.667 10V1.667H10l7.158 7.158a1.667 1.667 0 0 1 0 2.35M5.833 5.833h.009"
+    />
+  </symbol>
+  <symbol fill="none" viewBox="0 0 20 20" id="title" xmlns="http://www.w3.org/2000/svg">
+    <path
+      stroke="#a5afb6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.5"
+      d="M9 16.667h8.5M13.75 2.917a1.768 1.768 0 0 1 2.5 2.5L5.833 15.833l-3.333.834.833-3.334z"
     />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="unread-false" xmlns="http://www.w3.org/2000/svg">
