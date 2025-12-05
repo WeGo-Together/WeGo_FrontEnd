@@ -1,5 +1,7 @@
 export { Button } from './button';
 export { Hint } from './hint';
+export type { ImageInputProps, ImageRecord } from './imageinput';
+export { ImageInput } from './imageinput';
 export { Input } from './input';
 export { Label } from './label';
 export {
