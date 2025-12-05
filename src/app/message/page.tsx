@@ -2,8 +2,8 @@ import { FollowingList, FollowingSearch } from '@/components/pages/message';
 import { TabNavigation } from '@/components/shared';
 
 const SOCIAL_TABS = [
-  { label: '팔로잉', path: '/message' },
-  { label: '메세지', path: '/message/chat' },
+  { label: '팔로잉', value: 'following' },
+  { label: '메세지', value: 'chat' },
 ];
 
 const FOLLOWING_LIST = [
@@ -27,7 +27,7 @@ const FOLLOWING_LIST = [
 export default function FollowingPage() {
   return (
     <div className='min-h-screen bg-[#F1F5F9]'>
-      <TabNavigation tabs={SOCIAL_TABS} />
+      <TabNavigation basePath='/message' tabs={SOCIAL_TABS} />
       <FollowingSearch />
       <FollowingList items={FOLLOWING_LIST} />
     </div>
