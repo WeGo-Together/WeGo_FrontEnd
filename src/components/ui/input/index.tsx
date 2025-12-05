@@ -15,8 +15,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           className={cn(
-            'text-text-md-medium w-full px-5 py-4 text-gray-800 focus:outline-none',
-            hasIcon ? 'pr-12 pl-5' : 'px-5',
+            'text-text-md-medium w-full px-4 py-4 text-gray-800 focus:outline-none',
+            hasIcon && 'pr-12 pl-5',
             className,
           )}
           type={type}
