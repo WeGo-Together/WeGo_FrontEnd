@@ -1,5 +1,6 @@
 'use client';
 import { ModalProvider } from '@/components/ui/modal';
+import { ToastProvider } from '@/components/ui/toast/core';
 import { LazyMotionProvider, MSWProvider, QueryProvider } from '@/providers';
 
 interface Props {
@@ -11,7 +12,9 @@ export const Providers = ({ children }: Props) => {
     <QueryProvider>
       <MSWProvider>
         <LazyMotionProvider>
-          <ModalProvider>{children}</ModalProvider>
+          <ToastProvider>
+            <ModalProvider>{children}</ModalProvider>
+          </ToastProvider>
         </LazyMotionProvider>
       </MSWProvider>
     </QueryProvider>
