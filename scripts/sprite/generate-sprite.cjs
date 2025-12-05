@@ -18,6 +18,8 @@ const INCLUDE_COLOR_TRANSFORM = [
   'plus',
   'search',
   'small-x',
+  // 'tag',
+  // 'title',
   'unread-false',
   'unread-true',
   'user',

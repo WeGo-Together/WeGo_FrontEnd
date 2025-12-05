@@ -156,17 +156,14 @@
       d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16M21 21l-4.35-4.35"
     />
   </symbol>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   <symbol fill="none" viewBox="0 0 8 8" id="small-x" xmlns="http://www.w3.org/2000/svg">
     <path
       stroke="currentColor"
       stroke-linecap="round"
       stroke-width="1.4"
       d="m.7.7 6 6M6.7.7l-6 6"
-=======
-=======
->>>>>>> Stashed changes
+    />
+  </symbol>
   <symbol fill="none" viewBox="0 0 20 20" id="tag" xmlns="http://www.w3.org/2000/svg">
     <path
       stroke="#a5afb6"
@@ -183,10 +180,6 @@
       stroke-linejoin="round"
       stroke-width="1.5"
       d="M9 16.667h8.5M13.75 2.917a1.768 1.768 0 0 1 2.5 2.5L5.833 15.833l-3.333.834.833-3.334z"
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="unread-false" xmlns="http://www.w3.org/2000/svg">
