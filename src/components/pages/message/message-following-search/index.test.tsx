@@ -6,7 +6,11 @@ import { FollowingSearch } from '.';
 
 describe('Following Search 테스트', () => {
   test('Following Search 렌더링 테스트', () => {
-    render(<FollowingSearch />);
+    render(
+      <ModalProvider>
+        <FollowingSearch />
+      </ModalProvider>,
+    );
 
     expect(screen.getByText('팔로우 추가')).toBeInTheDocument();
   });
@@ -18,12 +22,10 @@ describe('Following Search 테스트', () => {
       </ModalProvider>,
     );
 
-    const followModal = screen.queryByText('팔로우 할 닉네임을 입력하세요');
+    expect(screen.queryByText('팔로우 할 닉네임을 입력하세요')).toBeNull();
 
-    expect(followModal).toBeNull();
+    fireEvent.click(screen.getByText('팔로우 추가'));
 
-    fireEvent.click(screen.getByText('팔로우'));
-
-    expect(followModal).toBeInTheDocument();
+    expect(screen.getByText('팔로우 할 닉네임을 입력하세요')).toBeInTheDocument();
   });
 });

@@ -5,18 +5,18 @@ import { FollowingList } from '.';
 const TEST_ITEMS = [
   {
     name: '신짱구',
-    profileImage: 'imageUrl',
+    profileImage: 'http://test.com',
     profileMessage: '안녕하세요 신짱구입니다',
   },
   {
     name: '김맹구',
-    profileImage: 'imageUrl',
+    profileImage: 'http://test.com',
     profileMessage: '안녕하세요 김맹구입니다',
   },
 
   {
     name: '흰둥이',
-    profileImage: 'imageUrl',
+    profileImage: 'http://test.com',
     profileMessage: '안녕하세요 흰둥이입니다',
   },
 ];
