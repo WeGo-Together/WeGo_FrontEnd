@@ -147,6 +147,14 @@
       d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16M21 21l-4.35-4.35"
     />
   </symbol>
+  <symbol fill="none" viewBox="0 0 8 8" id="small-x" xmlns="http://www.w3.org/2000/svg">
+    <path
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-width="1.4"
+      d="m.7.7 6 6M6.7.7l-6 6"
+    />
+  </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="unread-false" xmlns="http://www.w3.org/2000/svg">
     <path
       stroke="currentColor"
