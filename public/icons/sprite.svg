@@ -34,7 +34,7 @@
     <rect width="14" height="14" x="18.5" y="4" fill="#00C9EC" rx="7" />
     <path fill="#fff" d="m23.513 15 3.066-5.957v-.049h-3.555V7.93h4.874v1.084L24.83 15z" />
   </symbol>
-  <symbol fill="none" viewBox="0 0 24 24" id="calendar" xmlns="http://www.w3.org/2000/svg">
+  <symbol fill="none" viewBox="0 0 24 24" id="calendar-1" xmlns="http://www.w3.org/2000/svg">
     <path
       stroke="currentColor"
       stroke-linecap="round"
@@ -53,7 +53,7 @@
     />
     <path fill="currentColor" d="M3 4h18v6H3z" />
   </symbol>
-  <symbol fill="none" viewBox="0 0 24 24" id="chevron-left" xmlns="http://www.w3.org/2000/svg">
+  <symbol fill="none" viewBox="0 0 24 24" id="chevron-left-1" xmlns="http://www.w3.org/2000/svg">
     <path
       stroke="currentColor"
       stroke-linecap="round"
@@ -71,7 +71,7 @@
       d="m15 18-6-6 6-6"
     />
   </symbol>
-  <symbol fill="none" viewBox="0 0 24 24" id="chevron-right" xmlns="http://www.w3.org/2000/svg">
+  <symbol fill="none" viewBox="0 0 24 24" id="chevron-right-1" xmlns="http://www.w3.org/2000/svg">
     <path
       stroke="currentColor"
       stroke-linecap="round"

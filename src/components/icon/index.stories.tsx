@@ -121,7 +121,7 @@ export const IconTable: Story = {
           <tbody>
             {iconData.map(({ id, variant }) => {
               const enableChangeColor = variant === 'dynamic';
-              const enableResize = variant === 'resizable';
+              const enableResize = true;
               return (
                 <tr key={id} className='border-b border-gray-200 hover:bg-gray-50'>
                   <td className='p-4 font-mono text-sm'>{id}</td>
