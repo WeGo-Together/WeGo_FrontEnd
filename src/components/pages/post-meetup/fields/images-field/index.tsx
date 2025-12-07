@@ -14,7 +14,7 @@ interface Props extends ImageUploadPropsWithoutChildren {
   field: AnyFieldApi;
 }
 
-export const MeetupThumbnailsField = ({ field, initialImages }: Props) => {
+export const MeetupImagesField = ({ field, initialImages }: Props) => {
   return (
     <ImageInput
       initialImages={initialImages}
