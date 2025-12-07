@@ -132,6 +132,9 @@ importers:
       eslint-plugin-storybook:
         specifier: ^10.0.5
         version: 10.0.5(eslint@9.37.0(jiti@2.6.1))(storybook@10.0.6(@testing-library/dom@10.4.1)(msw@2.11.5(@types/node@20.19.21)(typescript@5.9.3))(prettier@3.6.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(typescript@5.9.3)
+      flexisvg:
+        specifier: ^1.1.0
+        version: 1.1.0
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -3064,6 +3067,10 @@ packages:
     resolution: {integrity: sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==}
     engines: {node: '>=16'}
 
+  commander@12.1.0:
+    resolution: {integrity: sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==}
+    engines: {node: '>=18'}
+
   commander@14.0.1:
     resolution: {integrity: sha512-2JkV3gUZUVrbNA+1sjBOYLsMZ5cEEl8GTFP2a4AVz5hvasAMCQ1D2l2le/cX+pV4N6ZU17zjUahLpIXRrnWL8A==}
     engines: {node: '>=20'}
@@ -3810,6 +3817,11 @@ packages:
 
   flatted@3.3.3:
     resolution: {integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==}
+
+  flexisvg@1.1.0:
+    resolution: {integrity: sha512-RG+Y5xLiQ5APlONxsh8fg24/xtwOO7viVcRCbdaJV4Xcl9bV7Sq+G9o3ZOThWXfm6qrI+l5Qtmgc9sBJgJM8KQ==}
+    engines: {node: '>=18.0.0', pnpm: '>=8.0.0'}
+    hasBin: true
 
   fn.name@1.1.0:
     resolution: {integrity: sha512-GRnmB5gPyJpAhTQdSZTSp9uaPSvl09KoYcMQtsB9rQoOmzs9dH6ffeccH+Z+cv6P68Hu5bC6JjRh4Ah/mHSNRw==}
@@ -9955,6 +9967,8 @@ snapshots:
 
   commander@11.1.0: {}
 
+  commander@12.1.0: {}
+
   commander@14.0.1: {}
 
   commander@2.20.3: {}
@@ -10902,6 +10916,14 @@ snapshots:
       keyv: 4.5.4
 
   flatted@3.3.3: {}
+
+  flexisvg@1.1.0:
+    dependencies:
+      commander: 12.1.0
+      jiti: 2.6.1
+      prettier: 3.6.2
+      svg-sprite: 2.0.4
+      svgo: 3.3.2
 
   fn.name@1.1.0: {}
 
