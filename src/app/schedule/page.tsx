@@ -2,6 +2,8 @@
 
 import { useSearchParams } from 'next/navigation';
 
+import { Suspense } from 'react';
+
 import { TabNavigation } from '@/components/shared';
 
 import Current from './(components)/current';
@@ -14,17 +16,29 @@ const SCHEDULE_TABS = [
   { label: '모임 이력', value: 'history' },
 ];
 
-export default function SchedulePage() {
+const ScheduleContent = () => {
   const searchParams = useSearchParams();
   const tab = searchParams.get('tab') || 'current';
 
   return (
-    <div className='min-h-screen bg-[#F1F5F9]'>
-      <TabNavigation basePath='/schedule' tabs={SCHEDULE_TABS} />
-
+    <>
       {tab === 'current' && <Current />}
       {tab === 'my' && <My />}
       {tab === 'history' && <History />}
+    </>
+  );
+};
+
+export default function SchedulePage() {
+  return (
+    <div className='min-h-screen bg-[#F1F5F9]'>
+      <Suspense fallback={null}>
+        <TabNavigation basePath='/schedule' tabs={SCHEDULE_TABS} />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <ScheduleContent />
+      </Suspense>
     </div>
   );
 }
