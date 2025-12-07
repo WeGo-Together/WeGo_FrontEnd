@@ -7,9 +7,9 @@ import {
   MeetupCapField,
   MeetupDateField,
   MeetupDetailField,
+  MeetupImagesField,
   MeetupSubmitButton,
   MeetupTagsField,
-  MeetupThumbnailsField,
   MeetupTitleField,
 } from '@/components/pages/post-meetup';
 
@@ -20,7 +20,7 @@ const PostMeetupPage = () => {
       address: '',
       date: '',
       cap: 0,
-      thumbnails: {},
+      images: {},
       detail: '',
       tags: [] as string[],
     },
@@ -42,7 +42,7 @@ const PostMeetupPage = () => {
           <form.Field children={(field) => <MeetupAddressField field={field} />} name='address' />
           <form.Field children={(field) => <MeetupDateField field={field} />} name='date' />
           <form.Field children={(field) => <MeetupCapField field={field} />} name='cap' />
-          <form.Field children={(field) => <MeetupThumbnailsField field={field} />} name='cap' />
+          <form.Field children={(field) => <MeetupImagesField field={field} />} name='images' />
           <form.Field children={(field) => <MeetupDetailField field={field} />} name='detail' />
           <form.Field children={(field) => <MeetupTagsField field={field} />} name='tags' />
         </section>
