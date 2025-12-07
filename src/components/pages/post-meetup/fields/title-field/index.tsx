@@ -1,14 +1,21 @@
 'use client';
 
+import { AnyFieldApi } from '@tanstack/react-form';
+
 import { Icon } from '@/components/icon';
 import { Input, Label } from '@/components/ui';
 
-export const MeetupTitleField = () => {
+interface Props {
+  field: AnyFieldApi;
+}
+
+export const MeetupTitleField = ({ field }: Props) => {
   return (
     <div className='mt-4 flex w-full flex-col gap-1'>
       <Label htmlFor='post-meetup-title' required>
         모임 제목
       </Label>
+
       <Input
         id='post-meetup-title'
         className='bg-mono-white focus:border-mint-500 rounded-2xl border border-gray-300'
@@ -23,6 +30,8 @@ export const MeetupTitleField = () => {
         placeholder='모임 제목을 입력해주세요'
         required
         type='text'
+        value={field.state.value}
+        onChange={(e) => field.handleChange(e.target.value)}
       />
     </div>
   );
