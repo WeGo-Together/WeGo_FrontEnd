@@ -82,7 +82,7 @@ export const MeetupMembers = ({ members }: Props) => {
             onClick={onShowMoreClick}
           >
             {showMore ? '접기' : '더보기'}
-            <Icon id={showMore ? 'chevron-up' : 'chevron-down'} width={16} height={16} />
+            <Icon id={showMore ? 'arrow-up' : 'arrow-down'} width={16} height={16} />
           </Button>
         </div>
       )}

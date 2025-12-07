@@ -1,7 +1,7 @@
 import { Icon } from '../../../icon';
 
 type CardInfoRowProps = {
-  iconId: 'map-pin' | 'calendar';
+  iconId: 'map-pin-1' | 'calendar-1';
   label: string;
 };
 
