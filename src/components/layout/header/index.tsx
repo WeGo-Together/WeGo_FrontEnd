@@ -10,7 +10,7 @@ export const Header = () => {
           <Icon id='wego-logo' width={92} height={40} />
         </Link>
         <Link href={'/notification'} className='flex-center h-10 w-10'>
-          <Icon id='bell-read' width={24} height={24} />
+          <Icon id='bell-read' className='size-10 text-gray-700' />
         </Link>
       </nav>
     </header>
