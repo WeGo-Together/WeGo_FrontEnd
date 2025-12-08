@@ -1,7 +1,11 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { type AnyFieldApi, useForm } from '@tanstack/react-form';
 
+import { API } from '@/api';
+import { isProblemDetailError } from '@/api/service';
 import { FormInput } from '@/components/shared';
 import { Button } from '@/components/ui';
 import { loginSchema } from '@/lib/schema/auth';
@@ -19,6 +23,8 @@ const getHintMessage = (field: AnyFieldApi) => {
 };
 
 export const LoginForm = () => {
+  const router = useRouter();
+
   const form = useForm({
     defaultValues: {
       email: '',
@@ -28,9 +34,29 @@ export const LoginForm = () => {
       onSubmit: loginSchema,
       onChange: loginSchema,
     },
-    onSubmit: async ({ value }) => {
-      // API 호출
-      alert('login:' + value.email);
+    onSubmit: async ({ value, formApi }) => {
+      try {
+        const payload = {
+          email: value.email,
+          password: value.password,
+        };
+
+        const result = await API.authService.login(payload);
+        console.log('login success:', result);
+
+        formApi.reset();
+        router.push('/');
+      } catch (error) {
+        if (isProblemDetailError(error) && error.response?.data) {
+          const problem = error.response.data;
+
+          console.error('[LOGIN ERROR]', problem.errorCode, problem.detail);
+          alert(problem.detail || '로그인에 실패했습니다.');
+        } else {
+          console.error(error);
+          alert('알 수 없는 오류가 발생했습니다.');
+        }
+      }
     },
   });
 
