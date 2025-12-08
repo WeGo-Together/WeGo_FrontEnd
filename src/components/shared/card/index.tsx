@@ -1,7 +1,5 @@
 'use client';
 
-import Image from 'next/image';
-
 import { useState } from 'react';
 
 import { Button } from '@/components/ui';
@@ -9,6 +7,7 @@ import { cn } from '@/lib/utils';
 
 import { CardInfoRow } from './card-info-row';
 import { CardParticipationRow } from './card-participation-row';
+import { CardProfile } from './card-profile';
 import { type CardTag, CardTags } from './card-tags';
 import { CardThumbnail } from './card-thumbnail';
 
@@ -27,9 +26,8 @@ type CardProps = {
     onLeave: () => void;
     onChat: () => void;
   };
+  tabType?: 'current' | 'my' | 'history';
 };
-
-const PROFILE_IMAGE_SIZE = 16;
 
 const calculateProgress = (count: number, max: number): number => {
   const safeMax = max > 0 ? max : 1;
@@ -53,6 +51,7 @@ const Card = ({
   profileImage,
   onClick,
   leaveAndChatActions,
+  tabType,
 }: CardProps) => {
   const [imageError, setImageError] = useState(false);
 
@@ -60,6 +59,8 @@ const Card = ({
   const hasThumbnail = !!thumbnail && !imageError;
   const cardTags = convertToCardTags(tags);
   const progress = calculateProgress(participantCount, maxParticipants);
+  const shouldShowButtons = leaveAndChatActions && tabType !== 'history';
+  const leaveButtonText = tabType === 'my' ? '모임 취소' : '모임 탈퇴';
 
   return (
     <div
@@ -78,25 +79,9 @@ const Card = ({
             onError={() => setImageError(true)}
           />
 
-          <div className='mt-3 flex items-center gap-1.5'>
-            {profileImage ? (
-              <Image
-                width={PROFILE_IMAGE_SIZE}
-                className='rounded-full object-cover'
-                alt={nickName}
-                height={PROFILE_IMAGE_SIZE}
-                src={profileImage}
-              />
-            ) : (
-              <div
-                className='rounded-full bg-gray-600'
-                style={{ width: PROFILE_IMAGE_SIZE, height: PROFILE_IMAGE_SIZE }}
-              />
-            )}
-            <span className='text-text-xs-medium text-gray-900'>{nickName}</span>
-          </div>
+          <CardProfile nickName={nickName} profileImage={profileImage} />
 
-          {leaveAndChatActions && (
+          {shouldShowButtons && (
             <Button
               className='mt-3'
               size='xs'
@@ -106,7 +91,7 @@ const Card = ({
                 leaveAndChatActions.onLeave();
               }}
             >
-              모임 탈퇴
+              {leaveButtonText}
             </Button>
           )}
         </div>
@@ -127,7 +112,7 @@ const Card = ({
             progress={progress}
           />
 
-          {leaveAndChatActions && (
+          {shouldShowButtons && (
             <Button
               className='mt-3'
               size='xs'
