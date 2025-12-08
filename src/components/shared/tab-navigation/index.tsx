@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
+import { Suspense } from 'react';
+
 import { cn } from '@/lib/utils';
 
 export interface Tab {
@@ -46,7 +48,7 @@ const TabItem = ({ label, href, isActive }: TabItemProps) => (
   </li>
 );
 
-export const TabNavigation = ({ tabs, paramName = 'tab', basePath = '' }: TabNavigationProps) => {
+const TabNavigationInner = ({ tabs, paramName = 'tab', basePath = '' }: TabNavigationProps) => {
   const searchParams = useSearchParams();
   const currentTab = searchParams.get(paramName) || tabs[0].value;
 
@@ -64,5 +66,14 @@ export const TabNavigation = ({ tabs, paramName = 'tab', basePath = '' }: TabNav
       </ul>
       <div className={BASE_LINE_STYLES} />
     </nav>
+  );
+};
+
+export const TabNavigation = (props: TabNavigationProps) => {
+  return (
+    // 나중에 레이아웃으로 뺄거임 임시
+    <Suspense fallback={null}>
+      <TabNavigationInner {...props} />
+    </Suspense>
   );
 };
