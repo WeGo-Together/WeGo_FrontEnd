@@ -15,9 +15,9 @@ interface FollowingListProps {
 export const FollowingList = ({ items }: FollowingListProps) => {
   return (
     <div>
-      {items.map((item, index) => (
+      {items.map((item) => (
         <FollowingCard
-          key={index}
+          key={item.id}
           name={item.name}
           profileImage={item.profileImage}
           profileMessage={item.profileMessage}
