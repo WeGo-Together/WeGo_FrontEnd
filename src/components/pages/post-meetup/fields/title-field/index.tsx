@@ -21,7 +21,7 @@ export const MeetupTitleField = ({ field }: Props) => {
         className='bg-mono-white focus:border-mint-500 rounded-2xl border border-gray-300'
         frontIcon={
           <Icon
-            id='title'
+            id='edit-bar'
             width={20}
             className='pointer-events-none absolute top-0 left-4 flex h-full items-center text-gray-500'
             height={20}

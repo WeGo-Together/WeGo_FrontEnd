@@ -14,7 +14,7 @@ export const CardParticipationRow = ({
   return (
     <div className='mt-3 flex h-[18px] items-center'>
       <div className='flex min-w-0 flex-1 items-center gap-1.5'>
-        <Icon id='users' width={12} className='shrink-0 text-gray-600' height={12} />
+        <Icon id='users-1' width={12} className='shrink-0 text-gray-600' height={12} />
         <div className='h-[6px] w-[200px] overflow-hidden rounded-full bg-gray-200 sm:w-[210px]'>
           <div
             className='bg-mint-400 h-full rounded-full transition-all duration-500 ease-out will-change-[width]'
