@@ -49,8 +49,6 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
     setContent(null);
     setIsOpen(false);
     if (previousFocusRef.current) {
-      console.log(`이전 요소로 포커스`);
-      console.log(previousFocusRef.current);
       const el = previousFocusRef.current;
       setTimeout(() => {
         el.focus();
