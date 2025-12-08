@@ -2,6 +2,8 @@
 
 import { useSearchParams } from 'next/navigation';
 
+import { Suspense } from 'react';
+
 import { TabNavigation } from '@/components/shared';
 
 import Current from './(components)/current';
@@ -14,17 +16,32 @@ const SCHEDULE_TABS = [
   { label: '모임 이력', value: 'history' },
 ];
 
-export default function SchedulePage() {
+const ScheduleContent = () => {
   const searchParams = useSearchParams();
   const tab = searchParams.get('tab') || 'current';
 
   return (
-    <div className='min-h-screen bg-[#F1F5F9]'>
-      <TabNavigation basePath='/schedule' tabs={SCHEDULE_TABS} />
-
+    <>
       {tab === 'current' && <Current />}
       {tab === 'my' && <My />}
       {tab === 'history' && <History />}
+    </>
+  );
+};
+
+export default function SchedulePage() {
+  return (
+    <div className='min-h-screen bg-[#F1F5F9]'>
+      <TabNavigation basePath='/schedule' tabs={SCHEDULE_TABS} />
+
+      <Suspense fallback={null}>
+        <ScheduleContent />
+      </Suspense>
     </div>
   );
 }
+
+// 나중에 api 연동할 때
+// 1. ScheduleContent를 감싸던 임시 Suspense 제거해야됨
+// 2. useSearchParams()는 그대로 유지
+// 3. Current, My, History를 서버 컴포넌트로 변경 (use client 제거) - 서버에서 데이터 페칭

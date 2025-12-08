@@ -1,3 +1,3 @@
-import FollowingCard from './message-followingCard';
-
-export { FollowingCard };
+export { FollowingCard } from './message-following-card';
+export { FollowingList } from './message-following-list';
+export { FollowingSearch } from './message-following-search';
