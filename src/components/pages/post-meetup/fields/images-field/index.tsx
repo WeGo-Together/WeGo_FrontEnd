@@ -62,7 +62,7 @@ export const MeetupImagesField = ({ field, initialImages }: Props) => {
                 aria-label='이미지 삭제 버튼'
                 onClick={() => onRemoveImageClick(url)}
               >
-                <Icon id='small-x' className='size-1.5 text-gray-700' />
+                <Icon id='small-x-1' className='size-1.5 text-gray-700' />
               </button>
             </div>
           ))}

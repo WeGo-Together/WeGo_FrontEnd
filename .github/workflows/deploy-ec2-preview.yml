@@ -16,7 +16,7 @@ jobs:
   preview-deploy:
     runs-on: ubuntu-latest
     env:
-      APP_DOMAIN: new-project-final.link
+      APP_DOMAIN: wego.monster
       # 브랜치명 계산 필요
       # APP_DIR: wego-production
       # 앱 포트 계산 필요
