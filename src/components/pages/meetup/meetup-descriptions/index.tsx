@@ -16,7 +16,7 @@ export const MeetupDescriptions = ({
   description: { ownerInfo, title, tags, content, setting, progress, createdAt },
 }: Props) => {
   return (
-    <section className='px-5 pt-6 pb-4'>
+    <section className='bg-white px-5 pt-6 pb-4'>
       <DescriptionProfile {...ownerInfo} />
       <DescriptionTitle title={title} />
       <DescriptionTags tags={tags} />
