@@ -16,6 +16,7 @@ type Story = StoryObj<typeof meta>;
 
 export const FollowingCardTable: Story = {
   args: {
+    id: 0,
     name: '',
     profileImage: '',
     profileMessage: '',
@@ -36,6 +37,7 @@ export const FollowingCardTable: Story = {
           <td className='p-4 align-top text-sm text-gray-600'>기본 팔로잉 카드</td>
           <td className='p-4'>
             <FollowingCard
+              id={0}
               name='얼룩말'
               profileImage='https://cdn.pixabay.com/photo/2025/11/28/15/29/zebras-9983175_1280.jpg'
               profileMessage='안녕하세요! 반갑습니다 😊'
@@ -50,6 +52,7 @@ export const FollowingCardTable: Story = {
           </td>
           <td className='p-4'>
             <FollowingCard
+              id={0}
               name='얼룩말'
               profileImage='https://cdn.pixabay.com/photo/2025/11/28/15/29/zebras-9983175_1280.jpg'
               profileMessage='안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요'
@@ -62,6 +65,7 @@ export const FollowingCardTable: Story = {
           <td className='p-4 align-top text-sm text-gray-600'>읽지 않은 메시지 없음</td>
           <td className='p-4'>
             <FollowingCard
+              id={0}
               count={0}
               name='얼룩말'
               profileImage='https://cdn.pixabay.com/photo/2025/11/28/15/29/zebras-9983175_1280.jpg'
@@ -75,6 +79,7 @@ export const FollowingCardTable: Story = {
           <td className='p-4 align-top text-sm text-gray-600'>읽지 않은 메시지 1개</td>
           <td className='p-4'>
             <FollowingCard
+              id={0}
               count={1}
               name='얼룩말'
               profileImage='https://cdn.pixabay.com/photo/2025/11/28/15/29/zebras-9983175_1280.jpg'
@@ -88,6 +93,7 @@ export const FollowingCardTable: Story = {
           <td className='p-4 align-top text-sm text-gray-600'>읽지 않은 메시지 10개</td>
           <td className='p-4'>
             <FollowingCard
+              id={0}
               count={10}
               name='얼룩말'
               profileImage='https://cdn.pixabay.com/photo/2025/11/28/15/29/zebras-9983175_1280.jpg'
@@ -101,6 +107,7 @@ export const FollowingCardTable: Story = {
           <td className='p-4 align-top text-sm text-gray-600'>읽지 않은 메시지 99개 이상</td>
           <td className='p-4'>
             <FollowingCard
+              id={0}
               count={100}
               name='얼룩말'
               profileImage='https://cdn.pixabay.com/photo/2025/11/28/15/29/zebras-9983175_1280.jpg'
