@@ -1,6 +1,6 @@
 'use client';
 import { Icon } from '@/components/icon';
-import { Button, ModalContent, ModalTitle, useModal } from '@/components/ui';
+import { Button, Input, ModalContent, ModalTitle, useModal } from '@/components/ui';
 
 const FollowerModal = () => {
   const { close } = useModal();
@@ -15,8 +15,9 @@ const FollowerModal = () => {
   return (
     <ModalContent>
       <ModalTitle className='mb-3'>팔로우 할 닉네임을 입력하세요</ModalTitle>
-      <input
+      <Input
         className='text-text-sm-medium mb-3 w-full rounded-3xl bg-gray-100 px-4 py-2.5 text-gray-800'
+        iconButton={<Icon id='search' className='absolute top-2.5 right-3 size-5 text-gray-500' />}
         placeholder='nickname'
         onKeyDown={(e) => {
           if (e.key === 'Enter') {

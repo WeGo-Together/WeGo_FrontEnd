@@ -1,4 +1,8 @@
-import { FollowingList, FollowingSearch } from '@/components/pages/message';
+'use client';
+
+import { useSearchParams } from 'next/navigation';
+
+import { Chat, FollowingList, FollowingSearch } from '@/components/pages/message';
 import { TabNavigation } from '@/components/shared';
 
 const SOCIAL_TABS = [
@@ -28,11 +32,19 @@ const FOLLOWING_LIST = [
 ];
 
 export default function FollowingPage() {
+  const params = useSearchParams();
+  const tab = params.get('tab') || 'following';
   return (
     <div className='min-h-screen bg-[#F1F5F9]'>
       <TabNavigation basePath='/message' tabs={SOCIAL_TABS} />
-      <FollowingSearch />
-      <FollowingList items={FOLLOWING_LIST} />
+
+      {tab === 'chat' && <Chat />}
+      {tab === 'following' && (
+        <>
+          <FollowingSearch />
+          <FollowingList items={FOLLOWING_LIST} />
+        </>
+      )}
     </div>
   );
 }
