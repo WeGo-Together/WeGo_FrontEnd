@@ -1,7 +1,10 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { type AnyFieldApi, useForm } from '@tanstack/react-form';
 
+import { authServiceRemote, isProblemDetailError } from '@/api/service';
 import { FormInput } from '@/components/shared';
 import { Button } from '@/components/ui';
 import { signupSchema } from '@/lib/schema/auth';
@@ -19,6 +22,9 @@ const getHintMessage = (field: AnyFieldApi) => {
 };
 
 export const SignupForm = () => {
+  const router = useRouter();
+  const { signup } = authServiceRemote();
+
   const form = useForm({
     defaultValues: {
       email: '',
@@ -30,9 +36,30 @@ export const SignupForm = () => {
       onChange: signupSchema,
       onSubmit: signupSchema,
     },
-    onSubmit: async ({ value }) => {
-      // api 호출
-      alert('signup:' + value.nickname);
+    onSubmit: async ({ value, formApi }) => {
+      try {
+        const payload = {
+          email: value.email,
+          password: value.password,
+          nickName: value.nickname,
+        };
+
+        const result = await signup(payload);
+        console.log('signup success:', result);
+
+        formApi.reset();
+        router.push('/login');
+      } catch (error) {
+        if (isProblemDetailError(error) && error.response?.data) {
+          const problem = error.response.data;
+
+          console.error('[SIGNUP ERROR]', problem.errorCode, problem.detail);
+          alert(problem.detail || '회원가입에 실패했습니다.');
+        } else {
+          console.error(error);
+          alert('알 수 없는 오류가 발생했습니다.');
+        }
+      }
     },
   });
 
