@@ -32,9 +32,7 @@ const ScheduleContent = () => {
 export default function SchedulePage() {
   return (
     <div className='min-h-screen bg-[#F1F5F9]'>
-      <Suspense fallback={null}>
-        <TabNavigation basePath='/schedule' tabs={SCHEDULE_TABS} />
-      </Suspense>
+      <TabNavigation basePath='/schedule' tabs={SCHEDULE_TABS} />
 
       <Suspense fallback={null}>
         <ScheduleContent />
@@ -42,3 +40,8 @@ export default function SchedulePage() {
     </div>
   );
 }
+
+// 나중에 api 연동할 때
+// 1. ScheduleContent를 감싸던 임시 Suspense 제거해야됨
+// 2. useSearchParams()는 그대로 유지
+// 3. Current, My, History를 서버 컴포넌트로 변경 (use client 제거) - 서버에서 데이터 페칭
