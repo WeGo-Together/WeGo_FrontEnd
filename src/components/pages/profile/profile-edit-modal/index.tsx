@@ -47,7 +47,7 @@ export const ProfileEditModal = ({ user }: Props) => {
         이 모달은 자신의 프로필을 수정할 수 있는 모달입니다.
       </ModalDescription>
       <form
-        className='w-70.5'
+        className='w-full max-w-70.5'
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
