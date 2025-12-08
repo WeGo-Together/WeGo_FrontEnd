@@ -32,6 +32,9 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const lastInputTypeRef = useRef<'mouse' | 'keyboard'>('mouse');
 
+  const modalWrapperRef = useRef<HTMLDivElement | null>(null);
+  const isMouseDownInsideModal = useRef(false);
+
   const open = (modalContent: React.ReactNode) => {
     setContent(modalContent);
     setIsOpen(true);
@@ -67,6 +70,37 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
+
+  // Modal 외부 Mousedown => 내부 MouseUp 일 때 Modal이 닫히지 않음
+  // Modal 내부 Mousedown => 외부 MouseUp 일 때 Modal이 닫히지 않음
+  // Modal 외부 Mousedown => 외부 Mouseup 일 때 Modal 닫힘
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleMouseDown = (e: MouseEvent) => {
+      if (modalWrapperRef.current?.contains(e.target as Node)) {
+        isMouseDownInsideModal.current = true;
+      } else {
+        isMouseDownInsideModal.current = false;
+      }
+    };
+
+    const handleMouseUp = (e: MouseEvent) => {
+      if (
+        !modalWrapperRef.current?.contains(e.target as Node) &&
+        isMouseDownInsideModal.current === false
+      ) {
+        close();
+      }
+    };
+
+    document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      document.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isOpen]);
 
   // esc 입력 시 Modal close
   useEffect(() => {
@@ -127,9 +161,10 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
                 aria-modal='true'
                 initial={{ opacity: 0 }}
                 role='dialog'
-                onClick={close}
               >
-                <div className='flex w-full max-w-110 justify-center px-4'>{content}</div>
+                <div ref={modalWrapperRef} className='flex w-full max-w-110 justify-center px-4'>
+                  {content}
+                </div>
               </m.div>
             )}
           </div>,
