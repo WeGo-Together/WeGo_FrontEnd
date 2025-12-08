@@ -1,9 +1,15 @@
 'use client';
 
+import { AnyFieldApi } from '@tanstack/react-form';
+
 import { Icon } from '@/components/icon';
 import { Input, Label } from '@/components/ui';
 
-export const MeetupAddressField = () => {
+interface Props {
+  field: AnyFieldApi;
+}
+
+export const MeetupAddressField = ({ field }: Props) => {
   return (
     <div className='mt-3 flex w-full flex-col gap-1'>
       <Label htmlFor='post-meetup-address' required>
@@ -23,6 +29,8 @@ export const MeetupAddressField = () => {
         placeholder='모임 주소를 입력해주세요'
         required
         type='text'
+        value={field.state.value}
+        onChange={(e) => field.handleChange(e.target.value)}
       />
     </div>
   );
