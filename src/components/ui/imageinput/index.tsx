@@ -121,6 +121,7 @@ export const ImageInput = ({
         style={{ display: 'none' }}
         accept={accept}
         multiple={multiple}
+        tabIndex={-1}
         type='file'
         onChange={handleFileChange}
       />

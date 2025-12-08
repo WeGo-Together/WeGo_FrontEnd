@@ -2,6 +2,8 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import * as m from 'motion/react-m';
+
 import { Icon } from '@/components/icon';
 import { cn } from '@/lib/utils';
 
@@ -23,6 +25,7 @@ interface ModalProviderProps {
 }
 
 export const ModalProvider = ({ children }: ModalProviderProps) => {
+  const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState<React.ReactNode>(null);
 
@@ -89,7 +92,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
   // Modal Open 상태일 때 배경 요소들 무시
   useEffect(() => {
     if (!isOpen) return;
-    const appRoot = document.getElementById('__next') || document.getElementById('root');
+    const appRoot = document.getElementById('root');
     if (appRoot) {
       appRoot.setAttribute('inert', '');
       appRoot.setAttribute('aria-hidden', 'true');
@@ -102,10 +105,15 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+
   return (
     <ModalContext.Provider value={{ open, close }}>
       {children}
-      {isOpen && content}
+      {mounted && createPortal(<div id='modal-root'>{isOpen && content}</div>, document.body)}
     </ModalContext.Provider>
   );
 };
@@ -124,7 +132,7 @@ export const ModalContent = ({ children }: ModalContentProps) => {
 
     const modal = modalRef.current;
     const focusableElements = modal.querySelectorAll(
-      'button:not([disabled]), a[href]:not([tabindex="-1"]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      'button:not([disabled]), a[href]:not([tabindex="-1"]), input:not([disabled]):not([tabindex="-1"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
     );
     const firstElement = focusableElements[0] as HTMLElement;
     const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
@@ -133,6 +141,8 @@ export const ModalContent = ({ children }: ModalContentProps) => {
 
     const handleTab = (e: KeyboardEvent) => {
       if (e.key !== 'Tab') return;
+
+      console.log(e.target);
 
       if (focusableElements.length === 0) {
         e.preventDefault();
@@ -158,18 +168,27 @@ export const ModalContent = ({ children }: ModalContentProps) => {
     return () => modal.removeEventListener('keydown', handleTab);
   }, [children]);
 
-  return createPortal(
-    <div
+  return (
+    <m.div
       className='fixed inset-0 z-9999 flex items-center justify-center bg-black/50'
+      animate={{
+        opacity: 1,
+      }}
       aria-describedby='modal-description'
       aria-labelledby='modal-title'
       aria-modal='true'
+      initial={{ opacity: 0 }}
       role='dialog'
       onClick={close}
     >
-      <div
+      <m.div
         ref={modalRef}
         className='rounded-3xl bg-white p-5'
+        animate={{
+          opacity: 1,
+          scale: 1,
+        }}
+        initial={{ opacity: 0, scale: 0.1 }}
         onClick={(e) => {
           e.stopPropagation();
         }}
@@ -178,9 +197,8 @@ export const ModalContent = ({ children }: ModalContentProps) => {
           {children}
           <ModalCloseButton />
         </div>
-      </div>
-    </div>,
-    document.body,
+      </m.div>
+    </m.div>
   );
 };
 
