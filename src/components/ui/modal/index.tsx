@@ -169,13 +169,15 @@ export const ModalContent = ({ children }: ModalContentProps) => {
     >
       <div
         ref={modalRef}
-        className='relative flex flex-col items-center rounded-3xl bg-white p-4 pt-12'
+        className='rounded-3xl bg-white p-5'
         onClick={(e) => {
           e.stopPropagation();
         }}
       >
-        {children}
-        <ModalCloseButton />
+        <div className='relative'>
+          {children}
+          <ModalCloseButton />
+        </div>
       </div>
     </div>,
     document.body,
@@ -212,7 +214,7 @@ export const ModalCloseButton = () => {
   const { close } = useModal();
   return (
     <button
-      className='absolute top-4 right-4 rounded-sm transition-colors duration-300 hover:bg-gray-200 active:bg-gray-200'
+      className='absolute top-0 right-0 rounded-sm transition-colors duration-300 hover:bg-gray-200 active:bg-gray-200'
       aria-label='모달 닫기'
       type='button'
       onClick={close}
