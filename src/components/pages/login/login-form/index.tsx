@@ -4,7 +4,8 @@ import { useRouter } from 'next/navigation';
 
 import { type AnyFieldApi, useForm } from '@tanstack/react-form';
 
-import { authServiceRemote, isProblemDetailError } from '@/api/service';
+import { API } from '@/api';
+import { isProblemDetailError } from '@/api/service';
 import { FormInput } from '@/components/shared';
 import { Button } from '@/components/ui';
 import { loginSchema } from '@/lib/schema/auth';
@@ -23,7 +24,6 @@ const getHintMessage = (field: AnyFieldApi) => {
 
 export const LoginForm = () => {
   const router = useRouter();
-  const { login } = authServiceRemote();
 
   const form = useForm({
     defaultValues: {
@@ -41,7 +41,7 @@ export const LoginForm = () => {
           password: value.password,
         };
 
-        const result = await login(payload);
+        const result = await API.authService.login(payload);
         console.log('login success:', result);
 
         formApi.reset();

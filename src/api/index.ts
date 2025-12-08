@@ -6,7 +6,7 @@ const provideAPIService = () => {
 
   return {
     usersService: userService,
-    authService: authService,
+    authService,
   };
 };
 

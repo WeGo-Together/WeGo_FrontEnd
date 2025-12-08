@@ -4,7 +4,8 @@ import { useRouter } from 'next/navigation';
 
 import { type AnyFieldApi, useForm } from '@tanstack/react-form';
 
-import { authServiceRemote, isProblemDetailError } from '@/api/service';
+import { API } from '@/api';
+import { isProblemDetailError } from '@/api/service';
 import { FormInput } from '@/components/shared';
 import { Button } from '@/components/ui';
 import { signupSchema } from '@/lib/schema/auth';
@@ -23,7 +24,6 @@ const getHintMessage = (field: AnyFieldApi) => {
 
 export const SignupForm = () => {
   const router = useRouter();
-  const { signup } = authServiceRemote();
 
   const form = useForm({
     defaultValues: {
@@ -44,7 +44,7 @@ export const SignupForm = () => {
           nickName: value.nickname,
         };
 
-        const result = await signup(payload);
+        const result = await API.authService.signup(payload);
         console.log('signup success:', result);
 
         formApi.reset();
