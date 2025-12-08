@@ -8,16 +8,19 @@ const SOCIAL_TABS = [
 
 const FOLLOWING_LIST = [
   {
+    id: 1,
     name: '신짱구',
     profileImage: '',
     profileMessage: '안녕하세요 신짱구입니다',
   },
   {
+    id: 2,
     name: '신짱구',
     profileImage: '',
     profileMessage: '안녕하세요 신짱구입니다',
   },
   {
+    id: 3,
     name: '신짱구',
     profileImage: '',
     profileMessage: '안녕하세요 신짱구입니다',

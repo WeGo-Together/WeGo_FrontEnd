@@ -3,6 +3,7 @@
 import { FollowingCard } from '../message-following-card';
 
 interface FollowingItem {
+  id: number;
   name: string;
   profileImage: string;
   profileMessage: string;
