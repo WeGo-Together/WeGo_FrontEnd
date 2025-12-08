@@ -113,7 +113,28 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
   return (
     <ModalContext.Provider value={{ open, close }}>
       {children}
-      {mounted && createPortal(<div id='modal-root'>{isOpen && content}</div>, document.body)}
+      {mounted &&
+        createPortal(
+          <div id='modal-root'>
+            {isOpen && (
+              <m.div
+                className='fixed inset-0 z-9999 flex items-center justify-center bg-black/50'
+                animate={{
+                  opacity: 1,
+                }}
+                aria-describedby='modal-description'
+                aria-labelledby='modal-title'
+                aria-modal='true'
+                initial={{ opacity: 0 }}
+                role='dialog'
+                onClick={close}
+              >
+                <div className='flex w-full max-w-110 justify-center px-4'>{content}</div>
+              </m.div>
+            )}
+          </div>,
+          document.body,
+        )}
     </ModalContext.Provider>
   );
 };
@@ -124,7 +145,6 @@ interface ModalContentProps {
 }
 
 export const ModalContent = ({ children, className }: ModalContentProps) => {
-  const { close } = useModal();
   const modalRef = useRef<HTMLDivElement>(null);
 
   // focus 처리
@@ -142,8 +162,6 @@ export const ModalContent = ({ children, className }: ModalContentProps) => {
 
     const handleTab = (e: KeyboardEvent) => {
       if (e.key !== 'Tab') return;
-
-      console.log(e.target);
 
       if (focusableElements.length === 0) {
         e.preventDefault();
@@ -171,35 +189,20 @@ export const ModalContent = ({ children, className }: ModalContentProps) => {
 
   return (
     <m.div
-      className='fixed inset-0 z-9999 flex items-center justify-center bg-black/50'
+      ref={modalRef}
+      className={cn('w-full rounded-3xl bg-white p-5', className)}
       animate={{
         opacity: 1,
+        scale: 1,
       }}
-      aria-describedby='modal-description'
-      aria-labelledby='modal-title'
-      aria-modal='true'
-      initial={{ opacity: 0 }}
-      role='dialog'
-      onClick={close}
+      initial={{ opacity: 0, scale: 0.1 }}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
     >
-      <div className='flex w-full max-w-110 justify-center px-4'>
-        <m.div
-          ref={modalRef}
-          className={cn('w-full rounded-3xl bg-white p-5', className)}
-          animate={{
-            opacity: 1,
-            scale: 1,
-          }}
-          initial={{ opacity: 0, scale: 0.1 }}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <div className='relative'>
-            {children}
-            <ModalCloseButton />
-          </div>
-        </m.div>
+      <div className='relative'>
+        {children}
+        <ModalCloseButton />
       </div>
     </m.div>
   );
