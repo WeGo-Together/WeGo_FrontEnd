@@ -120,9 +120,10 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
 
 interface ModalContentProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-export const ModalContent = ({ children }: ModalContentProps) => {
+export const ModalContent = ({ children, className }: ModalContentProps) => {
   const { close } = useModal();
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -181,23 +182,25 @@ export const ModalContent = ({ children }: ModalContentProps) => {
       role='dialog'
       onClick={close}
     >
-      <m.div
-        ref={modalRef}
-        className='rounded-3xl bg-white p-5'
-        animate={{
-          opacity: 1,
-          scale: 1,
-        }}
-        initial={{ opacity: 0, scale: 0.1 }}
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        <div className='relative'>
-          {children}
-          <ModalCloseButton />
-        </div>
-      </m.div>
+      <div className='flex w-full max-w-110 justify-center px-4'>
+        <m.div
+          ref={modalRef}
+          className={cn('w-full rounded-3xl bg-white p-5', className)}
+          animate={{
+            opacity: 1,
+            scale: 1,
+          }}
+          initial={{ opacity: 0, scale: 0.1 }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <div className='relative'>
+            {children}
+            <ModalCloseButton />
+          </div>
+        </m.div>
+      </div>
     </m.div>
   );
 };
