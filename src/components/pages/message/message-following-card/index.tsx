@@ -12,7 +12,7 @@ interface FollowingCardProps {
   onMessageClick?: () => void;
 }
 
-const FollowingCard = ({
+export const FollowingCard = ({
   name,
   profileImage,
   profileMessage,
@@ -67,5 +67,3 @@ const FollowingCard = ({
     </div>
   );
 };
-
-export default FollowingCard;
