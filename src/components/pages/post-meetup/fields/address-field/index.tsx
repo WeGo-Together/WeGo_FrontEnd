@@ -31,6 +31,7 @@ export const MeetupAddressField = ({ field }: Props) => {
         type='text'
         value={field.state.value}
         onChange={(e) => field.handleChange(e.target.value)}
+        onClick={() => console.log('address clicked!')}
       />
     </div>
   );

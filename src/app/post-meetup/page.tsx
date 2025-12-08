@@ -18,7 +18,10 @@ const PostMeetupPage = () => {
     defaultValues: {
       title: '',
       address: '',
-      date: '',
+      dateAndTime: {
+        date: '',
+        time: '',
+      },
       cap: 0,
       images: {},
       detail: '',
@@ -40,7 +43,7 @@ const PostMeetupPage = () => {
         <section className='px-4'>
           <form.Field children={(field) => <MeetupTitleField field={field} />} name='title' />
           <form.Field children={(field) => <MeetupAddressField field={field} />} name='address' />
-          <form.Field children={(field) => <MeetupDateField field={field} />} name='date' />
+          <form.Field children={(field) => <MeetupDateField field={field} />} name='dateAndTime' />
           <form.Field children={(field) => <MeetupCapField field={field} />} name='cap' />
           <form.Field children={(field) => <MeetupImagesField field={field} />} name='images' />
           <form.Field children={(field) => <MeetupDetailField field={field} />} name='detail' />

@@ -19,7 +19,7 @@ export const MeetupTagsField = ({ field }: Props) => {
 
     const hasDupe = field.state.value.includes(inputValue);
 
-    if (!hasDupe) field.pushValue(inputValue);
+    if (!hasDupe && inputValue.trim()) field.pushValue(inputValue);
 
     setInputValue('');
   };
