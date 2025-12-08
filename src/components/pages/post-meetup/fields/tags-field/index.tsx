@@ -32,7 +32,7 @@ export const MeetupTagsField = ({ field }: Props) => {
       <ul className='mt-0.5 flex flex-wrap px-2'>
         <li className='bg-mint-100 text-mint-700 flex-center gap-0.5 rounded-full px-2 py-0.5'>
           <p className='text-text-xs-medium'>#태그</p>
-          <Icon id='small-x' width={7} height={7} />
+          <Icon id='small-x-1' width={7} height={7} />
         </li>
       </ul>
     </div>

@@ -25,7 +25,7 @@ const NAV_MENU = [
   },
   {
     path: '/schedule',
-    svgId: 'calendar',
+    svgId: 'calendar-1',
   },
   {
     path: '/post-meetup',
@@ -33,10 +33,10 @@ const NAV_MENU = [
   },
   {
     path: '/message',
-    svgId: 'message',
+    svgId: 'message-read',
   },
   {
     path: '/mypage',
-    svgId: 'user',
+    svgId: 'user-1',
   },
 ] as const;

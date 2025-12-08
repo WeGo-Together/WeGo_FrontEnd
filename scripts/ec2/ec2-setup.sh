@@ -90,7 +90,7 @@ if grep -q "server_names_hash_bucket_size" /etc/nginx/nginx.conf; then
   
   if [ "$CURRENT_VALUE" != "128" ]; then
     echo "⚙️ server_names_hash_bucket_size를 $CURRENT_VALUE에서 128로 변경합니다."
-    sudo sed -i 's/server_names_hash_bucket_size [0-9]\+;/server_names_hash_bucket_size 128;/' /etc/nginx/nginx.conf
+    sudo sed -i 's/^# server_names_hash_bucket_size [0-9]\+;/server_names_hash_bucket_size 128;/' /etc/nginx/nginx.conf
     echo "✅ Nginx 설정이 수정되었습니다."
   else
     echo "✅ server_names_hash_bucket_size가 이미 128로 설정되어 있습니다."
@@ -126,8 +126,8 @@ server {
   listen 443 ssl http2;
   server_name ${SUB_APP_DOMAIN}${APP_DOMAIN};
 
-  ssl_certificate /etc/letsencrypt/live/new-project-final.link/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/new-project-final.link/privkey.pem;
+  ssl_certificate /etc/letsencrypt/live/wego.monster/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/wego.monster/privkey.pem;
   ssl_protocols TLSv1.2 TLSv1.3;
   ssl_prefer_server_ciphers on;
 
