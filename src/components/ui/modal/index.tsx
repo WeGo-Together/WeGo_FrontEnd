@@ -49,11 +49,18 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
     setContent(null);
     setIsOpen(false);
     if (previousFocusRef.current) {
-      previousFocusRef.current.focus();
+      console.log(`이전 요소로 포커스`);
+      console.log(previousFocusRef.current);
+      const el = previousFocusRef.current;
+      setTimeout(() => {
+        el.focus();
+      }, 0);
+
       previousFocusRef.current = null;
     }
   };
 
+  // Modal을 Open 할 때 키보드로 진입했다면 Trigger 요소를 기억함
   useEffect(() => {
     const handleMouseDown = () => {
       lastInputTypeRef.current = 'mouse';
