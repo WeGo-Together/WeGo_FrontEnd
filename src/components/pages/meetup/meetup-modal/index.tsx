@@ -25,8 +25,8 @@ export const MeetupModal = ({ type }: Props) => {
 
   return (
     <ModalContent>
-      <ModalTitle>{title}</ModalTitle>
-      <ModalDescription className='mb-6'>{description}</ModalDescription>
+      <ModalTitle className='pt-8 text-center'>{title}</ModalTitle>
+      <ModalDescription className='mb-6 text-center'>{description}</ModalDescription>
       <div className='flex flex-row gap-2'>
         <button
           className='typo-text-sm-semibold w-34 cursor-pointer rounded-2xl border-1 border-gray-400 bg-white py-3 text-gray-600'
