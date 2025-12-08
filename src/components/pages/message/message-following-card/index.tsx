@@ -1,31 +1,36 @@
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 
 interface FollowingCardProps {
+  id: number;
   name: string;
   profileImage: string;
   profileMessage: string;
   type: 'following' | 'message';
   count?: number;
-  onClick?: () => void;
   onMessageClick?: () => void;
 }
 
 export const FollowingCard = ({
+  id,
   name,
   profileImage,
   profileMessage,
   type,
   count = 0,
-  onClick,
   onMessageClick,
 }: FollowingCardProps) => {
+  const router = useRouter();
+  const handleClick = () => {
+    router.push(`/profile/${id}`);
+  };
   return (
     <div
       data-testid='following-card'
       className='flex cursor-pointer items-center gap-3 bg-white p-5'
-      onClick={onClick}
+      onClick={handleClick}
     >
       <Image
         width={48}
