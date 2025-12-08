@@ -1,14 +1,28 @@
+import { useRouter } from 'next/navigation';
+
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { FollowingCard } from '.';
 
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(),
+}));
+const defaultProps = {
+  id: 0,
+  name: '얼룩말',
+  profileImage: '/test.png',
+  profileMessage: '안녕하세요!',
+};
+const routerPush = jest.fn();
+
 describe('FollowingCard 컴포넌트 테스트', () => {
-  const defaultProps = {
-    id: 0,
-    name: '얼룩말',
-    profileImage: '/test.png',
-    profileMessage: '안녕하세요!',
-  };
+  beforeEach(() => {
+    // 각 테스트 전에 mock 초기화
+    jest.clearAllMocks();
+    (useRouter as jest.Mock).mockReturnValue({
+      push: routerPush,
+    });
+  });
 
   test('type=following 일 때 테스트', () => {
     render(<FollowingCard {...defaultProps} type='following' />);
@@ -45,7 +59,6 @@ describe('FollowingCard 컴포넌트 테스트', () => {
     render(<FollowingCard {...defaultProps} type='following' />);
 
     const card = screen.getByTestId('following-card');
-    const routerPush = jest.fn();
 
     fireEvent.click(card);
     expect(routerPush).toHaveBeenCalledTimes(1);
@@ -54,7 +67,6 @@ describe('FollowingCard 컴포넌트 테스트', () => {
 
   test('팔로잉 카드의 메시지 버튼 클릭 시 onMessageClick만 호출되는지 테스트.', () => {
     const handleMessageClick = jest.fn();
-    const routerPush = jest.fn();
 
     render(
       <FollowingCard {...defaultProps} type='following' onMessageClick={handleMessageClick} />,
