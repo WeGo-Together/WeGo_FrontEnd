@@ -1,4 +1,8 @@
+'use client';
+
 import Image from 'next/image';
+
+import { AnyFieldApi } from '@tanstack/react-form';
 
 import { Icon } from '@/components/icon';
 import { ImageInput, ImageInputProps } from '@/components/ui';
@@ -6,18 +10,22 @@ import { cn } from '@/lib/utils';
 
 type ImageUploadPropsWithoutChildren = Omit<ImageInputProps, 'children'>;
 
-const ThumbnailField = ({ value, onChange, initialImages }: ImageUploadPropsWithoutChildren) => {
+interface Props extends ImageUploadPropsWithoutChildren {
+  field: AnyFieldApi;
+}
+
+export const MeetupImagesField = ({ field, initialImages }: Props) => {
   return (
     <ImageInput
       initialImages={initialImages}
       maxFiles={3}
       mode='append'
       multiple={true}
-      value={value}
-      onChange={onChange}
+      value={field.state.value}
+      onChange={field.handleChange}
     >
       {(images, onRemoveImageClick, onFileSelectClick) => (
-        <div className='flex flex-row gap-2'>
+        <div className='mt-6 flex flex-row gap-2'>
           <button
             className={cn(
               'flex-center bg-mono-white group aspect-square w-full max-w-20 cursor-pointer rounded-2xl border-1 border-gray-300', // 기본 스타일
@@ -54,7 +62,7 @@ const ThumbnailField = ({ value, onChange, initialImages }: ImageUploadPropsWith
                 aria-label='이미지 삭제 버튼'
                 onClick={() => onRemoveImageClick(url)}
               >
-                <Icon id='small-x' className='size-1.5 text-gray-700' />
+                <Icon id='small-x-1' className='size-1.5 text-gray-700' />
               </button>
             </div>
           ))}
@@ -63,5 +71,3 @@ const ThumbnailField = ({ value, onChange, initialImages }: ImageUploadPropsWith
     </ImageInput>
   );
 };
-
-export default ThumbnailField;

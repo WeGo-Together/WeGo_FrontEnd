@@ -217,7 +217,7 @@ export const ModalCloseButton = () => {
       type='button'
       onClick={close}
     >
-      <Icon id='x' className='size-5 cursor-pointer text-gray-500' />
+      <Icon id='x-1' className='size-5 cursor-pointer text-gray-500' />
     </button>
   );
 };

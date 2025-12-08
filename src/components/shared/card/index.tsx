@@ -117,8 +117,8 @@ const Card = ({
           <CardTags tags={cardTags} />
 
           <div className='mt-[13px] flex flex-col gap-1'>
-            <CardInfoRow iconId='map-pin' label={location} />
-            <CardInfoRow iconId='calendar' label={dateTime} />
+            <CardInfoRow iconId='map-pin-1' label={location} />
+            <CardInfoRow iconId='calendar-1' label={dateTime} />
           </div>
 
           <CardParticipationRow

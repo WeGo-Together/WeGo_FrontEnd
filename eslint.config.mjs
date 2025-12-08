@@ -172,6 +172,11 @@ const eslintConfig = defineConfig([
           },
         },
       ],
+
+      /*
+        랜더 프롭스 허용
+      */
+      'react/no-children-prop': 'off',
     },
   },
   /**

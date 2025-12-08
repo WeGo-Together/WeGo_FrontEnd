@@ -13,7 +13,7 @@ jobs:
   ec2-production-deploy:
     runs-on: ubuntu-latest
     env:
-      APP_DOMAIN: new-project-final.link
+      APP_DOMAIN: wego.monster
       APP_DIR: wego-production
       APP_PORT: 3000
       PM2_APP_NAME: wego-production
