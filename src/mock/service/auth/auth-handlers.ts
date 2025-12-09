@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 
-import { LoginRequest, LoginResponse, SignupRequest } from '@/types/service/auth';
+import { LoginRequest, LoginResponse, RefreshResponse, SignupRequest } from '@/types/service/auth';
 import { CommonErrorResponse } from '@/types/service/common';
 
 import {
@@ -45,7 +45,13 @@ const loginMock = http.post('*/api/v1/auth/login', async ({ request }) => {
 
   try {
     const response = createLoginResponse(body.email, body.password);
-    return HttpResponse.json<LoginResponse>(response, { status: 200 });
+    return HttpResponse.json<LoginResponse>(response, {
+      status: 200,
+      headers: {
+        'Set-Cookie':
+          'refreshToken=mock-refresh-token; Path=/; Max-Age=604800; HttpOnly; Secure; SameSite=Strict',
+      },
+    });
   } catch {
     const errorBody: CommonErrorResponse = {
       type: 'https://example.com/errors/invalid-credentials',
@@ -63,4 +69,35 @@ const logoutMock = http.post('*/api/v1/auth/logout', async ({}) => {
   return new HttpResponse(null, { status: 204 });
 });
 
-export const authHandlers = [signupMock, loginMock, logoutMock];
+const refreshMock = http.post<RefreshResponse | CommonErrorResponse>(
+  '*/api/v1/auth/refresh',
+  async ({ cookies }) => {
+    const refreshToken = cookies.refreshToken;
+
+    if (!refreshToken || refreshToken !== 'mock-refresh-token') {
+      const errorBody: CommonErrorResponse = {
+        type: 'https://example.com/errors/invalid-refresh-token',
+        title: 'INVALID_REFRESH_TOKEN',
+        status: 401,
+        detail: '리프레시 토큰이 유효하지 않습니다.',
+        instance: '/api/v1/auth/refresh',
+        errorCode: 'A004',
+      };
+      return HttpResponse.json<CommonErrorResponse>(errorBody, { status: 401 });
+    }
+
+    const now = Date.now();
+    const expiresIn = 3600;
+
+    const response: RefreshResponse = {
+      accessToken: 'mock-access-token-refreshed',
+      tokenType: 'Bearer',
+      expiresIn,
+      expiresAt: new Date(now + expiresIn * 1000).toISOString(),
+    };
+
+    return HttpResponse.json<RefreshResponse>(response, { status: 200 });
+  },
+);
+
+export const authHandlers = [signupMock, loginMock, logoutMock, refreshMock];
