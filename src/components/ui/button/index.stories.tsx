@@ -71,12 +71,3 @@ export const Small: Story = {
     size: 'sm',
   },
 };
-
-export const Disabled: Story = {
-  args: {
-    children: '사용불가',
-    variant: 'primary',
-    size: 'md',
-    disabled: true,
-  },
-};
