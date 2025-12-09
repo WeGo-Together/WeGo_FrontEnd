@@ -2,6 +2,8 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import * as m from 'motion/react-m';
+
 import { Icon } from '@/components/icon';
 import { cn } from '@/lib/utils';
 
@@ -23,11 +25,15 @@ interface ModalProviderProps {
 }
 
 export const ModalProvider = ({ children }: ModalProviderProps) => {
+  const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState<React.ReactNode>(null);
 
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const lastInputTypeRef = useRef<'mouse' | 'keyboard'>('mouse');
+
+  const modalWrapperRef = useRef<HTMLDivElement | null>(null);
+  const isMouseDownInsideModal = useRef(false);
 
   const open = (modalContent: React.ReactNode) => {
     setContent(modalContent);
@@ -43,11 +49,16 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
     setContent(null);
     setIsOpen(false);
     if (previousFocusRef.current) {
-      previousFocusRef.current.focus();
+      const el = previousFocusRef.current;
+      setTimeout(() => {
+        el.focus();
+      }, 0);
+
       previousFocusRef.current = null;
     }
   };
 
+  // Modal을 Open 할 때 키보드로 진입했다면 Trigger 요소를 기억함
   useEffect(() => {
     const handleMouseDown = () => {
       lastInputTypeRef.current = 'mouse';
@@ -64,6 +75,37 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
+
+  // Modal 외부 Mousedown => 내부 MouseUp 일 때 Modal이 닫히지 않음
+  // Modal 내부 Mousedown => 외부 MouseUp 일 때 Modal이 닫히지 않음
+  // Modal 외부 Mousedown => 외부 Mouseup 일 때 Modal 닫힘
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleMouseDown = (e: MouseEvent) => {
+      if (modalWrapperRef.current?.contains(e.target as Node)) {
+        isMouseDownInsideModal.current = true;
+      } else {
+        isMouseDownInsideModal.current = false;
+      }
+    };
+
+    const handleMouseUp = (e: MouseEvent) => {
+      if (
+        !modalWrapperRef.current?.contains(e.target as Node) &&
+        isMouseDownInsideModal.current === false
+      ) {
+        close();
+      }
+    };
+
+    document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      document.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isOpen]);
 
   // esc 입력 시 Modal close
   useEffect(() => {
@@ -89,7 +131,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
   // Modal Open 상태일 때 배경 요소들 무시
   useEffect(() => {
     if (!isOpen) return;
-    const appRoot = document.getElementById('__next') || document.getElementById('root');
+    const appRoot = document.getElementById('root');
     if (appRoot) {
       appRoot.setAttribute('inert', '');
       appRoot.setAttribute('aria-hidden', 'true');
@@ -102,20 +144,47 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+
   return (
     <ModalContext.Provider value={{ open, close }}>
       {children}
-      {isOpen && content}
+      {mounted &&
+        createPortal(
+          <div id='modal-root'>
+            {isOpen && (
+              <m.div
+                className='fixed inset-0 z-9999 flex items-center justify-center bg-black/50'
+                animate={{
+                  opacity: 1,
+                }}
+                aria-describedby='modal-description'
+                aria-labelledby='modal-title'
+                aria-modal='true'
+                initial={{ opacity: 0 }}
+                role='dialog'
+              >
+                <div ref={modalWrapperRef} className='flex w-full max-w-110 justify-center px-4'>
+                  {content}
+                </div>
+              </m.div>
+            )}
+          </div>,
+          document.body,
+        )}
     </ModalContext.Provider>
   );
 };
 
 interface ModalContentProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-export const ModalContent = ({ children }: ModalContentProps) => {
-  const { close } = useModal();
+export const ModalContent = ({ children, className }: ModalContentProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   // focus 처리
@@ -124,7 +193,7 @@ export const ModalContent = ({ children }: ModalContentProps) => {
 
     const modal = modalRef.current;
     const focusableElements = modal.querySelectorAll(
-      'button:not([disabled]), a[href]:not([tabindex="-1"]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      'button:not([disabled]), a[href]:not([tabindex="-1"]), input:not([disabled]):not([tabindex="-1"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
     );
     const firstElement = focusableElements[0] as HTMLElement;
     const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
@@ -158,29 +227,24 @@ export const ModalContent = ({ children }: ModalContentProps) => {
     return () => modal.removeEventListener('keydown', handleTab);
   }, [children]);
 
-  return createPortal(
-    <div
-      className='fixed inset-0 z-9999 flex items-center justify-center bg-black/50'
-      aria-describedby='modal-description'
-      aria-labelledby='modal-title'
-      aria-modal='true'
-      role='dialog'
-      onClick={close}
+  return (
+    <m.div
+      ref={modalRef}
+      className={cn('w-full rounded-3xl bg-white p-5', className)}
+      animate={{
+        opacity: 1,
+        scale: 1,
+      }}
+      initial={{ opacity: 0, scale: 0.1 }}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
     >
-      <div
-        ref={modalRef}
-        className='rounded-3xl bg-white p-5'
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        <div className='relative'>
-          {children}
-          <ModalCloseButton />
-        </div>
+      <div className='relative'>
+        {children}
+        <ModalCloseButton />
       </div>
-    </div>,
-    document.body,
+    </m.div>
   );
 };
 
