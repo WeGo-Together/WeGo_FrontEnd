@@ -55,6 +55,7 @@ jobs:
         if: always() && github.event_name == 'pull_request'
         uses: actions/github-script@v7
         env:
+          HAS_CHANGES: 'true'
           BUILD_STATUS: ${{ steps.chromatic.outcome }}
           STORYBOOK_URL: ${{ steps.chromatic.outputs.storybookUrl }}
           BUILD_URL: ${{ steps.chromatic.outputs.buildUrl }}
