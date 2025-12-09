@@ -7,6 +7,12 @@ const meta = {
   component: FollowingCard,
   parameters: {
     layout: 'padded',
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        pathname: '/',
+      },
+    },
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof FollowingCard>;
