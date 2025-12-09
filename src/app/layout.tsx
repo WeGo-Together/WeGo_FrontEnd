@@ -24,7 +24,9 @@ export default function RootLayout({
     <html lang='ko'>
       <body className={`${pretendard.className} ${pretendard.variable} antialiased`}>
         <Providers>
-          <LayoutWrapper>{children}</LayoutWrapper>
+          <div id='root'>
+            <LayoutWrapper>{children}</LayoutWrapper>
+          </div>
         </Providers>
       </body>
     </html>
