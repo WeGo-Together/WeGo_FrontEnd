@@ -7,7 +7,7 @@ import { GetUserPayload } from '@/types/service/user';
 export const useGetUser = ({ userId }: GetUserPayload) => {
   const query = useQuery({
     queryKey: userKeys.item(userId),
-    queryFn: () => API.usersService.getUser({ userId }),
+    queryFn: () => API.userService.getUser({ userId }),
   });
   return query;
 };

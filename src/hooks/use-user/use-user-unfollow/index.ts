@@ -7,7 +7,7 @@ import { Follow } from '@/types/service/user';
 export const useUnfollowUser = (payload: Follow) => {
   const queryClient = useQueryClient();
   const query = useMutation({
-    mutationFn: () => API.usersService.unfollowUser(payload),
+    mutationFn: () => API.userService.unfollowUser(payload),
     onSuccess: (_data, _variables, _context) => {
       queryClient.invalidateQueries({ queryKey: userKeys.item(payload.followeeId) });
       console.log('요청 성공');

@@ -6,7 +6,7 @@ import { userKeys } from '@/lib/query-key/query-key-user';
 export const useDeleteUser = () => {
   const queryClient = useQueryClient();
   const query = useMutation({
-    mutationFn: () => API.usersService.deleteMe(),
+    mutationFn: () => API.userService.deleteMe(),
     onSuccess: (data, _variables, _context) => {
       queryClient.invalidateQueries({ queryKey: userKeys.item(data.id) });
       console.log('요청 성공');
