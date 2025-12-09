@@ -61,3 +61,29 @@ jobs:
           name: base-coverage
           path: coverage/coverage-summary.json
           retention-days: 90
+
+      # GitHub Pages 배포 추가
+      - name: Checkout GitHub Pages repo
+        if: steps.check-coverage.outputs.has_coverage == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: WeGo-Together/WeGo-Together.github.io
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          path: gh-pages
+
+      - name: Copy coverage report
+        if: steps.check-coverage.outputs.has_coverage == 'true'
+        run: |
+          mkdir -p gh-pages/front/coverage
+          rm -rf gh-pages/front/coverage/lcov-report
+          cp -r coverage/lcov-report gh-pages/front/coverage/
+
+      - name: Commit and push to GitHub Pages
+        if: steps.check-coverage.outputs.has_coverage == 'true'
+        run: |
+          cd gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add front/coverage/lcov-report
+          git commit -m "Update coverage report from ${{ github.sha }}" || exit 0
+          git push
