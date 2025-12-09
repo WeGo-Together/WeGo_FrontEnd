@@ -20,7 +20,7 @@
       </td>
       <td>
         <h3><a href='https://wego.monster/'>🚀 배포 사이트</a></h3>
-        <h3><a href='https://6921b0f53b7a664723f48704-mthdqcfnjc.chromatic.com/'>📚 스토리북</a></h3>
+        <h3><a href='https://main--6921b0f53b7a664723f48704.chromatic.com/'>📚 스토리북</a></h3>
         <h3><a href='https://wego-together.github.io/front/coverage/lcov-report/'>🔍 테스트 커버리지</a></h3>
       </td>
     </tr>
