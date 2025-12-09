@@ -4,29 +4,48 @@ import { cva } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
 
-const buttonVariants = cva(
-  'bg-mono-white w-full border transition hover:cursor-pointer hover:opacity-80 disabled:cursor-not-allowed',
-  {
-    variants: {
-      variant: {
-        primary: 'bg-mint-400 text-mono-white disabled:bg-gray-400',
-        secondary: 'border-mint-500 text-mint-500 disabled:border-gray-400 disabled:text-gray-400',
-        tertiary: 'border-gray-400 text-gray-600 disabled:text-gray-400',
-        leave: 'border-gray-200 bg-mono-white text-gray-600 text-text-sm-semibold',
-        chat: 'border-mint-500 bg-mint-500 text-mono-white text-text-sm-bold',
-      },
-      size: {
-        md: 'text-text-md-bold h-14 rounded-[16px]',
-        sm: 'text-text-sm-semibold h-11 max-w-[112px] rounded-[16px]',
-        xs: 'h-10 rounded-xl',
-      },
+const buttonVariants = cva('bg-mono-white w-full border transition', {
+  variants: {
+    variant: {
+      primary: 'bg-mint-400 text-text-md-bold text-mono-white',
+      secondary: 'border-mint-500 text-text-sm-semibold text-mint-500',
+      tertiary: 'border-gray-400 text-text-sm-semibold text-gray-600',
+      leave: 'border-gray-200 bg-mono-white text-gray-600 text-text-sm-semibold',
+      chat: 'border-mint-500 bg-mint-500 text-mono-white text-text-sm-bold',
     },
-    defaultVariants: {
-      variant: 'primary',
-      size: 'md',
+    size: {
+      md: 'h-13 rounded-2xl',
+      sm: 'h-10 rounded-xl',
+      xs: 'h-10 rounded-xl',
+    },
+    disabled: {
+      true: '!cursor-not-allowed',
+      false: 'hover:opacity-80',
     },
   },
-);
+  compoundVariants: [
+    {
+      variant: 'primary',
+      disabled: true,
+      class: 'bg-gray-400',
+    },
+    {
+      variant: 'secondary',
+      disabled: true,
+      class: 'border-gray-400 text-gray-400',
+    },
+    {
+      variant: 'tertiary',
+      disabled: true,
+      class: 'text-gray-400',
+    },
+  ],
+  defaultVariants: {
+    variant: 'primary',
+    size: 'md',
+    disabled: false,
+  },
+});
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'tertiary' | 'leave' | 'chat';
@@ -38,12 +57,18 @@ export const Button = ({
   className,
   variant,
   size,
+  disabled = false,
   children,
   type = 'button',
   ...props
 }: ButtonProps) => {
   return (
-    <button className={cn(buttonVariants({ variant, size }), className)} type={type} {...props}>
+    <button
+      className={cn(buttonVariants({ variant, size, disabled: !!disabled }), className)}
+      disabled={disabled}
+      type={type}
+      {...props}
+    >
       {children}
     </button>
   );
