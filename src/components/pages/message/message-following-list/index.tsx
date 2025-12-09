@@ -19,6 +19,7 @@ export const FollowingList = ({ items }: FollowingListProps) => {
       {items.map((item) => (
         <FollowingCard
           key={item.id}
+          id={item.id}
           name={item.name}
           profileImage={item.profileImage}
           profileMessage={item.profileMessage}
