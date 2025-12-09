@@ -3,11 +3,13 @@
 import { useRouter } from 'next/navigation';
 
 import { type AnyFieldApi, useForm } from '@tanstack/react-form';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { API } from '@/api';
 import { isProblemDetailError } from '@/api/service';
 import { FormInput } from '@/components/shared';
 import { Button } from '@/components/ui';
+import { userKeys } from '@/lib/query-key/query-key-user';
 import { loginSchema } from '@/lib/schema/auth';
 
 const getHintMessage = (field: AnyFieldApi) => {
@@ -24,6 +26,7 @@ const getHintMessage = (field: AnyFieldApi) => {
 
 export const LoginForm = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const form = useForm({
     defaultValues: {
@@ -43,6 +46,8 @@ export const LoginForm = () => {
 
         const result = await API.authService.login(payload);
         console.log('login success:', result);
+
+        queryClient.invalidateQueries({ queryKey: userKeys.all });
 
         formApi.reset();
         router.push('/');
