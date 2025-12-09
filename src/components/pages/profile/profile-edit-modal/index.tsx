@@ -41,13 +41,12 @@ export const ProfileEditModal = ({ user }: Props) => {
   });
 
   return (
-    <ModalContent>
+    <ModalContent className='max-w-82.5'>
       <ModalTitle>프로필 수정</ModalTitle>
       <ModalDescription className='sr-only'>
         이 모달은 자신의 프로필을 수정할 수 있는 모달입니다.
       </ModalDescription>
       <form
-        className='w-full max-w-70.5'
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();

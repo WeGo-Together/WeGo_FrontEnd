@@ -1,13 +1,28 @@
+import { useRouter } from 'next/navigation';
+
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { FollowingCard } from '.';
 
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(),
+}));
+const defaultProps = {
+  id: 0,
+  name: '얼룩말',
+  profileImage: '/test.png',
+  profileMessage: '안녕하세요!',
+};
+const routerPush = jest.fn();
+
 describe('FollowingCard 컴포넌트 테스트', () => {
-  const defaultProps = {
-    name: '얼룩말',
-    profileImage: '/test.png',
-    profileMessage: '안녕하세요!',
-  };
+  beforeEach(() => {
+    // 각 테스트 전에 mock 초기화
+    jest.clearAllMocks();
+    (useRouter as jest.Mock).mockReturnValue({
+      push: routerPush,
+    });
+  });
 
   test('type=following 일 때 테스트', () => {
     render(<FollowingCard {...defaultProps} type='following' />);
@@ -40,33 +55,27 @@ describe('FollowingCard 컴포넌트 테스트', () => {
     expect(screen.getByText('99+')).toBeInTheDocument();
   });
 
-  test('팔로잉 카드 클릭 시 onClick 호출되는지 테스트.', () => {
-    const handleClick = jest.fn();
-    render(<FollowingCard {...defaultProps} type='following' onClick={handleClick} />);
+  test('팔로잉 카드 클릭 시 router.push() 호출되는지 테스트.', () => {
+    render(<FollowingCard {...defaultProps} type='following' />);
 
     const card = screen.getByTestId('following-card');
 
     fireEvent.click(card);
-    expect(handleClick).toHaveBeenCalledTimes(1);
+    expect(routerPush).toHaveBeenCalledTimes(1);
+    expect(routerPush).toHaveBeenCalledWith('/profile/0');
   });
 
   test('팔로잉 카드의 메시지 버튼 클릭 시 onMessageClick만 호출되는지 테스트.', () => {
-    const handleClick = jest.fn();
     const handleMessageClick = jest.fn();
 
     render(
-      <FollowingCard
-        {...defaultProps}
-        type='following'
-        onClick={handleClick}
-        onMessageClick={handleMessageClick}
-      />,
+      <FollowingCard {...defaultProps} type='following' onMessageClick={handleMessageClick} />,
     );
 
     const button = screen.getByText('메세지');
     fireEvent.click(button);
 
     expect(handleMessageClick).toHaveBeenCalledTimes(1);
-    expect(handleClick).not.toHaveBeenCalled(); // 이벤트 버블 막힘 확인
+    expect(routerPush).not.toHaveBeenCalled(); // 이벤트 버블 막힘 확인
   });
 });
