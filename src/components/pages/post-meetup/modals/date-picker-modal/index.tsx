@@ -6,8 +6,8 @@ import { AnyFieldApi } from '@tanstack/react-form';
 import clsx from 'clsx';
 
 import { Icon } from '@/components/icon';
-import { DatePicker } from '@/components/pages/post-meetup/modals/date-picker-modal/date-picker';
-import { ModalContent, ModalTitle, useModal } from '@/components/ui';
+import { Calendar } from '@/components/pages/post-meetup/modals/date-picker-modal/calendar';
+import { ModalContent, ModalTitle } from '@/components/ui';
 
 interface Props {
   field: AnyFieldApi;
@@ -15,7 +15,6 @@ interface Props {
 
 export const DatePickerModal = ({ field }: Props) => {
   const [tabMenu, setTabMenu] = useState<'date' | 'time'>('date');
-  const { close } = useModal();
 
   return (
     <ModalContent>
@@ -40,9 +39,11 @@ export const DatePickerModal = ({ field }: Props) => {
           ))}
         </nav>
 
-        <DatePicker
+        <Calendar
           currentTab={tabMenu}
-          handleDateChange={(date: string) => field.handleChange({ ...field.state.value, date })}
+          handleDateChange={(selectedDate: string) =>
+            field.handleChange({ ...field.state.value, selectedDate })
+          }
         />
 
         <div className='flex-center mt-6 gap-2'>
