@@ -1,47 +1,35 @@
-import { useEffect, useState } from 'react';
+'use client';
 
-import { useDatePicker } from '@rehookify/datepicker';
+import { useEffect } from 'react';
+
+import {
+  useContextCalendars,
+  useContextDatePickerOffsetPropGetters,
+  useContextDays,
+  useContextDaysPropGetters,
+} from '@rehookify/datepicker';
 import clsx from 'clsx';
 
 import { Icon } from '@/components/icon';
 
 interface Props {
-  currentTab: 'date' | 'time';
-  handleDateChange: (date: string) => void;
+  handleDateChange: (selectedDate: string) => void;
 }
 
-export const DatePicker = ({ currentTab, handleDateChange }: Props) => {
-  const nowDate = new Date();
-  const [selectedDates, onDatesChange] = useState<Date[]>([nowDate]);
+export const DatePicker = ({ handleDateChange }: Props) => {
+  const { formattedDates } = useContextDays();
+  const { calendars, weekDays } = useContextCalendars();
+  const { addOffset, subtractOffset } = useContextDatePickerOffsetPropGetters();
+  const { dayButton } = useContextDaysPropGetters();
+
+  const { month, days } = calendars[0];
 
   useEffect(() => {
-    handleDateChange(selectedDates.toString());
-  }, [selectedDates]);
-
-  const {
-    data: { weekDays, calendars },
-    propGetters: { dayButton, addOffset, subtractOffset },
-  } = useDatePicker({
-    selectedDates,
-    onDatesChange,
-    locale: {
-      day: 'numeric',
-      weekday: 'short',
-      monthName: 'numeric',
-    },
-    dates: {
-      minDate: nowDate,
-      maxDate: new Date(nowDate.getFullYear() + 1, 12, 0),
-    },
-    calendar: {
-      mode: 'fluid',
-    },
-  });
-
-  const { year, month, days } = calendars[0];
+    handleDateChange(formattedDates[0].toString());
+  }, [formattedDates]);
 
   return (
-    <section className='mt-4 select-none'>
+    <div>
       <div className='flex justify-end gap-4'>
         <button {...subtractOffset({ months: 1 })} aria-label='Previous month'>
           <Icon id='chevron-left-1' className='text-gray-600' />
@@ -76,16 +64,6 @@ export const DatePicker = ({ currentTab, handleDateChange }: Props) => {
           ))}
         </ul>
       </div>
-
-      <div className='text-text-md-semibold flex-center mt-3 gap-2.5 text-gray-700'>
-        <span>{year}년</span>
-        <span className={currentTab === 'date' ? 'text-mint-600' : ''}>
-          {month}월 {selectedDates[0].getDate()}일
-        </span>
-        <span className={currentTab === 'time' ? 'text-mint-600' : ''}>12:20</span>
-        <span>AM</span>
-        <span>PM</span>
-      </div>
-    </section>
+    </div>
   );
 };
