@@ -24,7 +24,7 @@ const ProfileLayout = async ({ children, params }: Props) => {
 
   await queryClient.fetchQuery({
     queryKey: userKeys.item(userId),
-    queryFn: () => API.usersService.getUser({ userId }),
+    queryFn: () => API.userService.getUser({ userId }),
   });
 
   return <HydrationBoundary state={dehydrate(queryClient)}>{children}</HydrationBoundary>;

@@ -6,7 +6,7 @@ const provideAPIService = () => {
   const followerService = followerServiceRemote();
 
   return {
-    usersService: userService,
+    userService,
     authService,
     followerService,
   };
