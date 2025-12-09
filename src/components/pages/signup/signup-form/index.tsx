@@ -5,10 +5,10 @@ import { useRouter } from 'next/navigation';
 import { type AnyFieldApi, useForm } from '@tanstack/react-form';
 
 import { API } from '@/api';
-import { isProblemDetailError } from '@/api/service';
 import { FormInput } from '@/components/shared';
 import { Button } from '@/components/ui';
 import { signupSchema } from '@/lib/schema/auth';
+import { CommonErrorResponse } from '@/types/service/common';
 
 const getHintMessage = (field: AnyFieldApi) => {
   const {
@@ -50,15 +50,10 @@ export const SignupForm = () => {
         formApi.reset();
         router.push('/login');
       } catch (error) {
-        if (isProblemDetailError(error) && error.response?.data) {
-          const problem = error.response.data;
+        const err = error as CommonErrorResponse;
 
-          console.error('[SIGNUP ERROR]', problem.errorCode, problem.detail);
-          alert(problem.detail || '회원가입에 실패했습니다.');
-        } else {
-          console.error(error);
-          alert('알 수 없는 오류가 발생했습니다.');
-        }
+        console.error('[SIGNUP ERROR]', err.errorCode, err.detail);
+        alert(err.detail || '회원가입에 실패했습니다.');
       }
     },
   });
