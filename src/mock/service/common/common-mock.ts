@@ -1,6 +1,6 @@
 import { CommonSuccessResponse } from '@/types/service/common';
 
-export const createSuccessResponse = <T>(data: T): CommonSuccessResponse<T> => ({
+export const createMockSuccessResponse = <T>(data: T): CommonSuccessResponse<T> => ({
   status: 200,
   message: '요청이 정상적으로 처리되었습니다.',
   data,
@@ -12,7 +12,11 @@ interface CreateErrorResponseType {
   errorCode: string;
 }
 
-export const createErrorResponse = ({ status, detail, errorCode }: CreateErrorResponseType) => ({
+export const createMockErrorResponse = ({
+  status,
+  detail,
+  errorCode,
+}: CreateErrorResponseType) => ({
   type: `https://example.com/errors/${errorCode}`,
   title: errorCode.toUpperCase(),
   status,
