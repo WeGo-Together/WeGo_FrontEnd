@@ -5,7 +5,7 @@ const provideAPIService = () => {
   const authService = authServiceRemote();
 
   return {
-    usersService: userService,
+    userService,
     authService,
   };
 };
