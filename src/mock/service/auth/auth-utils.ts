@@ -11,7 +11,6 @@ const findUserByCredentials = (email: string, password: string) =>
 
 const createMockTokens = () => ({
   accessToken: 'mock-access-token',
-  refreshToken: 'mock-refresh-token',
   tokenType: 'Bearer' as const,
   expiresIn: 3600,
 });
