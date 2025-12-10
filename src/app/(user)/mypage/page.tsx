@@ -1,5 +1,5 @@
 'use client';
-import { ProfileInfo, ProfileSetting } from '@/components/pages/profile';
+import { MyPageInfo, MyPageSetting } from '@/components/pages/user/mypage';
 import { useGetUser } from '@/hooks/use-user';
 
 const MyPage = () => {
@@ -9,9 +9,9 @@ const MyPage = () => {
   const { data: user } = useGetUser({ userId });
   if (!user) return null;
   return (
-    <div className='flex min-h-[calc(100dvh-113px)] flex-col justify-between bg-gray-50'>
-      <ProfileInfo user={user} />
-      <ProfileSetting user={user} />
+    <div className='flex min-h-[calc(100dvh-113px)] flex-col justify-between'>
+      <MyPageInfo user={user} />
+      <MyPageSetting user={user} />
     </div>
   );
 };

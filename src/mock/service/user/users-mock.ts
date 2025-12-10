@@ -15,6 +15,7 @@ export const mockUserItems: User[] = [
     createdAt: '2025-12-07T17:00:00+09:00',
     groupJoinedCnt: 5,
     groupCreatedCnt: 3,
+    isFollowing: true,
   },
   {
     userId: 2,
@@ -30,6 +31,7 @@ export const mockUserItems: User[] = [
     createdAt: '2025-08-03T17:00:00+09:00',
     groupJoinedCnt: 5,
     groupCreatedCnt: 3,
+    isFollowing: true,
   },
   {
     userId: 3,
@@ -45,5 +47,6 @@ export const mockUserItems: User[] = [
     createdAt: '2025-11-03T17:00:00+09:00',
     groupJoinedCnt: 2,
     groupCreatedCnt: 1,
+    isFollowing: false,
   },
 ];
