@@ -1,5 +1,5 @@
 'use client';
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import React, { createContext, RefObject, useContext, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import * as m from 'motion/react-m';
@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 interface ModalContextType {
   open: (context: React.ReactNode) => void;
   close: () => void;
+  modalContentRef: RefObject<HTMLDivElement | null>;
 }
 
 const ModalContext = createContext<ModalContextType | null>(null);
@@ -32,7 +33,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const lastInputTypeRef = useRef<'mouse' | 'keyboard'>('mouse');
 
-  const modalWrapperRef = useRef<HTMLDivElement | null>(null);
+  const modalContentRef = useRef<HTMLDivElement>(null);
   const isMouseDownInsideModal = useRef(false);
 
   const open = (modalContent: React.ReactNode) => {
@@ -82,7 +83,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
   useEffect(() => {
     if (!isOpen) return;
     const handleMouseDown = (e: MouseEvent) => {
-      if (modalWrapperRef.current?.contains(e.target as Node)) {
+      if (modalContentRef.current?.contains(e.target as Node)) {
         isMouseDownInsideModal.current = true;
       } else {
         isMouseDownInsideModal.current = false;
@@ -91,7 +92,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
 
     const handleMouseUp = (e: MouseEvent) => {
       if (
-        !modalWrapperRef.current?.contains(e.target as Node) &&
+        !modalContentRef.current?.contains(e.target as Node) &&
         isMouseDownInsideModal.current === false
       ) {
         close();
@@ -150,7 +151,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
   }, []);
 
   return (
-    <ModalContext.Provider value={{ open, close }}>
+    <ModalContext.Provider value={{ open, close, modalContentRef }}>
       {children}
       {mounted &&
         createPortal(
@@ -167,9 +168,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
                 initial={{ opacity: 0 }}
                 role='dialog'
               >
-                <div ref={modalWrapperRef} className='flex w-full max-w-110 justify-center px-4'>
-                  {content}
-                </div>
+                <div className='flex w-full max-w-110 justify-center px-4'>{content}</div>
               </m.div>
             )}
           </div>,
@@ -185,13 +184,13 @@ interface ModalContentProps {
 }
 
 export const ModalContent = ({ children, className }: ModalContentProps) => {
-  const modalRef = useRef<HTMLDivElement>(null);
+  const { modalContentRef } = useModal();
 
   // focus 처리
   useEffect(() => {
-    if (!modalRef.current) return;
+    if (!modalContentRef.current) return;
 
-    const modal = modalRef.current;
+    const modal = modalContentRef.current;
     const focusableElements = modal.querySelectorAll(
       'button:not([disabled]), a[href]:not([tabindex="-1"]), input:not([disabled]):not([tabindex="-1"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
     );
@@ -225,11 +224,11 @@ export const ModalContent = ({ children, className }: ModalContentProps) => {
 
     modal.addEventListener('keydown', handleTab);
     return () => modal.removeEventListener('keydown', handleTab);
-  }, [children]);
+  }, [children, modalContentRef]);
 
   return (
     <m.div
-      ref={modalRef}
+      ref={modalContentRef}
       className={cn('w-full rounded-3xl bg-white p-5', className)}
       animate={{
         opacity: 1,
