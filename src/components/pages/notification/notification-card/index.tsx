@@ -77,9 +77,9 @@ const getDescription = (data: Notification) => {
 const getRoute = (data: Notification) => {
   switch (data.type) {
     case 'follow':
-      return `/profile/${data.user.id}`;
+      return `/profile/${data.user.userId}`;
     case 'group-create':
-      return `/profile/${data.user.id}`;
+      return `/profile/${data.user.userId}`;
     case 'group-delete':
       return ``;
     case 'group-join':

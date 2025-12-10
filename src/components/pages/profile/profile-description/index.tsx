@@ -32,12 +32,12 @@ export const ProfileDescription = ({ user }: Props) => {
     {
       label: '모임 참여',
       iconId: 'users-2',
-      value: `${user.joinedCount}회`,
+      value: `${user.groupJoinedCnt}회`,
     },
     {
       label: '모임 생성',
       iconId: 'map-pin-2',
-      value: `${user.createdCount}회`,
+      value: `${user.groupCreatedCnt}회`,
     },
   ];
 

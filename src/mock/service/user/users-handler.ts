@@ -7,7 +7,7 @@ import { mockUserItems } from './users-mock';
 
 const getUserItemMock = http.get(`*/users/:userId`, ({ params }) => {
   const id = Number(params.userId);
-  const user = mockUserItems.find((item) => item.id === id);
+  const user = mockUserItems.find((item) => item.userId === id);
 
   if (!user) {
     return HttpResponse.json(
