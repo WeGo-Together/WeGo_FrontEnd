@@ -17,9 +17,9 @@ export const DatePickerModal = ({ field }: Props) => {
   const [tabMenu, setTabMenu] = useState<'date' | 'time'>('date');
 
   return (
-    <ModalContent>
-      <ModalTitle>모달임</ModalTitle>
-      <section className=''>
+    <ModalContent className='w-82.5'>
+      <ModalTitle>날짜 및 시간</ModalTitle>
+      <section className='mt-2'>
         <nav className='flex'>
           {DATE_MODAL_TAB_MENU.map(({ name, iconId }) => (
             <button
@@ -41,9 +41,8 @@ export const DatePickerModal = ({ field }: Props) => {
 
         <Calendar
           currentTab={tabMenu}
-          handleDateChange={(selectedDate: string) =>
-            field.handleChange({ ...field.state.value, selectedDate })
-          }
+          dateFieldValue={field.state.value}
+          updateDateField={(selectedDate: string) => field.handleChange(selectedDate)}
         />
 
         <div className='flex-center mt-6 gap-2'>
