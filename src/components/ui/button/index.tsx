@@ -10,13 +10,10 @@ const buttonVariants = cva('bg-mono-white w-full border transition', {
       primary: 'bg-mint-400 text-text-md-bold text-mono-white',
       secondary: 'border-mint-500 text-text-sm-semibold text-mint-500',
       tertiary: 'border-gray-400 text-text-sm-semibold text-gray-600',
-      leave: 'border-gray-200 bg-mono-white text-gray-600 text-text-sm-semibold',
-      chat: 'border-mint-500 bg-mint-500 text-mono-white text-text-sm-bold',
     },
     size: {
       md: 'h-13 rounded-2xl',
       sm: 'h-10 rounded-xl',
-      xs: 'h-10 rounded-xl',
     },
     disabled: {
       true: '!cursor-not-allowed',
@@ -48,8 +45,8 @@ const buttonVariants = cva('bg-mono-white w-full border transition', {
 });
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'leave' | 'chat';
-  size?: 'md' | 'sm' | 'xs';
+  variant?: 'primary' | 'secondary' | 'tertiary';
+  size?: 'md' | 'sm';
   type?: 'button' | 'submit' | 'reset';
 }
 
