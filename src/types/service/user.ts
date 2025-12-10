@@ -11,6 +11,7 @@ export interface User {
   groupCreatedCnt: number;
   isNotificationEnabled: boolean;
   createdAt: string;
+  isFollowing: boolean;
 }
 
 export interface GetUserPayload {

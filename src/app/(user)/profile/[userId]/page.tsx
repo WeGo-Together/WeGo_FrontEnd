@@ -2,7 +2,7 @@
 
 import { use } from 'react';
 
-import { ProfileInfo } from '@/components/pages/profile';
+import { ProfileInfo } from '@/components/pages/user/profile';
 import { useGetUser } from '@/hooks/use-user';
 
 interface Props {
@@ -17,11 +17,7 @@ const ProfilePage = ({ params }: Props) => {
 
   if (!user) return null;
 
-  return (
-    <div className='bg-gray-50'>
-      <ProfileInfo user={user} />
-    </div>
-  );
+  return <ProfileInfo user={user} />;
 };
 
 export default ProfilePage;

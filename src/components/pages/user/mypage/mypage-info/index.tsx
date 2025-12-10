@@ -2,16 +2,18 @@
 import { Button, useModal } from '@/components/ui';
 import { User } from '@/types/service/user';
 
-import { ProfileCard } from '../profile-card';
-import { ProfileDescription } from '../profile-description';
-import { ProfileEditModal } from '../profile-edit-modal';
-import { ProfileFollowsBadge } from '../profile-follows-badge';
+import {
+  ProfileCard,
+  ProfileDescription,
+  ProfileEditModal,
+  ProfileFollowsBadge,
+} from '../../profile';
 
 interface Props {
   user: User;
 }
 
-export const ProfileInfo = ({ user }: Props) => {
+export const MyPageInfo = ({ user }: Props) => {
   const { open } = useModal();
 
   const handleButtonClick = () => {

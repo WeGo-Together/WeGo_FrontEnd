@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 interface ToggleButtonProps extends Omit<ButtonProps, 'value'> {
   value?: boolean;
 }
-export const ProfileToggleButton = ({ children, value = false, ...props }: ToggleButtonProps) => {
+export const MyPageToggleButton = ({ children, value = false, ...props }: ToggleButtonProps) => {
   return (
     <Button {...props}>
       {children}
@@ -20,7 +20,7 @@ export const ProfileToggleButton = ({ children, value = false, ...props }: Toggl
 
 type ActionButtonProps = ButtonProps;
 
-export const ProfileActionButton = ({ children, ...props }: ActionButtonProps) => {
+export const MyPageActionButton = ({ children, ...props }: ActionButtonProps) => {
   return <Button {...props}>{children}</Button>;
 };
 
