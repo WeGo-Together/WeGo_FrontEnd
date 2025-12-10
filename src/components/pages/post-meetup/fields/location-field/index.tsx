@@ -9,14 +9,14 @@ interface Props {
   field: AnyFieldApi;
 }
 
-export const MeetupAddressField = ({ field }: Props) => {
+export const MeetupLocationField = ({ field }: Props) => {
   return (
     <div className='mt-3 flex w-full flex-col gap-1'>
-      <Label htmlFor='post-meetup-address' required>
+      <Label htmlFor='post-meetup-location' required>
         모임 장소
       </Label>
       <Input
-        id='post-meetup-address'
+        id='post-meetup-location'
         className='bg-mono-white focus:border-mint-500 rounded-2xl border border-gray-300'
         frontIcon={
           <Icon
