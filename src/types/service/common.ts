@@ -9,6 +9,6 @@ export interface CommonErrorResponse {
 
 export interface CommonSuccessResponse<T> {
   status: number;
-  message: string;
+  success: boolean;
   data: T;
 }
