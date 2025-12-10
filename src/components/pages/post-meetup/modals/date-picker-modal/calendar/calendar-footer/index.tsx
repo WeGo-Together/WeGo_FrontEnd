@@ -24,8 +24,7 @@ export const CalendarFooter = ({
       <span className={currentTab === 'time' ? 'text-mint-600' : ''}>
         {hours}:{minutes}
       </span>
-      <span className={meridiem === 'PM' ? 'text-gray-500' : ''}>AM</span>
-      <span className={meridiem === 'AM' ? 'text-gray-500' : ''}>PM</span>
+      <span className='w-6.25'>{meridiem}</span>
     </div>
   );
 };
