@@ -25,7 +25,7 @@ export const Calendar = ({ currentTab, dateFieldValue, updateDateField }: Props)
   const prevDate = dateFieldValue ? new Date(dateFieldValue) : null;
   const [selectedDates, onDatesChange] = useState<Date[]>([prevDate ?? nowDate]);
   const [selectedTime, onTimeChange] = useState<TimePickerState>(() =>
-    prevDate ? prevDateTo12Hour(prevDate) : { hours: '01', minutes: '00', meridiem: 'AM' },
+    prevDate ? prevDateTo12Hour(prevDate) : { hours: '12', minutes: '00', meridiem: 'AM' },
   );
 
   useEffect(() => {
