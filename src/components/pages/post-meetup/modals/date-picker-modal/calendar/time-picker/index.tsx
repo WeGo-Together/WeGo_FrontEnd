@@ -39,7 +39,9 @@ export const TimePicker = ({ selectedTime, onTimeChange }: Props) => {
 };
 
 const TIME_SELECTORS = Object.freeze({
-  hours: Array.from({ length: 12 }, (_, idx) => (idx + 1).toString().padStart(2, '0')),
+  hours: ['12'].concat(
+    Array.from({ length: 11 }, (_, idx) => (idx + 1).toString().padStart(2, '0')),
+  ),
   minutes: Array.from({ length: 12 }, (_, idx) => (idx * 5).toString().padStart(2, '0')),
   meridiem: ['AM', 'PM'],
 });

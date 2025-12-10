@@ -7,6 +7,7 @@ import { DatePickerStateProvider } from '@rehookify/datepicker';
 import { CalendarFooter } from '@/components/pages/post-meetup/modals/date-picker-modal/calendar/calendar-footer';
 import { DatePicker } from '@/components/pages/post-meetup/modals/date-picker-modal/calendar/date-picker';
 import { TimePicker } from '@/components/pages/post-meetup/modals/date-picker-modal/calendar/time-picker';
+import { AnimateDynamicHeight } from '@/components/shared';
 
 interface Props {
   currentTab: 'date' | 'time';
@@ -25,7 +26,7 @@ export const Calendar = ({ currentTab, dateFieldValue, updateDateField }: Props)
   const prevDate = dateFieldValue ? new Date(dateFieldValue) : null;
   const [selectedDates, onDatesChange] = useState<Date[]>([prevDate ?? nowDate]);
   const [selectedTime, onTimeChange] = useState<TimePickerState>(() =>
-    prevDate ? prevDateTo12Hour(prevDate) : { hours: '01', minutes: '00', meridiem: 'AM' },
+    prevDate ? prevDateTo12Hour(prevDate) : { hours: '12', minutes: '00', meridiem: 'AM' },
   );
 
   useEffect(() => {
@@ -59,17 +60,17 @@ export const Calendar = ({ currentTab, dateFieldValue, updateDateField }: Props)
           },
         }}
       >
-        <Activity mode={currentTab === 'date' ? 'visible' : 'hidden'}>
-          <DatePicker />
-        </Activity>
-
-        <Activity mode={currentTab === 'time' ? 'visible' : 'hidden'}>
-          <TimePicker
-            selectedTime={selectedTime}
-            onTimeChange={(type, val) => onTimeChange((prev) => ({ ...prev, [type]: val }))}
-          />
-        </Activity>
-
+        <AnimateDynamicHeight>
+          <Activity mode={currentTab === 'date' ? 'visible' : 'hidden'}>
+            <DatePicker />
+          </Activity>
+          <Activity mode={currentTab === 'time' ? 'visible' : 'hidden'}>
+            <TimePicker
+              selectedTime={selectedTime}
+              onTimeChange={(type, val) => onTimeChange((prev) => ({ ...prev, [type]: val }))}
+            />
+          </Activity>
+        </AnimateDynamicHeight>
         <CalendarFooter currentTab={currentTab} selectedTime={selectedTime} />
       </DatePickerStateProvider>
     </section>
