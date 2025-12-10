@@ -10,11 +10,11 @@ export const ProfileFollowsBadge = ({ user }: Props) => {
   const listMap = [
     {
       label: '팔로워',
-      value: user.followersCount,
+      value: user.followersCnt,
     },
     {
       label: '팔로잉',
-      value: user.followeesCount,
+      value: user.followeesCnt,
     },
   ];
 

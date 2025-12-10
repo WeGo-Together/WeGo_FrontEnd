@@ -1,18 +1,16 @@
 export interface User {
-  id: number;
+  userId: number;
   email: string;
   nickName: string;
-  profileImage: string;
-  notification_enabled: boolean;
   mbti: string;
-  phoneNumber: string; // 삭제
+  profileImage: string;
   profileMessage: string;
-  // 아래는 추가되어야 할 것들
-  followeesCount: number;
-  followersCount: number;
+  followeesCnt: number;
+  followersCnt: number;
+  groupJoinedCnt: number;
+  groupCreatedCnt: number;
+  isNotificationEnabled: boolean;
   createdAt: string;
-  joinedCount: number;
-  createdCount: number;
 }
 
 export interface GetUserPayload {
@@ -25,7 +23,6 @@ export interface UpdateMePayload {
   nickName?: string;
   profileImage?: string;
   mbti?: string;
-  phoneNumber?: string;
   profileMessage?: string;
 }
 

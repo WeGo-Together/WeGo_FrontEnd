@@ -9,7 +9,7 @@ export const useUpdateUser = (payload: UpdateMePayload) => {
   const query = useMutation({
     mutationFn: () => API.userService.updateMe(payload),
     onSuccess: (data, _variables, _context) => {
-      queryClient.invalidateQueries({ queryKey: userKeys.item(data.id) });
+      queryClient.invalidateQueries({ queryKey: userKeys.item(data.userId) });
       console.log('요청 성공');
     },
     onError: () => {
