@@ -7,6 +7,7 @@ import { DatePickerStateProvider } from '@rehookify/datepicker';
 import { CalendarFooter } from '@/components/pages/post-meetup/modals/date-picker-modal/calendar/calendar-footer';
 import { DatePicker } from '@/components/pages/post-meetup/modals/date-picker-modal/calendar/date-picker';
 import { TimePicker } from '@/components/pages/post-meetup/modals/date-picker-modal/calendar/time-picker';
+import { AnimateDynamicHeight } from '@/components/shared';
 
 interface Props {
   currentTab: 'date' | 'time';
@@ -59,17 +60,17 @@ export const Calendar = ({ currentTab, dateFieldValue, updateDateField }: Props)
           },
         }}
       >
-        <Activity mode={currentTab === 'date' ? 'visible' : 'hidden'}>
-          <DatePicker />
-        </Activity>
-
-        <Activity mode={currentTab === 'time' ? 'visible' : 'hidden'}>
-          <TimePicker
-            selectedTime={selectedTime}
-            onTimeChange={(type, val) => onTimeChange((prev) => ({ ...prev, [type]: val }))}
-          />
-        </Activity>
-
+        <AnimateDynamicHeight>
+          <Activity mode={currentTab === 'date' ? 'visible' : 'hidden'}>
+            <DatePicker />
+          </Activity>
+          <Activity mode={currentTab === 'time' ? 'visible' : 'hidden'}>
+            <TimePicker
+              selectedTime={selectedTime}
+              onTimeChange={(type, val) => onTimeChange((prev) => ({ ...prev, [type]: val }))}
+            />
+          </Activity>
+        </AnimateDynamicHeight>
         <CalendarFooter currentTab={currentTab} selectedTime={selectedTime} />
       </DatePickerStateProvider>
     </section>

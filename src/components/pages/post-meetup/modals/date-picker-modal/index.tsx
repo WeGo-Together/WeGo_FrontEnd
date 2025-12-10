@@ -25,7 +25,7 @@ export const DatePickerModal = ({ field }: Props) => {
             <button
               key={name}
               className={clsx(
-                'flex-center h-12 grow-1 border-b-2 border-gray-200',
+                'flex-center h-12 grow-1 border-b-2 border-gray-200 transition-colors duration-300',
                 tabMenu === name && 'border-mint-500',
               )}
               type='button'
@@ -45,7 +45,7 @@ export const DatePickerModal = ({ field }: Props) => {
           updateDateField={(selectedDate: string) => field.handleChange(selectedDate)}
         />
 
-        <div className='flex-center mt-6 gap-2'>
+        <div className='flex-center mt-5 gap-2'>
           <button
             className='text-text-md-semibold grow-1 rounded-2xl border-1 border-gray-400 bg-white py-3.25 text-gray-600'
             type='button'
