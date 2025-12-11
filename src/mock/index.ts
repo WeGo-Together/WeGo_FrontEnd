@@ -1,6 +1,6 @@
 // src/mocks/index.ts
 
-import { SetupWorker } from 'msw/browser';
+import type { SetupWorker } from 'msw/browser';
 
 import { handlers } from './handlers';
 
@@ -11,23 +11,16 @@ declare global {
   }
 }
 
-const config = {
-  enabledInDevelopment: true,
-  enabledInProduction: true,
-  onUnhandledRequest: 'bypass' as const, // bypass | warn | error
-};
-
 export const initMocks = async () => {
   // MSW 활성화 여부 확인
-  const isDev = process.env.NODE_ENV === 'development';
-  const shouldEnable = isDev ? config.enabledInDevelopment : config.enabledInProduction;
+  const shouldEnable = process.env.NEXT_PUBLIC_MSW_ENABLED === 'true';
   if (!shouldEnable) return;
 
   if (typeof window === 'undefined') {
     // Server
     const { server } = await import('./server');
     server.listen({
-      onUnhandledRequest: config.onUnhandledRequest,
+      onUnhandledRequest: 'bypass',
     });
     console.log('🔶 MSW Server ready');
   } else {
@@ -41,7 +34,7 @@ export const initMocks = async () => {
       worker.use(...handlers);
       // 최초 실행: start()
       await worker.start({
-        onUnhandledRequest: config.onUnhandledRequest,
+        onUnhandledRequest: 'bypass',
       });
       console.log('🔷 MSW Client ready');
     } else {
