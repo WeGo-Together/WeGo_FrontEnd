@@ -1,7 +1,7 @@
 import { Notification } from '@/types/service/notification';
 
 import { groupMockItem } from '../group/group-mock';
-import { mockUserItems } from '../user/users-mock';
+import { mockUserItems } from '../user/user-mock';
 
 export const notificationMockItems: Notification[] = [
   {
