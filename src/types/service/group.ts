@@ -33,6 +33,19 @@ export interface GetGroupsResponse {
   nextCursor: number | null;
 }
 
+// 내 모임 목록 조회 요청 파라미터 (GET /api/v1/groups/me)
+export interface GetMyGroupsPayload {
+  type: 'current' | 'myPost' | 'past';
+  cursor?: number;
+  size: number;
+}
+
+// 내 모임 목록 조회 응답
+export interface GetMyGroupsResponse {
+  items: GroupListItemResponse[];
+  nextCursor: number | null;
+}
+
 /**
 
  * 밑에 타입들은 다른 분들이 아직 다른 파일에서 사용 중이므로 그냥 제거해버리시면 안됩니다(다른 분들도 다 수정 후에 제거 예정)
