@@ -21,11 +21,11 @@ export default function My() {
   return (
     <MeetingList
       emptyStatePath='/post-meetup'
-      emptyStateType='my'
+      emptyStateType='myPost'
       leaveActionText='모임 취소'
       meetings={MOCK_MEETINGS}
       showActions={true}
-      tabType='my'
+      tabType='myPost'
     />
   );
 }
