@@ -26,7 +26,7 @@ type CardProps = {
     onLeave: () => void;
     onChat: () => void;
   };
-  tabType?: 'current' | 'my' | 'history';
+  tabType?: 'current' | 'myPost' | 'past';
 };
 
 const calculateProgress = (count: number, max: number): number => {
@@ -59,8 +59,8 @@ const Card = ({
   const hasThumbnail = !!thumbnail && !imageError;
   const cardTags = convertToCardTags(tags);
   const progress = calculateProgress(participantCount, maxParticipants);
-  const shouldShowButtons = leaveAndChatActions && tabType !== 'history';
-  const leaveButtonText = tabType === 'my' ? '모임 취소' : '모임 탈퇴';
+  const shouldShowButtons = leaveAndChatActions && tabType !== 'past';
+  const leaveButtonText = tabType === 'myPost' ? '모임 취소' : '모임 탈퇴';
 
   return (
     <div

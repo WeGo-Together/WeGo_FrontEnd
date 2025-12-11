@@ -26,10 +26,10 @@ export default function History() {
   return (
     <MeetingList
       emptyStatePath='/'
-      emptyStateType='history'
+      emptyStateType='past'
       meetings={data?.items || []}
       showActions={false}
-      tabType='history'
+      tabType='past'
     />
   );
 }

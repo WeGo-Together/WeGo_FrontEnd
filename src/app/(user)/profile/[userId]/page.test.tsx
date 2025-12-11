@@ -5,7 +5,7 @@ import { http, HttpResponse } from 'msw';
 import { formatISO } from '@/lib/formatDateTime';
 import { server } from '@/mock/server';
 import { createMockSuccessResponse } from '@/mock/service/common/common-mock';
-import { mockUserItems } from '@/mock/service/user/users-mock';
+import { mockUserItems } from '@/mock/service/user/user-mock';
 
 import ProfilePage from './page';
 

@@ -8,7 +8,7 @@ import { GroupListItemResponse } from '@/types/service/group';
 
 import { EmptyState } from './empty-state';
 
-type TabType = 'current' | 'my' | 'history';
+type TabType = 'current' | 'myPost' | 'past';
 
 type MeetingListProps = {
   meetings: GroupListItemResponse[];
