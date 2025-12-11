@@ -3,12 +3,15 @@
 import { useRouter } from 'next/navigation';
 
 import Card from '@/components/shared/card';
+import { formatDateTime } from '@/lib/formatDateTime';
+import { GroupListItemResponse } from '@/types/service/group';
 
 import { EmptyState } from './empty-state';
-import type { Meeting, TabType } from './types';
+
+type TabType = 'current' | 'myPost' | 'past';
 
 type MeetingListProps = {
-  meetings: Meeting[];
+  meetings: GroupListItemResponse[];
   tabType: TabType;
   emptyStateType: TabType;
   emptyStatePath: string;
@@ -35,7 +38,7 @@ export const MeetingList = ({
       {meetings.map((meeting) => (
         <Card
           key={meeting.id}
-          dateTime={meeting.dateTime}
+          dateTime={formatDateTime(meeting.startTime, meeting.endTime)}
           images={meeting.images}
           leaveAndChatActions={
             showActions
@@ -47,8 +50,9 @@ export const MeetingList = ({
           }
           location={meeting.location}
           maxParticipants={meeting.maxParticipants}
-          nickName={meeting.nickName}
+          nickName={meeting.createdBy.nickName}
           participantCount={meeting.participantCount}
+          profileImage={meeting.createdBy.profileImage}
           tabType={tabType}
           tags={meeting.tags}
           title={meeting.title}

@@ -28,3 +28,15 @@ export const formatTimeAgo = (isoString: string) => {
   if (diffPerMonth < 12) return `${diffPerMonth}개월 전`;
   return `${yearDiff}년 전`;
 };
+
+// 모임 시작 시간을 Card 컴포넌트용 형식으로 변환 (예: "25. 12. 25 - 19:00")
+export const formatDateTime = (startTime: string, _endTime?: string | null): string => {
+  const start = new Date(startTime);
+  const year = start.getFullYear().toString().slice(-2);
+  const month = String(start.getMonth() + 1).padStart(2, '0');
+  const day = String(start.getDate()).padStart(2, '0');
+  const hours = String(start.getHours()).padStart(2, '0');
+  const minutes = String(start.getMinutes()).padStart(2, '0');
+
+  return `${year}. ${month}. ${day} - ${hours}:${minutes}`;
+};
