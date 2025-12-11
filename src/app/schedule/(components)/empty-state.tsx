@@ -40,7 +40,7 @@ export const EmptyState = ({ type, onButtonClick }: EmptyStateProps) => {
 
       <Button
         className={cn('text-text-sm-bold mt-[18px]', config.buttonWidth)}
-        size='xs'
+        size='sm'
         variant='primary'
         onClick={onButtonClick}
       >
