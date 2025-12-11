@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { Icon } from '@/components/icon';
-import { formatTimeAgo } from '@/lib/format-time-ago';
+import { formatTimeAgo } from '@/lib/formatDateTime';
 import { Notification, NotificationType } from '@/types/service/notification';
 
 interface Props {
