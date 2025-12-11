@@ -1,80 +1,68 @@
-import Card from '@/components/shared/card';
+'use client';
 
-const MOCK_MEETINGS = [
-  {
-    id: 1,
-    title: '네즈코와 무한성에서 정모 하실 분',
-    images: [],
-    location: '네즈코 호수공원',
-    dateTime: '25. 11. 28 - 10:00',
-    nickName: 'Hope Lee',
-    participantCount: 8,
-    maxParticipants: 10,
-    tags: ['#태그', '#태그', '#태그'],
-  },
-  {
-    id: 2,
-    title: '주말 러닝 크루 모집',
-    images: [],
-    location: '한강공원 잠실지구',
-    dateTime: '25. 12. 05 - 07:30',
-    nickName: 'Minseo Kim',
-    participantCount: 5,
-    maxParticipants: 12,
-    tags: ['#러닝', '#아침운동'],
-  },
-  {
-    id: 3,
-    title: '동네 책모임 신규 멤버 구함',
-    images: [],
-    location: '망원동 카페 거리',
-    dateTime: '25. 12. 10 - 19:30',
-    nickName: 'Book Lover',
-    participantCount: 3,
-    maxParticipants: 8,
-    tags: ['#책모임', '#수다환영'],
-  },
-  {
-    id: 4,
-    title: '퇴근 후 보드게임 번개',
-    images: [],
-    location: '홍대입구역 인근',
-    dateTime: '25. 12. 02 - 20:00',
-    nickName: 'Board Master',
-    participantCount: 6,
-    maxParticipants: 10,
-    tags: ['#보드게임', '#처음이어도환영'],
-  },
-  {
-    id: 5,
-    title: '주말 등산 같이 가요',
-    images: [],
-    location: '북한산 입구',
-    dateTime: '25. 12. 07 - 09:00',
-    nickName: 'Hiker Lee',
-    participantCount: 4,
-    maxParticipants: 15,
-    tags: ['#등산', '#초보환영'],
-  },
-];
+import Card from '@/components/shared/card';
+import { useGetGroups } from '@/hooks/use-group/use-group-get-list';
+
+// API 응답을 Card 컴포넌트 props로 변환하는 헬퍼 함수
+const formatDateTime = (startTime: string, _endTime?: string | null): string => {
+  const start = new Date(startTime);
+  const year = start.getFullYear().toString().slice(-2);
+  const month = String(start.getMonth() + 1).padStart(2, '0');
+  const day = String(start.getDate()).padStart(2, '0');
+  const hours = String(start.getHours()).padStart(2, '0');
+  const minutes = String(start.getMinutes()).padStart(2, '0');
+
+  return `${year}. ${month}. ${day} - ${hours}:${minutes}`;
+};
 
 export default function HomePage() {
+  const { data, isLoading, error } = useGetGroups({ size: 10 });
+
+  if (isLoading) {
+    return (
+      <main className='min-h-screen bg-[#F1F5F9]'>
+        <section className='flex w-full flex-col gap-4 px-4 py-4'>
+          <div className='py-8 text-center text-gray-500'>로딩 중...</div>
+        </section>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className='min-h-screen bg-[#F1F5F9]'>
+        <section className='flex w-full flex-col gap-4 px-4 py-4'>
+          <div className='py-8 text-center text-red-500'>
+            데이터를 불러오는 중 오류가 발생했습니다.
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  const meetings = data?.items || [];
+
   return (
     <main className='min-h-screen bg-[#F1F5F9]'>
       <section className='flex w-full flex-col gap-4 px-4 py-4'>
-        {MOCK_MEETINGS.map((meeting) => (
-          <Card
-            key={meeting.id}
-            dateTime={meeting.dateTime}
-            images={meeting.images}
-            location={meeting.location}
-            maxParticipants={meeting.maxParticipants}
-            nickName={meeting.nickName}
-            participantCount={meeting.participantCount}
-            tags={meeting.tags}
-            title={meeting.title}
-          />
-        ))}
+        {meetings.length === 0 ? (
+          <div className='py-8 text-center text-gray-500'>모임이 없습니다.</div>
+        ) : (
+          meetings.map((meeting) => (
+            <Card
+              key={meeting.id}
+              dateTime={formatDateTime(meeting.startTime, meeting.endTime)}
+              images={meeting.images}
+              location={meeting.location}
+              maxParticipants={meeting.maxParticipants}
+              nickName={meeting.createdBy.nickName}
+              participantCount={meeting.participantCount}
+              profileImage={meeting.createdBy.profileImage}
+              tags={meeting.tags}
+              title={meeting.title}
+            />
+          ))
+        )}
       </section>
     </main>
   );
