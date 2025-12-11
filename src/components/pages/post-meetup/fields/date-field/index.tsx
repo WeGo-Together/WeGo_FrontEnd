@@ -17,7 +17,7 @@ export const MeetupDateField = ({ field }: Props) => {
   const formattedDate = formatDate(new Date(field.state.value), 'YY.MM.DD - HH:mm');
 
   const onInputClick = () => {
-    open(<DatePickerModal field={field} />);
+    open(<DatePickerModal dateField={field} />);
   };
 
   return (

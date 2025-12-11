@@ -3,7 +3,7 @@ import { http, HttpResponse } from 'msw';
 import { User } from '@/types/service/user';
 
 import { createMockErrorResponse, createMockSuccessResponse } from '../common/common-mock';
-import { mockUserItems } from './users-mock';
+import { mockUserItems } from './user-mock';
 
 const getUserItemMock = http.get(`*/users/:userId`, ({ params }) => {
   const id = Number(params.userId);
