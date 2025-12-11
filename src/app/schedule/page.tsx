@@ -12,8 +12,8 @@ import My from './(components)/my';
 
 const SCHEDULE_TABS = [
   { label: '현재 모임', value: 'current' },
-  { label: '나의 모임', value: 'my' },
-  { label: '모임 이력', value: 'history' },
+  { label: '나의 모임', value: 'myPost' },
+  { label: '모임 이력', value: 'past' },
 ];
 
 const ScheduleContent = () => {
@@ -23,8 +23,8 @@ const ScheduleContent = () => {
   return (
     <>
       {tab === 'current' && <Current />}
-      {tab === 'my' && <My />}
-      {tab === 'history' && <History />}
+      {tab === 'myPost' && <My />}
+      {tab === 'past' && <History />}
     </>
   );
 };

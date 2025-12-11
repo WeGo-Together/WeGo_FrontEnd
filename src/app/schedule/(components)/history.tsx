@@ -9,10 +9,10 @@ export default function History() {
   return (
     <MeetingList
       emptyStatePath='/'
-      emptyStateType='history'
+      emptyStateType='past'
       meetings={MOCK_MEETINGS}
       showActions={false}
-      tabType='history'
+      tabType='past'
     />
   );
 }
