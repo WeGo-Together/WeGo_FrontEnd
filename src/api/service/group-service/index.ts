@@ -1,5 +1,7 @@
 import { api } from '@/api/core';
 import {
+  CreateGroupPayload,
+  CreateGroupResponse,
   GetGroupsPayload,
   GetGroupsResponse,
   GetMyGroupsPayload,
@@ -30,5 +32,9 @@ export const groupServiceRemote = () => ({
     params.append('size', payload.size.toString());
 
     return api.get<GetMyGroupsResponse>(`/groups/me?${params.toString()}`);
+  },
+
+  createGroup: (payload: CreateGroupPayload) => {
+    return api.post<CreateGroupResponse>('/groups/create', payload);
   },
 });

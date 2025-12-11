@@ -12,20 +12,28 @@ import {
   MeetupTagsField,
   MeetupTitleField,
 } from '@/components/pages/post-meetup';
+import { useCreateGroup } from '@/hooks/use-group/use-group-create';
+import { CreateGroupPayload } from '@/types/service/group';
 
 const PostMeetupPage = () => {
+  const { mutate } = useCreateGroup();
+
   const form = useForm({
     defaultValues: {
       title: '',
       location: '',
+      locationDetail: '',
       startTime: '',
-      maxParticipants: 0,
-      images: {},
-      description: '',
+      endTime: '',
       tags: [] as string[],
-    },
+      description: '',
+      maxParticipants: 0,
+      images: [],
+    } as CreateGroupPayload,
     onSubmit: ({ value }) => {
       console.log(value);
+      const res = mutate(value);
+      console.log(res);
     },
   });
 
