@@ -1,24 +1,30 @@
-import { useContextCalendars, useContextDays } from '@rehookify/datepicker';
+'use client';
+
+import { useContextDays } from '@rehookify/datepicker';
+
+import type { TimePickerState } from '@/components/pages/post-meetup/modals/date-picker-modal/calendar';
 
 interface Props {
   currentTab: 'date' | 'time';
+  selectedTime: TimePickerState;
 }
 
-export const CalendarFooter = ({ currentTab }: Props) => {
-  const { calendars } = useContextCalendars();
+export const CalendarFooter = ({
+  selectedTime: { hours, minutes, meridiem },
+  currentTab,
+}: Props) => {
   const { selectedDates } = useContextDays();
 
-  const { year, month } = calendars[0];
-
   return (
-    <div className='text-text-md-semibold flex-center mt-3 flex-wrap gap-2.5 text-gray-700'>
-      <span>{year}년</span>
+    <div className='text-text-md-semibold flex-center mt-5 flex-wrap gap-2.5 text-gray-700'>
+      <span>{selectedDates[0].getFullYear()}년</span>
       <span className={currentTab === 'date' ? 'text-mint-600' : ''}>
-        {month}월 {selectedDates[0].getDate()}일
+        {selectedDates[0].getMonth() + 1}월 {selectedDates[0].getDate()}일
       </span>
-      <span className={currentTab === 'time' ? 'text-mint-600' : ''}>12:20</span>
-      <span>AM</span>
-      <span>PM</span>
+      <span className={currentTab === 'time' ? 'text-mint-600' : ''}>
+        {hours}:{minutes}
+      </span>
+      <span className='w-6.25'>{meridiem}</span>
     </div>
   );
 };

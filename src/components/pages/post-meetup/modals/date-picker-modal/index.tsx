@@ -17,15 +17,15 @@ export const DatePickerModal = ({ field }: Props) => {
   const [tabMenu, setTabMenu] = useState<'date' | 'time'>('date');
 
   return (
-    <ModalContent>
-      <ModalTitle>모달임</ModalTitle>
-      <section className=''>
+    <ModalContent className='w-82.5'>
+      <ModalTitle>날짜 및 시간</ModalTitle>
+      <section className='mt-2'>
         <nav className='flex'>
           {DATE_MODAL_TAB_MENU.map(({ name, iconId }) => (
             <button
               key={name}
               className={clsx(
-                'flex-center h-12 grow-1 border-b-2 border-gray-200',
+                'flex-center h-12 grow-1 border-b-2 border-gray-200 transition-colors duration-300',
                 tabMenu === name && 'border-mint-500',
               )}
               type='button'
@@ -41,12 +41,11 @@ export const DatePickerModal = ({ field }: Props) => {
 
         <Calendar
           currentTab={tabMenu}
-          handleDateChange={(selectedDate: string) =>
-            field.handleChange({ ...field.state.value, selectedDate })
-          }
+          dateFieldValue={field.state.value}
+          updateDateField={(selectedDate: string) => field.handleChange(selectedDate)}
         />
 
-        <div className='flex-center mt-6 gap-2'>
+        <div className='flex-center mt-5 gap-2'>
           <button
             className='text-text-md-semibold grow-1 rounded-2xl border-1 border-gray-400 bg-white py-3.25 text-gray-600'
             type='button'
