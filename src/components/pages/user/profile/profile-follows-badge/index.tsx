@@ -10,11 +10,11 @@ export const ProfileFollowsBadge = ({ user }: Props) => {
   const listMap = [
     {
       label: '팔로워',
-      value: user.followersCnt,
+      value: user.followersCnt.toLocaleString(),
     },
     {
       label: '팔로잉',
-      value: user.followeesCnt,
+      value: user.followeesCnt.toLocaleString(),
     },
   ];
 
@@ -25,8 +25,8 @@ export const ProfileFollowsBadge = ({ user }: Props) => {
       {listMap.map((item, index) => (
         <Fragment key={item.label}>
           <div className='flex-col-center w-full gap-0.75 py-0.75'>
-            <span className='text-text-xl-bold text-gray-800'>{item.value.toLocaleString()}</span>
-            <span className='text-text-xs-medium text-gray-500'>{item.label.toLocaleString()}</span>
+            <span className='text-text-xl-bold text-gray-800'>{item.value}</span>
+            <span className='text-text-xs-medium text-gray-500'>{item.label}</span>
           </div>
           {index < listLength - 1 && <div className='h-10 w-1 border-r-1 border-gray-200' />}
         </Fragment>
