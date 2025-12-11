@@ -18,7 +18,6 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   accessToken: string;
-  refreshToken: string;
   tokenType: 'Bearer';
   expiresIn: number;
   user: {
@@ -26,4 +25,11 @@ export interface LoginResponse {
     email: string;
     nickName: string;
   };
+}
+
+export interface RefreshResponse {
+  accessToken: string;
+  tokenType: 'Bearer';
+  expiresIn: number;
+  expiresAt: string;
 }

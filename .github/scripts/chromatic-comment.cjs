@@ -1,5 +1,6 @@
 module.exports = async ({ github, context, core }) => {
-  const hasChanges = process.env.HAS_CHANGES === 'true';
+  const changeCount = parseInt(process.env.CHANGE_COUNT || '0', 10);
+  const hasChanges = changeCount > 0;
   const buildStatus = process.env.BUILD_STATUS || 'success'; // ← 이 줄 추가!
   const storybookUrl = process.env.STORYBOOK_URL || '';
   const buildUrl = process.env.BUILD_URL || '';
@@ -56,13 +57,13 @@ build log를 확인하시고 로직을 수정해주세요.
     // Story 변경사항 없음
     comment = `## 🎨 Storybook Report
 
-ℹ️ **Story 변경사항이 감지되지 않았습니다**
+✅ **변경 사항이 없습니다**
 
-이 PR에는 Story 변경이 없어서 빌드를 스킵했습니다.
+모든 Story가 이전 빌드와 동일합니다.
 
 | Status | Storybook | Build Log | Updated (UTC) |
 |--------|-----------|-----------|---------------|
-| ⏭️ Skipped | - | - | ${now} |`;
+| ✅ Unchanged | [View Storybook](${storybookUrl}) | [View Build](${buildUrl}) | ${now} |`;
   } else {
     // Story 변경사항 있음
     comment = `## 🎨 Storybook Report

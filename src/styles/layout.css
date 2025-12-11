@@ -29,3 +29,15 @@
 @utility shadow-card {
   box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.08);
 }
+
+@utility scroll-stable {
+  scrollbar-gutter: stable;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  @apply w-1;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  @apply rounded-lg bg-gray-400;
+}

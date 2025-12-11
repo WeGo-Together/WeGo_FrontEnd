@@ -10,4 +10,4 @@ export type Meeting = {
   tags: string[];
 };
 
-export type TabType = 'current' | 'my' | 'history';
+export type TabType = 'current' | 'myPost' | 'past';

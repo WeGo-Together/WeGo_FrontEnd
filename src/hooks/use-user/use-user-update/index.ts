@@ -7,9 +7,9 @@ import { UpdateMePayload } from '@/types/service/user';
 export const useUpdateUser = (payload: UpdateMePayload) => {
   const queryClient = useQueryClient();
   const query = useMutation({
-    mutationFn: () => API.usersService.updateMe(payload),
+    mutationFn: () => API.userService.updateMe(payload),
     onSuccess: (data, _variables, _context) => {
-      queryClient.invalidateQueries({ queryKey: userKeys.item(data.id) });
+      queryClient.invalidateQueries({ queryKey: userKeys.item(data.userId) });
       console.log('요청 성공');
     },
     onError: () => {

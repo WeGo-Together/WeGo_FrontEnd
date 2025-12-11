@@ -4,75 +4,35 @@
 
 </div>
 
-> **주의**: 이 프로젝트는 pnpm을 사용합니다. npm은 지원하지 않습니다.
+<table align='center'>
+  <thead>
+    <tr>
+      <th width="400px">관리 문서</th>
+      <th width="400px">관련 링크</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <h3><a href='https://www.notion.so/MSWProvider-2b353353e9c1804b9b25d269c0c0f5b4?source=copy_link'>📜 프로젝트 수행 계획서</a></h3>
+        <h3><a href='https://www.figma.com/design/mnEc0l7EpYrnA5kwi8h17z/WeGo---Prototype?node-id=290-741&p=f&t=T50GX1Aa1R78OX8J-0'>🎨 디자인 시안</a></h3>
+        <h3><a href='https://github.com/WeGo-Together/WeGo_BackEnd/wiki'>🗃️ API 명세서</a></h3>
+      </td>
+      <td>
+        <h3><a href='https://wego.monster/'>🚀 배포 사이트</a></h3>
+        <h3><a href='https://main--6921b0f53b7a664723f48704.chromatic.com/'>📚 스토리북</a></h3>
+        <h3><a href='https://wego-together.github.io/front/coverage/lcov-report/'>🔍 테스트 커버리지</a></h3>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br/>
+
+---
 
 <details>
-  <summary><h2>📜 개발 관련 문서</h2></summary>
-
-- [[🔗 프로젝트 수행 계획서]](https://www.notion.so/MSWProvider-2b353353e9c1804b9b25d269c0c0f5b4?source=copy_link)
-
-- [[🔗 프로젝트 가이드 문서(기본 제공)]](https://codeit.notion.site/fd8eae01cd8e41e39d01c81c3a942814)
-- [[🔗 SWAGGER(기본 제공)]](https://fe-adv-project-together-dallaem.vercel.app/)
-- [[🔗 디자인 시안(기본 제공)]](https://fe-adv-project-together-dallaem.vercel.app/)
-
-</details>
-
-<details>
-  <summary><h2>ℹ️ 주요 설정</h2></summary>
-
-### 프레임워크 & 라이브러리
-
-- **Next.js 16** - React 프레임워크 (Turbopack)
-- **React 19** - UI 라이브러리
-- **TypeScript** - 타입 안정성
-- **Tailwind CSS** - 유틸리티 기반 스타일링
-
-### 패키지 관리
-
-- **pnpm (via Corepack)** - 빠르고 효율적인 패키지 매니저
-  - npm보다 빠른 설치 속도
-  - 디스크 공간 절약 (하드 링크 사용)
-  - strict mode로 의존성 관리
-  - Corepack을 통해 프로젝트별 pnpm 버전 관리
-
-### 개발 도구
-
-- **ESLint** - 코드 품질 검사 및 자동 수정
-  - `simple-import-sort`: Import 문 자동 정렬
-  - `eslint-plugin-perfectionist`: JSX 속성 자동 정렬
-  - Next.js 권장 규칙 적용
-- **Prettier** - 코드 포매팅
-  - `prettier-plugin-tailwindcss`: Tailwind CSS 클래스 자동 정렬
-- **commitLint**
-  - commit message 규칙 검사
-- **Husky + lint-staged**
-  - Pre-commit: ESLint 자동 검사 및 수정
-  - Commit-msg: Commit 메시지 규칙 검증
-- **only-allow** - pnpm만 사용 가능하도록 제한 (npm 차단)
-
-### API & 상태 관리
-
-- **TanStack Query (React Query)** - 서버 상태 관리 및 데이터 페칭
-  - DevTools 포함
-- **Orval** - OpenAPI/Swagger를 통한 API 클라이언트 자동 생성
-
-### 테스트 & 개발
-
-- **Jest** - JavaScript 테스트 프레임워크
-  - React Testing Library 포함
-  - jsdom 환경 지원
-- **Storybook** - UI 컴포넌트 개발 및 문서화
-- **MSW (Mock Service Worker)** - API 모킹
-
-### 유틸리티
-
-- **@faker-js/faker** - 테스트 데이터 생성
-- **@svgr/webpack** - SVG를 React 컴포넌트로 변환
-
-</details>
-
-<details>
-  <summary><h2>🚀 프로젝트 설치 및 가이드</h2></summary>
+  <summary><h2>🚀 프로젝트 설치 가이드</h2></summary>
 
 ### 1. Corepack 활성화 (최초 1회)
 
@@ -99,6 +59,25 @@ cd wego
 pnpm install
 ```
 
+### 4. 환경변수 설정
+
+기본 동작 실행을 위한 환경변수 설정
+
+```bash
+// .env.local
+# API 요청 주소
+NEXT_PUBLIC_API_BASE_URL=https://example.com/api/v1
+# MSW 설정
+NEXT_PUBLIC_MSW_ENABLED=true // Or false
+```
+
+playwright 테스트를 위한 환경변수 설정
+
+```bash
+// .env.test
+NEXT_PUBLIC_MSW_ENABLED=true
+```
+
 ## 스크립트
 
 ```bash
@@ -120,6 +99,9 @@ pnpm test
 # 테스트 커버리지
 pnpm test:coverage
 
+# Playwright Test
+pnpm test:playwright
+
 # Storybook 실행
 pnpm storybook
 
@@ -140,13 +122,12 @@ my-app
 ├─ 📁 src
 │  ├─ 📁 api                            # API 관련
 │  │  ├─ 🔷 httpClient.ts               # HTTP 클라이언트 (fetch 래퍼)
-│  │  ├─ 📁 endpoints                   # API 엔드포인트 함수
-│  │  │  ├─ 🔷 getUser.ts               # getUser API 함수
-│  │  │  ├─ 🎭 getUser.msw.ts           # getUser 모킹 핸들러
-│  │  │  ├─ 🔷 getPosts.ts
-│  │  │  └─ 🎭 getPosts.msw.ts
-│  │  └─ 📁 types                       # API 타입 정의
-│  │     └─ 🔷 index.ts
+│  │  └─ 📁 service
+│  │     └─ 📁 product                     # Product 엔드포인트
+│  │        ├─ 📁 product-get-item
+│  │        │  └─ 🔷 index.ts              # getProductItem API
+│  │        └─ 📁 product-get-list
+│  │           └─ 🔷 index.ts              # getProductList API
 │  │
 │  ├─ 📁 app                            # Next.js App Router
 │  │  ├─ 🧩 layout.tsx                  # 루트 레이아웃
@@ -161,49 +142,77 @@ my-app
 │  │  ├─ 📁 fonts                       # 로컬 폰트
 │  │  │  └─ PretendardVariable.woff2
 │  │  └─ 📁 icons                       # SVG 아이콘
-│  │     └─ icon_check_blue.svg
+│  │     └─ 🖼️ icon-check-blue.svg
 │  │
 │  ├─ 📁 components                     # 컴포넌트
-│  │  ├─ 📁 common                      # 공통 컴포넌트
-│  │  │  ├─ 📁 Button
-│  │  │  │  ├─ 🧩 Button.tsx
-│  │  │  │  ├─ 🧪 Button.test.tsx
-│  │  │  │  └─ 📖 Button.stories.tsx
-│  │  │  ├─ 📁 Input
-│  │  │  │  └─ 🧩 Input.tsx
-│  │  │  └─ 📁 Modal
-│  │  │     └─ 🧩 Modal.tsx
+│  │  ├─ 📁 ui                          # 아톰 컴포넌트
+│  │  │  └─ 📁 button                   # 버튼 컴포넌트
+│  │  │     ├─ 🧩 index.tsx
+│  │  │     ├─ 🧪 index.test.tsx
+│  │  │     └─ 📖 index.stories.tsx
+│  │  │
+│  │  ├─ 📁 shared                      # 공유 컴포넌트
+│  │  │  └─ 📁 card                     # 카드 컴포넌트
+│  │  │     ├─ 🧩 index.tsx
+│  │  │     ├─ 🧪 index.test.tsx
+│  │  │     └─ 📖 index.stories.tsx
 │  │  │
 │  │  └─ 📁 pages                       # 페이지별 컴포넌트
-│  │     ├─ 📁 login
-│  │     │  ├─ 🧩 LoginForm.tsx
-│  │     │  └─ 🧩 SocialLoginButtons.tsx
-│  │     └─ 📁 details
-│  │        ├─ 🧩 DetailsHeader.tsx
-│  │        └─ 🧩 DetailsContent.tsx
+│  │     └─ 📁 login                    # 로그인 페이지용 컴포넌트
+│  │        ├─ 🧩 index.tsx             # 여기서 한번에 export
+│  │        ├─ 📁 login-form            # 상위 폴더의 이름을 포함하도록 이름 짓기
+│  │        │  └─ 🧩 index.tsx
+│  │        └─ 📁 login-social-button
+│  │           └─ 🧩 index.tsx
 │  │
 │  ├─ 📁 hooks                          # Custom Hooks
-│  │  ├─ 🔷 useAuth.ts
-│  │  └─ 🔷 useDebounce.ts
+│  │  └─ 📁 use-product
+│  │     ├─ 📁 use-product-get-item
+│  │     │  └─ 🔷 index.ts              # useGetProductItemQuery
+│  │     └─ 📁 use-product-get-list
+│  │        └─ 🔷 index.ts              # useGetProductListQuery
+│  │
+│  ├─ 📁 stores                         # 전역 상태 (Zustand)
+│  │  ├─ 📁 use-auth-store
+│  │  │  └─ 🔷 index.ts                 # useAuthStore
+│  │  ├─ 📁 use-modal-store
+│  │  │  └─ 🔷 index.ts                 # useModalStore
+│  │  └─ 📁 use-user-store
+│  │     └─ 🔷 index.ts                 # useUserStore
 │  │
 │  ├─ 📁 lib                            # 유틸리티 & 설정
 │  │  ├─ 🔷 utils.ts                    # 공통 유틸리티
-│  │  └─ 🔷 queryClient.ts              # React Query 설정
+│  │  ├─ 🔷 query-client.ts             # React Query 설정
+│  │  └─ 📁 query-key                   # Query Key 설정
+│  │     ├─ 📁 query-key-product        # product 엔드포인트 용 Query Key
+│  │     │  └─ 🔷 index.ts
+│  │     └─ 📁 query-key-user           # user 엔드포인트 용 Query Key
+│  │        └─ 🔷 index.ts
 │  │
 │  ├─ 📁 mocks                          # MSW 모킹
 │  │  ├─ 🔷 index.ts                    # MSW 초기화
 │  │  ├─ 🎭 handlers.ts                 # 모든 핸들러 통합 export
 │  │  ├─ 🎭 browser.ts                  # 브라우저용 worker
-│  │  └─ 🎭 server.ts                   # 서버용 server
+│  │  ├─ 🎭 server.ts                   # 서버용 server
+│  │  └─ 📁 endpoints
+│  │     └─ 📁 product
+│  │        ├─ 🔷 product-handler.ts    # product 엔드포인트 전용 모킹 함수
+│  │        └─ 🔷 product-mock.ts       # product 엔드포인트 전용 목 데이터
+│  │
+│  ├─ 📁 types                          # TypeScript 타입
+│  │  ├─ 🔵 global.d.ts                 # 전역 선언 타입
+│  │  └─ 📁 service
+│  │     ├─ 🔷 product.ts
+│  │     └─ 🔷 user.ts
 │  │
 │  ├─ 📁 providers                      # Provider 컴포넌트
-│  │  ├─ 🧩 QueryProvider.tsx           # React Query Provider
-│  │  └─ 🧩 LazyMotionProvider.tsx      # Framer Motion Provider
-│  │
-│  ├─ 📁 stores                         # 전역 상태 (Zustand)
-│  │  ├─ 🔷 useAuthStore.ts
-│  │  ├─ 🔷 useModalStore.ts
-│  │  └─ 🔷 useUserStore.ts
+│  │  ├─ 🔷 index.ts                    # provider 한번에 export
+│  │  ├─ 📁 provider-query.tsx          # React Query Provider
+│  │  │  └─ 🧩 index.tsx
+│  │  ├─ 📁 provider-msw.tsx            # MSW Provider
+│  │  │  └─ 🧩 index.tsx
+│  │  └─ 📁 provider-lazy-motion.tsx    # Framer Motion Provider
+│  │     └─ 🧩 index.tsx
 │  │
 │  ├─ 📁 styles                         # 스타일
 │  │  ├─ 🎨 base.css                    # 기본 스타일
@@ -212,9 +221,6 @@ my-app
 │  │  ├─ 🎨 layout.css                  # 레이아웃
 │  │  └─ 🎨 animations.css              # 애니메이션
 │  │
-│  └─ 📁 types                          # TypeScript 타입
-│     ├─ 🔷 common.ts                   # 공통 타입
-│     └─ 🔷 user.ts                     # 사용자 타입
 ```
 
 </details>

@@ -6,3 +6,9 @@ export interface CommonErrorResponse {
   instance: string;
   errorCode?: string;
 }
+
+export interface CommonSuccessResponse<T> {
+  status: number;
+  success: boolean;
+  data: T;
+}
