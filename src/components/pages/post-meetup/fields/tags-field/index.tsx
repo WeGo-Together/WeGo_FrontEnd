@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { AnyFieldApi } from '@tanstack/react-form';
+import clsx from 'clsx';
 
 import { Icon } from '@/components/icon';
 import { Input, Label } from '@/components/ui';
@@ -16,10 +17,13 @@ export const MeetupTagsField = ({ field }: Props) => {
 
   const onEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code !== 'Enter' && e.code !== 'NumpadEnter') return;
+    if (e.nativeEvent.isComposing) return;
 
     const hasDupe = field.state.value.includes(inputValue);
 
-    if (!hasDupe && inputValue.trim()) field.pushValue(inputValue);
+    if (!hasDupe && inputValue.trim()) {
+      field.pushValue(inputValue);
+    }
 
     setInputValue('');
   };
@@ -44,7 +48,13 @@ export const MeetupTagsField = ({ field }: Props) => {
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={onEnter}
       />
-      <ul className='mt-0.5 flex flex-wrap gap-x-1 gap-y-1.5 px-2'>
+
+      <ul
+        className={clsx(
+          'mt-0.5 flex flex-wrap gap-x-1 gap-y-1.5 px-2',
+          field.state.value.length ? 'block' : 'hidden',
+        )}
+      >
         {field.state.value.map((tag: string, idx: number) => (
           <li
             key={tag}
@@ -56,6 +66,8 @@ export const MeetupTagsField = ({ field }: Props) => {
           </li>
         ))}
       </ul>
+
+      <p className='text-text-sm-medium px-2 text-gray-500'>최대 10개까지 업로드할 수 있어요.</p>
     </div>
   );
 };
