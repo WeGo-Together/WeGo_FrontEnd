@@ -10,10 +10,10 @@ import { Calendar } from '@/components/pages/post-meetup/modals/date-picker-moda
 import { ModalContent, ModalTitle } from '@/components/ui';
 
 interface Props {
-  field: AnyFieldApi;
+  dateField: AnyFieldApi;
 }
 
-export const DatePickerModal = ({ field }: Props) => {
+export const DatePickerModal = ({ dateField }: Props) => {
   const [tabMenu, setTabMenu] = useState<'date' | 'time'>('date');
 
   return (
@@ -41,8 +41,8 @@ export const DatePickerModal = ({ field }: Props) => {
 
         <Calendar
           currentTab={tabMenu}
-          dateFieldValue={field.state.value}
-          updateDateField={(selectedDate: string) => field.handleChange(selectedDate)}
+          dateFieldValue={dateField.state.value}
+          updateDateField={(selectedDate: string) => dateField.handleChange(selectedDate)}
         />
 
         <div className='flex-center mt-5 gap-2'>
