@@ -61,9 +61,21 @@ pnpm install
 
 ### 4. 환경변수 설정
 
-```
+기본 동작 실행을 위한 환경변수 설정
+
+```bash
 // .env.local
+# API 요청 주소
 NEXT_PUBLIC_API_BASE_URL=https://example.com/api/v1
+# MSW 설정
+NEXT_PUBLIC_MSW_ENABLED=true // Or false
+```
+
+playwright 테스트를 위한 환경변수 설정
+
+```bash
+// .env.test
+NEXT_PUBLIC_MSW_ENABLED=true
 ```
 
 ## 스크립트
@@ -162,7 +174,7 @@ my-app
 │  │  │  └─ 🔷 index.ts                 # useAuthStore
 │  │  ├─ 📁 use-modal-store
 │  │  │  └─ 🔷 index.ts                 # useModalStore
-│  │  └─ 📁 use-user-store 
+│  │  └─ 📁 use-user-store
 │  │     └─ 🔷 index.ts                 # useUserStore
 │  │
 │  ├─ 📁 lib                            # 유틸리티 & 설정
