@@ -99,6 +99,9 @@ pnpm test
 # 테스트 커버리지
 pnpm test:coverage
 
+# Playwright Test
+pnpm test:playwright
+
 # Storybook 실행
 pnpm storybook
 
