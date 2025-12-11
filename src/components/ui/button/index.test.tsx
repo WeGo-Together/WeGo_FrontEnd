@@ -52,9 +52,7 @@ describe('버튼 컴포넌트 테스트', () => {
 
     const button = screen.getByRole('button');
 
-    expect(button).toHaveClass('text-text-sm-semibold');
-    expect(button).toHaveClass('h-11');
-    expect(button).toHaveClass('max-w-[112px]');
+    expect(button).toHaveClass('h-10');
   });
 
   test('disabled 테스트', () => {
@@ -65,7 +63,7 @@ describe('버튼 컴포넌트 테스트', () => {
     );
     const button = screen.getByRole('button');
 
-    expect(button).toHaveClass('disabled:bg-gray-400');
+    expect(button).toHaveClass('!cursor-not-allowed');
   });
 
   test('onClick event 테스트', () => {

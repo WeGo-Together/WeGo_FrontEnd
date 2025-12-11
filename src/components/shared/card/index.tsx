@@ -84,8 +84,8 @@ const Card = ({
           {shouldShowButtons && (
             <Button
               className='mt-3'
-              size='xs'
-              variant='leave'
+              size='sm'
+              variant='tertiary'
               onClick={(e) => {
                 e.stopPropagation();
                 leaveAndChatActions.onLeave();
@@ -115,8 +115,8 @@ const Card = ({
           {shouldShowButtons && (
             <Button
               className='mt-3'
-              size='xs'
-              variant='chat'
+              size='sm'
+              variant='primary'
               onClick={(e) => {
                 e.stopPropagation();
                 leaveAndChatActions.onChat();
