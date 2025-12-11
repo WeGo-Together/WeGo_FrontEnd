@@ -1,0 +1,74 @@
+name: PR Playwright Report
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create initial Report
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const script = require('./.github/scripts/playwright-initial-comment.cjs');
+            await script({ github, context });
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Check if tests exist
+        id: check-tests
+        run: |
+          if [ -d "e2e/tests" ] && [ "$(ls -A e2e/tests)" ]; then
+            echo "has_tests=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_tests=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Playwright tests
+        id: test
+        if: steps.check-tests.outputs.has_tests == 'true'
+        run: pnpm test:playwright
+        continue-on-error: true
+        env:
+          NEXT_PUBLIC_API_BASE_URL: ${{ vars.NEXT_PUBLIC_API_BASE_URL }}
+
+      - name: Create Playwright report comment
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          TEST_OUTCOME: ${{ steps.test.outcome }}
+          BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        with:
+          script: |
+            const script = require('./.github/scripts/playwright-comment.cjs');
+            await script({ github, context });
+
+      - name: Fail if tests exist but failed
+        if: steps.check-tests.outputs.has_tests == 'true' && steps.test.outcome == 'failure'
+        run: |
+          echo "::error::Playwright tests failed! Please fix the failing tests."
+          exit 1
