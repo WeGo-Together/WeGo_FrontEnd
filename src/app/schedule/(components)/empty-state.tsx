@@ -5,7 +5,7 @@ import { Button } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
 type EmptyStateProps = {
-  type: 'current' | 'my' | 'history';
+  type: 'current' | 'myPost' | 'past';
   onButtonClick: () => void;
 };
 
@@ -15,12 +15,12 @@ const EMPTY_STATE_CONFIG = {
     buttonText: '모임 보러가기',
     buttonWidth: 'w-[124px]',
   },
-  my: {
+  myPost: {
     text: '아직 생성한 모임이 없어요.\n지금 바로 모임을 만들어보세요!',
     buttonText: '모임 만들기',
     buttonWidth: 'w-[112px]',
   },
-  history: {
+  past: {
     text: '아직 참여한 모임이 없어요.\n마음에 드는 모임을 발견해보세요!',
     buttonText: '모임 보러가기',
     buttonWidth: 'w-[124px]',
