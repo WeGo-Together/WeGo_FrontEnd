@@ -41,7 +41,7 @@ export const MeetupLocationField = ({ field }: Props) => {
             field.state.value && 'text-gray-800',
           )}
         >
-          {field.state.value ? field.state.value : '장소 어쩌구'}
+          {field.state.value ? field.state.value : '모임 장소를 입력해주세요'}
         </p>
       </button>
     </div>
