@@ -1,6 +1,6 @@
 // src/mocks/index.ts
 
-import { SetupWorker } from 'msw/browser';
+import type { SetupWorker } from 'msw/browser';
 
 import { handlers } from './handlers';
 
