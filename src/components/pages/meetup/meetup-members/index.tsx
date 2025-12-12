@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 import clsx from 'clsx';
 
-import type { DUMMY_MEETUP_DATA } from '@/app/meetup/[id]/page';
+import type { DUMMY_MEETUP_DATA } from '@/app/meetup/[groupId]/page';
 import { Icon } from '@/components/icon';
 import { Button } from '@/components/ui';
 
