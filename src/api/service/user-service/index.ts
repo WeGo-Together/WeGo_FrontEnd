@@ -3,8 +3,8 @@ import {
   FollowParams,
   GetUserParams,
   UpdateMePayload,
-  UpdateMyImagePayload,
   UpdateMyNotiParams,
+  UpdateMyProfileImagePayload,
   User,
 } from '@/types/service/user';
 
@@ -15,7 +15,7 @@ export const userServiceRemote = () => ({
   },
 
   // 3. 프로필 이미지 편집
-  updateMyImage: async (payload: UpdateMyImagePayload) => {
+  updateMyProfileImage: async (payload: UpdateMyProfileImagePayload) => {
     return api.patch<User>(`/users/profile-image`, payload);
   },
 

@@ -34,6 +34,7 @@ export const ImageInput = ({
       return acc;
     }, {} as ImageRecord);
   });
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const isControlled = value !== undefined && onChange !== undefined;

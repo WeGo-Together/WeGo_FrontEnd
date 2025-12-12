@@ -28,7 +28,7 @@ export const ProfileEditModal = ({ user }: Props) => {
   const form = useForm({
     defaultValues: {
       profileImage: {
-        [image]: null,
+        [image ?? './images/image-profile-default.png']: null,
       } as ImageRecord,
       nickName,
       profileMessage,

@@ -24,7 +24,7 @@ export interface UpdateMePayload {
   profileMessage?: string;
 }
 
-export interface UpdateMyImagePayload {
+export interface UpdateMyProfileImagePayload {
   file: File;
 }
 

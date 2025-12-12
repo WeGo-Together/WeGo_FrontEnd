@@ -1,9 +1,8 @@
-import Image from 'next/image';
-
 import { AnyFieldApi } from '@tanstack/react-form';
 
 import { Icon } from '@/components/icon';
 import { ImageInput, ImageInputProps } from '@/components/ui';
+import { ImageWithFallback } from '@/components/ui/image-with-fallback';
 import { cn } from '@/lib/utils';
 
 type ImageUploadPropsWithoutChildren = Omit<ImageInputProps, 'children'>;
@@ -27,7 +26,7 @@ const ImageField = ({ field, initialImages }: Props) => {
           <>
             {Object.entries(images).map(([url, _file]) => (
               <div key={url} className='relative aspect-square size-24'>
-                <Image
+                <ImageWithFallback
                   className='rounded-full border-1 border-[rgba(0,0,0,0.04)]'
                   alt='프로필 이미지'
                   fill
