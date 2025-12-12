@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 import { AxiosError } from 'axios';
+import Cookies from 'js-cookie';
 
 import { API } from '@/api';
 import { LoginRequest } from '@/types/service/auth';
@@ -16,6 +17,12 @@ export const useLogin = () => {
       const result = await API.authService.login(payload);
       // 📜 추후 삭제
       console.log('login success:', result);
+
+      Cookies.set('userId', String(result.user.userId), {
+        path: '/',
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+      });
 
       formApi.reset();
       router.push('/');
