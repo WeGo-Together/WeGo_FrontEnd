@@ -42,7 +42,6 @@ export const groupServiceRemote = () => ({
     payload: PreUploadGroupImagePayload,
   ): Promise<PreUploadGroupImageResponse> => {
     const formData = new FormData();
-    // File 객체만 FormData에 추가
     payload.images.forEach((file) => {
       if (file instanceof File) {
         formData.append('images', file);

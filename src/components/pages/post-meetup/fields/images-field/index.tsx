@@ -53,6 +53,7 @@ export const MeetupImagesField = ({ field, initialImages }: Props) => {
                   alt='팀 이미지'
                   fill
                   src={url}
+                  unoptimized={url.startsWith('blob:')}
                 />
                 <button
                   className={cn(
