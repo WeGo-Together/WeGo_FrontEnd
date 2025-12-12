@@ -1,14 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { type AnyFieldApi, useForm } from '@tanstack/react-form';
 
-import { API } from '@/api';
 import { FormInput } from '@/components/shared';
 import { Button } from '@/components/ui';
+import { useSignup } from '@/hooks/use-auth';
 import { signupSchema } from '@/lib/schema/auth';
-import { CommonErrorResponse } from '@/types/service/common';
 
 const getHintMessage = (field: AnyFieldApi) => {
   const {
@@ -23,7 +20,7 @@ const getHintMessage = (field: AnyFieldApi) => {
 };
 
 export const SignupForm = () => {
-  const router = useRouter();
+  const signup = useSignup();
 
   const form = useForm({
     defaultValues: {
@@ -37,24 +34,13 @@ export const SignupForm = () => {
       onSubmit: signupSchema,
     },
     onSubmit: async ({ value, formApi }) => {
-      try {
-        const payload = {
-          email: value.email,
-          password: value.password,
-          nickName: value.nickname,
-        };
+      const payload = {
+        email: value.email,
+        password: value.password,
+        nickName: value.nickname,
+      };
 
-        const result = await API.authService.signup(payload);
-        console.log('signup success:', result);
-
-        formApi.reset();
-        router.push('/login');
-      } catch (error) {
-        const err = error as CommonErrorResponse;
-
-        console.error('[SIGNUP ERROR]', err.errorCode, err.detail);
-        alert(err.detail || '회원가입에 실패했습니다.');
-      }
+      await signup(payload, formApi);
     },
   });
 
@@ -76,6 +62,7 @@ export const SignupForm = () => {
                 hintMessage={hintMessage}
                 inputProps={{
                   type: 'email',
+                  autoComplete: 'email',
                   placeholder: '이메일을 입력해주세요',
                   value: field.state.value,
                   onChange: (e) => field.handleChange(e.target.value),
@@ -94,6 +81,7 @@ export const SignupForm = () => {
               <FormInput
                 hintMessage={hintMessage}
                 inputProps={{
+                  autoComplete: 'username',
                   placeholder: '닉네임을 입력해주세요',
                   value: field.state.value,
                   onChange: (e) => field.handleChange(e.target.value),
@@ -113,6 +101,7 @@ export const SignupForm = () => {
                 hintMessage={hintMessage}
                 inputProps={{
                   type: 'password',
+                  autoComplete: 'new-password',
                   placeholder: '비밀번호를 입력해주세요',
                   value: field.state.value,
                   onChange: (e) => field.handleChange(e.target.value),
@@ -132,6 +121,7 @@ export const SignupForm = () => {
                 hintMessage={hintMessage}
                 inputProps={{
                   type: 'password',
+                  autoComplete: 'new-password',
                   placeholder: '비밀번호를 한 번 더 입력해주세요',
                   value: field.state.value,
                   onChange: (e) => field.handleChange(e.target.value),
