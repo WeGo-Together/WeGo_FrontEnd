@@ -2,14 +2,15 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { API } from '@/api';
 import { userKeys } from '@/lib/query-key/query-key-user';
-import { Follow } from '@/types/service/user';
+import { FollowParams } from '@/types/service/user';
 
-export const useFollowUser = (payload: Follow) => {
+export const useFollowUser = (payload: FollowParams) => {
   const queryClient = useQueryClient();
   const query = useMutation({
     mutationFn: () => API.userService.followUser(payload),
     onSuccess: (_data, _variables, _context) => {
-      queryClient.invalidateQueries({ queryKey: userKeys.item(payload.followeeId) });
+      // todo: GetUser는 ID로 호출, follow는 nickname으로 진행 => querykey 타입 불일치로 인한 전체 querykey 삭제 적용 (임시)
+      queryClient.invalidateQueries({ queryKey: userKeys.all });
       console.log('요청 성공');
     },
     onError: () => {
