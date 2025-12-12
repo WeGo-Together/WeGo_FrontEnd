@@ -1,31 +1,34 @@
 'use client';
 
-import { MeetingList } from './meeting-list';
-import type { Meeting } from './types';
+import { useGetMyGroups } from '@/hooks/use-group/use-group-get-my-list';
 
-const MOCK_MEETINGS: Meeting[] = [
-  {
-    id: 1,
-    title: '네즈코와 무한성에서 정모 하실 분',
-    images: [
-      'https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?q=80&w=717&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    ],
-    location: '네즈코 호수공원',
-    dateTime: '25. 11. 28 - 10:00',
-    nickName: 'Hope Lee',
-    participantCount: 8,
-    maxParticipants: 10,
-    tags: ['#젠이츠', '#기유', '#네즈코'],
-  },
-];
+import { MeetingList } from './meeting-list';
 
 export default function Current() {
+  const { data, isLoading, error } = useGetMyGroups({ type: 'current', size: 10 });
+
+  if (isLoading) {
+    return (
+      <div className='flex items-center justify-center py-8'>
+        <div className='text-gray-500'>로딩 중...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className='flex items-center justify-center py-8'>
+        <div className='text-red-500'>데이터를 불러오는 중 오류가 발생했습니다.</div>
+      </div>
+    );
+  }
+
   return (
     <MeetingList
       emptyStatePath='/'
       emptyStateType='current'
       leaveActionText='모임 탈퇴'
-      meetings={MOCK_MEETINGS}
+      meetings={data?.items || []}
       showActions={true}
       tabType='current'
     />

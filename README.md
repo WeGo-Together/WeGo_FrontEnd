@@ -66,7 +66,7 @@ pnpm install
 ```bash
 // .env.local
 # API 요청 주소
-NEXT_PUBLIC_API_BASE_URL=https://example.com/api/v1
+NEXT_PUBLIC_API_BASE_URL=https://api.wego.monster/api/v1
 # MSW 설정
 NEXT_PUBLIC_MSW_ENABLED=true // Or false
 ```
@@ -107,6 +107,139 @@ pnpm storybook
 
 # Storybook 빌드
 pnpm build-storybook
+```
+
+</details>
+
+<details>
+<summary><h2>🗝️ HTTPS 로컬 개발 환경 설정 가이드</h2></summary>
+
+### 1. mkcert 다운로드 및 설치
+
+**Windows:**
+
+(1) https://github.com/FiloSottile/mkcert/releases 접속
+
+(2) mkcert-v1.4.4-windows-amd64.exe 다운로드
+
+(3) 프로젝트 루트에 mkcert.exe로 저장
+
+```
+📁 WEGO_FRONTEND
+└─ 💿 mkcert.exe
+```
+
+**macOS:**
+
+```bash
+# homeBrew로 설치
+brew install mkcert
+
+# Firefox 사용 시
+brew install nss
+```
+
+### 2. 로컬 CA 설치
+
+**Windows:**
+
+```bash
+.\mkcert.exe -install
+```
+
+**macOS:**
+
+```bash
+mkcert -install
+```
+
+**출력:**
+
+```bash
+The local CA is now installed in the system trust store! ⚡️
+```
+
+### 3. .cert 폴더 생성(프로젝트 루트)
+
+```bash
+# .cert 폴더 생성
+mkdir .cert
+```
+
+### 3-1. 인증서 발급
+
+**Windows:**
+
+```bash
+# 인증서 발급
+.\mkcert.exe -key-file .cert\localhost-key.pem -cert-file .cert\localhost.pem localhost local.wego.monster 127.0.0.1 ::1
+```
+
+**macOS:**
+
+```bash
+mkcert -key-file .cert/localhost-key.pem -cert-file .cert/localhost.pem localhost local.wego.monster 127.0.0.1 ::1
+```
+
+**출력:**
+
+```bash
+Created a new certificate valid for the following names 📜
+ - "localhost"
+ - "local.wego.monster"
+ - "127.0.0.1"
+ - "::1"
+
+The certificate is at ".cert\localhost.pem" and the key at ".cert\localhost-key.pem" ✅
+
+It will expire on 12 March 2028 🗓
+```
+
+```
+📁 WEGO_FRONTEND
+└─ 💿 mkcert.exe
+└─ 📁 .cert
+   ├─ 🔑 localhost-key.pem
+   └─ 🔑 localhost.pem
+```
+
+### 4. hosts 파일 수정
+
+**Windows:** `C:\Windows\System32\drivers\etc\hosts`
+
+(1) 메모장을 **관리자 권한**으로 실행
+
+(2) hosts 파일 열기
+
+(3) 다음 줄 추가:
+
+```
+127.0.0.1 local.wego.monster
+```
+
+### 5. 실행
+
+```bash
+# https 환경으로 실행
+pnpm dev
+
+# 출력 메시지
+> my-app@0.1.0 dev C:\git\wego\WeGo_FrontEnd
+> node scripts/local/dev-server.js
+
+> Ready on https://local.wego.monster:3000
+ ○ Compiling / ...
+ GET / 200 in 5.7s (compile: 5.3s, render: 321ms)
+```
+
+기타
+
+```bash
+# http 환경으로 실행
+pnpm dev:http
+
+# 기존 localhost:3000 으로 실행
+pnpm dev:ci
 ```
 
 </details>
