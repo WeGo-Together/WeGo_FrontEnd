@@ -14,21 +14,24 @@ export interface User {
   isFollowing: boolean;
 }
 
-export interface GetUserPayload {
+export interface GetUserParams {
   userId: number;
 }
 
-export type GetUserResponse = User;
-
 export interface UpdateMePayload {
   nickName?: string;
-  profileImage?: string;
   mbti?: string;
   profileMessage?: string;
 }
 
-export type UpdateMeResponse = GetUserResponse;
+export interface UpdateMyImagePayload {
+  file: File;
+}
 
-export interface Follow {
-  followeeId: number;
+export interface UpdateMyNotiParams {
+  isNotificationEnabled: boolean;
+}
+
+export interface FollowParams {
+  followNickname: string;
 }
