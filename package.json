@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -H local.wego.monster",
+    "dev:ci": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
