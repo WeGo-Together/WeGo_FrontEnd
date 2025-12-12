@@ -67,11 +67,7 @@ const PostMeetupPage = () => {
         images: uploadedImages && uploadedImages.length > 0 ? uploadedImages : null,
       };
 
-      const cleanedPayload = Object.fromEntries(
-        Object.entries(createPayload).filter(([_, v]) => v !== undefined),
-      ) as CreateGroupPayload;
-
-      await createGroup(cleanedPayload);
+      await createGroup(createPayload);
     },
   });
 
