@@ -1,7 +1,6 @@
 'use client';
 
 import { useForm } from '@tanstack/react-form';
-import { z } from 'zod';
 
 import {
   MeetupCapField,
@@ -19,14 +18,6 @@ import { CreateGroupPayload } from '@/types/service/group';
 const PostMeetupPage = () => {
   const { mutate } = useCreateGroup();
 
-  const CreateGroupSchema = {
-    title: z.string().min(2),
-    location: z.string().min(2),
-    startTime: z.string().min(2),
-    description: z.string().min(2),
-    maxParticipants: z.number().min(2),
-  };
-
   const form = useForm({
     defaultValues: {
       title: '',
@@ -39,9 +30,6 @@ const PostMeetupPage = () => {
       maxParticipants: 0,
       images: [],
     } as CreateGroupPayload,
-    validators: {
-      onChange: () => CreateGroupSchema,
-    },
     onSubmit: ({ value }) => {
       console.log(value);
       const res = mutate(value);
@@ -51,12 +39,7 @@ const PostMeetupPage = () => {
 
   return (
     <div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          form.handleSubmit();
-        }}
-      >
+      <form>
         <section className='px-4'>
           <form.Field children={(field) => <MeetupTitleField field={field} />} name='title' />
           <form.Field children={(field) => <MeetupLocationField field={field} />} name='location' />
@@ -73,10 +56,7 @@ const PostMeetupPage = () => {
           <form.Field children={(field) => <MeetupTagsField field={field} />} name='tags' />
         </section>
 
-        <form.Subscribe
-          children={(state) => <MeetupSubmitButton state={state} />}
-          selector={(state) => state}
-        />
+        <MeetupSubmitButton onSubmitClick={() => form.handleSubmit()} />
       </form>
     </div>
   );
