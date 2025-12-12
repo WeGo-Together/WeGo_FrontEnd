@@ -8,8 +8,8 @@ jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
 }));
 const defaultProps = {
-  id: 0,
-  name: '얼룩말',
+  userId: 0,
+  nickname: '얼룩말',
   profileImage: '/test.png',
   profileMessage: '안녕하세요!',
 };
