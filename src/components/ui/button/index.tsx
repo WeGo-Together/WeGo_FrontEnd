@@ -7,9 +7,11 @@ import { cn } from '@/lib/utils';
 const buttonVariants = cva('bg-mono-white w-full border transition', {
   variants: {
     variant: {
-      primary: 'bg-mint-400 text-text-md-bold text-mono-white',
-      secondary: 'border-mint-500 text-text-sm-semibold text-mint-500',
-      tertiary: 'border-gray-400 text-text-sm-semibold text-gray-600',
+      primary: 'bg-mint-400 text-text-md-bold text-mono-white hover:bg-mint-600 active:bg-mint-700',
+      secondary:
+        'border-mint-500 text-text-sm-semibold text-mint-500 active:text-mint-700 active:border-mint-600 hover:bg-gray-50 active:bg-gray-100',
+      tertiary:
+        'text-text-sm-semibold border-gray-400 text-gray-600 hover:bg-gray-50 active:bg-gray-100',
     },
     size: {
       md: 'h-13 rounded-2xl',
@@ -17,7 +19,7 @@ const buttonVariants = cva('bg-mono-white w-full border transition', {
     },
     disabled: {
       true: '!cursor-not-allowed',
-      false: 'hover:opacity-80',
+      false: '',
     },
   },
   compoundVariants: [
