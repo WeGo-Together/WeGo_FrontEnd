@@ -70,6 +70,6 @@ export const groupServiceRemote = () => ({
   },
 
   getGroupDetails: (payload: GetGroupDetailsPayload) => {
-    return api.post<GetGroupDetailsResponse>(`/groups/${payload}`);
+    return api.get<GetGroupDetailsResponse>(`/groups/${payload.groupId}`);
   },
 });
