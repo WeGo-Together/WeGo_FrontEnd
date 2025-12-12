@@ -21,7 +21,7 @@ export interface LoginResponse {
   tokenType: 'Bearer';
   expiresIn: number;
   user: {
-    id: number;
+    userId: number;
     email: string;
     nickName: string;
   };
