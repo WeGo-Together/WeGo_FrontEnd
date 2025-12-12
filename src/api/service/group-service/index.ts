@@ -1,5 +1,4 @@
-import { api, baseAPI } from '@/api/core';
-import { CommonSuccessResponse } from '@/types/service/common';
+import { api } from '@/api/core';
 import {
   CreateGroupPayload,
   CreateGroupResponse,
@@ -53,7 +52,7 @@ export const groupServiceRemote = () => ({
       }
     });
 
-    const response = await baseAPI.post<CommonSuccessResponse<PreUploadGroupImageResponse>>(
+    const response = await api.post<PreUploadGroupImageResponse>(
       '/groups/images/upload',
       formData,
       {
@@ -63,11 +62,11 @@ export const groupServiceRemote = () => ({
       },
     );
 
-    return response.data.data;
+    return response;
   },
 
   createGroup: (payload: CreateGroupPayload) => {
-    return api.post<CreateGroupResponse>('/groups/groups/create', payload);
+    return api.post<CreateGroupResponse>('/groups/create', payload);
   },
 
   getGroupDetails: (payload: GetGroupDetailsPayload) => {
