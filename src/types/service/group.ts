@@ -121,3 +121,45 @@ export interface CreateGroupResponse {
   updatedAt: string;
   images?: PreUploadGroupImageResponse | null;
 }
+
+export interface GetGroupDetailsPayload {
+  groupId: number;
+}
+
+export interface GetGroupDetailsResponse {
+  id: number;
+  title: string;
+  location: string;
+  locationDetail: string;
+  startTime: string;
+  endTime: string;
+  images: {
+    sortOrder: number;
+    imageId440x240: number;
+    imageId100x100: number;
+    imageUrl440x240: string;
+    imageUrl100x100: string;
+  }[];
+  tags: string[];
+  description: string;
+  participantCount: number;
+  maxParticipants: number;
+  createdBy: {
+    userId: number;
+    nickName: string;
+    profileImage: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+  userStatus: {
+    isJoined: boolean;
+    joinedAt: string;
+  };
+  joinedMembers: {
+    userId: 0;
+    groupRole: 'HOST' | 'MEMBER';
+    nickName: string;
+    profileImage: string;
+    joinedAt: string;
+  }[];
+}
