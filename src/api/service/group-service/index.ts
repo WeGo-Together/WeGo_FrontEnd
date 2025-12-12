@@ -3,6 +3,8 @@ import { CommonSuccessResponse } from '@/types/service/common';
 import {
   CreateGroupPayload,
   CreateGroupResponse,
+  GetGroupDetailsPayload,
+  GetGroupDetailsResponse,
   GetGroupsPayload,
   GetGroupsResponse,
   GetMyGroupsPayload,
@@ -65,6 +67,10 @@ export const groupServiceRemote = () => ({
   },
 
   createGroup: (payload: CreateGroupPayload) => {
-    return api.post<CreateGroupResponse>('/groups/create', payload);
+    return api.post<CreateGroupResponse>('/groups/groups/create', payload);
+  },
+
+  getGroupDetails: (payload: GetGroupDetailsPayload) => {
+    return api.post<GetGroupDetailsResponse>(`/groups/${payload}`);
   },
 });

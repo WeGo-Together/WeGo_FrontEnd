@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { AnyFieldApi } from '@tanstack/react-form';
 import clsx from 'clsx';
@@ -13,6 +13,7 @@ interface Props {
 }
 
 export const MeetupTagsField = ({ field }: Props) => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const [inputValue, setInputValue] = useState('');
 
   const onEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -25,6 +26,7 @@ export const MeetupTagsField = ({ field }: Props) => {
       field.pushValue(inputValue);
     }
 
+    if (inputRef.current) inputRef.current.focus();
     setInputValue('');
   };
 
@@ -32,6 +34,7 @@ export const MeetupTagsField = ({ field }: Props) => {
     <div className='flex w-full flex-col gap-1'>
       <Label htmlFor='post-meetup-tags'>태그</Label>
       <Input
+        ref={inputRef}
         id='post-meetup-tags'
         className='bg-mono-white focus:border-mint-500 rounded-2xl border border-gray-300'
         frontIcon={

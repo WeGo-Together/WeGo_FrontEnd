@@ -1,14 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { type AnyFieldApi, useForm } from '@tanstack/react-form';
 
-import { API } from '@/api';
 import { FormInput } from '@/components/shared';
 import { Button } from '@/components/ui';
+import { useLogin } from '@/hooks/use-auth';
 import { loginSchema } from '@/lib/schema/auth';
-import { CommonErrorResponse } from '@/types/service/common';
 
 const getHintMessage = (field: AnyFieldApi) => {
   const {
@@ -23,7 +20,7 @@ const getHintMessage = (field: AnyFieldApi) => {
 };
 
 export const LoginForm = () => {
-  const router = useRouter();
+  const login = useLogin();
 
   const form = useForm({
     defaultValues: {
@@ -35,23 +32,12 @@ export const LoginForm = () => {
       onChange: loginSchema,
     },
     onSubmit: async ({ value, formApi }) => {
-      try {
-        const payload = {
-          email: value.email,
-          password: value.password,
-        };
+      const payload = {
+        email: value.email,
+        password: value.password,
+      };
 
-        const result = await API.authService.login(payload);
-        console.log('login success:', result);
-
-        formApi.reset();
-        router.push('/');
-      } catch (error) {
-        const err = error as CommonErrorResponse;
-
-        console.error('[LOGIN ERROR]', err.errorCode, err.detail);
-        alert(err.detail || '로그인에 실패했습니다.');
-      }
+      await login(payload, formApi);
     },
   });
 
@@ -93,6 +79,7 @@ export const LoginForm = () => {
                 hintMessage={hintMessage}
                 inputProps={{
                   type: 'password',
+                  autoComplete: 'current-password',
                   placeholder: '비밀번호를 입력해주세요',
                   value: field.state.value,
                   onChange: (e) => field.handleChange(e.target.value),

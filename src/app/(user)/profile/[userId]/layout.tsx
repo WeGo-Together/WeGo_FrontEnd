@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
 import { API } from '@/api';
@@ -13,10 +15,14 @@ const ProfileLayout = async ({ children, params }: Props) => {
   const { userId: id } = await params;
   const userId = Number(id);
 
+  const { cookies } = await import('next/headers');
+  const cookieStore = await cookies();
+  const myId = Number(cookieStore.get('userId')?.value);
+
   // 본인 id와 같은지 확인 후 같으면 mypage로 리다이렉트
-  // if (userId === 1) {
-  //   redirect('/mypage');
-  // }
+  if (userId === myId) {
+    redirect('/mypage');
+  }
 
   const queryClient = getQueryClient();
 

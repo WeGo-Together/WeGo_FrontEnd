@@ -73,12 +73,7 @@ const PostMeetupPage = () => {
 
   return (
     <div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          form.handleSubmit();
-        }}
-      >
+      <form>
         <section className='px-4'>
           <form.Field children={(field) => <MeetupTitleField field={field} />} name='title' />
           <form.Field children={(field) => <MeetupLocationField field={field} />} name='location' />
@@ -95,7 +90,7 @@ const PostMeetupPage = () => {
           <form.Field children={(field) => <MeetupTagsField field={field} />} name='tags' />
         </section>
 
-        <MeetupSubmitButton />
+        <MeetupSubmitButton onSubmitClick={() => form.handleSubmit()} />
       </form>
     </div>
   );
