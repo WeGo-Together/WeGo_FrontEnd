@@ -74,3 +74,50 @@ export interface Group {
   updatedAt: string;
   joinedCount: number;
 }
+
+export interface PreUploadGroupImagePayload {
+  images: File[];
+}
+
+export interface PreUploadGroupImageResponse {
+  images: {
+    sortOrder: number;
+    imageUrl440x240: string;
+    imageUrl100x100: string;
+  }[];
+}
+
+export type CreateGroupImagePayload = PreUploadGroupImageResponse;
+
+export interface CreateGroupPayload {
+  title: string;
+  location: string;
+  locationDetail?: string | null;
+  startTime: string;
+  endTime?: string;
+  tags?: string[] | null;
+  description: string;
+  maxParticipants: number;
+  images?: CreateGroupImagePayload['images'] | null;
+}
+
+export interface CreateGroupResponse {
+  id: number;
+  title: string;
+  location: string;
+  locationDetail?: string | null;
+  startTime: string;
+  endTime?: string;
+  tags?: string[] | null;
+  description: string;
+  participantCount: number;
+  maxParticipants: number;
+  createdBy: {
+    userId: number;
+    nickName: string;
+    profileImage?: string | null;
+  };
+  createdAt: string;
+  updatedAt: string;
+  images?: PreUploadGroupImageResponse | null;
+}
