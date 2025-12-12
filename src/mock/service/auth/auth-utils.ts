@@ -26,7 +26,7 @@ export const createLoginResponse = (email: string, password: string): LoginRespo
   return {
     ...tokens,
     user: {
-      id: user.id,
+      userId: user.id,
       email: user.email,
       nickName: user.nickName,
     },
