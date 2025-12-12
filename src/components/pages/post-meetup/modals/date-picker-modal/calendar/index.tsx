@@ -33,7 +33,7 @@ export const Calendar = ({ currentTab, dateFieldValue, updateDateField }: Props)
     const { newHours, newMinutes } = selectedTimeTo24Hour(selectedTime);
 
     selectedDates[0].setHours(newHours, newMinutes, 0, 0);
-    updateDateField(selectedDates[0].toString());
+    updateDateField(selectedDates[0].toISOString());
   }, [selectedDates, selectedTime]);
 
   return (
