@@ -1,4 +1,5 @@
-import { api } from '@/api/core';
+import { api, baseAPI } from '@/api/core';
+import { CommonSuccessResponse } from '@/types/service/common';
 import {
   CreateGroupPayload,
   CreateGroupResponse,
@@ -6,6 +7,8 @@ import {
   GetGroupsResponse,
   GetMyGroupsPayload,
   GetMyGroupsResponse,
+  PreUploadGroupImagePayload,
+  PreUploadGroupImageResponse,
 } from '@/types/service/group';
 
 export const groupServiceRemote = () => ({
@@ -32,6 +35,34 @@ export const groupServiceRemote = () => ({
     params.append('size', payload.size.toString());
 
     return api.get<GetMyGroupsResponse>(`/groups/me?${params.toString()}`);
+  },
+
+  // 모임 이미지 사전 업로드 (POST /groups/images/upload) - multipart/form-data
+  uploadGroupImages: async (
+    payload: PreUploadGroupImagePayload,
+  ): Promise<PreUploadGroupImageResponse> => {
+    const formData = new FormData();
+    // File 객체만 FormData에 추가
+    payload.images.forEach((file) => {
+      if (file instanceof File) {
+        formData.append('images', file);
+      } else {
+        console.error('[이미지 업로드 오류] File 객체가 아닌 값이 포함됨:', file);
+        throw new Error('이미지 파일은 File 객체여야 합니다.');
+      }
+    });
+
+    const response = await baseAPI.post<CommonSuccessResponse<PreUploadGroupImageResponse>>(
+      '/groups/images/upload',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+
+    return response.data.data;
   },
 
   createGroup: (payload: CreateGroupPayload) => {
