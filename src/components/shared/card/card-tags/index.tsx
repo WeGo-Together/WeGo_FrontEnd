@@ -9,7 +9,7 @@ type CardTagsProps = {
 
 export const CardTags = ({ tags }: CardTagsProps) => {
   return (
-    <div className='mt-1 flex min-h-[20px] gap-1 overflow-hidden'>
+    <div className='mt-1 flex min-h-5 gap-1 overflow-hidden'>
       {tags?.map((tag) => (
         <span
           key={tag.id}
