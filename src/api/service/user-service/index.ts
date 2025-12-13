@@ -19,17 +19,21 @@ export const userServiceRemote = () => ({
 
   // 2. 유저 프로필 변경
   updateMe: async (payload: UpdateMePayload) => {
-    return api.patch<User>('/users', payload);
+    return api.patch<User>('/users/profile', payload);
   },
 
   // 3. 프로필 이미지 변경
   updateMyProfileImage: async (payload: UpdateMyProfileImagePayload) => {
-    return api.patch<User>(`/users/profile-image`, payload);
+    const formData = new FormData();
+    formData.append('file', payload.file);
+    return api.patch<User>(`/users/profile-image`, formData);
   },
 
   // 4. 알림 설정 변경
-  updatMyNotification: async (payload: UpdateMyNotiParams) => {
-    return api.patch<User>(`/users/notification/${payload.isNotificationEnabled}`);
+  updatMyNotification: async (params: UpdateMyNotiParams) => {
+    return api.patch<User>(
+      `/users/notification?isNotificationEnabled=${params.isNotificationEnabled}`,
+    );
   },
 
   // 5. 유저 프로필 조회
