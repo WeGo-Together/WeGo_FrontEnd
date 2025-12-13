@@ -22,6 +22,12 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'plus.unsplash.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'we-go-bucket.s3.ap-northeast-2.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
     //imagesSizes, deviceSizes는 기본 설정
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
