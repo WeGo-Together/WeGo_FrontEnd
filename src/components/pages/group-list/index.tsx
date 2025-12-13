@@ -2,7 +2,7 @@
 
 import { ErrorMessage } from '@/components/shared';
 import Card from '@/components/shared/card';
-import { useInfiniteGroupList } from '@/hooks/use-group/use-infinite-group-list';
+import { useInfiniteGroupList } from '@/hooks/use-group/use-group-infinite-list';
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 import { INTERSECTION_OBSERVER_THRESHOLD } from '@/lib/constants/group-list';
 import { formatDateTime } from '@/lib/formatDateTime';
