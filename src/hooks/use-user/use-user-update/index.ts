@@ -4,17 +4,14 @@ import { API } from '@/api';
 import { userKeys } from '@/lib/query-key/query-key-user';
 import { UpdateMePayload } from '@/types/service/user';
 
-export const useUpdateUser = (payload: UpdateMePayload) => {
+export const useUpdateUser = () => {
   const queryClient = useQueryClient();
   const query = useMutation({
-    mutationFn: () => API.userService.updateMe(payload),
+    mutationFn: (payload: UpdateMePayload) => API.userService.updateMe(payload),
     onSuccess: (data, _variables, _context) => {
       queryClient.invalidateQueries({ queryKey: userKeys.item(data.userId) });
-      console.log('요청 성공');
     },
-    onError: () => {
-      console.log('요청 실패');
-    },
+    onError: () => {},
   });
   return query;
 };

@@ -9,6 +9,12 @@ export const useGetUser = ({ userId }: GetUserParams, options?: { enabled?: bool
     queryKey: userKeys.item(userId),
     queryFn: () => API.userService.getUser({ userId }),
     ...options,
+    select: (data) => ({
+      ...data,
+      profileImage: data.profileImage ?? '',
+      profileMessage: data.profileMessage ?? '',
+      mbti: data.mbti ?? '',
+    }),
   });
   return query;
 };
