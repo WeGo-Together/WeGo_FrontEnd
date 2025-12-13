@@ -1,58 +1,14 @@
-'use client';
+import { API } from '@/api';
+import GroupList from '@/components/pages/group-list';
+import { GROUP_LIST_PAGE_SIZE } from '@/lib/constants/group-list';
 
-import Card from '@/components/shared/card';
-import { useGetGroups } from '@/hooks/use-group/use-group-get-list';
-import { formatDateTime } from '@/lib/formatDateTime';
+export default async function HomePage() {
+  const response = await API.groupService.getGroups({ size: GROUP_LIST_PAGE_SIZE });
+  // 초기 모임 목록 데이터 추출
+  const initialItems = response.items;
+  // 다음 페이지 요청을 위한 커서 값 추출
+  const initialCursor = response.nextCursor;
 
-export default function HomePage() {
-  const { data, isLoading, error } = useGetGroups({ size: 10 });
-
-  if (isLoading) {
-    return (
-      <main className='min-h-screen bg-[#F1F5F9]'>
-        <section className='flex w-full flex-col gap-4 px-4 py-4'>
-          <div className='py-8 text-center text-gray-500'>로딩 중...</div>
-        </section>
-      </main>
-    );
-  }
-
-  if (error) {
-    return (
-      <main className='min-h-screen bg-[#F1F5F9]'>
-        <section className='flex w-full flex-col gap-4 px-4 py-4'>
-          <div className='py-8 text-center text-red-500'>
-            데이터를 불러오는 중 오류가 발생했습니다.
-          </div>
-        </section>
-      </main>
-    );
-  }
-
-  const meetings = data?.items || [];
-
-  return (
-    <main className='min-h-screen bg-[#F1F5F9]'>
-      <section className='flex w-full flex-col gap-4 px-4 py-4'>
-        {meetings.length === 0 ? (
-          <div className='py-8 text-center text-gray-500'>모임이 없습니다.</div>
-        ) : (
-          meetings.map((meeting) => (
-            <Card
-              key={meeting.id}
-              dateTime={formatDateTime(meeting.startTime, meeting.endTime)}
-              images={meeting.images}
-              location={meeting.location}
-              maxParticipants={meeting.maxParticipants}
-              nickName={meeting.createdBy.nickName}
-              participantCount={meeting.participantCount}
-              profileImage={meeting.createdBy.profileImage}
-              tags={meeting.tags}
-              title={meeting.title}
-            />
-          ))
-        )}
-      </section>
-    </main>
-  );
+  // 초기 데이터를 전달해서 무한 스크롤 시작할거임
+  return <GroupList initialCursor={initialCursor} initialItems={initialItems} />;
 }
