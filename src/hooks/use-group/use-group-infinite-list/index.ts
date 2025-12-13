@@ -36,7 +36,7 @@ export const useInfiniteGroupList = ({
   const prevKeywordRef = useRef(initialKeyword);
 
   /**
-   * 에러 객체 생성 헬퍼 함수
+   * 에러 객체 생성 함수
    */
   const createError = useCallback((err: unknown, defaultMessage: string): Error => {
     return err instanceof Error ? err : new Error(defaultMessage);
