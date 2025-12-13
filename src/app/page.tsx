@@ -2,6 +2,8 @@ import { API } from '@/api';
 import GroupList from '@/components/pages/group-list';
 import { GROUP_LIST_PAGE_SIZE } from '@/lib/constants/group-list';
 
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage() {
   const response = await API.groupService.getGroups({ size: GROUP_LIST_PAGE_SIZE });
   // 초기 모임 목록 데이터 추출
