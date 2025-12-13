@@ -24,7 +24,7 @@ export interface UpdateMePayload {
   profileMessage?: string;
 }
 
-export interface UpdateMyImagePayload {
+export interface UpdateMyProfileImagePayload {
   file: File;
 }
 
@@ -34,4 +34,16 @@ export interface UpdateMyNotiParams {
 
 export interface FollowParams {
   followNickname: string;
+}
+
+export interface Availability {
+  available: boolean;
+}
+
+export interface GetNickNameAvailabilityParams {
+  nickName: string;
+}
+
+export interface GetEmailAvailabilityParams {
+  email: string;
 }
