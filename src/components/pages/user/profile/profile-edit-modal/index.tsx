@@ -34,6 +34,11 @@ export const ProfileEditModal = ({ user }: Props) => {
       profileMessage,
       mbti,
     },
+    /*
+    onSubmit 시 updateUser, updateUserImage 총 2가지 api가 실행됨
+    이 때 api 요청이 전부 성공한 뒤 modal.close가 실행되도록 만들기 위해 mutateAsync 적용
+    추후 로직 수정 필요함(순차적 동기 작업 수행으로 효율 ↓)
+    */
     onSubmit: async ({ value }) => {
       const { profileImage, nickName, profileMessage, mbti } = value;
 
