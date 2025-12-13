@@ -71,15 +71,17 @@ const Card = ({
       onClick={onClick}
     >
       <div className='flex min-w-0 gap-4'>
-        <div className='flex flex-col'>
-          <CardThumbnail
-            hasThumbnail={hasThumbnail}
-            thumbnail={thumbnail}
-            title={title}
-            onError={() => setImageError(true)}
-          />
+        <div className='flex flex-col justify-between'>
+          <div>
+            <CardThumbnail
+              hasThumbnail={hasThumbnail}
+              thumbnail={thumbnail}
+              title={title}
+              onError={() => setImageError(true)}
+            />
 
-          <CardProfile nickName={nickName} profileImage={profileImage} />
+            <CardProfile nickName={nickName} profileImage={profileImage} />
+          </div>
 
           {shouldShowButtons && (
             <Button
@@ -96,21 +98,23 @@ const Card = ({
           )}
         </div>
 
-        <div className='flex min-w-0 flex-1 flex-col'>
-          <h3 className='text-text-md-semibold w-full truncate text-gray-900'>{title}</h3>
+        <div className='flex min-w-0 flex-1 flex-col justify-between'>
+          <div>
+            <h3 className='text-text-md-semibold w-full truncate text-gray-900'>{title}</h3>
 
-          <CardTags tags={cardTags} />
+            <CardTags tags={cardTags} />
 
-          <div className='mt-[13px] flex flex-col gap-1'>
-            <CardInfoRow iconId='map-pin-1' label={location} />
-            <CardInfoRow iconId='calendar-1' label={dateTime} />
+            <div className='mt-3.25 flex flex-col gap-1'>
+              <CardInfoRow iconId='map-pin-1' label={location} />
+              <CardInfoRow iconId='calendar-1' label={dateTime} />
+            </div>
+
+            <CardParticipationRow
+              maxParticipants={maxParticipants}
+              participantCount={participantCount}
+              progress={progress}
+            />
           </div>
-
-          <CardParticipationRow
-            maxParticipants={maxParticipants}
-            participantCount={participantCount}
-            progress={progress}
-          />
 
           {shouldShowButtons && (
             <Button

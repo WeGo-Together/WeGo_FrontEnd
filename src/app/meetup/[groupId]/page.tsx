@@ -1,14 +1,30 @@
+'use client';
+
+import { use } from 'react';
+
 import {
   MeetupBannerImages,
   MeetupButtons,
   MeetupDescriptions,
   MeetupMembers,
 } from '@/components/pages/meetup';
+import { useGetGroupDetails } from '@/hooks/use-group/use-group-get-details';
 
-const MeetupDetailPage = () => {
+interface Props {
+  params: Promise<{ groupId: string }>;
+}
+
+const MeetupDetailPage = ({ params }: Props) => {
+  const { groupId } = use(params);
+  const { data } = useGetGroupDetails({ groupId });
+
+  if (!data) return null;
+
+  console.log(data);
+
   return (
     <div>
-      <MeetupBannerImages images={DUMMY_MEETUP_DATA.bannerImages} />
+      <MeetupBannerImages images={data.images} />
       <MeetupDescriptions description={DUMMY_MEETUP_DATA.description} />
       <MeetupMembers members={DUMMY_MEETUP_DATA.members} />
       <MeetupButtons

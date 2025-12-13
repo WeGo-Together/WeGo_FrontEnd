@@ -125,7 +125,7 @@ export interface CreateGroupResponse {
 }
 
 export interface GetGroupDetailsPayload {
-  groupId: number;
+  groupId: string;
 }
 
 export interface GetGroupDetailsResponse {

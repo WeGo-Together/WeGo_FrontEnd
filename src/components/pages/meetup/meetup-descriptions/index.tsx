@@ -1,4 +1,4 @@
-import type { DUMMY_MEETUP_DATA } from '@/app/meetup/[id]/page';
+import type { DUMMY_MEETUP_DATA } from '@/app/meetup/[groupId]/page';
 import {
   DescriptionContent,
   DescriptionProfile,

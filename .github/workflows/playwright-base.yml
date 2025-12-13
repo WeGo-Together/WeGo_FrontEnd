@@ -1,0 +1,85 @@
+name: PR Playwright Report
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Check if tests exist
+        id: check-tests
+        run: |
+          if [ -d "e2e/tests" ] && [ "$(ls -A e2e/tests)" ]; then
+            echo "has_tests=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_tests=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Playwright tests
+        id: test
+        if: steps.check-tests.outputs.has_tests == 'true'
+        run: pnpm test:playwright
+        continue-on-error: true
+        env:
+          NEXT_PUBLIC_API_BASE_URL: ${{ vars.NEXT_PUBLIC_API_BASE_URL }}
+
+      - name: Fail if tests exist but failed
+        if: steps.check-tests.outputs.has_tests == 'true' && steps.test.outcome == 'failure'
+        run: |
+          echo "::error::Playwright tests failed! Please fix the failing tests."
+          exit 1
+
+      - name: Check if playwright exists
+        id: check-playwright
+        run: |
+          if [ -f "playwright-report/index.html" ]; then
+            echo "has_playwright=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_playwright=false" >> $GITHUB_OUTPUT
+          fi
+
+      # GitHub Pages 배포 추가
+      - name: Checkout GitHub Pages repo
+        if: steps.check-playwright.outputs.has_playwright == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: WeGo-Together/WeGo-Together.github.io
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          path: gh-pages
+
+      - name: Copy playwright report
+        if: steps.check-playwright.outputs.has_playwright == 'true'
+        run: |
+          mkdir -p gh-pages/front/playwright-report
+          cp -r playwright-report/* gh-pages/front/playwright-report
+
+      - name: Commit and push to GitHub Pages
+        if: steps.check-playwright.outputs.has_playwright == 'true'
+        run: |
+          cd gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add front/playwright-report
+          git commit -m "Update playwright report from ${{ github.sha }}" || exit 0
+          git push
