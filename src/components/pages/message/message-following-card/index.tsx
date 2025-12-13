@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
 interface FollowingCardProps {
-  id: number;
-  name: string;
+  userId: number;
+  nickname: string;
   profileImage: string;
   profileMessage: string;
   type: 'following' | 'message';
@@ -14,8 +14,8 @@ interface FollowingCardProps {
 }
 
 export const FollowingCard = ({
-  id,
-  name,
+  userId,
+  nickname,
   profileImage,
   profileMessage,
   type,
@@ -24,7 +24,7 @@ export const FollowingCard = ({
 }: FollowingCardProps) => {
   const router = useRouter();
   const handleClick = () => {
-    router.push(`/profile/${id}`);
+    router.push(`/profile/${userId}`);
   };
   return (
     <div
@@ -35,12 +35,12 @@ export const FollowingCard = ({
       <Image
         width={48}
         className='size-12 rounded-full object-cover'
-        alt={name}
+        alt={nickname}
         height={48}
         src={profileImage}
       />
       <div className='flex flex-1 flex-col'>
-        <span className='text-text-md-bold text-gray-800'>{name}</span>
+        <span className='text-text-md-bold text-gray-800'>{nickname}</span>
         <span
           className={cn(
             'text-text-sm-medium line-clamp-1',

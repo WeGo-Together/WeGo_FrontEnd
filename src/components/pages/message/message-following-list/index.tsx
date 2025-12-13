@@ -1,16 +1,11 @@
 'use client';
 
+import { Follower } from '@/types/service/follow';
+
 import { FollowingCard } from '../message-following-card';
 
-interface FollowingItem {
-  id: number;
-  name: string;
-  profileImage: string;
-  profileMessage: string;
-}
-
 interface FollowingListProps {
-  items: FollowingItem[];
+  items: Follower[];
 }
 
 export const FollowingList = ({ items }: FollowingListProps) => {
@@ -18,12 +13,12 @@ export const FollowingList = ({ items }: FollowingListProps) => {
     <div>
       {items.map((item) => (
         <FollowingCard
-          key={item.id}
-          id={item.id}
-          name={item.name}
+          key={item.userId}
+          nickname={item.nickname}
           profileImage={item.profileImage}
           profileMessage={item.profileMessage}
           type='following'
+          userId={item.userId}
         />
       ))}
     </div>
