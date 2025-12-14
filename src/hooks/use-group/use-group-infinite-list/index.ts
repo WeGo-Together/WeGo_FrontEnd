@@ -1,12 +1,19 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useMemo } from 'react';
+
+import { InfiniteData, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
 import { API } from '@/api';
 import { GROUP_LIST_PAGE_SIZE } from '@/lib/constants/group-list';
-import { GroupListItemResponse } from '@/types/service/group';
+import { GetGroupsResponse, GroupListItemResponse } from '@/types/service/group';
+
+type GroupInfiniteData = InfiniteData<GetGroupsResponse, number | undefined>;
+type GroupQueryKey = ['groups', string | undefined];
+
+const STALE_TIME = 3 * 1000; // 3초
+const ERROR_MESSAGE = '모임 목록을 불러오는데 실패했습니다.';
 
 interface UseInfiniteGroupListParams {
-  initialCursor: number | null;
-  initialItems: GroupListItemResponse[];
+  initialData?: GroupInfiniteData;
   initialKeyword?: string;
 }
 
@@ -14,193 +21,115 @@ interface UseInfiniteGroupListReturn {
   items: GroupListItemResponse[];
   nextCursor: number | null;
   error: Error | null;
-  fetchNext: () => Promise<void>;
-  handleRetry: () => void;
-  reset: () => void;
+  fetchNextPage: () => void;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  isFetching: boolean;
+  refetch: () => void;
 }
 
 /**
- * 무한 스크롤 커스텀 훅
+ * Cursor Pagination 기반 무한 스크롤 커스텀 훅
+ * React Query의 useInfiniteQuery를 활용하여 자동 중복 호출 방지, 요청 상태 관리, 캐싱 처리
  */
 export const useInfiniteGroupList = ({
-  initialCursor,
-  initialItems,
+  initialData,
   initialKeyword,
 }: UseInfiniteGroupListParams): UseInfiniteGroupListReturn => {
-  const [keyword, setKeyword] = useState<string | undefined>(initialKeyword);
-  const [items, setItems] = useState<GroupListItemResponse[]>(initialItems);
-  const [nextCursor, setNextCursor] = useState<number | null>(initialCursor);
-  const [error, setError] = useState<Error | null>(null);
+  const queryClient = useQueryClient();
+  const queryKey: GroupQueryKey = ['groups', initialKeyword];
 
-  const isFetchingRef = useRef(false);
-  const prevKeywordRef = useRef(initialKeyword);
+  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, refetch } =
+    useInfiniteQuery<
+      GetGroupsResponse,
+      Error,
+      GroupInfiniteData,
+      GroupQueryKey,
+      number | undefined
+    >({
+      queryKey,
+      queryFn: async ({ pageParam }) => {
+        // 다음 페이지 요청 시작 로그
+        if (pageParam !== undefined) {
+          const queryData = queryClient.getQueryData<GroupInfiniteData>(queryKey);
+          const currentItemsCount = queryData?.pages.flatMap((page) => page.items).length ?? 0;
 
-  /**
-   * 에러 객체 생성 함수
-   */
-  const createError = useCallback((err: unknown, defaultMessage: string): Error => {
-    return err instanceof Error ? err : new Error(defaultMessage);
-  }, []);
+          console.log('다음 페이지 요청 시작', {
+            '요청 크기': GROUP_LIST_PAGE_SIZE,
+            '현재 커서': pageParam,
+            '현재 누적 데이터 개수': currentItemsCount,
+            키워드: initialKeyword || '없음',
+          });
+        }
 
-  /**
-   * 첫 페이지 조회 함수 // 콘솔은 지우지 말아주세요 🙏🏻
-   */
-  const fetchFirstPage = useCallback(
-    async (searchKeyword?: string): Promise<void> => {
-      if (isFetchingRef.current) return;
-
-      isFetchingRef.current = true;
-      const currentKeyword = searchKeyword ?? keyword;
-
-      console.log('첫 페이지 요청 시작', {
-        '요청 크기': GROUP_LIST_PAGE_SIZE,
-        키워드: currentKeyword || '없음',
-      });
-
-      try {
         const response = await API.groupService.getGroups({
-          keyword: currentKeyword,
+          keyword: initialKeyword,
+          cursor: pageParam,
           size: GROUP_LIST_PAGE_SIZE,
         });
 
-        console.log('첫 페이지 요청 완료', {
-          '요청 크기': GROUP_LIST_PAGE_SIZE,
-          '받은 데이터 개수': response.items.length,
-          '누적 데이터 개수': response.items.length,
-          '다음 커서': response.nextCursor,
-          키워드: currentKeyword || '없음',
-        });
+        // 다음 페이지 요청 완료 로그
+        if (pageParam !== undefined) {
+          const queryData = queryClient.getQueryData<GroupInfiniteData>(queryKey);
+          const previousItemsCount = queryData?.pages.flatMap((page) => page.items).length ?? 0;
+          const newItemsCount = previousItemsCount + response.items.length;
 
-        setItems(response.items);
-        setNextCursor(response.nextCursor);
-        setError(null);
-      } catch (err) {
-        const error = createError(err, '모임 목록을 불러오는데 실패했습니다.');
-        console.error('첫 페이지 조회 실패:', error);
-        setError(error);
-      } finally {
-        isFetchingRef.current = false;
-      }
-    },
-    [keyword, createError],
-  );
+          console.log('다음 페이지 요청 완료', {
+            '요청 크기': GROUP_LIST_PAGE_SIZE,
+            '받은 데이터 개수': response.items.length,
+            '이전 누적 데이터 개수': previousItemsCount,
+            '새로운 누적 데이터 개수': newItemsCount,
+            '다음 커서': response.nextCursor,
+            키워드: initialKeyword || '없음',
+          });
 
-  /**
-   * 다음 페이지 조회 가능 여부 확인
-   */
-  const canFetchNext = useCallback((): boolean => {
-    return nextCursor !== null && !isFetchingRef.current;
-  }, [nextCursor]);
+          if (response.nextCursor === null) {
+            console.log('모든 데이터 로드 완료', {
+              '총 데이터 개수': newItemsCount,
+              키워드: initialKeyword || '없음',
+            });
+          }
+        }
 
-  /**
-   * 다음 페이지 요청 함수
-   */
-  const fetchNext = useCallback(async (): Promise<void> => {
-    if (!canFetchNext()) {
-      return;
-    }
-
-    isFetchingRef.current = true;
-
-    console.log('다음 페이지 요청 시작', {
-      '요청 크기': GROUP_LIST_PAGE_SIZE,
-      '현재 커서': nextCursor,
-      '현재 누적 데이터 개수': items.length,
-      키워드: keyword || '없음',
+        return response;
+      },
+      initialPageParam: undefined,
+      getNextPageParam: (lastPage: GetGroupsResponse) => {
+        // nextCursor가 null이면 더 이상 요청하지 않음
+        return lastPage.nextCursor ?? undefined;
+      },
+      initialData: initialData as GroupInfiniteData | undefined,
+      staleTime: STALE_TIME,
     });
 
-    try {
-      const response = await API.groupService.getGroups({
-        keyword,
-        cursor: nextCursor as number,
-        size: GROUP_LIST_PAGE_SIZE,
-      });
+  // 여러 페이지의 아이템을 하나의 배열로 합치기
+  const items = useMemo(() => {
+    if (!data?.pages) return [];
+    return data.pages.flatMap((page) => page.items);
+  }, [data]);
 
-      const previousItemsCount = items.length;
-      const newItemsCount = previousItemsCount + response.items.length;
+  // 마지막 페이지의 nextCursor 값
+  const nextCursor = useMemo(() => {
+    if (!data?.pages || data.pages.length === 0) return null;
+    const lastPage = data.pages[data.pages.length - 1];
+    return lastPage?.nextCursor ?? null;
+  }, [data]);
 
-      console.log('다음 페이지 요청 완료', {
-        '요청 크기': GROUP_LIST_PAGE_SIZE,
-        '받은 데이터 개수': response.items.length,
-        '이전 누적 데이터 개수': previousItemsCount,
-        '새로운 누적 데이터 개수': newItemsCount,
-        '다음 커서': response.nextCursor,
-        키워드: keyword || '없음',
-      });
-
-      if (response.nextCursor === null) {
-        console.log('모든 데이터 로드 완료', {
-          '총 데이터 개수': newItemsCount,
-          키워드: keyword || '없음',
-        });
-      }
-
-      setItems((prevItems) => [...prevItems, ...response.items]);
-      setNextCursor(response.nextCursor);
-      setError(null);
-    } catch (err) {
-      const error = createError(err, '다음 페이지를 불러오는데 실패했습니다.');
-      console.error('다음 페이지 조회 실패:', error);
-      setError(error);
-    } finally {
-      isFetchingRef.current = false;
-    }
-  }, [canFetchNext, nextCursor, keyword, items.length, createError]);
-
-  /**
-   * 재시도 함수
-   */
-  const handleRetry = useCallback(() => {
-    setError(null);
-    if (items.length === 0) {
-      fetchFirstPage(initialKeyword);
-    } else {
-      fetchNext();
-    }
-  }, [items.length, initialKeyword, fetchFirstPage, fetchNext]);
-
-  /**
-   * 상태 초기화 함수
-   */
-  const reset = useCallback(() => {
-    setItems([]);
-    setNextCursor(null);
-    setError(null);
-    isFetchingRef.current = false;
-  }, []);
-
-  /**
-   * 입력 키워드 변경 감지 및 첫 페이지 재요청
-   */
-  useEffect(() => {
-    if (prevKeywordRef.current === initialKeyword) return;
-
-    reset();
-    setKeyword(initialKeyword);
-    fetchFirstPage(initialKeyword);
-    prevKeywordRef.current = initialKeyword;
-  }, [initialKeyword, reset, fetchFirstPage]);
-
-  /**
-   * 초기 데이터 로그
-   */
-  useEffect(() => {
-    console.log('초기 데이터 로드 완료', {
-      '요청 크기': GROUP_LIST_PAGE_SIZE,
-      '받은 데이터 개수': initialItems.length,
-      '누적 데이터 개수': initialItems.length,
-      '다음 커서': initialCursor,
-      키워드: initialKeyword || '없음',
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // 에러 객체 변환
+  const errorObject = useMemo(() => {
+    if (!error) return null;
+    if (error instanceof Error) return error;
+    return new Error(ERROR_MESSAGE);
+  }, [error]);
 
   return {
     items,
     nextCursor,
-    error,
-    fetchNext,
-    handleRetry,
-    reset,
+    error: errorObject,
+    fetchNextPage,
+    hasNextPage: hasNextPage ?? false,
+    isFetchingNextPage,
+    isFetching,
+    refetch,
   };
 };
