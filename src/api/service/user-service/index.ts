@@ -14,47 +14,47 @@ import {
 
 export const userServiceRemote = () => ({
   // 1. 사용자 팔로우
-  followUser: async (params: FollowPathParams) => {
+  followUser: async (pathParams: FollowPathParams) => {
     return api.post<void>(`/users/follow`, null, {
-      params: { followNickname: params.followNickname },
+      params: { followNickname: pathParams.followNickname },
     });
   },
 
   // 2. 유저 프로필 변경
-  updateMyInfo: async (payload: UpdateMyInfoPayload) => {
-    return api.patch<User>('/users/profile', payload);
+  updateMyInfo: async (payloads: UpdateMyInfoPayload) => {
+    return api.patch<User>('/users/profile', payloads);
   },
 
   // 3. 프로필 이미지 변경
-  updateMyImage: async (payload: UpdateMyImagePayload) => {
+  updateMyImage: async (payloads: UpdateMyImagePayload) => {
     const formData = new FormData();
-    formData.append('file', payload.file);
+    formData.append('file', payloads.file);
     return api.patch<User>(`/users/profile-image`, formData);
   },
 
   // 4. 알림 설정 변경
-  updateMyNotification: async (params: UpdateMyNotificationQueryParams) => {
+  updateMyNotification: async (queryParams: UpdateMyNotificationQueryParams) => {
     return api.patch<User>(
-      `/users/notification?isNotificationEnabled=${params.isNotificationEnabled}`,
+      `/users/notification?isNotificationEnabled=${queryParams.isNotificationEnabled}`,
     );
   },
 
   // 5. 유저 프로필 조회
-  getUser: async (params: GetUserPathParams) => {
-    return api.get<User>(`/users/${params.userId}`);
+  getUser: async (pathParams: GetUserPathParams) => {
+    return api.get<User>(`/users/${pathParams.userId}`);
   },
 
   // 6. 닉네임 중복 검사
-  getNicknameAvailability: async (params: GetNicknameAvailabilityQueryParams) => {
+  getNicknameAvailability: async (queryParams: GetNicknameAvailabilityQueryParams) => {
     return api.get<Availability>(`/users/nickname/availability`, {
-      params: { nickname: params.nickName },
+      params: { nickname: queryParams.nickName },
     });
   },
 
   // 7. 이메일 중복 검사
-  getEmailAvailability: async (params: GetEmailAvailabilityQueryParams) => {
+  getEmailAvailability: async (queryParams: GetEmailAvailabilityQueryParams) => {
     return api.get<Availability>(`/users/email/availability`, {
-      params: { email: params.email },
+      params: { email: queryParams.email },
     });
   },
 
