@@ -39,30 +39,10 @@ export const groupServiceRemote = () => ({
   },
 
   // 모임 이미지 사전 업로드 (POST /groups/images/upload) - multipart/form-data
-  uploadGroupImages: async (
-    payload: PreUploadGroupImagePayload,
-  ): Promise<PreUploadGroupImageResponse> => {
-    const formData = new FormData();
-    payload.images.forEach((file) => {
-      if (file instanceof File) {
-        formData.append('images', file);
-      } else {
-        console.error('[이미지 업로드 오류] File 객체가 아닌 값이 포함됨:', file);
-        throw new Error('이미지 파일은 File 객체여야 합니다.');
-      }
+  uploadGroupImages: (payload: PreUploadGroupImagePayload) => {
+    return api.post<PreUploadGroupImageResponse>('/groups/images/upload', payload, {
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
-
-    const response = await api.post<PreUploadGroupImageResponse>(
-      '/groups/images/upload',
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      },
-    );
-
-    return response;
   },
 
   createGroup: (payload: CreateGroupPayload) => {
