@@ -80,13 +80,11 @@ export interface PreUploadGroupImagePayload {
 }
 
 export interface PreUploadGroupImageResponse {
-  images: [
-    {
-      sortOrder: number;
-      imageUrl440x240: string;
-      imageUrl100x100: string;
-    },
-  ];
+  images: {
+    sortOrder: number;
+    imageUrl440x240: string;
+    imageUrl100x100: string;
+  }[];
 }
 
 export type CreateGroupImagePayload = PreUploadGroupImageResponse;
@@ -121,11 +119,7 @@ export interface CreateGroupResponse {
   };
   createdAt: string;
   updatedAt: string;
-  images?: PreUploadGroupImageResponse | null;
-}
-
-export interface GetGroupDetailsPayload {
-  groupId: string;
+  images?: CreateGroupImagePayload['images'] | null;
 }
 
 export interface GetGroupDetailsResponse {
@@ -164,4 +158,8 @@ export interface GetGroupDetailsResponse {
     profileImage: string;
     joinedAt: string;
   }[];
+}
+
+export interface GroupIdPayload {
+  groupId: string;
 }

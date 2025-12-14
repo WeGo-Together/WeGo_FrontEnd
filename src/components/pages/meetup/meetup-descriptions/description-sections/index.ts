@@ -1,4 +1,4 @@
-export { DescriptionContent } from './description-content';
+export { DescriptionDetail } from './description-detail';
 export { DescriptionProfile } from './description-profile';
 export { DescriptionProgress } from './description-progress';
 export { DescriptionSetting } from './description-setting';
