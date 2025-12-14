@@ -15,7 +15,9 @@ import {
 export const userServiceRemote = () => ({
   // 1. 사용자 팔로우
   followUser: async (params: FollowParams) => {
-    return api.post<void>(`/users/follow?followNickname=${params.followNickname}`);
+    return api.post<void>(`/users/follow`, null, {
+      params: { followNickname: params.followNickname },
+    });
   },
 
   // 2. 유저 프로필 변경
@@ -38,22 +40,31 @@ export const userServiceRemote = () => ({
   },
 
   // 5. 유저 프로필 조회
-  getUser: async (payload: GetUserParams) => {
-    return api.get<User>(`/users/${payload.userId}`);
+  getUser: async (params: GetUserParams) => {
+    return api.get<User>(`/users/${params.userId}`);
   },
+
+  // 6. 팔로우 리스트 조회
+  // getFollowList: async (payload: )
 
   // 6. 닉네임 중복 검사
   getNicknameAvailability: async (params: GetNickNameAvailabilityParams) => {
-    return api.get<Availability>(`/users/nickname/availability?nickname=${params.nickName}`);
+    return api.get<Availability>(`/users/nickname/availability`, {
+      params: { nickname: params.nickName },
+    });
   },
 
   // 7. 이메일 중복 검사
   getEmailAvailability: async (params: GetEmailAvailabilityParams) => {
-    return api.get<Availability>(`/users/email/availability?email=${params.email}`);
+    return api.get<Availability>(`/users/email/availability`, {
+      params: { email: params.email },
+    });
   },
 
   // 8. 사용자 언팔로우
   unfollowUser: async (params: UnfollowParmams) => {
-    return api.delete<void>(`/users/unfollow?unFollowNickname=${params.unFollowNickname}`);
+    return api.delete<void>(`/users/unfollow`, {
+      params: { unFollowNickname: params.unFollowNickname },
+    });
   },
 });
