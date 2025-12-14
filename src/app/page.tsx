@@ -1,58 +1,21 @@
-'use client';
+import { InfiniteData } from '@tanstack/react-query';
 
-import Card from '@/components/shared/card';
-import { useGetGroups } from '@/hooks/use-group/use-group-get-list';
-import { formatDateTime } from '@/lib/formatDateTime';
+import { API } from '@/api';
+import GroupList from '@/components/pages/group-list';
+import { GROUP_LIST_PAGE_SIZE } from '@/lib/constants/group-list';
+import { GetGroupsResponse } from '@/types/service/group';
 
-export default function HomePage() {
-  const { data, isLoading, error } = useGetGroups({ size: 10 });
+export const dynamic = 'force-dynamic';
 
-  if (isLoading) {
-    return (
-      <main className='min-h-screen bg-[#F1F5F9]'>
-        <section className='flex w-full flex-col gap-4 px-4 py-4'>
-          <div className='py-8 text-center text-gray-500'>로딩 중...</div>
-        </section>
-      </main>
-    );
-  }
+export default async function HomePage() {
+  const response = await API.groupService.getGroups({ size: GROUP_LIST_PAGE_SIZE });
 
-  if (error) {
-    return (
-      <main className='min-h-screen bg-[#F1F5F9]'>
-        <section className='flex w-full flex-col gap-4 px-4 py-4'>
-          <div className='py-8 text-center text-red-500'>
-            데이터를 불러오는 중 오류가 발생했습니다.
-          </div>
-        </section>
-      </main>
-    );
-  }
+  // React Query의 useInfiniteQuery에 맞는 initialData 형태로 변환
+  const initialData: InfiniteData<GetGroupsResponse, number | undefined> = {
+    pages: [response],
+    pageParams: [undefined], // 첫 페이지는 cursor가 없으므로 undefined
+  };
 
-  const meetings = data?.items || [];
-
-  return (
-    <main className='min-h-screen bg-[#F1F5F9]'>
-      <section className='flex w-full flex-col gap-4 px-4 py-4'>
-        {meetings.length === 0 ? (
-          <div className='py-8 text-center text-gray-500'>모임이 없습니다.</div>
-        ) : (
-          meetings.map((meeting) => (
-            <Card
-              key={meeting.id}
-              dateTime={formatDateTime(meeting.startTime, meeting.endTime)}
-              images={meeting.images}
-              location={meeting.location}
-              maxParticipants={meeting.maxParticipants}
-              nickName={meeting.createdBy.nickName}
-              participantCount={meeting.participantCount}
-              profileImage={meeting.createdBy.profileImage}
-              tags={meeting.tags}
-              title={meeting.title}
-            />
-          ))
-        )}
-      </section>
-    </main>
-  );
+  // 초기 데이터를 전달해서 무한 스크롤 시작
+  return <GroupList initialData={initialData} />;
 }
