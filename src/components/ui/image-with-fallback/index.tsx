@@ -23,5 +23,14 @@ export const ImageWithFallback = ({
 
   const imgSrc = error || !src || src === 'null' ? fallbackSrc : src;
 
-  return <Image {...rest} src={imgSrc} unoptimized onError={() => setError(true)} />;
+  return (
+    <Image
+      {...rest}
+      src={imgSrc}
+      onError={(e) => {
+        e.preventDefault();
+        setError(true);
+      }}
+    />
+  );
 };
