@@ -2,12 +2,12 @@ import { api } from '@/api/core';
 import {
   CreateGroupPayload,
   CreateGroupResponse,
-  GetGroupDetailsPayload,
   GetGroupDetailsResponse,
   GetGroupsPayload,
   GetGroupsResponse,
   GetMyGroupsPayload,
   GetMyGroupsResponse,
+  GroupIdPayload,
   PreUploadGroupImagePayload,
   PreUploadGroupImageResponse,
 } from '@/types/service/group';
@@ -69,7 +69,19 @@ export const groupServiceRemote = () => ({
     return api.post<CreateGroupResponse>('/groups/create', payload);
   },
 
-  getGroupDetails: (payload: GetGroupDetailsPayload) => {
+  getGroupDetails: (payload: GroupIdPayload) => {
     return api.get<GetGroupDetailsResponse>(`/groups/${payload.groupId}`);
+  },
+
+  attendGroup: (payload: GroupIdPayload) => {
+    return api.post<GetGroupDetailsResponse>(`/groups/${payload.groupId}/attend`);
+  },
+
+  cancelGroup: (payload: GroupIdPayload) => {
+    return api.post<GetGroupDetailsResponse>(`/groups/${payload.groupId}/cancel`);
+  },
+
+  deleteGroup: (payload: GroupIdPayload) => {
+    return api.delete(`/groups/${payload.groupId}`);
   },
 });

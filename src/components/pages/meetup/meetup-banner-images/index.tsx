@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const MeetupBannerImages = ({ images }: Props) => {
-  const hasImages = images.length;
+  const hasImages = Boolean(images.length);
 
   const defaultImageUrl =
     'https://images.unsplash.com/photo-1705599359461-f99dc9e80efa?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
