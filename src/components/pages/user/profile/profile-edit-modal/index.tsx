@@ -24,8 +24,16 @@ export const ProfileEditModal = ({ user }: Props) => {
 
   const { close } = useModal();
 
-  const { mutateAsync: updateUser, isPending: isUserInfoPending } = useUpdateUser();
-  const { mutateAsync: updateUserImage, isPending: isUserImagePending } = useUserImageUpdate();
+  const {
+    mutateAsync: updateUser,
+    isPending: isUserInfoPending,
+    error: _userInfoError,
+  } = useUpdateUser();
+  const {
+    mutateAsync: updateUserImage,
+    isPending: isUserImagePending,
+    error: _userImageError,
+  } = useUserImageUpdate();
 
   const form = useForm({
     defaultValues: {
@@ -34,11 +42,7 @@ export const ProfileEditModal = ({ user }: Props) => {
       profileMessage,
       mbti,
     },
-    /*
-    onSubmit 시 updateUser, updateUserImage 총 2가지 api가 실행됨
-    이 때 api 요청이 전부 성공한 뒤 modal.close가 실행되도록 만들기 위해 mutateAsync 적용
-    추후 로직 수정 필요함(순차적 동기 작업 수행으로 효율 ↓)
-    */
+
     onSubmit: async ({ value }) => {
       const { profileImage, nickName, profileMessage, mbti } = value;
 
@@ -62,9 +66,19 @@ export const ProfileEditModal = ({ user }: Props) => {
         promises.push(updateUserImage({ file: imageFileObject }));
       }
 
-      await Promise.all(promises)
-        .catch(() => console.log('요청 실패'))
-        .then(() => close());
+      /*
+      Promise 체이닝 사용 시 catch를 먹어버리기 때문에 각 mutation의 error가 업데이트 되지않음
+      따라서 try catch 방식 사용
+      */
+      /*
+      todo: 이미지 변경과 정보 변경 중 하나라도 실패하면 각 항목에 대한 에러메시지 보여줘야함
+      */
+      try {
+        await Promise.all(promises);
+        close();
+      } catch (error) {
+        console.log('요청 실패', error);
+      }
     },
   });
 
