@@ -24,19 +24,19 @@ export const MeetupModal = ({ type }: Props) => {
   const { title, description, confirm } = MODAL_MESSAGE[type];
 
   return (
-    <ModalContent>
-      <ModalTitle className='pt-8 text-center'>{title}</ModalTitle>
-      <ModalDescription className='mb-6 text-center'>{description}</ModalDescription>
-      <div className='flex flex-row gap-2'>
+    <ModalContent className='max-w-80'>
+      <ModalTitle className='pt-8 text-center break-keep'>{title}</ModalTitle>
+      <ModalDescription className='text-center break-keep'>{description}</ModalDescription>
+      <div className='mt-6 flex gap-2'>
         <button
-          className='typo-text-sm-semibold w-34 cursor-pointer rounded-2xl border-1 border-gray-400 bg-white py-3 text-gray-600'
+          className='text-text-sm-semibold h-10 w-[50%] cursor-pointer rounded-xl border-1 border-gray-400 bg-white text-gray-600'
           type='button'
           onClick={close}
         >
           취소
         </button>
         <button
-          className='typo-text-sm-bold bg-mint-400 w-34 cursor-pointer rounded-2xl py-3 text-white disabled:bg-gray-500'
+          className='text-text-sm-bold bg-mint-400 h-10 w-[50%] cursor-pointer rounded-xl text-white disabled:bg-gray-500'
           disabled={isPending}
           onClick={handleConfirm}
         >

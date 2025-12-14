@@ -36,8 +36,6 @@ export const MeetupDescriptions = ({
     participantCount,
   },
 }: Props) => {
-  console.log(participantCount);
-
   return (
     <section className='bg-white px-5 pt-6 pb-4'>
       <DescriptionProfile hostInfo={createdBy} />
