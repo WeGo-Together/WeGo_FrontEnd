@@ -7,48 +7,53 @@ import { useState } from 'react';
 
 import clsx from 'clsx';
 
-import type { DUMMY_MEETUP_DATA } from '@/app/meetup/[id]/page';
 import { Icon } from '@/components/icon';
+import { AnimateDynamicHeight } from '@/components/shared';
 import { Button } from '@/components/ui';
+import { GetGroupDetailsResponse } from '@/types/service/group';
 
 interface Props {
-  members: typeof DUMMY_MEETUP_DATA.members;
+  members: GetGroupDetailsResponse['joinedMembers'];
 }
 
 export const MeetupMembers = ({ members }: Props) => {
-  const [showMore, setShowMore] = useState(false);
+  const [expand, setExpand] = useState(false);
   const [coverMember, setCoverMember] = useState(2 < Math.ceil(members.length / 3));
 
   const hasMoreMember = 2 < Math.ceil(members.length / 3);
 
-  const onShowMoreClick = () => {
-    setShowMore((prev) => !prev);
+  const defaultProfileImageUrl =
+    'https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?q=80&w=717&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+
+  const onExpandClick = () => {
+    setExpand((prev) => !prev);
     setCoverMember((prev) => !prev);
   };
 
   return (
-    <section className='relative bg-gray-50 px-4 pt-6 pb-4'>
+    <section className='relative space-y-5 bg-gray-50 px-4 py-6 select-none'>
       <h3 className='text-text-md-semibold px-2 text-gray-800'>참여자 정보</h3>
 
-      <div className='mt-5'>
-        <ul className='flex-center flex-wrap'>
-          {members.map(({ name, profileImage }, idx) => (
+      <AnimateDynamicHeight>
+        <ul className='grid grid-cols-[repeat(auto-fill,minmax(115px,1fr))] gap-y-4'>
+          {members.map(({ nickName, profileImage, userId }, idx) => (
             <li
-              key={name}
+              key={nickName}
               className={clsx(
-                'relative h-25 w-34 shrink-0',
-                hasMoreMember && !showMore ? '[&:nth-child(n+7)]:hidden' : 'block',
+                'relative',
+                hasMoreMember && !expand ? '[&:nth-child(n+7)]:hidden' : 'block',
               )}
             >
-              <div className='flex-col-center gap-[6px]'>
-                <Link href={'#'} className='select-none'>
+              <div className='flex-col-center gap-1.5'>
+                <Link href={`/profile/${userId}`}>
                   <Image
                     width={64}
                     className='h-16 w-16 rounded-full'
                     alt='프로필 사진'
+                    draggable={false}
                     height={64}
                     objectFit='cover'
-                    src={profileImage}
+                    src={profileImage ?? defaultProfileImageUrl}
                   />
                 </Link>
                 <p
@@ -57,7 +62,7 @@ export const MeetupMembers = ({ members }: Props) => {
                     coverMember && idx === 5 ? 'hidden' : 'block',
                   )}
                 >
-                  {name}
+                  {nickName}
                 </p>
               </div>
 
@@ -71,7 +76,7 @@ export const MeetupMembers = ({ members }: Props) => {
             </li>
           ))}
         </ul>
-      </div>
+      </AnimateDynamicHeight>
 
       {hasMoreMember && (
         <div className='flex-center'>
@@ -79,10 +84,10 @@ export const MeetupMembers = ({ members }: Props) => {
             className='flex-center h-9 w-auto border-none bg-gray-50 px-4'
             size='sm'
             variant='secondary'
-            onClick={onShowMoreClick}
+            onClick={onExpandClick}
           >
-            {showMore ? '접기' : '더보기'}
-            <Icon id={showMore ? 'arrow-up' : 'arrow-down'} width={16} height={16} />
+            {expand ? '접기' : '더보기'}
+            <Icon id={expand ? 'arrow-up' : 'arrow-down'} width={16} height={16} />
           </Button>
         </div>
       )}

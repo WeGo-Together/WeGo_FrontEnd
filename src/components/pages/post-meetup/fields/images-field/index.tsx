@@ -8,10 +8,9 @@ import { Icon } from '@/components/icon';
 import { ImageInput, ImageInputProps } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
-type ImageUploadPropsWithoutChildren = Omit<ImageInputProps, 'children'>;
-
-interface Props extends ImageUploadPropsWithoutChildren {
+interface Props {
   field: AnyFieldApi;
+  initialImages?: ImageInputProps['initialImages'];
 }
 
 export const MeetupImagesField = ({ field, initialImages }: Props) => {
@@ -53,6 +52,7 @@ export const MeetupImagesField = ({ field, initialImages }: Props) => {
                   alt='팀 이미지'
                   fill
                   src={url}
+                  unoptimized={url.startsWith('blob:')}
                 />
                 <button
                   className={cn(
@@ -61,6 +61,7 @@ export const MeetupImagesField = ({ field, initialImages }: Props) => {
                     'transition-all duration-300', // animation 스타일
                   )}
                   aria-label='이미지 삭제 버튼'
+                  type='button'
                   onClick={() => onRemoveImageClick(url)}
                 >
                   <Icon id='small-x-1' className='size-1.5 text-gray-700' />

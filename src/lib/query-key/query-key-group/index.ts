@@ -6,4 +6,5 @@ export const groupKeys = {
   myLists: () => [...groupKeys.all, 'me'] as const,
   myList: (filters: { type: 'current' | 'myPost' | 'past'; cursor?: number; size: number }) =>
     [...groupKeys.myLists(), filters] as const,
+  detail: (groupId: string) => [...groupKeys.all, groupId] as const,
 };

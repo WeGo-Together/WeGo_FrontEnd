@@ -1,8 +1,14 @@
+import { GetGroupDetailsResponse } from '@/types/service/group';
+
 interface Props {
-  tags: string[];
+  tags: GetGroupDetailsResponse['tags'];
 }
 
 export const DescriptionTags = ({ tags }: Props) => {
+  const hasTags = Boolean(tags.length);
+
+  if (!hasTags) return null;
+
   return (
     <div className='mt-2 flex flex-wrap gap-2'>
       {tags.map((tag) => (

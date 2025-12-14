@@ -119,11 +119,7 @@ export interface CreateGroupResponse {
   };
   createdAt: string;
   updatedAt: string;
-  images?: PreUploadGroupImageResponse | null;
-}
-
-export interface GetGroupDetailsPayload {
-  groupId: number;
+  images?: CreateGroupImagePayload['images'] | null;
 }
 
 export interface GetGroupDetailsResponse {
@@ -162,4 +158,8 @@ export interface GetGroupDetailsResponse {
     profileImage: string;
     joinedAt: string;
   }[];
+}
+
+export interface GroupIdPayload {
+  groupId: string;
 }
