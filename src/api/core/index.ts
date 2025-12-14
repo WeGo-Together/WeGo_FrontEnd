@@ -1,5 +1,3 @@
-import { notFound, redirect } from 'next/navigation';
-
 import axios from 'axios';
 
 import { CommonErrorResponse, CommonSuccessResponse } from '@/types/service/common';
@@ -37,16 +35,6 @@ baseAPI.interceptors.response.use(
     return response;
   },
   async (error) => {
-    const status = error.response?.status;
-    if (status) {
-      if (status === 401) {
-        redirect('/signin?error=unauthorized');
-      }
-      if (status === 404) {
-        notFound();
-      }
-    }
-
     const errorResponse: CommonErrorResponse = error.response?.data || {
       type: 'about:blank',
       title: 'Network Error',
@@ -55,6 +43,23 @@ baseAPI.interceptors.response.use(
       instance: error.config?.url || '',
       errorCode: 'NETWORK_ERROR',
     };
+
+    const { status } = errorResponse;
+    const isServer = typeof window === 'undefined';
+
+    if (status === 401) {
+      if (isServer) {
+        const { redirect } = await import('next/navigation');
+        redirect('/login');
+      } else {
+        const currentPath = window.location.pathname + window.location.search;
+        window.location.href = `/login?error=unauthorized&path=${encodeURIComponent(currentPath)}`;
+      }
+    }
+    if (status === 404) {
+      const { notFound } = await import('next/navigation');
+      notFound();
+    }
 
     throw errorResponse;
   },
