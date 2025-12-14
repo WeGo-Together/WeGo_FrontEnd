@@ -30,7 +30,7 @@ export const userServiceRemote = () => ({
   },
 
   // 4. 알림 설정 변경
-  updatMyNotification: async (params: UpdateMyNotiParams) => {
+  updateMyNotification: async (params: UpdateMyNotiParams) => {
     return api.patch<User>(
       `/users/notification?isNotificationEnabled=${params.isNotificationEnabled}`,
     );

@@ -7,7 +7,7 @@ import { UpdateMyNotiParams } from '@/types/service/user';
 export const useUpdateMyNotification = () => {
   const queryClient = useQueryClient();
   const query = useMutation({
-    mutationFn: (params: UpdateMyNotiParams) => API.userService.updatMyNotification(params),
+    mutationFn: (params: UpdateMyNotiParams) => API.userService.updateMyNotification(params),
     onSuccess: (_data, _variables, _context) => {
       queryClient.invalidateQueries({ queryKey: userKeys.all });
       console.log('요청 성공');
