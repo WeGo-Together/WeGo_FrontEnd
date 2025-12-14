@@ -27,7 +27,7 @@ const MeetupDetailPage = ({ params }: Props) => {
       <MeetupBannerImages images={data.images} />
       <MeetupDescriptions descriptions={data} />
       <MeetupMembers members={data.joinedMembers} />
-      <MeetupButtons conditions={data} />
+      <MeetupButtons conditions={data} groupId={groupId} />
     </div>
   );
 };

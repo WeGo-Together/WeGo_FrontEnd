@@ -16,6 +16,7 @@ interface Props {
     GetGroupDetailsResponse,
     'userStatus' | 'createdBy' | 'participantCount' | 'maxParticipants'
   >;
+  groupId: string;
 }
 
 export const MeetupButtons = ({
@@ -25,6 +26,7 @@ export const MeetupButtons = ({
     participantCount,
     maxParticipants,
   },
+  groupId,
 }: Props) => {
   const [isHost, setIsHost] = useState<boolean | null>(null);
   const { open } = useModal();
@@ -36,12 +38,9 @@ export const MeetupButtons = ({
   };
 
   useEffect(() => {
-    const checkIsHost = () => {
-      const sessionId = Number(Cookies.get('userId'));
-      setIsHost(sessionId === createdBy.userId);
-    };
-
-    checkIsHost();
+    const sessionId = Number(Cookies.get('userId'));
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsHost(sessionId === createdBy.userId);
   }, [createdBy]);
 
   return (
@@ -51,7 +50,9 @@ export const MeetupButtons = ({
           <Button
             className='flex-[1.2]'
             variant='tertiary'
-            onClick={() => open(<MeetupModal type={isHost ? 'cancel' : 'leave'} />)}
+            onClick={() =>
+              open(<MeetupModal groupId={groupId} type={isHost ? 'delete' : 'cancel'} />)
+            }
           >
             {isHost ? '모임 취소' : '모임 탈퇴'}
           </Button>
@@ -66,7 +67,7 @@ export const MeetupButtons = ({
       ) : (
         <Button
           disabled={participantCount >= maxParticipants}
-          onClick={() => open(<MeetupModal type='join' />)}
+          onClick={() => open(<MeetupModal groupId={groupId} type='attend' />)}
         >
           참여하기
         </Button>

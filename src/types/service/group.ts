@@ -163,3 +163,7 @@ export interface GetGroupDetailsResponse {
     joinedAt: string;
   }[];
 }
+
+export interface AttendGroupPayload {
+  groupId: string;
+}

@@ -30,7 +30,7 @@ export const formatTimeAgo = (isoString: string) => {
 };
 
 // 모임 시작 시간을 Card 컴포넌트용 형식으로 변환 (예: "25. 12. 25 - 19:00")
-export const formatDateTime = (startTime: string, customFormat?: string | null): string | null => {
+export const formatDateTime = (startTime: string, customFormat?: string): string => {
   const start = new Date(startTime);
 
   const fullYear = start.getFullYear().toString();
