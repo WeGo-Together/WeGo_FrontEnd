@@ -64,18 +64,15 @@ const MODAL_MESSAGE = {
     title: '모임에 참여하시겠어요?',
     description: '참여 후 바로 그룹채팅에 참여할 수 있어요!',
     confirm: '참여하기',
-    onConfirm: (attendMutate: () => void) => attendMutate(),
   },
   cancel: {
     title: '모임을 정말 탈퇴하시겠어요?',
     description: '탈퇴 시 그룹채팅과 모임 활동이 종료돼요.',
     confirm: '탈퇴하기',
-    onConfirm: (cancelMutate: () => void) => cancelMutate(),
   },
   delete: {
     title: '모임을 정말 취소하시겠어요?',
     description: '취소 후에는 다시 복구할 수 없어요.',
     confirm: '취소하기',
-    onConfirm: (deleteMutate: () => void) => deleteMutate(),
   },
 };

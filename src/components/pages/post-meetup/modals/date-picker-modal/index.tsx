@@ -7,13 +7,14 @@ import clsx from 'clsx';
 
 import { Icon } from '@/components/icon';
 import { Calendar } from '@/components/pages/post-meetup/modals/date-picker-modal/calendar';
-import { ModalContent, ModalTitle } from '@/components/ui';
+import { Button, ModalContent, ModalTitle, useModal } from '@/components/ui';
 
 interface Props {
   dateField: AnyFieldApi;
 }
 
 export const DatePickerModal = ({ dateField }: Props) => {
+  const { close } = useModal();
   const [tabMenu, setTabMenu] = useState<'date' | 'time'>('date');
 
   return (
@@ -45,17 +46,10 @@ export const DatePickerModal = ({ dateField }: Props) => {
           updateDateField={(selectedDate: string) => dateField.handleChange(selectedDate)}
         />
 
-        <div className='flex-center mt-5 gap-2'>
-          <button
-            className='text-text-md-semibold grow-1 rounded-2xl border-1 border-gray-400 bg-white py-3.25 text-gray-600'
-            type='button'
-            onClick={close}
-          >
-            취소
-          </button>
-          <button className='text-text-md-bold bg-mint-400 grow-1 rounded-2xl py-3.5 text-white disabled:bg-gray-500'>
+        <div className='mt-5'>
+          <Button className='text-text-md-bold bg-mint-400' onClick={close}>
             확인
-          </button>
+          </Button>
         </div>
       </section>
     </ModalContent>
