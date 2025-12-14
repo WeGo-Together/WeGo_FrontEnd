@@ -11,7 +11,7 @@ import {
 } from '@/components/ui';
 import { useUpdateUser } from '@/hooks/use-user';
 import { useUserImageUpdate } from '@/hooks/use-user/use-user-image-update';
-import { UpdateMePayload, User } from '@/types/service/user';
+import { UpdateMyInfoPayload, User } from '@/types/service/user';
 
 import { ImageField, MBTIField, MessageField, NickNameField } from '../profile-edit-fields';
 
@@ -43,7 +43,7 @@ export const ProfileEditModal = ({ user }: Props) => {
       const { profileImage, nickName, profileMessage, mbti } = value;
 
       // 프로필 항목 업데이트 조건 체크
-      const nextProfileInfo: UpdateMePayload = {
+      const nextProfileInfo: UpdateMyInfoPayload = {
         ...(user.nickName !== value.nickName && { nickName }),
         ...(user.profileMessage !== value.profileMessage && { profileMessage }),
         ...(user.mbti !== value.mbti && { mbti }),

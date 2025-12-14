@@ -2,12 +2,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { API } from '@/api';
 import { userKeys } from '@/lib/query-key/query-key-user';
-import { UpdateMyNotiParams } from '@/types/service/user';
+import { UpdateMyNotificationQueryParams } from '@/types/service/user';
 
 export const useUpdateMyNotification = () => {
   const queryClient = useQueryClient();
   const query = useMutation({
-    mutationFn: (params: UpdateMyNotiParams) => API.userService.updateMyNotification(params),
+    mutationFn: (params: UpdateMyNotificationQueryParams) =>
+      API.userService.updateMyNotification(params),
     onSuccess: (_data, _variables, _context) => {
       queryClient.invalidateQueries({ queryKey: userKeys.all });
       console.log('요청 성공');

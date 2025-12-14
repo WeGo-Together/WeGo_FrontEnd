@@ -14,29 +14,29 @@ export interface User {
   isFollow: boolean;
 }
 
-export interface GetUserParams {
+export interface GetUserPathParams {
   userId: number;
 }
 
-export interface UpdateMePayload {
+export interface UpdateMyInfoPayload {
   nickName?: string;
   mbti?: string;
   profileMessage?: string;
 }
 
-export interface UpdateMyProfileImagePayload {
+export interface UpdateMyImagePayload {
   file: File;
 }
 
-export interface UpdateMyNotiParams {
+export interface UpdateMyNotificationQueryParams {
   isNotificationEnabled: boolean;
 }
 
-export interface FollowParams {
+export interface FollowPathParams {
   followNickname: string;
 }
 
-export interface UnfollowParmams {
+export interface UnfollowQueryParams {
   unFollowNickname: string;
 }
 
@@ -44,10 +44,10 @@ export interface Availability {
   available: boolean;
 }
 
-export interface GetNickNameAvailabilityParams {
+export interface GetNicknameAvailabilityQueryParams {
   nickName: string;
 }
 
-export interface GetEmailAvailabilityParams {
+export interface GetEmailAvailabilityQueryParams {
   email: string;
 }
