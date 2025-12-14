@@ -1,12 +1,12 @@
 import { Icon } from '@/components/icon';
+import { formatDateTime } from '@/lib/formatDateTime';
+import { GetGroupDetailsResponse } from '@/types/service/group';
 
 interface Props {
-  location: string;
-  date: string;
-  time: string;
+  setting: Pick<GetGroupDetailsResponse, 'location' | 'startTime'>;
 }
 
-export const DescriptionSetting = ({ location, date, time }: Props) => {
+export const DescriptionSetting = ({ setting: { location, startTime } }: Props) => {
   return (
     <div className='mt-6'>
       <ul className='text-text-sm-medium space-y-[6px] text-gray-900'>
@@ -16,9 +16,7 @@ export const DescriptionSetting = ({ location, date, time }: Props) => {
         </li>
         <li className='flex items-center gap-2'>
           <Icon id='calendar-1' width={16} className='text-mint-500' height={16} />
-          <p>
-            {date} - {time}
-          </p>
+          <p>{formatDateTime(startTime)}</p>
         </li>
       </ul>
     </div>
