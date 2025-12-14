@@ -15,7 +15,7 @@ import {
 export const userServiceRemote = () => ({
   // 1. 사용자 팔로우
   followUser: async (pathParams: FollowPathParams) => {
-    return api.post<void>(`/users/follow`, null, {
+    return api.post<string>(`/users/follow`, null, {
       params: { followNickname: pathParams.followNickname },
     });
   },
@@ -60,7 +60,7 @@ export const userServiceRemote = () => ({
 
   // 8. 사용자 언팔로우
   unfollowUser: async (params: UnfollowQueryParams) => {
-    return api.delete<void>(`/users/unfollow`, {
+    return api.delete<string>(`/users/unfollow`, {
       params: { unFollowNickname: params.unFollowNickname },
     });
   },
