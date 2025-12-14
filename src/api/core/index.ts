@@ -44,7 +44,7 @@ baseAPI.interceptors.response.use(
       errorCode: 'NETWORK_ERROR',
     };
 
-    const { status } = errorResponse;
+    const status = error.response?.status ?? errorResponse.status;
     const isServer = typeof window === 'undefined';
 
     if (status === 401) {
@@ -52,13 +52,18 @@ baseAPI.interceptors.response.use(
         const { redirect } = await import('next/navigation');
         redirect('/login');
       } else {
+        if (window.location.pathname === '/login') {
+          throw errorResponse;
+        }
         const currentPath = window.location.pathname + window.location.search;
         window.location.href = `/login?error=unauthorized&path=${encodeURIComponent(currentPath)}`;
       }
     }
     if (status === 404) {
-      const { notFound } = await import('next/navigation');
-      notFound();
+      if (isServer) {
+        const { notFound } = await import('next/navigation');
+        notFound();
+      }
     }
 
     throw errorResponse;
