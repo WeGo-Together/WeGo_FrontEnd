@@ -50,7 +50,7 @@ export default function GroupList({ initialData, initialKeyword }: GroupListProp
           items.map((meeting) => (
             <Card
               key={meeting.id}
-              dateTime={formatDateTime(meeting.startTime, meeting.endTime)}
+              dateTime={formatDateTime(meeting.startTime)}
               images={meeting.images}
               location={meeting.location}
               maxParticipants={meeting.maxParticipants}
