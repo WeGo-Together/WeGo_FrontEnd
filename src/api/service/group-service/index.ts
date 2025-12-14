@@ -80,4 +80,8 @@ export const groupServiceRemote = () => ({
   cancelGroup: (payload: GroupIdPayload) => {
     return api.post<GetGroupDetailsResponse>(`/groups/${payload.groupId}/cancel`);
   },
+
+  deleteGroup: (payload: GroupIdPayload) => {
+    return api.delete(`/groups/${payload.groupId}`);
+  },
 });

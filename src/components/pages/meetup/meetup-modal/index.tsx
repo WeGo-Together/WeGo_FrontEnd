@@ -1,9 +1,12 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { Button } from '@/components/ui';
 import { ModalContent, ModalDescription, ModalTitle, useModal } from '@/components/ui/modal';
 import { useAttendGroup } from '@/hooks/use-group/use-group-attend';
 import { useCancelGroup } from '@/hooks/use-group/use-group-cancel';
+import { useDeleteGroup } from '@/hooks/use-group/use-group-delete';
 
 interface Props {
   type: 'attend' | 'cancel' | 'delete';
@@ -11,19 +14,23 @@ interface Props {
 }
 
 export const MeetupModal = ({ type, groupId }: Props) => {
+  const { replace } = useRouter();
   const { close } = useModal();
   const { mutate: attendMutate, isPending: isAttending } = useAttendGroup({ groupId }, close);
   const { mutate: cancelMutate, isPending: isCanceling } = useCancelGroup({ groupId }, close);
+  const { mutate: deleteMutate, isPending: isDeleting } = useDeleteGroup({ groupId }, () => {
+    close();
+    replace('/');
+  });
+
+  const isPending = isAttending || isCanceling || isDeleting;
 
   const { title, description, confirm } = MODAL_MESSAGE[type];
-
-  const isPending = isAttending || isCanceling;
 
   const handleConfirmClick = () => {
     if (type === 'attend') attendMutate();
     else if (type === 'cancel') cancelMutate();
-    else if (type === 'delete') {
-    }
+    else if (type === 'delete') deleteMutate();
   };
 
   return (
