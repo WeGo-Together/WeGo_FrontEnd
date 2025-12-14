@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui';
 import { ModalContent, ModalDescription, ModalTitle, useModal } from '@/components/ui/modal';
 import { useAttendGroup } from '@/hooks/use-group/use-group-attend';
+import { useCancelGroup } from '@/hooks/use-group/use-group-cancel';
 
 interface Props {
   type: 'attend' | 'cancel' | 'delete';
@@ -11,14 +12,17 @@ interface Props {
 
 export const MeetupModal = ({ type, groupId }: Props) => {
   const { close } = useModal();
-  const { mutate: attendMutate, isPending } = useAttendGroup({ groupId }, () => close());
+  const { mutate: attendMutate, isPending: isAttending } = useAttendGroup({ groupId }, close);
+  const { mutate: cancelMutate, isPending: isCanceling } = useCancelGroup({ groupId }, close);
 
   const { title, description, confirm } = MODAL_MESSAGE[type];
 
+  const isPending = isAttending || isCanceling;
+
   const handleConfirmClick = () => {
     if (type === 'attend') attendMutate();
-    else if (type === 'cancel') {
-    } else if (type === 'delete') {
+    else if (type === 'cancel') cancelMutate();
+    else if (type === 'delete') {
     }
   };
 

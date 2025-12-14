@@ -122,10 +122,6 @@ export interface CreateGroupResponse {
   images?: CreateGroupImagePayload['images'] | null;
 }
 
-export interface GetGroupDetailsPayload {
-  groupId: string;
-}
-
 export interface GetGroupDetailsResponse {
   id: number;
   title: string;
@@ -164,6 +160,6 @@ export interface GetGroupDetailsResponse {
   }[];
 }
 
-export interface AttendGroupPayload {
+export interface GroupIdPayload {
   groupId: string;
 }
