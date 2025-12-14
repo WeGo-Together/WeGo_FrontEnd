@@ -48,16 +48,23 @@ export const ProfileEditModal = ({ user }: Props) => {
         ...(user.profileMessage !== value.profileMessage && { profileMessage }),
         ...(user.mbti !== value.mbti && { mbti }),
       };
-      if (Object.values(nextProfileInfo).length > 0) {
-        await updateUser(nextProfileInfo);
+
+      const promises = [];
+
+      // 프로필 정보 업데이트 조건 체크
+      if (Object.keys(nextProfileInfo).length > 0) {
+        promises.push(updateUser(nextProfileInfo));
       }
 
-      // 이미지 업데이트 조건 체크
+      // 프로필 이미지 업데이트 조건 체크
       const imageFileObject = Object.values(profileImage)[0];
       if (imageFileObject) {
-        await updateUserImage({ file: imageFileObject });
+        promises.push(updateUserImage({ file: imageFileObject }));
       }
-      close();
+
+      await Promise.all(promises)
+        .catch(() => console.log('요청 실패'))
+        .then(() => close());
     },
   });
 
