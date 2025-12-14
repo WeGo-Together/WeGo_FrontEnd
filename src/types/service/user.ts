@@ -11,7 +11,7 @@ export interface User {
   groupCreatedCnt: number;
   isNotificationEnabled: boolean;
   createdAt: string;
-  isFollowing: boolean;
+  isFollow: boolean;
 }
 
 export interface GetUserParams {
@@ -34,6 +34,10 @@ export interface UpdateMyNotiParams {
 
 export interface FollowParams {
   followNickname: string;
+}
+
+export interface UnfollowParmams {
+  unFollowNickname: string;
 }
 
 export interface Availability {

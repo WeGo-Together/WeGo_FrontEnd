@@ -5,6 +5,7 @@ import {
   GetEmailAvailabilityParams,
   GetNickNameAvailabilityParams,
   GetUserParams,
+  UnfollowParmams,
   UpdateMePayload,
   UpdateMyNotiParams,
   UpdateMyProfileImagePayload,
@@ -13,8 +14,8 @@ import {
 
 export const userServiceRemote = () => ({
   // 1. 사용자 팔로우
-  followUser: async (payload: FollowParams) => {
-    return api.post<void>(`/follows/${payload.followNickname}`);
+  followUser: async (params: FollowParams) => {
+    return api.post<void>(`/users/follow?followNickname=${params.followNickname}`);
   },
 
   // 2. 유저 프로필 변경
@@ -52,7 +53,7 @@ export const userServiceRemote = () => ({
   },
 
   // 8. 사용자 언팔로우
-  unfollowUser: async (payload: FollowParams) => {
-    return api.delete<void>(`/follows/${payload.followNickname}`);
+  unfollowUser: async (params: UnfollowParmams) => {
+    return api.delete<void>(`/users/unfollow?unFollowNickname=${params.unFollowNickname}`);
   },
 });

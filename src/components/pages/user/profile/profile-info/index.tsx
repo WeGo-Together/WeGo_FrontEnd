@@ -1,5 +1,6 @@
 'use client';
 import { Button } from '@/components/ui';
+import { useFollowUser, useUnfollowUser } from '@/hooks/use-user';
 import { User } from '@/types/service/user';
 
 import { ProfileCard } from '../profile-card';
@@ -11,15 +12,25 @@ interface Props {
 }
 
 export const ProfileInfo = ({ user }: Props) => {
-  const handleFollowClick = () => {};
+  const { mutate: followUser } = useFollowUser();
+
+  const { mutate: unfollowUser } = useUnfollowUser();
+
+  const handleFollowClick = () => {
+    followUser({ followNickname: user.nickName });
+  };
+
+  const handleUnfollowClick = () => {
+    unfollowUser({ unFollowNickname: user.nickName });
+  };
 
   return (
     <section className='px-4 py-8'>
       <ProfileCard user={user} />
       <ProfileFollowsBadge user={user} />
-      {!user.isFollowing && <Button onClick={handleFollowClick}>팔로우 하기</Button>}
-      {user.isFollowing && (
-        <Button variant='tertiary' onClick={handleFollowClick}>
+      {!user.isFollow && <Button onClick={handleFollowClick}>팔로우 하기</Button>}
+      {user.isFollow && (
+        <Button variant='tertiary' onClick={handleUnfollowClick}>
           팔로우 취소
         </Button>
       )}
