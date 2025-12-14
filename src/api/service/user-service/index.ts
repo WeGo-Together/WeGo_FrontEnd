@@ -6,8 +6,8 @@ import {
   GetNicknameAvailabilityQueryParams,
   GetUserPathParams,
   UnfollowQueryParams,
-  UpdateMyImagePayload,
-  UpdateMyInfoPayload,
+  UpdateMyImagePayloads,
+  UpdateMyInfoPayloads,
   UpdateMyNotificationQueryParams,
   User,
 } from '@/types/service/user';
@@ -21,12 +21,12 @@ export const userServiceRemote = () => ({
   },
 
   // 2. 유저 프로필 변경
-  updateMyInfo: async (payloads: UpdateMyInfoPayload) => {
+  updateMyInfo: async (payloads: UpdateMyInfoPayloads) => {
     return api.patch<User>('/users/profile', payloads);
   },
 
   // 3. 프로필 이미지 변경
-  updateMyImage: async (payloads: UpdateMyImagePayload) => {
+  updateMyImage: async (payloads: UpdateMyImagePayloads) => {
     const formData = new FormData();
     formData.append('file', payloads.file);
     return api.patch<User>(`/users/profile-image`, formData);

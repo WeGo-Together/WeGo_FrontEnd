@@ -18,13 +18,13 @@ export interface GetUserPathParams {
   userId: number;
 }
 
-export interface UpdateMyInfoPayload {
+export interface UpdateMyInfoPayloads {
   nickName?: string;
   mbti?: string;
   profileMessage?: string;
 }
 
-export interface UpdateMyImagePayload {
+export interface UpdateMyImagePayloads {
   file: File;
 }
 
