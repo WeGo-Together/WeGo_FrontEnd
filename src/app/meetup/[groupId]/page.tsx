@@ -25,8 +25,8 @@ const MeetupDetailPage = ({ params }: Props) => {
   return (
     <div>
       <MeetupBannerImages images={data.images} />
-      <MeetupDescriptions description={DUMMY_MEETUP_DATA.description} />
-      <MeetupMembers members={DUMMY_MEETUP_DATA.members} />
+      <MeetupDescriptions descriptions={data} />
+      <MeetupMembers members={data.joinedMembers} />
       <MeetupButtons
         members={DUMMY_MEETUP_DATA.members}
         ownerInfo={DUMMY_MEETUP_DATA.description.ownerInfo}

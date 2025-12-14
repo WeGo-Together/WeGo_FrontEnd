@@ -80,13 +80,11 @@ export interface PreUploadGroupImagePayload {
 }
 
 export interface PreUploadGroupImageResponse {
-  images: [
-    {
-      sortOrder: number;
-      imageUrl440x240: string;
-      imageUrl100x100: string;
-    },
-  ];
+  images: {
+    sortOrder: number;
+    imageUrl440x240: string;
+    imageUrl100x100: string;
+  }[];
 }
 
 export type CreateGroupImagePayload = PreUploadGroupImageResponse;
@@ -121,7 +119,7 @@ export interface CreateGroupResponse {
   };
   createdAt: string;
   updatedAt: string;
-  images?: PreUploadGroupImageResponse | null;
+  images?: CreateGroupImagePayload['images'] | null;
 }
 
 export interface GetGroupDetailsPayload {

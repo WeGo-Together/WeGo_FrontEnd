@@ -1,28 +1,51 @@
-import type { DUMMY_MEETUP_DATA } from '@/app/meetup/[groupId]/page';
 import {
-  DescriptionContent,
+  DescriptionDetail,
   DescriptionProfile,
   DescriptionProgress,
   DescriptionSetting,
   DescriptionTags,
   DescriptionTitle,
 } from '@/components/pages/meetup/meetup-descriptions/description-sections';
+import { GetGroupDetailsResponse } from '@/types/service/group';
 
 interface Props {
-  description: typeof DUMMY_MEETUP_DATA.description;
+  descriptions: Pick<
+    GetGroupDetailsResponse,
+    | 'createdBy'
+    | 'createdAt'
+    | 'title'
+    | 'tags'
+    | 'description'
+    | 'location'
+    | 'startTime'
+    | 'maxParticipants'
+    | 'participantCount'
+  >;
 }
 
 export const MeetupDescriptions = ({
-  description: { ownerInfo, title, tags, content, setting, progress, createdAt },
+  descriptions: {
+    createdBy,
+    createdAt,
+    title,
+    tags,
+    description,
+    location,
+    startTime,
+    maxParticipants,
+    participantCount,
+  },
 }: Props) => {
+  console.log(participantCount);
+
   return (
     <section className='bg-white px-5 pt-6 pb-4'>
-      <DescriptionProfile {...ownerInfo} />
+      <DescriptionProfile hostInfo={createdBy} />
       <DescriptionTitle title={title} />
       <DescriptionTags tags={tags} />
-      <DescriptionContent content={content} />
-      <DescriptionSetting {...setting} />
-      <DescriptionProgress createdAt={createdAt} progress={progress} />
+      <DescriptionDetail detail={description} />
+      <DescriptionSetting setting={{ location, startTime }} />
+      <DescriptionProgress createdAt={createdAt} progress={{ maxParticipants, participantCount }} />
     </section>
   );
 };
