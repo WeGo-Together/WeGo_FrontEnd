@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { InfiniteData } from '@tanstack/react-query';
 
 import { ErrorMessage } from '@/components/shared';
@@ -16,10 +18,12 @@ interface GroupListProps {
 }
 
 export default function GroupList({ initialData, initialKeyword }: GroupListProps) {
-  const { items, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteGroupList({
-    initialData,
-    initialKeyword,
-  });
+  const router = useRouter();
+  const { items, error, fetchNextPage, hasNextPage, isFetchingNextPage, completedMessage } =
+    useInfiniteGroupList({
+      initialData,
+      initialKeyword,
+    });
 
   // IntersectionObserver를 통한 무한 스크롤 감지
   // React Query의 fetchNextPage를 트리거하는 역할만 수행
@@ -59,6 +63,7 @@ export default function GroupList({ initialData, initialKeyword }: GroupListProp
               profileImage={meeting.createdBy.profileImage}
               tags={meeting.tags}
               title={meeting.title}
+              onClick={() => router.push(`/meetup/${meeting.id}`)}
             />
           ))
         )}
@@ -76,7 +81,7 @@ export default function GroupList({ initialData, initialKeyword }: GroupListProp
 
         {/* hasNextPage가 false이면 모든 데이터를 불러온 상태 */}
         {!hasNextPage && items.length > 0 && !error && (
-          <div className='py-8 text-center text-gray-500'>모든 모임을 불러왔습니다.</div>
+          <div className='py-8 text-center text-gray-500'>{completedMessage}</div>
         )}
       </div>
     </section>
