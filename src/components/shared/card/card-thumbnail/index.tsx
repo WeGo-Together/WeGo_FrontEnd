@@ -17,7 +17,7 @@ export const CardThumbnail = ({ title, thumbnail, hasThumbnail }: CardThumbnailP
         alt={title}
         fallbackSrc={DEFAULT_GROUP_IMAGE}
         height={100}
-        src={hasThumbnail && thumbnail ? thumbnail : ''}
+        src={thumbnail}
         unoptimized
       />
     </div>
