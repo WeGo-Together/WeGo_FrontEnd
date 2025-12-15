@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-
 import { Button } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
@@ -53,10 +51,8 @@ const Card = ({
   leaveAndChatActions,
   tabType,
 }: CardProps) => {
-  const [imageError, setImageError] = useState(false);
-
   const thumbnail = images?.[0];
-  const hasThumbnail = !!thumbnail && !imageError;
+  const hasThumbnail = !!thumbnail;
   const cardTags = convertToCardTags(tags);
   const progress = calculateProgress(participantCount, maxParticipants);
   const shouldShowButtons = leaveAndChatActions && tabType !== 'past';
@@ -73,12 +69,7 @@ const Card = ({
       <div className='flex min-w-0 gap-4'>
         <div className='flex flex-col justify-between'>
           <div>
-            <CardThumbnail
-              hasThumbnail={hasThumbnail}
-              thumbnail={thumbnail}
-              title={title}
-              onError={() => setImageError(true)}
-            />
+            <CardThumbnail hasThumbnail={hasThumbnail} thumbnail={thumbnail} title={title} />
 
             <CardProfile nickName={nickName} profileImage={profileImage} />
           </div>
