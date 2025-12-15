@@ -42,7 +42,7 @@ const FollowerModal = ({ userId }: { userId: number }) => {
 
   // 모달 모양 바뀌면 적용하기!
   return (
-    <ModalContent>
+    <ModalContent className='mx-8'>
       <ModalTitle className='mb-3'>팔로우 할 닉네임을 입력하세요</ModalTitle>
       <div className='mb-3'>
         <Input
