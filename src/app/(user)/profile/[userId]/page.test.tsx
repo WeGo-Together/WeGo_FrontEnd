@@ -73,7 +73,7 @@ describe('프로필 페이지 테스트', () => {
         return HttpResponse.json(
           createMockSuccessResponse({
             ...mockUserItems[1],
-            isFollowing: false,
+            isFollow: false,
           }),
         );
       }),
@@ -93,7 +93,7 @@ describe('프로필 페이지 테스트', () => {
         return HttpResponse.json(
           createMockSuccessResponse({
             ...mockUserItems[1],
-            isFollowing: true,
+            isFollow: true,
           }),
         );
       }),
