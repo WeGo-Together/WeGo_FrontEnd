@@ -9,9 +9,11 @@ interface ImageWithFallbackProps extends Omit<ImageProps, 'src' | 'onError'> {
   fallbackSrc?: string;
 }
 
+import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
+
 export const ImageWithFallback = ({
   src,
-  fallbackSrc = 'https://plus.unsplash.com/premium_photo-1738592736106-a17b897c0ab1?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  fallbackSrc = DEFAULT_PROFILE_IMAGE,
   ...rest
 }: ImageWithFallbackProps) => {
   const [error, setError] = useState(false);

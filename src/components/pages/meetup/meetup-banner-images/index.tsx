@@ -7,6 +7,7 @@ import './index.css';
 
 import Image from 'next/image';
 
+import { DEFAULT_GROUP_IMAGE } from 'constants/default-images';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -18,9 +19,6 @@ interface Props {
 
 export const MeetupBannerImages = ({ images }: Props) => {
   const hasImages = Boolean(images.length);
-
-  const defaultImageUrl =
-    'https://images.unsplash.com/photo-1705599359461-f99dc9e80efa?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
   return (
     <section className='select-none'>
@@ -34,7 +32,7 @@ export const MeetupBannerImages = ({ images }: Props) => {
         </Swiper>
       ) : (
         <div className='relative h-60'>
-          <Image alt='image' draggable={false} fill objectFit='cover' src={defaultImageUrl} />
+          <Image alt='image' draggable={false} fill objectFit='cover' src={DEFAULT_GROUP_IMAGE} />
         </div>
       )}
     </section>
