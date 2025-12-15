@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
-import { useForm } from '@tanstack/react-form';
+import { useForm, useStore } from '@tanstack/react-form';
 
 import {
   MeetupCapField,
@@ -39,6 +39,10 @@ const PostMeetupPage = () => {
       replace(`/meetup/${res.id}`);
     },
   });
+
+  const values = useStore(form.store, (state) => state.values);
+
+  console.log(values);
 
   return (
     <div>

@@ -27,12 +27,12 @@ describe('Card', () => {
     ).toBeInTheDocument();
   });
 
-  test('프로필 이미지가 없으면 회색 원형 플레이스홀더를 렌더링한다', () => {
+  test('프로필 이미지가 없으면 기본 프로필 이미지를 렌더링한다', () => {
     render(<Card {...defaultProps} />);
 
-    // profileImage가 null이면 nickName을 alt로 가진 img 요소가 없어야 한다
-    const profileImg = screen.queryByRole('img', { name: defaultProps.nickName });
-    expect(profileImg).not.toBeInTheDocument();
+    // profileImage가 null이면 기본 프로필 이미지가 렌더링되어야 한다
+    const profileImg = screen.getByRole('img', { name: defaultProps.nickName });
+    expect(profileImg).toBeInTheDocument();
   });
 
   test('onClick이 전달되면 카드 전체가 클릭 가능하고 핸들러가 호출된다', async () => {

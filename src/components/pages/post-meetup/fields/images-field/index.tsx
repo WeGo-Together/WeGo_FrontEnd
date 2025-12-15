@@ -2,76 +2,110 @@
 
 import Image from 'next/image';
 
+import { useRef } from 'react';
+
 import { AnyFieldApi } from '@tanstack/react-form';
 
 import { Icon } from '@/components/icon';
-import { ImageInput, ImageInputProps } from '@/components/ui';
+import { useUploadGroupImages } from '@/hooks/use-group/use-group-upload-images';
 import { cn } from '@/lib/utils';
+import { ALLOWED_IMAGE_TYPES } from '@/types/service/common';
+import { PreUploadGroupImageResponse } from '@/types/service/group';
 
 interface Props {
   field: AnyFieldApi;
-  initialImages?: ImageInputProps['initialImages'];
 }
 
-export const MeetupImagesField = ({ field, initialImages }: Props) => {
+export const MeetupImagesField = ({ field }: Props) => {
+  const { mutateAsync } = useUploadGroupImages();
+
+  const onUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const fileArray = Array.from(files);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const invalidFile = fileArray.find((file) => !ALLOWED_IMAGE_TYPES.includes(file.type as any));
+
+    if (invalidFile) {
+      alert('jpg 또는 png 파일만 업로드 가능합니다.');
+      e.target.value = '';
+      return;
+    }
+
+    const response = await mutateAsync({
+      images: fileArray,
+    });
+
+    field.handleChange([...response.images]);
+  };
+
+  const onUploadImageButtonClick = () => {
+    if (!inputRef.current) {
+      return;
+    }
+
+    inputRef.current.click();
+  };
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
   return (
-    <ImageInput
-      initialImages={initialImages}
-      maxFiles={3}
-      mode='append'
-      multiple={true}
-      value={field.state.value}
-      onChange={field.handleChange}
-    >
-      {(images, onRemoveImageClick, onFileSelectClick) => (
-        <div className='space-y-1'>
-          <div className='mt-6 flex flex-row gap-2'>
-            <button
+    <div className='space-y-1'>
+      <div className='mt-6 flex flex-row gap-2'>
+        <button
+          className={cn(
+            'flex-center bg-mono-white group aspect-square w-full max-w-20 cursor-pointer rounded-2xl border-1 border-gray-300', // 기본 스타일
+            'hover:bg-gray-50', // hover 스타일
+            'transition-all duration-300', // animation 스타일
+          )}
+          aria-label='이미지 선택 버튼'
+          type='button'
+          onClick={onUploadImageButtonClick}
+        >
+          <Icon
+            id='plus'
+            className={cn(
+              'size-6 text-gray-600', // 기본 스타일
+              'group-hover:scale-120', // hover 스타일
+              'transition-all duration-300', // animation 스타일
+            )}
+          />
+          <input
+            ref={inputRef}
+            className='hidden'
+            accept='image/*'
+            multiple
+            type='file'
+            onChange={(e) => onUploadImage(e)}
+          />
+        </button>
+        {field.state.value.map(({ imageUrl100x100 }: PreUploadGroupImageResponse['images'][0]) => (
+          <div key={imageUrl100x100} className='relative aspect-square w-full max-w-20'>
+            <Image
+              className='border-mono-black/5 h-full w-full rounded-2xl border-1 object-cover'
+              alt='썸네일 이미지'
+              fill
+              src={imageUrl100x100}
+            />
+
+            {/* <button
               className={cn(
-                'flex-center bg-mono-white group aspect-square w-full max-w-20 cursor-pointer rounded-2xl border-1 border-gray-300', // 기본 스타일
-                'hover:bg-gray-50', // hover 스타일
+                'flex-center bg-mono-white/80 group absolute top-1.5 right-2 size-4 cursor-pointer rounded-full', // 기본 스타일
+                'hover:bg-mono-white hover:scale-110', // hover 스타일
                 'transition-all duration-300', // animation 스타일
               )}
-              aria-label='이미지 선택 버튼'
+              aria-label='이미지 삭제 버튼'
               type='button'
-              onClick={onFileSelectClick}
+              onClick={() => onRemoveImageClick(url)}
             >
-              <Icon
-                id='plus'
-                className={cn(
-                  'size-6 text-gray-600', // 기본 스타일
-                  'group-hover:scale-120', // hover 스타일
-                  'transition-all duration-300', // animation 스타일
-                )}
-              />
-            </button>
-            {Object.entries(images).map(([url, _file]) => (
-              <div key={url} className='relative aspect-square w-full max-w-20'>
-                <Image
-                  className='border-mono-black/5 h-full w-full rounded-2xl border-1 object-cover'
-                  alt='팀 이미지'
-                  fill
-                  src={url}
-                  unoptimized={url.startsWith('blob:')}
-                />
-                <button
-                  className={cn(
-                    'flex-center bg-mono-white/80 group absolute top-1.5 right-2 size-4 cursor-pointer rounded-full', // 기본 스타일
-                    'hover:bg-mono-white hover:scale-110', // hover 스타일
-                    'transition-all duration-300', // animation 스타일
-                  )}
-                  aria-label='이미지 삭제 버튼'
-                  type='button'
-                  onClick={() => onRemoveImageClick(url)}
-                >
-                  <Icon id='small-x-1' className='size-1.5 text-gray-700' />
-                </button>
-              </div>
-            ))}
+              <Icon id='small-x-1' className='size-1.5 text-gray-700' />
+            </button> */}
           </div>
-          <p className='text-text-sm-medium px-2 text-gray-500'>최대 3개까지 업로드할 수 있어요.</p>
-        </div>
-      )}
-    </ImageInput>
+        ))}
+      </div>
+      <p className='text-text-sm-medium px-2 text-gray-500'>최대 3개까지 업로드할 수 있어요.</p>
+    </div>
   );
 };

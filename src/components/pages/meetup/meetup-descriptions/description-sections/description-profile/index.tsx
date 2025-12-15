@@ -1,8 +1,6 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
-import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
-
+import { ImageWithFallback } from '@/components/ui';
 import { GetGroupDetailsResponse } from '@/types/service/group';
 
 interface Props {
@@ -13,14 +11,13 @@ export const DescriptionProfile = ({ hostInfo: { nickName, profileImage, userId 
   return (
     <div className='w-full select-none'>
       <Link href={`/profile/${userId}`} className='flex gap-3'>
-        <Image
+        <ImageWithFallback
           width={40}
-          className='h-10 w-10 shrink-0 rounded-full'
+          className='object-fit h-10 w-10 shrink-0 rounded-full'
           alt='프로필 사진'
           draggable={false}
           height={40}
-          objectFit='cover'
-          src={profileImage ?? DEFAULT_PROFILE_IMAGE}
+          src={profileImage}
         />
 
         <div className='*:line-clamp-1'>
