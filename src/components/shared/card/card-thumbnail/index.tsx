@@ -5,10 +5,9 @@ import { ImageWithFallback } from '@/components/ui';
 type CardThumbnailProps = {
   title: string;
   thumbnail?: string;
-  hasThumbnail: boolean;
 };
 
-export const CardThumbnail = ({ title, thumbnail, hasThumbnail }: CardThumbnailProps) => {
+export const CardThumbnail = ({ title, thumbnail }: CardThumbnailProps) => {
   return (
     <div className='relative h-[100px] w-[100px] shrink-0 overflow-hidden rounded-2xl bg-gray-200'>
       <ImageWithFallback
@@ -17,7 +16,7 @@ export const CardThumbnail = ({ title, thumbnail, hasThumbnail }: CardThumbnailP
         alt={title}
         fallbackSrc={DEFAULT_GROUP_IMAGE}
         height={100}
-        src={thumbnail}
+        src={thumbnail ?? ''}
         unoptimized
       />
     </div>

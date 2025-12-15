@@ -1,6 +1,4 @@
-import Image from 'next/image';
-
-import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
+import { ImageWithFallback } from '@/components/ui';
 
 type CardProfileProps = {
   nickName: string;
@@ -17,12 +15,7 @@ export const CardProfile = ({ nickName, profileImage, size = DEFAULT_SIZE }: Car
         className='relative shrink-0 overflow-hidden rounded-full'
         style={{ width: size, height: size }}
       >
-        <Image
-          className='object-cover'
-          alt={nickName}
-          fill
-          src={profileImage || DEFAULT_PROFILE_IMAGE}
-        />
+        <ImageWithFallback className='object-cover' alt={nickName} fill src={profileImage || ''} />
       </div>
       <span className='text-text-xs-medium text-gray-900'>{nickName}</span>
     </div>
