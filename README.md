@@ -14,7 +14,7 @@
   <tbody>
     <tr>
       <td>
-        <h3><a href='https://www.notion.so/MSWProvider-2b353353e9c1804b9b25d269c0c0f5b4?source=copy_link'>📜 프로젝트 수행 계획서</a></h3>
+        <h3><a href='https://www.notion.so/2-2af53353e9c18079b7cac176ac018106?source=copy_link'>📜 프로젝트 수행 계획서</a></h3>
         <h3><a href='https://www.figma.com/design/mnEc0l7EpYrnA5kwi8h17z/WeGo---Prototype?node-id=290-741&p=f&t=T50GX1Aa1R78OX8J-0'>🎨 디자인 시안</a></h3>
         <h3><a href='https://github.com/WeGo-Together/WeGo_BackEnd/wiki'>🗃️ API 명세서</a></h3>
       </td>
