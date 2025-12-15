@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { useState } from 'react';
@@ -9,7 +8,7 @@ import clsx from 'clsx';
 
 import { Icon } from '@/components/icon';
 import { AnimateDynamicHeight } from '@/components/shared';
-import { Button } from '@/components/ui';
+import { Button, ImageWithFallback } from '@/components/ui';
 import { GetGroupDetailsResponse } from '@/types/service/group';
 
 interface Props {
@@ -21,9 +20,6 @@ export const MeetupMembers = ({ members }: Props) => {
   const [coverMember, setCoverMember] = useState(2 < Math.ceil(members.length / 3));
 
   const hasMoreMember = 2 < Math.ceil(members.length / 3);
-
-  const defaultProfileImageUrl =
-    'https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?q=80&w=717&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
   const onExpandClick = () => {
     setExpand((prev) => !prev);
@@ -46,14 +42,13 @@ export const MeetupMembers = ({ members }: Props) => {
             >
               <div className='flex-col-center gap-1.5'>
                 <Link href={`/profile/${userId}`}>
-                  <Image
+                  <ImageWithFallback
                     width={64}
-                    className='h-16 w-16 rounded-full'
+                    className='object-fit h-16 w-16 rounded-full'
                     alt='프로필 사진'
                     draggable={false}
                     height={64}
-                    objectFit='cover'
-                    src={profileImage ?? defaultProfileImageUrl}
+                    src={profileImage}
                   />
                 </Link>
                 <p

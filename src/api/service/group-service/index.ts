@@ -8,7 +8,6 @@ import {
   GetMyGroupsPayload,
   GetMyGroupsResponse,
   GroupIdPayload,
-  PreUploadGroupImagePayload,
   PreUploadGroupImageResponse,
 } from '@/types/service/group';
 
@@ -39,10 +38,8 @@ export const groupServiceRemote = () => ({
   },
 
   // 모임 이미지 사전 업로드 (POST /groups/images/upload) - multipart/form-data
-  uploadGroupImages: (payload: PreUploadGroupImagePayload) => {
-    return api.post<PreUploadGroupImageResponse>('/groups/images/upload', payload, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
+  uploadGroupImages: (payload: FormData) => {
+    return api.post<PreUploadGroupImageResponse>('/groups/images/upload', payload);
   },
 
   createGroup: (payload: CreateGroupPayload) => {
