@@ -13,4 +13,4 @@ export interface CommonSuccessResponse<T> {
   data: T;
 }
 
-export const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png'] as const;
+export const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'] as const;

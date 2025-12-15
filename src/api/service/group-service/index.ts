@@ -38,9 +38,6 @@ export const groupServiceRemote = () => ({
   },
 
   // 모임 이미지 사전 업로드 (POST /groups/images/upload) - multipart/form-data
-  uploadGroupImages: (payload: FormData) => {
-    return api.post<PreUploadGroupImageResponse>('/groups/images/upload', payload);
-  },
 
   createGroup: (payload: CreateGroupPayload) => {
     return api.post<CreateGroupResponse>('/groups/create', payload);
@@ -60,5 +57,9 @@ export const groupServiceRemote = () => ({
 
   deleteGroup: (payload: GroupIdPayload) => {
     return api.delete(`/groups/${payload.groupId}`);
+  },
+
+  uploadGroupImages: (payload: FormData) => {
+    return api.post<PreUploadGroupImageResponse>('/groups/images/upload', payload);
   },
 });
