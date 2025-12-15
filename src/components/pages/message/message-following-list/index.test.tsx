@@ -6,21 +6,21 @@ import { FollowingList } from '.';
 
 const TEST_ITEMS = [
   {
-    id: 0,
-    name: '신짱구',
+    userId: 0,
+    nickname: '신짱구',
     profileImage: 'http://test.com',
     profileMessage: '안녕하세요 신짱구입니다',
   },
   {
-    id: 1,
-    name: '김맹구',
+    userId: 1,
+    nickname: '김맹구',
     profileImage: 'http://test.com',
     profileMessage: '안녕하세요 김맹구입니다',
   },
 
   {
-    id: 2,
-    name: '흰둥이',
+    userId: 2,
+    nickname: '흰둥이',
     profileImage: 'http://test.com',
     profileMessage: '안녕하세요 흰둥이입니다',
   },
@@ -42,7 +42,7 @@ describe('Following List 컴포넌트 테스트', () => {
     render(<FollowingList items={TEST_ITEMS} />);
 
     TEST_ITEMS.forEach((item) => {
-      expect(screen.getByText(item.name)).toBeInTheDocument();
+      expect(screen.getByText(item.nickname)).toBeInTheDocument();
     });
   });
 });
