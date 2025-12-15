@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 
-import { Chat, FollowingList, FollowingSearch } from '@/components/pages/message';
+import { Chat, FollowingList, FollowingNone, FollowingSearch } from '@/components/pages/message';
 import { TabNavigation } from '@/components/shared';
 import { useGetFollowers } from '@/hooks/use-follower/use-follower-get';
 
@@ -16,7 +16,6 @@ export default function FollowingPage() {
 
   const params = useSearchParams();
   const tab = params.get('tab') || 'following';
-  if (!followers) return null;
   return (
     <div className='min-h-screen bg-[#F1F5F9]'>
       <TabNavigation basePath='/message' tabs={SOCIAL_TABS} />
@@ -25,7 +24,14 @@ export default function FollowingPage() {
       {tab === 'following' && (
         <>
           <FollowingSearch />
-          <FollowingList items={followers} />
+
+          {followers && followers.length > 0 ? (
+            <FollowingList items={followers} />
+          ) : (
+            <div className='flex flex-1 items-center justify-center'>
+              <FollowingNone />
+            </div>
+          )}
         </>
       )}
     </div>
