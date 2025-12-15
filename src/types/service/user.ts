@@ -11,27 +11,43 @@ export interface User {
   groupCreatedCnt: number;
   isNotificationEnabled: boolean;
   createdAt: string;
-  isFollowing: boolean;
+  isFollow: boolean;
 }
 
-export interface GetUserParams {
+export interface GetUserPathParams {
   userId: number;
 }
 
-export interface UpdateMePayload {
+export interface UpdateMyInfoPayloads {
   nickName?: string;
   mbti?: string;
   profileMessage?: string;
 }
 
-export interface UpdateMyImagePayload {
+export interface UpdateMyImagePayloads {
   file: File;
 }
 
-export interface UpdateMyNotiParams {
+export interface UpdateMyNotificationQueryParams {
   isNotificationEnabled: boolean;
 }
 
-export interface FollowParams {
+export interface FollowPathParams {
   followNickname: string;
+}
+
+export interface UnfollowQueryParams {
+  unFollowNickname: string;
+}
+
+export interface Availability {
+  available: boolean;
+}
+
+export interface GetNicknameAvailabilityQueryParams {
+  nickName: string;
+}
+
+export interface GetEmailAvailabilityQueryParams {
+  email: string;
 }

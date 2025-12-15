@@ -1,46 +1,67 @@
 import { api } from '@/api/core';
 import {
-  FollowParams,
-  GetUserParams,
-  UpdateMePayload,
-  UpdateMyImagePayload,
-  UpdateMyNotiParams,
+  Availability,
+  FollowPathParams,
+  GetEmailAvailabilityQueryParams,
+  GetNicknameAvailabilityQueryParams,
+  GetUserPathParams,
+  UnfollowQueryParams,
+  UpdateMyImagePayloads,
+  UpdateMyInfoPayloads,
+  UpdateMyNotificationQueryParams,
   User,
 } from '@/types/service/user';
 
 export const userServiceRemote = () => ({
-  // 2. 프로필 편집
-  updateMe: async (payload: UpdateMePayload) => {
-    return api.patch<User>('/users', payload);
+  // 1. 사용자 팔로우
+  followUser: async (pathParams: FollowPathParams) => {
+    return api.post<string>(`/users/follow`, null, {
+      params: { followNickname: pathParams.followNickname },
+    });
   },
 
-  // 3. 프로필 이미지 편집
-  updateMyImage: async (payload: UpdateMyImagePayload) => {
-    return api.patch<User>(`/users/profile-image`, payload);
+  // 2. 유저 프로필 변경
+  updateMyInfo: async (payloads: UpdateMyInfoPayloads) => {
+    return api.patch<User>('/users/profile', payloads);
+  },
+
+  // 3. 프로필 이미지 변경
+  updateMyImage: async (payloads: UpdateMyImagePayloads) => {
+    const formData = new FormData();
+    formData.append('file', payloads.file);
+    return api.patch<User>(`/users/profile-image`, formData);
   },
 
   // 4. 알림 설정 변경
-  updatMyNotification: async (payload: UpdateMyNotiParams) => {
-    return api.patch<User>(`/users/notification/${payload.isNotificationEnabled}`);
+  updateMyNotification: async (queryParams: UpdateMyNotificationQueryParams) => {
+    return api.patch<User>(
+      `/users/notification?isNotificationEnabled=${queryParams.isNotificationEnabled}`,
+    );
   },
 
-  // 5. 사용자 단건 조회
-  getUser: async (payload: GetUserParams) => {
-    return api.get<User>(`/users/${payload.userId}`);
+  // 5. 유저 프로필 조회
+  getUser: async (pathParams: GetUserPathParams) => {
+    return api.get<User>(`/users/${pathParams.userId}`);
   },
 
-  // 1. 사용자 팔로우
-  followUser: async (payload: FollowParams) => {
-    return api.post<void>(`/follows/${payload.followNickname}`);
+  // 6. 닉네임 중복 검사
+  getNicknameAvailability: async (queryParams: GetNicknameAvailabilityQueryParams) => {
+    return api.get<Availability>(`/users/nickname/availability`, {
+      params: { nickname: queryParams.nickName },
+    });
   },
 
-  // 6. 사용자 언팔로우
-  unfollowUser: async (payload: FollowParams) => {
-    return api.delete<void>(`/follows/${payload.followNickname}`);
+  // 7. 이메일 중복 검사
+  getEmailAvailability: async (queryParams: GetEmailAvailabilityQueryParams) => {
+    return api.get<Availability>(`/users/email/availability`, {
+      params: { email: queryParams.email },
+    });
   },
 
-  // 7. 회원탈퇴
-  deleteMe: async () => api.delete<User>(`/users`),
-
-  // 8. 사용자 프로필 이미지 변경
+  // 8. 사용자 언팔로우
+  unfollowUser: async (params: UnfollowQueryParams) => {
+    return api.delete<string>(`/users/unfollow`, {
+      params: { unFollowNickname: params.unFollowNickname },
+    });
+  },
 });
