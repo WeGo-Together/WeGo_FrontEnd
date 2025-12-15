@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import { ImageWithFallback } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
 interface FollowingCardProps {
@@ -32,13 +32,18 @@ export const FollowingCard = ({
       className='flex cursor-pointer items-center gap-3 bg-white p-5'
       onClick={handleClick}
     >
-      <Image
-        width={48}
-        className='size-12 rounded-full object-cover'
-        alt={nickname}
-        height={48}
-        src={profileImage}
-      />
+      {/* <div className='size-12 rounded-full'>
+        <ImageWithFallback className='object-cover' alt='프로필 이미지' fill src={profileImage} />
+      </div> */}
+      <div className='relative size-12 overflow-hidden rounded-full'>
+        <ImageWithFallback
+          className='object-cover'
+          alt='프로필 이미지'
+          fill
+          loading='eager'
+          src={profileImage}
+        />
+      </div>
       <div className='flex flex-1 flex-col'>
         <span className='text-text-md-bold text-gray-800'>{nickname}</span>
         <span

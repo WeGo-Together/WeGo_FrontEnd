@@ -19,6 +19,7 @@ export const MeetupDetailField = ({ field }: Props) => {
         className='bg-mono-white focus:border-mint-500 text-text-md-medium h-40 w-full resize-none rounded-2xl border border-gray-300 px-5 py-4 text-gray-800 focus:outline-none'
         maxLength={300}
         placeholder='모임에 대해 설명해주세요'
+        required
         value={field.state.value}
         onChange={(e) => field.handleChange(e.target.value)}
       />
