@@ -13,6 +13,13 @@ export interface GetFollowerResponse {
   nextCursor: number | null;
 }
 
+// 팔로우 목록 조회 Parameters
+export interface GetFollowerParams {
+  userId: number;
+  cursor?: number | null;
+  size?: number;
+}
+
 // 팔로우 등록 Parameters
 export interface AddFollowParams {
   followNickname: string;
