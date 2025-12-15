@@ -1,5 +1,7 @@
 import Image from 'next/image';
 
+import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
+
 type CardProfileProps = {
   nickName: string;
   profileImage?: string | null;
@@ -11,17 +13,17 @@ const DEFAULT_SIZE = 16;
 export const CardProfile = ({ nickName, profileImage, size = DEFAULT_SIZE }: CardProfileProps) => {
   return (
     <div className='mt-3 flex items-center gap-1.5'>
-      {profileImage ? (
+      <div
+        className='relative shrink-0 overflow-hidden rounded-full'
+        style={{ width: size, height: size }}
+      >
         <Image
-          width={size}
-          className='rounded-full object-cover'
+          className='object-cover'
           alt={nickName}
-          height={size}
-          src={profileImage}
+          fill
+          src={profileImage || DEFAULT_PROFILE_IMAGE}
         />
-      ) : (
-        <div className='rounded-full bg-gray-600' style={{ width: size, height: size }} />
-      )}
+      </div>
       <span className='text-text-xs-medium text-gray-900'>{nickName}</span>
     </div>
   );
