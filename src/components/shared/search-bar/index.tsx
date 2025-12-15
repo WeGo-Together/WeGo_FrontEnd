@@ -59,7 +59,7 @@ export const SearchBar = ({
       )}
       iconButton={
         <button
-          className='absolute top-4 right-5 h-6 w-6'
+          className='absolute top-1/2 right-5 h-6 w-6 -translate-y-1/2'
           aria-label='검색 실행'
           type='button'
           onClick={handleSearch}
