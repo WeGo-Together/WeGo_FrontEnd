@@ -1,6 +1,5 @@
 'use client';
-import { useState } from 'react';
-
+import { useUpdateMyNotification } from '@/hooks/use-user/use-user-notification';
 import { User } from '@/types/service/user';
 
 import { MyPageActionButton, MyPageToggleButton } from '../mypage-setting-button';
@@ -10,13 +9,14 @@ interface Props {
 }
 
 export const MyPageSetting = ({ user }: Props) => {
-  console.log(user);
-  // useState 로직은 추후 삭제 예정
-  const [isOn, setIsOn] = useState(false);
+  const { mutate } = useUpdateMyNotification();
 
   return (
     <section className='bg-mono-white flex flex-col gap-3 px-3 py-6'>
-      <MyPageToggleButton value={isOn} onClick={() => setIsOn((prev) => !prev)}>
+      <MyPageToggleButton
+        value={user.isNotificationEnabled}
+        onClick={() => mutate({ isNotificationEnabled: !user.isNotificationEnabled })}
+      >
         알림 받기
       </MyPageToggleButton>
       <MyPageActionButton onClick={() => console.log('로그아웃')}>로그아웃</MyPageActionButton>

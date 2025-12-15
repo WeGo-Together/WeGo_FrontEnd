@@ -1,5 +1,4 @@
-import Image from 'next/image';
-
+import { ImageWithFallback } from '@/components/ui';
 import { User } from '@/types/service/user';
 
 interface Props {
@@ -11,7 +10,13 @@ export const ProfileCard = ({ user }: Props) => {
   return (
     <div className='flex-col-center mb-6'>
       <div className='relative mb-3 size-24 overflow-hidden rounded-full'>
-        <Image className='object-cover' alt='프로필 이미지' fill src={profileImage} />
+        <ImageWithFallback
+          className='object-cover'
+          alt='프로필 이미지'
+          fill
+          loading='eager'
+          src={profileImage}
+        />
       </div>
       <h1 className='text-text-xl-bold text-gray-900'>{nickName}</h1>
       <p className='text-text-sm-medium text-gray-600'>{profileMessage}</p>
