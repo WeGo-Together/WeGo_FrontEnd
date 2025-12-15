@@ -12,3 +12,8 @@ export interface GetFollowerResponse {
   items: Follower[];
   nextCursor: number | null;
 }
+
+// 팔로우 등록 Parameters
+export interface AddFollowParams {
+  followNickname: string;
+}

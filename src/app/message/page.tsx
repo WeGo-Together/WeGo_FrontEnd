@@ -34,7 +34,7 @@ export default function FollowingPage() {
       {tab === 'chat' && <Chat />}
       {tab === 'following' && (
         <>
-          <FollowingSearch />
+          <FollowingSearch userId={userId} />
 
           {followers && followers.items.length > 0 ? (
             <FollowingList items={followers} />
