@@ -2,6 +2,10 @@
 
 import { useSearchParams } from 'next/navigation';
 
+import { useEffect, useState } from 'react';
+
+import Cookies from 'js-cookie';
+
 import { Chat, FollowingList, FollowingNone, FollowingSearch } from '@/components/pages/message';
 import { TabNavigation } from '@/components/shared';
 import { useGetFollowers } from '@/hooks/use-follower/use-follower-get';
@@ -12,7 +16,14 @@ const SOCIAL_TABS = [
 ];
 
 export default function FollowingPage() {
-  const { data: followers } = useGetFollowers();
+  const [userId, setUserId] = useState(0);
+  const { data: followers } = useGetFollowers({ userId }, { enabled: !!userId });
+
+  useEffect(() => {
+    const id = Cookies.get('userId');
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setUserId(Number(id));
+  }, []);
 
   const params = useSearchParams();
   const tab = params.get('tab') || 'following';
