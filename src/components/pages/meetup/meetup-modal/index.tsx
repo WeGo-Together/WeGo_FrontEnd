@@ -1,64 +1,76 @@
 'use client';
 
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
+import { Button } from '@/components/ui';
 import { ModalContent, ModalDescription, ModalTitle, useModal } from '@/components/ui/modal';
+import { useAttendGroup } from '@/hooks/use-group/use-group-attend';
+import { useCancelGroup } from '@/hooks/use-group/use-group-cancel';
+import { useDeleteGroup } from '@/hooks/use-group/use-group-delete';
 
 interface Props {
-  type: 'join' | 'leave' | 'cancel';
+  type: 'attend' | 'cancel' | 'delete';
+  groupId: string;
 }
 
-export const MeetupModal = ({ type }: Props) => {
+export const MeetupModal = ({ type, groupId }: Props) => {
+  const { replace } = useRouter();
   const { close } = useModal();
-  const [isPending, setIsPending] = useState(false);
+  const { mutate: attendMutate, isPending: isAttending } = useAttendGroup({ groupId }, close);
+  const { mutate: cancelMutate, isPending: isCanceling } = useCancelGroup({ groupId }, close);
+  const { mutate: deleteMutate, isPending: isDeleting } = useDeleteGroup({ groupId }, () => {
+    close();
+    replace('/');
+  });
 
-  const handleConfirm = () => {
-    setIsPending(true);
-
-    setTimeout(() => {
-      setIsPending(false);
-      close();
-    }, 1000);
-  };
+  const isPending = isAttending || isCanceling || isDeleting;
 
   const { title, description, confirm } = MODAL_MESSAGE[type];
 
+  const handleConfirmClick = () => {
+    if (type === 'attend') attendMutate();
+    else if (type === 'cancel') cancelMutate();
+    else if (type === 'delete') deleteMutate();
+  };
+
   return (
-    <ModalContent>
-      <ModalTitle className='pt-8 text-center'>{title}</ModalTitle>
-      <ModalDescription className='mb-6 text-center'>{description}</ModalDescription>
-      <div className='flex flex-row gap-2'>
-        <button
-          className='typo-text-sm-semibold w-34 cursor-pointer rounded-2xl border-1 border-gray-400 bg-white py-3 text-gray-600'
-          type='button'
+    <ModalContent className='max-w-80'>
+      <ModalTitle className='pt-8 text-center break-keep'>{title}</ModalTitle>
+      <ModalDescription className='text-center break-keep'>{description}</ModalDescription>
+      <div className='mt-6 flex gap-2'>
+        <Button
+          className='!text-text-sm-semibold w-[50%]'
+          size='sm'
+          variant='tertiary'
           onClick={close}
         >
           취소
-        </button>
-        <button
-          className='typo-text-sm-bold bg-mint-400 w-34 cursor-pointer rounded-2xl py-3 text-white disabled:bg-gray-500'
+        </Button>
+        <Button
+          className='!text-text-sm-bold w-[50%]'
           disabled={isPending}
-          onClick={handleConfirm}
+          size='sm'
+          onClick={handleConfirmClick}
         >
           {isPending ? '로딩중...' : confirm}
-        </button>
+        </Button>
       </div>
     </ModalContent>
   );
 };
 
 const MODAL_MESSAGE = {
-  join: {
+  attend: {
     title: '모임에 참여하시겠어요?',
     description: '참여 후 바로 그룹채팅에 참여할 수 있어요!',
     confirm: '참여하기',
   },
-  leave: {
+  cancel: {
     title: '모임을 정말 탈퇴하시겠어요?',
     description: '탈퇴 시 그룹채팅과 모임 활동이 종료돼요.',
     confirm: '탈퇴하기',
   },
-  cancel: {
+  delete: {
     title: '모임을 정말 취소하시겠어요?',
     description: '취소 후에는 다시 복구할 수 없어요.',
     confirm: '취소하기',

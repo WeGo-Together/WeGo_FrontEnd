@@ -38,7 +38,7 @@ export const MeetingList = ({
       {meetings.map((meeting) => (
         <Card
           key={meeting.id}
-          dateTime={formatDateTime(meeting.startTime, meeting.endTime)}
+          dateTime={formatDateTime(meeting.startTime)}
           images={meeting.images}
           leaveAndChatActions={
             showActions
