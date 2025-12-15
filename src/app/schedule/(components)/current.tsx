@@ -1,34 +1,45 @@
 'use client';
 
-import { useGetMyGroups } from '@/hooks/use-group/use-group-get-my-list';
+import { API } from '@/api';
+import { useInfiniteScroll } from '@/hooks/use-group/use-group-infinite-list';
+import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
+import { INTERSECTION_OBSERVER_THRESHOLD } from '@/lib/constants/group-list';
+import { GroupListItemResponse } from '@/types/service/group';
 
 import { MeetingList } from './meeting-list';
 
 export default function Current() {
-  const { data, isLoading, error } = useGetMyGroups({ type: 'current', size: 10 });
+  const { items, error, fetchNextPage, hasNextPage, isFetchingNextPage, completedMessage } =
+    useInfiniteScroll<GroupListItemResponse, ['myGroups', 'current']>({
+      queryFn: async ({ cursor, size }) => {
+        return await API.groupService.getMyGroups({ type: 'current', cursor, size });
+      },
+      queryKey: ['myGroups', 'current'],
+      pageSize: 10,
+      errorMessage: '현재 모임 목록을 불러오는데 실패했습니다.',
+      completedMessage: '모든 현재 모임을 불러왔습니다.',
+    });
 
-  if (isLoading) {
-    return (
-      <div className='flex items-center justify-center py-8'>
-        <div className='text-gray-500'>로딩 중...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className='flex items-center justify-center py-8'>
-        <div className='text-red-500'>데이터를 불러오는 중 오류가 발생했습니다.</div>
-      </div>
-    );
-  }
+  const sentinelRef = useIntersectionObserver({
+    onIntersect: () => {
+      if (hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    },
+    enabled: hasNextPage && error === null,
+    threshold: INTERSECTION_OBSERVER_THRESHOLD,
+  });
 
   return (
     <MeetingList
+      completedMessage={completedMessage}
       emptyStatePath='/'
       emptyStateType='current'
+      error={error}
+      hasNextPage={hasNextPage}
       leaveActionText='모임 탈퇴'
-      meetings={data?.items || []}
+      meetings={items}
+      sentinelRef={sentinelRef}
       showActions={true}
       tabType='current'
     />

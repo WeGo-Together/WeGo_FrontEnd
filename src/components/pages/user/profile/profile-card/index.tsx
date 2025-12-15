@@ -1,3 +1,5 @@
+import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
+
 import { ImageWithFallback } from '@/components/ui';
 import { User } from '@/types/service/user';
 
@@ -13,9 +15,10 @@ export const ProfileCard = ({ user }: Props) => {
         <ImageWithFallback
           className='object-cover'
           alt='프로필 이미지'
+          fallbackSrc={DEFAULT_PROFILE_IMAGE}
           fill
           loading='eager'
-          src={profileImage}
+          src={profileImage || ''}
         />
       </div>
       <h1 className='text-text-xl-bold text-gray-900'>{nickName}</h1>
