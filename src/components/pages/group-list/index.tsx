@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { InfiniteData } from '@tanstack/react-query';
 
@@ -19,10 +19,14 @@ interface GroupListProps {
 
 export default function GroupList({ initialData, initialKeyword }: GroupListProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const keywordFromUrl = searchParams.get('keyword') || undefined;
+  const keyword = initialKeyword ?? keywordFromUrl;
+
   const { items, error, fetchNextPage, hasNextPage, isFetchingNextPage, completedMessage } =
     useInfiniteGroupList({
       initialData,
-      initialKeyword,
+      initialKeyword: keyword,
     });
 
   // IntersectionObserver를 통한 무한 스크롤 감지
