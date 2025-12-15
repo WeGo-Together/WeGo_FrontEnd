@@ -24,7 +24,7 @@ export default function FollowingPage() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setUserId(Number(id));
   }, []);
-
+  console.log(followers);
   const params = useSearchParams();
   const tab = params.get('tab') || 'following';
   return (
@@ -36,7 +36,7 @@ export default function FollowingPage() {
         <>
           <FollowingSearch />
 
-          {followers && followers.length > 0 ? (
+          {followers && followers.items.length > 0 ? (
             <FollowingList items={followers} />
           ) : (
             <div className='flex flex-1 items-center justify-center'>

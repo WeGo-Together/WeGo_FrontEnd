@@ -7,7 +7,7 @@ export const useGetFollowers = (
   options?: { enabled?: boolean },
 ) => {
   const query = useQuery({
-    queryKey: ['followers'],
+    queryKey: ['followers', userId],
     ...options,
     queryFn: () => API.followerService.getFollowers({ userId }),
   });

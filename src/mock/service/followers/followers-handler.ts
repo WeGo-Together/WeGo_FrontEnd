@@ -3,7 +3,7 @@ import { http, HttpResponse } from 'msw';
 import { createMockErrorResponse, createMockSuccessResponse } from '../common/common-mock';
 import { mockFollowingItems } from './followers-mocks';
 
-const getFollowersMock = http.get(`*/:userId/followers`, () => {
+const getFollowersMock = http.get(`*/users/:userId/follow`, () => {
   if (!mockFollowingItems) {
     return HttpResponse.json(
       createMockErrorResponse({
