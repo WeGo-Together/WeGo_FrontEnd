@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { InfiniteData } from '@tanstack/react-query';
 
 import { ErrorMessage } from '@/components/shared';
@@ -16,6 +18,7 @@ interface GroupListProps {
 }
 
 export default function GroupList({ initialData, initialKeyword }: GroupListProps) {
+  const router = useRouter();
   const { items, error, fetchNextPage, hasNextPage, isFetchingNextPage, completedMessage } =
     useInfiniteGroupList({
       initialData,
@@ -60,6 +63,7 @@ export default function GroupList({ initialData, initialKeyword }: GroupListProp
               profileImage={meeting.createdBy.profileImage}
               tags={meeting.tags}
               title={meeting.title}
+              onClick={() => router.push(`/meetup/${meeting.id}`)}
             />
           ))
         )}
