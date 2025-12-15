@@ -8,34 +8,59 @@ import { useAddFollowers } from '@/hooks/use-follower';
 const FollowerModal = ({ userId }: { userId: number }) => {
   const { close } = useModal();
   const [nickname, setNickname] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const { mutate: addFollower } = useAddFollowers({ userId });
 
   const handleConfirm = () => {
-    addFollower({ followNickname: nickname });
-    close();
+    if (!nickname.trim()) {
+      setErrorMessage('닉네임을 입력해주세요.');
+      return;
+    }
+
+    setErrorMessage(''); // 에러 메세지 초기화.
+
+    addFollower(
+      { followNickname: nickname },
+      {
+        onSuccess: () => {
+          close();
+        },
+        onError: () => {
+          setErrorMessage('존재하지 않는 유저입니다.');
+        },
+      },
+    );
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setNickname(value);
+    if (errorMessage) {
+      setErrorMessage('');
+    }
   };
 
   // 모달 모양 바뀌면 적용하기!
   return (
     <ModalContent>
       <ModalTitle className='mb-3'>팔로우 할 닉네임을 입력하세요</ModalTitle>
-      <Input
-        className='text-text-sm-medium mb-3 w-full rounded-3xl bg-gray-100 px-4 py-2.5 text-gray-800'
-        iconButton={<Icon id='search' className='absolute top-2.5 right-3 size-5 text-gray-500' />}
-        placeholder='nickname'
-        onChange={handleChange}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            handleConfirm();
+      <div className='mb-3'>
+        <Input
+          className='text-text-sm-medium w-full rounded-3xl bg-gray-100 px-4 py-2.5 text-gray-800'
+          iconButton={
+            <Icon id='search' className='absolute top-2.5 right-3 size-5 text-gray-500' />
           }
-        }}
-      />
-
+          placeholder='nickname'
+          value={nickname}
+          onChange={handleChange}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleConfirm();
+            }
+          }}
+        />
+        {errorMessage && <p className='text-error-500 mt-2 text-sm'>{errorMessage}</p>}
+      </div>
       <div className='flex w-full flex-row gap-2'>
         <Button size='sm' variant='tertiary' onClick={close}>
           취소

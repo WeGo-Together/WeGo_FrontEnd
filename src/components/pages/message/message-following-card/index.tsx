@@ -32,9 +32,6 @@ export const FollowingCard = ({
       className='flex cursor-pointer items-center gap-3 bg-white p-5'
       onClick={handleClick}
     >
-      {/* <div className='size-12 rounded-full'>
-        <ImageWithFallback className='object-cover' alt='프로필 이미지' fill src={profileImage} />
-      </div> */}
       <div className='relative size-12 overflow-hidden rounded-full'>
         <ImageWithFallback
           className='object-cover'
