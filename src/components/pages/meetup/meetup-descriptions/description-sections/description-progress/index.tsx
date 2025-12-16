@@ -6,7 +6,7 @@ interface Props {
     maxParticipants: GetGroupDetailsResponse['maxParticipants'];
     participantCount: GetGroupDetailsResponse['participantCount'];
   };
-  createdAt: string;
+  createdAt: GetGroupDetailsResponse['createdAt'];
 }
 
 export const DescriptionProgress = ({
