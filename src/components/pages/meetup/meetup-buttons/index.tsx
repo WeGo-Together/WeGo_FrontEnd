@@ -11,13 +11,14 @@ interface Props {
   conditions: {
     isJoined: GetGroupDetailsResponse['userStatus']['isJoined'];
     isHost: boolean;
-    isButtonDisabled: boolean;
+    isPast: boolean;
+    isAttendDisabled: boolean;
   };
   groupId: string;
 }
 
 export const MeetupButtons = ({
-  conditions: { isJoined, isHost, isButtonDisabled },
+  conditions: { isJoined, isHost, isPast, isAttendDisabled },
   groupId,
 }: Props) => {
   const { open } = useModal();
@@ -42,13 +43,13 @@ export const MeetupButtons = ({
           >
             {isHost ? '모임 취소' : '모임 탈퇴'}
           </Button>
-          <Button className='flex-2' disabled={isButtonDisabled} onClick={onEnterChatClick}>
+          <Button className='flex-2' disabled={isPast} onClick={onEnterChatClick}>
             채팅 입장
           </Button>
         </div>
       ) : (
         <Button
-          disabled={isButtonDisabled}
+          disabled={isAttendDisabled || isPast}
           onClick={() => open(<MeetupModal groupId={groupId} type='attend' />)}
         >
           참여하기
