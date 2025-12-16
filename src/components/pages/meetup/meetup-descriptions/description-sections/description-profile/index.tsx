@@ -20,7 +20,7 @@ export const DescriptionProfile = ({ hostInfo: { nickName, profileImage, userId 
           src={profileImage}
         />
 
-        <div className='*:line-clamp-1'>
+        <div className='flex flex-col justify-center *:line-clamp-1'>
           <p className='text-text-md-semibold text-gray-800'>{nickName}</p>
           <p className='text-text-xs-regular text-gray-600'>some dummy bio text</p>
         </div>
