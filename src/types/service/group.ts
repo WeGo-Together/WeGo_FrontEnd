@@ -144,6 +144,7 @@ export interface GetGroupDetailsResponse {
     userId: number;
     nickName: string;
     profileImage: string;
+    profileMessage: string;
   };
   createdAt: string;
   updatedAt: string;
