@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
 import { useEffect, useState } from 'react';
 
@@ -30,11 +30,12 @@ export const MeetupButtons = ({
 }: Props) => {
   const [isHost, setIsHost] = useState<boolean | null>(null);
   const { open } = useModal();
-  const { push } = useRouter();
+  // const { push } = useRouter();
 
   // 그룹 채팅방 아이디 추가해야됨
   const onEnterChatClick = () => {
-    push('/message/id');
+    alert('채팅 파업');
+    // push('/message/id');
   };
 
   useEffect(() => {
@@ -56,11 +57,7 @@ export const MeetupButtons = ({
           >
             {isHost ? '모임 취소' : '모임 탈퇴'}
           </Button>
-          <Button
-            className='flex-2'
-            disabled={participantCount >= maxParticipants}
-            onClick={onEnterChatClick}
-          >
+          <Button className='flex-2' onClick={onEnterChatClick}>
             채팅 입장
           </Button>
         </div>
