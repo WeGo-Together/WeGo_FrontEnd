@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const DescriptionProfile = ({
-  hostInfo: { nickName, profileImage, userId },
+  hostInfo: { userId, nickName, profileImage, profileMessage },
   conditions: { isHost, isPast },
 }: Props) => {
   return (
@@ -29,7 +29,7 @@ export const DescriptionProfile = ({
 
         <div className='flex flex-col justify-center *:line-clamp-1'>
           <p className='text-text-md-semibold text-gray-800'>{nickName}</p>
-          <p className='text-text-xs-regular text-gray-600'>some dummy bio text</p>
+          {profileMessage && <p className='text-text-xs-regular text-gray-600'>{profileMessage}</p>}
         </div>
       </Link>
       {isPast && <p className='text-text-xs-semibold pr-1 text-gray-500'>모임 마감</p>}
