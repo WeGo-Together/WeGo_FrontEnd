@@ -26,17 +26,18 @@ const buttonVariants = cva('bg-mono-white w-full border transition', {
     {
       variant: 'primary',
       disabled: true,
-      class: 'bg-gray-400',
+      class: 'bg-gray-400 hover:bg-gray-400 active:bg-gray-400',
     },
     {
       variant: 'secondary',
       disabled: true,
-      class: 'border-gray-400 text-gray-400',
+      class:
+        'hover:bg-mono-white active:bg-mono-white border-gray-400 text-gray-400 active:border-gray-400 active:text-gray-400',
     },
     {
       variant: 'tertiary',
       disabled: true,
-      class: 'text-gray-400',
+      class: 'hover:bg-mono-white active:bg-mono-white text-gray-400',
     },
   ],
   defaultVariants: {
