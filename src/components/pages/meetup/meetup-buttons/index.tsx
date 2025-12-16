@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
 import { MeetupModal } from '@/components/pages/meetup/meetup-modal';
 import { Button } from '@/components/ui/button';
@@ -21,11 +21,12 @@ export const MeetupButtons = ({
   groupId,
 }: Props) => {
   const { open } = useModal();
-  const { push } = useRouter();
+  // const { push } = useRouter();
 
   // 그룹 채팅방 아이디 추가해야됨
   const onEnterChatClick = () => {
-    push('/message/id');
+    alert('채팅 파업');
+    // push('/message/id');
   };
 
   return (
