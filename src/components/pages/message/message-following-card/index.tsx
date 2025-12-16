@@ -29,7 +29,7 @@ export const FollowingCard = ({
   return (
     <div
       data-testid='following-card'
-      className='flex cursor-pointer items-center gap-3 bg-white p-5'
+      className='flex cursor-pointer items-center gap-3 bg-white p-5 hover:bg-gray-50'
       onClick={handleClick}
     >
       <div className='relative size-12 overflow-hidden rounded-full'>
