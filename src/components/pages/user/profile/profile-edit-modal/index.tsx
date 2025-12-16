@@ -53,30 +53,25 @@ export const ProfileEditModal = ({ user }: Props) => {
         ...(user.mbti !== value.mbti && { mbti }),
       };
 
-      const promises = [];
-
-      // 프로필 정보 업데이트 조건 체크
-      if (Object.keys(nextProfileInfo).length > 0) {
-        promises.push(updateUser(nextProfileInfo));
-      }
-
-      // 프로필 이미지 업데이트 조건 체크
-      const imageFileObject = Object.values(profileImage)[0];
-      if (imageFileObject) {
-        promises.push(updateUserImage({ file: imageFileObject }));
-      }
-
       /*
       Promise 체이닝 사용 시 catch를 먹어버리기 때문에 각 mutation의 error가 업데이트 되지않음
       따라서 try catch 방식 사용
       */
-      /*
-      todo: 이미지 변경과 정보 변경 중 하나라도 실패하면 각 항목에 대한 에러메시지 보여줘야함
-      */
       try {
-        await Promise.all(promises);
+        // 프로필 정보 업데이트 조건 체크
+        if (Object.keys(nextProfileInfo).length > 0) {
+          await updateUser(nextProfileInfo);
+        }
+        // 프로필 이미지 업데이트 조건 체크
+        const imageFileObject = Object.values(profileImage)[0];
+        if (imageFileObject) {
+          await updateUserImage({ file: imageFileObject });
+        }
         close();
       } catch (error) {
+        /*
+        todo: 이미지 변경과 정보 변경 중 하나라도 실패하면 각 항목에 대한 에러메시지 보여줘야함
+        */
         console.log('요청 실패', error);
       }
     },
