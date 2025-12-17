@@ -49,7 +49,7 @@ export const MeetupButtons = ({
         </div>
       ) : (
         <Button
-          disabled={isAttendDisabled || isPast}
+          disabled={isAttendDisabled}
           onClick={() => open(<MeetupModal groupId={groupId} type='attend' />)}
         >
           참여하기
