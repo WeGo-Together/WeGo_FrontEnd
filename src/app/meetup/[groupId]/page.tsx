@@ -59,7 +59,7 @@ const MeetupDetailPage = ({ params }: Props) => {
           isHost,
           isJoined,
           isPast,
-          isAttendDisabled: participantCount >= maxParticipants,
+          isAttendDisabled: participantCount >= maxParticipants || isPast,
         }}
         groupId={groupId}
       />

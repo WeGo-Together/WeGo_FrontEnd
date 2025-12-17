@@ -5,7 +5,7 @@ import clsx from 'clsx';
 
 import { Icon } from '@/components/icon';
 import { DatePickerModal } from '@/components/pages/post-meetup/modals/date-picker-modal';
-import { Label } from '@/components/ui';
+import { Hint, Label } from '@/components/ui';
 import { useModal } from '@/components/ui';
 import { formatDateTime } from '@/lib/formatDateTime';
 
@@ -18,6 +18,7 @@ export const MeetupDateField = ({ field }: Props) => {
 
   const hasValue = Boolean(field.state.value);
   const formattedDate = formatDateTime(field.state.value);
+  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
   const onInputClick = () => {
     open(<DatePickerModal dateField={field} />);
@@ -48,6 +49,7 @@ export const MeetupDateField = ({ field }: Props) => {
           {hasValue ? formattedDate : '날짜와 시간을 선택해주세요'}
         </p>
       </button>
+      {isInvalid && <Hint className='mt-0.5' message={field.state.meta.errors[0].message} />}
     </div>
   );
 };
