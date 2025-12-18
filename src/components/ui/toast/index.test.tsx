@@ -39,12 +39,12 @@ describe('Toast', () => {
     render(<Toast>모임 신청 완료!</Toast>);
     const toast = screen.getByText('모임 신청 완료!');
 
-    expect(toast).toHaveClass('text-mono-white bg-[#0D2D3A]/50');
+    expect(toast).toHaveClass('text-mono-white bg-[#0D2D3A]/80');
   });
 
   test('option을 전달하지 않고 toast 실행 시 toast가 popup 되며 3초 후에 사라진다.', async () => {
     const TestToast = () => {
-      return <Toast type='info'>모임 신청 완료! Share the fun</Toast>;
+      return <Toast type='success'>모임 신청 완료! Share the fun</Toast>;
     };
 
     renderToast({ content: <TestToast /> });
@@ -69,7 +69,7 @@ describe('Toast', () => {
 
   test('duration을 5000으로 지정하면 toast가 popup 되며 5초 후에 사라진다.', async () => {
     const TestToast = () => {
-      return <Toast type='info'>모임 신청 완료! Share the fun</Toast>;
+      return <Toast type='success'>모임 신청 완료! Share the fun</Toast>;
     };
 
     renderToast({ content: <TestToast />, options: { duration: 5000 } });
@@ -94,7 +94,7 @@ describe('Toast', () => {
 
   test('toast run 을 연속으로 실행하면 toast가 여러개 popup 된다.', async () => {
     const TestToast = () => {
-      return <Toast type='info'>모임 신청 완료! Share the fun</Toast>;
+      return <Toast type='success'>모임 신청 완료! Share the fun</Toast>;
     };
 
     renderToast({ content: <TestToast />, options: { duration: 5000 } });
