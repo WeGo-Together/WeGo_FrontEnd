@@ -29,12 +29,9 @@ export const FollowingCard = ({
   return (
     <div
       data-testid='following-card'
-      className='flex cursor-pointer items-center gap-3 bg-white p-5'
+      className='flex cursor-pointer items-center gap-3 bg-white p-5 hover:bg-gray-50'
       onClick={handleClick}
     >
-      {/* <div className='size-12 rounded-full'>
-        <ImageWithFallback className='object-cover' alt='프로필 이미지' fill src={profileImage} />
-      </div> */}
       <div className='relative size-12 overflow-hidden rounded-full'>
         <ImageWithFallback
           className='object-cover'

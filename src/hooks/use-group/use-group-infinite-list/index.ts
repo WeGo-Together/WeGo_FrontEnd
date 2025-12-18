@@ -37,6 +37,7 @@ export interface UseInfiniteScrollParams<TItem, TQueryKey extends unknown[] = un
   enableLogging?: boolean;
   // 모든 데이터 로드 완료 메시지 (선택, 기본값: "모든 데이터를 불러왔습니다.")
   completedMessage?: string;
+  enabled?: boolean;
 }
 
 // 범용 무한 스크롤 반환 타입
@@ -87,6 +88,7 @@ export function useInfiniteScroll<TItem, TQueryKey extends unknown[] = unknown[]
   staleTime = STALE_TIME,
   errorMessage = DEFAULT_ERROR_MESSAGE,
   enableLogging = true,
+  enabled = true,
   completedMessage = '모든 데이터를 불러왔습니다.',
 }: UseInfiniteScrollParams<TItem, TQueryKey>): UseInfiniteScrollReturn<TItem> {
   const queryClient = useQueryClient();
@@ -102,6 +104,7 @@ export function useInfiniteScroll<TItem, TQueryKey extends unknown[] = unknown[]
       number | undefined
     >({
       queryKey,
+      enabled,
       queryFn: async ({ pageParam }) => {
         // 다음 페이지 요청 시작 로그
         if (pageParam !== undefined && enableLogging) {

@@ -1,17 +1,17 @@
 'use client';
 
-import { GetFollowerResponse } from '@/types/service/follow';
+import { Follower } from '@/types/service/follow';
 
 import { FollowingCard } from '../message-following-card';
 
 interface FollowingListProps {
-  items: GetFollowerResponse;
+  items: Follower[];
 }
 
 export const FollowingList = ({ items }: FollowingListProps) => {
   return (
     <div>
-      {items.items.map((item) => (
+      {items.map((item) => (
         <FollowingCard
           key={item.userId}
           nickname={item.nickname}

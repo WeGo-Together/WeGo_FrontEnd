@@ -5,11 +5,18 @@ import { GetGroupDetailsResponse } from '@/types/service/group';
 
 interface Props {
   hostInfo: GetGroupDetailsResponse['createdBy'];
+  conditions: {
+    isHost: boolean;
+    isPast: boolean;
+  };
 }
 
-export const DescriptionProfile = ({ hostInfo: { nickName, profileImage, userId } }: Props) => {
+export const DescriptionProfile = ({
+  hostInfo: { userId, nickName, profileImage, profileMessage },
+  conditions: { isHost, isPast },
+}: Props) => {
   return (
-    <div className='w-full select-none'>
+    <div className='flex-between w-full select-none'>
       <Link href={`/profile/${userId}`} className='flex gap-3'>
         <ImageWithFallback
           width={40}
@@ -20,11 +27,17 @@ export const DescriptionProfile = ({ hostInfo: { nickName, profileImage, userId 
           src={profileImage}
         />
 
-        <div className='*:line-clamp-1'>
+        <div className='flex flex-col justify-center *:line-clamp-1'>
           <p className='text-text-md-semibold text-gray-800'>{nickName}</p>
-          <p className='text-text-xs-regular text-gray-600'>some dummy bio text</p>
+          {profileMessage && <p className='text-text-xs-regular text-gray-600'>{profileMessage}</p>}
         </div>
       </Link>
+      {isPast && <p className='text-text-xs-semibold pr-1 text-gray-500'>모임 마감</p>}
+      {isHost && !isPast && (
+        <Link href='#' className='text-text-xs-semibold text-mint-500 pr-1'>
+          모임 수정하기
+        </Link>
+      )}
     </div>
   );
 };

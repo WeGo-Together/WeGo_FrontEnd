@@ -20,8 +20,11 @@ export const MeetupImagesField = ({ field }: Props) => {
   const { mutateAsync } = useUploadGroupImages();
 
   const onUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const maxAllowed = 3 - field.state.value.length;
     const files = e.target.files;
+
     if (!files || files.length === 0) return;
+    if (files.length > maxAllowed) return;
 
     const fileArray = Array.from(files);
 
@@ -29,7 +32,7 @@ export const MeetupImagesField = ({ field }: Props) => {
     const invalidFile = fileArray.find((file) => !ALLOWED_IMAGE_TYPES.includes(file.type as any));
 
     if (invalidFile) {
-      alert('jpg 또는 png 파일만 업로드 가능합니다.');
+      alert('jpg, png, webp 파일만 업로드 가능합니다.');
       e.target.value = '';
       return;
     }
@@ -38,15 +41,17 @@ export const MeetupImagesField = ({ field }: Props) => {
       images: fileArray,
     });
 
-    field.handleChange([...response.images]);
+    field.handleChange([...field.state.value, ...response.images]);
   };
 
   const onUploadImageButtonClick = () => {
-    if (!inputRef.current) {
-      return;
-    }
-
+    if (!inputRef.current) return;
     inputRef.current.click();
+  };
+
+  const onRemoveImageClick = (removeIdx: number) => {
+    const removedArray = field.state.value.filter(({}, idx: number) => idx !== removeIdx);
+    field.handleChange(removedArray);
   };
 
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -81,29 +86,31 @@ export const MeetupImagesField = ({ field }: Props) => {
             onChange={(e) => onUploadImage(e)}
           />
         </button>
-        {field.state.value.map(({ imageUrl100x100 }: PreUploadGroupImageResponse['images'][0]) => (
-          <div key={imageUrl100x100} className='relative aspect-square w-full max-w-20'>
-            <Image
-              className='border-mono-black/5 h-full w-full rounded-2xl border-1 object-cover'
-              alt='썸네일 이미지'
-              fill
-              src={imageUrl100x100}
-            />
+        {field.state.value.map(
+          ({ imageUrl100x100 }: PreUploadGroupImageResponse['images'][0], idx: number) => (
+            <div key={imageUrl100x100} className='relative aspect-square w-full max-w-20'>
+              <Image
+                className='border-mono-black/5 h-full w-full rounded-2xl border-1 object-cover'
+                alt='썸네일 이미지'
+                fill
+                src={imageUrl100x100}
+              />
 
-            {/* <button
-              className={cn(
-                'flex-center bg-mono-white/80 group absolute top-1.5 right-2 size-4 cursor-pointer rounded-full', // 기본 스타일
-                'hover:bg-mono-white hover:scale-110', // hover 스타일
-                'transition-all duration-300', // animation 스타일
-              )}
-              aria-label='이미지 삭제 버튼'
-              type='button'
-              onClick={() => onRemoveImageClick(url)}
-            >
-              <Icon id='small-x-1' className='size-1.5 text-gray-700' />
-            </button> */}
-          </div>
-        ))}
+              <button
+                className={cn(
+                  'flex-center bg-mono-white/80 group absolute top-1.5 right-2 size-4 cursor-pointer rounded-full', // 기본 스타일
+                  'hover:bg-mono-white hover:scale-110', // hover 스타일
+                  'transition-all duration-300', // animation 스타일
+                )}
+                aria-label='이미지 삭제 버튼'
+                type='button'
+                onClick={() => onRemoveImageClick(idx)}
+              >
+                <Icon id='small-x-1' className='size-1.5 text-gray-700' />
+              </button>
+            </div>
+          ),
+        )}
       </div>
       <p className='text-text-sm-medium px-2 text-gray-500'>최대 3개까지 업로드할 수 있어요.</p>
     </div>

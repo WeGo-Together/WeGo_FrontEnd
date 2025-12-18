@@ -21,6 +21,10 @@ interface Props {
     | 'maxParticipants'
     | 'participantCount'
   >;
+  conditions: {
+    isHost: boolean;
+    isPast: boolean;
+  };
 }
 
 export const MeetupDescriptions = ({
@@ -35,10 +39,11 @@ export const MeetupDescriptions = ({
     maxParticipants,
     participantCount,
   },
+  conditions,
 }: Props) => {
   return (
     <section className='bg-white px-5 pt-6 pb-4'>
-      <DescriptionProfile hostInfo={createdBy} />
+      <DescriptionProfile conditions={conditions} hostInfo={createdBy} />
       <DescriptionTitle title={title} />
       <DescriptionTags tags={tags} />
       <DescriptionDetail detail={description} />

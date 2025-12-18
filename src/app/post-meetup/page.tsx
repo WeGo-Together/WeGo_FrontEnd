@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
-import { useForm, useStore } from '@tanstack/react-form';
+import { useForm } from '@tanstack/react-form';
 
 import {
   MeetupCapField,
@@ -15,7 +15,8 @@ import {
   MeetupTitleField,
 } from '@/components/pages/post-meetup';
 import { useCreateGroup } from '@/hooks/use-group/use-group-create';
-import { CreateGroupPayload } from '@/types/service/group';
+import { CreateGroupFormValues, createGroupSchema } from '@/lib/schema/group';
+import { PreUploadGroupImageResponse } from '@/types/service/group';
 
 const PostMeetupPage = () => {
   const { replace } = useRouter();
@@ -26,23 +27,33 @@ const PostMeetupPage = () => {
     defaultValues: {
       title: '',
       location: '',
-      locationDetail: '',
       startTime: '',
-      endTime: '',
       tags: [],
       description: '',
       maxParticipants: 0,
       images: [],
-    } as CreateGroupPayload,
+    } as CreateGroupFormValues,
+    validators: {
+      onSubmit: createGroupSchema,
+    },
     onSubmit: async ({ value }) => {
-      const res = await createGroup(value);
+      console.log(value);
+
+      const images = [] as PreUploadGroupImageResponse['images'];
+
+      if (value.images) {
+        value.images.forEach((image, idx) => {
+          images.push({
+            ...image,
+            sortOrder: idx,
+          });
+        });
+      }
+
+      const res = await createGroup({ ...value, images: images });
       replace(`/meetup/${res.id}`);
     },
   });
-
-  const values = useStore(form.store, (state) => state.values);
-
-  console.log(values);
 
   return (
     <div>
@@ -63,7 +74,13 @@ const PostMeetupPage = () => {
           <form.Field children={(field) => <MeetupTagsField field={field} />} name='tags' />
         </section>
 
-        <MeetupSubmitButton onSubmitClick={() => form.handleSubmit()} />
+        <MeetupSubmitButton
+          onSubmitClick={() => {
+            console.log(form.state.fieldMeta.maxParticipants?.isValid);
+
+            form.handleSubmit();
+          }}
+        />
       </form>
     </div>
   );

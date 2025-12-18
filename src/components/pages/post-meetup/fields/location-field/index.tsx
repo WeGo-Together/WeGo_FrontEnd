@@ -5,7 +5,7 @@ import clsx from 'clsx';
 
 import { Icon } from '@/components/icon';
 import { LocationSearchModal } from '@/components/pages/post-meetup/modals/location-search-modal';
-import { Label } from '@/components/ui';
+import { Hint, Label } from '@/components/ui';
 import { useModal } from '@/components/ui';
 
 interface Props {
@@ -18,6 +18,8 @@ export const MeetupLocationField = ({ field }: Props) => {
   const onInputClick = () => {
     open(<LocationSearchModal LocationField={field} />);
   };
+
+  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
   return (
     <div className='mt-3 flex w-full flex-col gap-1'>
@@ -44,6 +46,7 @@ export const MeetupLocationField = ({ field }: Props) => {
           {field.state.value ? field.state.value : '모임 장소를 입력해주세요'}
         </p>
       </button>
+      {isInvalid && <Hint className='mt-0.5' message={field.state.meta.errors[0].message} />}
     </div>
   );
 };

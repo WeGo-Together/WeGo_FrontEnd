@@ -2,13 +2,15 @@
 
 import { AnyFieldApi } from '@tanstack/react-form';
 
-import { Label } from '@/components/ui';
+import { Hint, Label } from '@/components/ui';
 
 interface Props {
   field: AnyFieldApi;
 }
 
 export const MeetupDetailField = ({ field }: Props) => {
+  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+
   return (
     <div className='mt-3 flex w-full flex-col gap-1'>
       <Label htmlFor='post-meetup-Detail' required>
@@ -23,7 +25,12 @@ export const MeetupDetailField = ({ field }: Props) => {
         value={field.state.value}
         onChange={(e) => field.handleChange(e.target.value)}
       />
-      <div className='text-text-sm-medium text-right text-gray-500'>0/300</div>
+      <div className='mt-0.5 flex'>
+        {isInvalid && <Hint message={field.state.meta.errors[0].message} />}
+        <div className='text-text-sm-medium w-full text-right text-gray-500'>
+          {field.state.value.length}/300
+        </div>
+      </div>
     </div>
   );
 };
