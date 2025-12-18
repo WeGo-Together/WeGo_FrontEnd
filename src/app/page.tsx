@@ -2,6 +2,7 @@ import { InfiniteData } from '@tanstack/react-query';
 
 import { API } from '@/api';
 import GroupList from '@/components/pages/group-list';
+import { GroupSearchBar } from '@/components/pages/group-list/group-search-bar';
 import { GROUP_LIST_PAGE_SIZE } from '@/lib/constants/group-list';
 import { GetGroupsResponse } from '@/types/service/group';
 
@@ -27,5 +28,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   };
 
   // 초기 데이터를 전달해서 무한 스크롤 시작
-  return <GroupList initialData={initialData} initialKeyword={keyword} />;
+  return (
+    <>
+      <GroupSearchBar />
+      <GroupList initialData={initialData} initialKeyword={keyword} />;
+    </>
+  );
 }
