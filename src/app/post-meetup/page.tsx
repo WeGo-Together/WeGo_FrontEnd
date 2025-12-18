@@ -74,13 +74,7 @@ const PostMeetupPage = () => {
           <form.Field children={(field) => <MeetupTagsField field={field} />} name='tags' />
         </section>
 
-        <MeetupSubmitButton
-          onSubmitClick={() => {
-            console.log(form.state.fieldMeta.maxParticipants?.isValid);
-
-            form.handleSubmit();
-          }}
-        />
+        <MeetupSubmitButton onSubmitClick={() => form.handleSubmit()} />
       </form>
     </div>
   );
