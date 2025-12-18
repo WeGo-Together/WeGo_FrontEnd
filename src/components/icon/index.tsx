@@ -20,6 +20,7 @@ export type DynamicIconId =
   | 'kebab'
   | 'map-pin-1'
   | 'map-pin-2'
+  | 'message'
   | 'plus'
   | 'search'
   | 'send'
@@ -36,10 +37,6 @@ export type DynamicIconId =
 export type ResizableIconId =
   | 'bell-unread'
   | 'congratulate'
-  | 'message-read-activate'
-  | 'message-read'
-  | 'message-unread-activate'
-  | 'message-unread'
   | 'plus-circle'
   | 'visibility-false'
   | 'visibility-true'
@@ -126,6 +123,10 @@ export const iconMetadataMap: IconMetadata[] = [
     variant: 'dynamic',
   },
   {
+    id: 'message',
+    variant: 'dynamic',
+  },
+  {
     id: 'plus',
     variant: 'dynamic',
   },
@@ -183,22 +184,6 @@ export const iconMetadataMap: IconMetadata[] = [
   },
   {
     id: 'congratulate',
-    variant: 'resizable',
-  },
-  {
-    id: 'message-read-activate',
-    variant: 'resizable',
-  },
-  {
-    id: 'message-read',
-    variant: 'resizable',
-  },
-  {
-    id: 'message-unread-activate',
-    variant: 'resizable',
-  },
-  {
-    id: 'message-unread',
     variant: 'resizable',
   },
   {
