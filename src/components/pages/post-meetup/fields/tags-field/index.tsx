@@ -20,13 +20,15 @@ export const MeetupTagsField = ({ field }: Props) => {
     if (e.code !== 'Enter' && e.code !== 'NumpadEnter') return;
     if (e.nativeEvent.isComposing) return;
 
-    const hasDupe = field.state.value.includes(inputValue);
+    const isUniqueTag = !field.state.value.includes(inputValue);
+    const nonEmpty = inputValue.trim();
+    const tagsCount = field.state.value.length;
 
-    if (!hasDupe && inputValue.trim()) {
+    if (isUniqueTag && nonEmpty && tagsCount < 10) {
       field.pushValue(inputValue);
     }
 
-    if (inputRef.current) inputRef.current.focus();
+    inputRef.current?.focus();
     setInputValue('');
   };
 
@@ -45,6 +47,7 @@ export const MeetupTagsField = ({ field }: Props) => {
             height={20}
           />
         }
+        maxLength={8}
         placeholder='입력 후 Enter'
         type='text'
         value={inputValue}
