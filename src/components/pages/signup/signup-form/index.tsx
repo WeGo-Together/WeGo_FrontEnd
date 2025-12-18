@@ -2,9 +2,11 @@
 
 import { type AnyFieldApi, useForm } from '@tanstack/react-form';
 
+import { API } from '@/api';
 import { FormInput } from '@/components/shared';
 import { Button } from '@/components/ui';
 import { useSignup } from '@/hooks/use-auth';
+import { useAvailabilityCheck } from '@/hooks/use-auth/use-auth-availabilityCheck';
 import { signupSchema } from '@/lib/schema/auth';
 
 const getHintMessage = (field: AnyFieldApi) => {
@@ -44,6 +46,30 @@ export const SignupForm = () => {
     },
   });
 
+  const emailCheck = useAvailabilityCheck(
+    API.userService.getEmailAvailability,
+    (email) => ({ email }),
+    {
+      checking: '확인 중...',
+      available: '사용 가능한 이메일입니다.',
+      unavailable: '이미 사용 중인 이메일입니다.',
+      error: '중복 확인 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+    },
+  );
+
+  const nicknameCheck = useAvailabilityCheck(
+    API.userService.getNicknameAvailability,
+    (nickName) => ({ nickName }),
+    {
+      checking: '확인 중...',
+      available: '사용 가능한 닉네임입니다.',
+      unavailable: '이미 사용 중인 닉네임입니다.',
+      error: '중복 확인 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+    },
+  );
+
+  const canSubmit = emailCheck.isAvailable && nicknameCheck.isAvailable;
+
   return (
     <form
       className='flex-col-center w-full gap-8'
@@ -55,19 +81,35 @@ export const SignupForm = () => {
       <div className='flex-col-center w-full gap-4'>
         <form.Field name='email'>
           {(field) => {
-            const hintMessage = getHintMessage(field);
+            const validationHint = getHintMessage(field);
+
+            const value = field.state.value.trim();
+            const hasValidationError = field.state.meta.errors.length > 0;
+
+            const availabilityButtonDisabled =
+              !value || hasValidationError || emailCheck.isChecking;
 
             return (
               <FormInput
-                hintMessage={hintMessage}
+                availabilityButtonDisabled={availabilityButtonDisabled}
+                availabilityHint={emailCheck.hint}
+                availabilityStatus={emailCheck.state}
+                hintMessage={validationHint}
                 inputProps={{
                   type: 'email',
                   autoComplete: 'email',
                   placeholder: '이메일을 입력해주세요',
                   value: field.state.value,
-                  onChange: (e) => field.handleChange(e.target.value),
+                  onChange: (e) => {
+                    field.handleChange(e.target.value);
+                    emailCheck.reset();
+                  },
                 }}
                 labelName='이메일'
+                onClick={() => {
+                  void emailCheck.check(field.state.value);
+                  console.log(nicknameCheck.state);
+                }}
               />
             );
           }}
@@ -75,18 +117,34 @@ export const SignupForm = () => {
 
         <form.Field name='nickname'>
           {(field) => {
-            const hintMessage = getHintMessage(field);
+            const validationHint = getHintMessage(field);
+
+            const value = field.state.value.trim();
+            const hasValidationError = field.state.meta.errors.length > 0;
+
+            const availabilityButtonDisabled =
+              !value || hasValidationError || nicknameCheck.isChecking;
 
             return (
               <FormInput
-                hintMessage={hintMessage}
+                availabilityButtonDisabled={availabilityButtonDisabled}
+                availabilityHint={nicknameCheck.hint}
+                availabilityStatus={nicknameCheck.state}
+                hintMessage={validationHint}
                 inputProps={{
                   autoComplete: 'username',
                   placeholder: '닉네임을 입력해주세요',
                   value: field.state.value,
-                  onChange: (e) => field.handleChange(e.target.value),
+                  onChange: (e) => {
+                    field.handleChange(e.target.value);
+                    nicknameCheck.reset();
+                  },
                 }}
                 labelName='닉네임'
+                onClick={() => {
+                  nicknameCheck.check(field.state.value);
+                  console.log(nicknameCheck.state);
+                }}
               />
             );
           }}
@@ -140,8 +198,8 @@ export const SignupForm = () => {
           isPristine: state.isPristine,
         })}
       >
-        {({ canSubmit, isSubmitting, isPristine }) => {
-          const disabled = !canSubmit || isSubmitting || isPristine;
+        {({ canSubmit: formCanSubmit, isSubmitting, isPristine }) => {
+          const disabled = !formCanSubmit || isSubmitting || isPristine || !canSubmit;
 
           return (
             <Button disabled={disabled} size='md' type='submit' variant='primary'>
