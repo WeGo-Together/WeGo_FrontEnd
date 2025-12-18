@@ -1,16 +1,16 @@
-import { Group } from './group';
-import { User } from './user';
-
-export type NotificationType =
-  | 'follow'
-  | 'group-join'
-  | 'group-leave'
-  | 'group-create'
-  | 'group-delete';
+type NotificationType = 'FOLLOW' | 'ENTER' | 'EXIT' | 'CREATE' | 'CANCLE';
 
 export interface Notification {
+  id: string;
+  receiverId: number;
+  actorId: number;
+  actorNickname: string;
+  actorProfileImage: string;
   type: NotificationType;
-  user: User;
-  group?: Group;
+  message: string;
+  isRead: boolean;
+  relatedId: number;
+  relatedType: NotificationType;
+  redirectUrl: string;
   createdAt: string;
 }

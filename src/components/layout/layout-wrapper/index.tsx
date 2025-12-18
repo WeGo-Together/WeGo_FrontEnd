@@ -2,11 +2,14 @@
 
 import { usePathname } from 'next/navigation';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { GNB } from '@/components/layout/gnb';
 import { Header } from '@/components/layout/header';
 import { GroupSearch } from '@/components/pages/group-search';
+import { Toast } from '@/components/ui';
+import { useToast } from '@/components/ui/toast/core';
+import { useNotification } from '@/providers/provider-notification';
 
 interface Props {
   children: React.ReactNode;
@@ -24,6 +27,15 @@ export const LayoutWrapper = ({ children }: Props) => {
   }, [pathname]);
 
   const mainMinHeight = `calc(100vh - ${headerHeightPx + 56}px)`;
+
+  const { notificationData } = useNotification();
+  const { run } = useToast();
+
+  useEffect(() => {
+    if (!notificationData) return;
+    console.log(notificationData);
+    run(<Toast>{notificationData.message}</Toast>);
+  }, [notificationData, run]);
 
   return (
     <div className='relative mx-auto max-w-110 bg-gray-100'>
