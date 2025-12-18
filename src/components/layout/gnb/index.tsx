@@ -33,7 +33,7 @@ const NAV_MENU = [
   },
   {
     path: '/message',
-    svgId: 'message-read',
+    svgId: 'message',
   },
   {
     path: '/mypage',
