@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import { SearchBar } from '@/components/shared';
 
-export const GroupSearch = () => {
+export const GroupSearchBar = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentKeyword = searchParams.get('keyword') || '';
@@ -20,11 +20,13 @@ export const GroupSearch = () => {
   };
 
   return (
-    <SearchBar
-      className='h-11'
-      defaultValue={currentKeyword}
-      placeholder='원하는 모임을 검색해보세요'
-      onSearch={handleSearch}
-    />
+    <div className='sticky top-14 z-100 bg-white px-5 pb-3'>
+      <SearchBar
+        className='h-11'
+        defaultValue={currentKeyword}
+        placeholder='원하는 모임을 검색해보세요'
+        onSearch={handleSearch}
+      />
+    </div>
   );
 };
