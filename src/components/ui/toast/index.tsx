@@ -7,8 +7,8 @@ const toastVariants = cva(
   {
     variants: {
       type: {
-        info: 'text-mono-white bg-[#0D2D3A]/50',
-        // success: 'text-mono-white bg-green-600',
+        info: 'text-mono-white bg-[#0D2D3A]/80',
+        success: 'text-mono-white bg-[#0D2D3A]/80',
         // error: 'text-mono-white bg-red-600',
         // warning: 'text-mono-white bg-yellow-600',
       },
@@ -20,8 +20,8 @@ const toastVariants = cva(
 );
 
 const toastIcons = {
-  info: 'congratulate',
-  // success: 'check-circle',
+  info: '',
+  success: 'congratulate',
   // error: 'alert-circle',
   // warning: 'alert-triangle',
 } as const;
@@ -34,7 +34,7 @@ interface Props {
 export const Toast = ({ type = 'info', children }: Props) => {
   return (
     <div className={toastVariants({ type })}>
-      <Icon id={toastIcons[type]} className='size-6' />
+      {toastIcons[type] && <Icon id={toastIcons[type]} className='size-6' />}
       {children}
     </div>
   );
