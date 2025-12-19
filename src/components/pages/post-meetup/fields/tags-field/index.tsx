@@ -6,7 +6,7 @@ import { AnyFieldApi } from '@tanstack/react-form';
 import clsx from 'clsx';
 
 import { Icon } from '@/components/icon';
-import { Input, Label } from '@/components/ui';
+import { Hint, Input, Label } from '@/components/ui';
 
 interface Props {
   field: AnyFieldApi;
@@ -21,16 +21,18 @@ export const MeetupTagsField = ({ field }: Props) => {
     if (e.nativeEvent.isComposing) return;
 
     const isUniqueTag = !field.state.value.includes(inputValue);
-    const nonEmpty = inputValue.trim();
-    const tagsCount = field.state.value.length;
+    const isValidTag = inputValue.trim() && inputValue.length <= 8;
+    const isBelowMaxLength = field.state.value.length < 10;
 
-    if (isUniqueTag && nonEmpty && tagsCount < 10) {
+    if (isUniqueTag && isValidTag && isBelowMaxLength) {
       field.pushValue(inputValue);
     }
 
     inputRef.current?.focus();
     setInputValue('');
   };
+
+  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
   return (
     <div className='flex w-full flex-col gap-1'>
@@ -74,6 +76,7 @@ export const MeetupTagsField = ({ field }: Props) => {
       </ul>
 
       <p className='text-text-sm-medium px-2 text-gray-500'>최대 10개까지 업로드할 수 있어요.</p>
+      {isInvalid && <Hint className='mt-0.5' message={field.state.meta.errors[0].message} />}
     </div>
   );
 };
