@@ -34,6 +34,7 @@ const PostMeetupPage = () => {
     } as CreateGroupFormValues,
     validators: {
       onChange: createGroupSchema,
+      onSubmit: createGroupSchema,
     },
     onSubmit: async ({ value }) => {
       const images = [] as PreUploadGroupImageResponse['images'];
