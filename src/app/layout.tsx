@@ -11,7 +11,7 @@ import { Providers } from './providers';
 export const metadata: Metadata = {
   title: 'WeGo',
   description: 'WeGo에서 새로운 인연들을 만나보세요!',
-  icons: './favicon.svg',
+  icons: '/favicon.svg',
 };
 
 initMocks();

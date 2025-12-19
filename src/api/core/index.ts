@@ -70,31 +70,37 @@ baseAPI.interceptors.response.use(
   },
 );
 
+type ApiVersionType = 'v1' | 'v2';
+
 // 공통 응답 형식 처리를 위한 api 헬퍼
-export const api = {
+const apiHelper = (v: ApiVersionType = 'v1') => ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   get: async <T>(url: string, config?: any): Promise<T> => {
-    const response = await baseAPI.get<CommonSuccessResponse<T>>(url, config);
+    const response = await baseAPI.get<CommonSuccessResponse<T>>(`/api/${v}${url}`, config);
     return response.data.data;
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   post: async <T>(url: string, data?: any, config?: any): Promise<T> => {
-    const response = await baseAPI.post<CommonSuccessResponse<T>>(url, data, config);
+    const response = await baseAPI.post<CommonSuccessResponse<T>>(`/api/${v}${url}`, data, config);
     return response.data.data;
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   put: async <T>(url: string, data?: any, config?: any): Promise<T> => {
-    const response = await baseAPI.put<CommonSuccessResponse<T>>(url, data, config);
+    const response = await baseAPI.put<CommonSuccessResponse<T>>(`/api/${v}${url}`, data, config);
     return response.data.data;
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   delete: async <T>(url: string, config?: any): Promise<T> => {
-    const response = await baseAPI.delete<CommonSuccessResponse<T>>(url, config);
+    const response = await baseAPI.delete<CommonSuccessResponse<T>>(`/api/${v}${url}`, config);
     return response.data.data;
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   patch: async <T>(url: string, data?: any, config?: any): Promise<T> => {
-    const response = await baseAPI.patch<CommonSuccessResponse<T>>(url, data, config);
+    const response = await baseAPI.patch<CommonSuccessResponse<T>>(`/api/${v}${url}`, data, config);
     return response.data.data;
   },
-};
+});
+
+export const api = apiHelper('v1'); // breaking change 방지용
+export const apiV1 = apiHelper('v1');
+export const apiV2 = apiHelper('v2');
