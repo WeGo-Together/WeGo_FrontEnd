@@ -20,7 +20,6 @@ import { PreUploadGroupImageResponse } from '@/types/service/group';
 
 const PostMeetupPage = () => {
   const { replace } = useRouter();
-
   const { mutateAsync: createGroup } = useCreateGroup();
 
   const form = useForm({
@@ -34,11 +33,9 @@ const PostMeetupPage = () => {
       images: [],
     } as CreateGroupFormValues,
     validators: {
-      onSubmit: createGroupSchema,
+      onChange: createGroupSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
-
       const images = [] as PreUploadGroupImageResponse['images'];
 
       if (value.images) {
@@ -51,6 +48,7 @@ const PostMeetupPage = () => {
       }
 
       const res = await createGroup({ ...value, images: images });
+
       replace(`/meetup/${res.id}`);
     },
   });
@@ -74,7 +72,12 @@ const PostMeetupPage = () => {
           <form.Field children={(field) => <MeetupTagsField field={field} />} name='tags' />
         </section>
 
-        <MeetupSubmitButton onSubmitClick={() => form.handleSubmit()} />
+        <form.Subscribe
+          children={(state) => (
+            <MeetupSubmitButton state={state} onSubmitClick={() => form.handleSubmit()} />
+          )}
+          selector={(state) => state}
+        />
       </form>
     </div>
   );
