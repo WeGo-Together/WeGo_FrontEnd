@@ -8,11 +8,12 @@ interface Props {
 
 export const MBTIField = ({ field }: Props) => {
   const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+  const fieldId = 'profile-mbti';
   return (
     <div className='mt-3 flex w-full flex-col gap-1'>
-      <Label htmlFor='post-meetup-title'>MBTI</Label>
-
+      <Label htmlFor={fieldId}>MBTI</Label>
       <Input
+        id={fieldId}
         className='bg-mono-white focus:border-mint-500 rounded-2xl border border-gray-300'
         maxLength={4}
         placeholder='MBTI를 입력해주세요'

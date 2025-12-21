@@ -23,10 +23,10 @@ export const validateImage = async (file: File): Promise<{ valid: boolean; error
 
   // 3. 파일 사이즈 검증
   const { width, height } = await getImageDimensions(file);
-  if (width > 2000 || height > 2000) {
+  if (width > IMAGE_CONFIG.maxWidth || height > IMAGE_CONFIG.maxHeight) {
     return {
       valid: false,
-      error: `이미지는 2000x2000 이하여야 합니다. \n현재: 너비(${width}), 높이(${height})`,
+      error: `이미지는 ${IMAGE_CONFIG.maxWidth}x${IMAGE_CONFIG.maxHeight} 이하여야 합니다. \n현재: 너비(${width}), 높이(${height})`,
     };
   }
 

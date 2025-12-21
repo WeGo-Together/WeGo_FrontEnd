@@ -32,8 +32,8 @@ export const ProfileEditModal = ({ user }: Props) => {
 
   const { close } = useModal();
 
-  const { mutateAsync: updateUser, error: userInfoError } = useUpdateUser();
-  const { mutateAsync: updateUserImage, error: userImageError } = useUserImageUpdate();
+  const { mutateAsync: updateUser, error: _userInfoError } = useUpdateUser();
+  const { mutateAsync: updateUserImage, error: _userImageError } = useUserImageUpdate();
 
   const form = useForm({
     defaultValues: {
@@ -84,15 +84,7 @@ export const ProfileEditModal = ({ user }: Props) => {
         }
         close();
       } catch {
-        /*
-        이미지 변경과 정보 변경 중 하나라도 실패하면 각 항목에 대한 에러메시지 alert
-        todo: toast로 변경
-        */
-        const errors = [];
-        if (userInfoError) errors.push('사용자 정보');
-        if (userImageError) errors.push('프로필 이미지');
-
-        alert(`${errors.join(', ')} 업데이트에 실패했습니다. 다시 시도해주세요`);
+        alert(`업데이트에 실패했습니다. 잠시 후 다시 시도해주세요`);
       }
     },
   });
