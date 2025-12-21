@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { API } from '@/api';
 import { userKeys } from '@/lib/query-key/query-key-user';
 
-export const useGetMe = () => {
+export const useUserGetMe = () => {
   const query = useQuery({
     queryKey: userKeys.me(),
     queryFn: () => API.userService.getMe(),

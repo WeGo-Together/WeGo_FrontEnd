@@ -1,9 +1,9 @@
 'use client';
 import { MyPageInfo, MyPageSetting } from '@/components/pages/user/mypage';
-import { useGetMe } from '@/hooks/use-user/use-user-get-me';
+import { useUserGetMe } from '@/hooks/use-user/use-user-get-me';
 
 const MyPage = () => {
-  const { data: user } = useGetMe();
+  const { data: user } = useUserGetMe();
 
   if (!user) return null;
   return (
