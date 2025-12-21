@@ -1,12 +1,14 @@
 import { AnyFieldApi } from '@tanstack/react-form';
 
-import { Input, Label } from '@/components/ui';
+import { Hint, Input, Label } from '@/components/ui';
 
 interface Props {
   field: AnyFieldApi;
 }
 
 export const NickNameField = ({ field }: Props) => {
+  const isInvalid = !field.state.meta.isValid;
+
   return (
     <div className='flex w-full flex-col gap-1'>
       <Label htmlFor='post-meetup-title' required>
@@ -21,6 +23,7 @@ export const NickNameField = ({ field }: Props) => {
         value={field.state.value}
         onChange={(e) => field.handleChange(e.target.value)}
       />
+      {isInvalid && <Hint message={field.state.meta.errors[0].message} />}
     </div>
   );
 };
