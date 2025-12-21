@@ -8,8 +8,8 @@ export const useUpdateUser = () => {
   const queryClient = useQueryClient();
   const query = useMutation({
     mutationFn: (payload: UpdateMyInfoPayloads) => API.userService.updateMyInfo(payload),
-    onSuccess: (data, _variables, _context) => {
-      queryClient.invalidateQueries({ queryKey: userKeys.item(data.userId) });
+    onSuccess: (_data, _variables, _context) => {
+      queryClient.invalidateQueries({ queryKey: userKeys.me() });
     },
     onError: () => {},
   });
