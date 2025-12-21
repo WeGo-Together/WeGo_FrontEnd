@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import { validateImage } from '@/lib/validateImage';
+
 export type ImageRecord = Record<string, File | null>;
 
 export interface ImageInputProps {
@@ -103,6 +105,18 @@ export const ImageInput = ({
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
+
+    for (const file of files) {
+      const validation = validateImage(file);
+      if (!validation.valid) {
+        // toast.error(validation.error);
+        alert(validation.error);
+        e.target.value = '';
+        return;
+      }
+    }
+
+    // 검증통과 하면 이미지 추가
     addImages(files);
     e.target.value = '';
   };
