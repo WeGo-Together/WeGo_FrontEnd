@@ -51,6 +51,7 @@ baseAPI.interceptors.response.use(
     const originalRequest = error.config;
 
     if (status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
       try {
         await API.authService.refresh();
         return baseAPI(originalRequest);
