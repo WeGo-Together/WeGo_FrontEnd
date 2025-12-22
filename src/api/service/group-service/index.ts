@@ -48,15 +48,15 @@ export const groupServiceRemote = () => ({
   },
 
   attendGroup: (payload: GroupIdPayload) => {
-    return api.post<GetGroupDetailsResponse>(`/groups/${payload.groupId}/attend`);
+    return apiV2.post<GetGroupDetailsResponse>(`/groups/${payload.groupId}/attend`);
   },
 
-  cancelGroup: (payload: GroupIdPayload) => {
-    return api.post<GetGroupDetailsResponse>(`/groups/${payload.groupId}/cancel`);
+  leaveGroup: (payload: GroupIdPayload) => {
+    return apiV2.post<GetGroupDetailsResponse>(`/groups/${payload.groupId}/left`);
   },
 
   deleteGroup: (payload: GroupIdPayload) => {
-    return api.delete(`/groups/${payload.groupId}`);
+    return apiV2.delete(`/groups/${payload.groupId}`);
   },
 
   uploadGroupImages: (payload: FormData) => {

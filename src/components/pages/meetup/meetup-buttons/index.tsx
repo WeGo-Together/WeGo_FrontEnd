@@ -37,7 +37,7 @@ export const MeetupButtons = ({
             className='flex-[1.2]'
             variant='tertiary'
             onClick={() =>
-              open(<MeetupModal groupId={groupId} type={isHost ? 'delete' : 'cancel'} />)
+              open(<MeetupModal groupId={groupId} type={isHost ? 'delete' : 'leave'} />)
             }
           >
             {isHost ? '모임 취소' : '모임 탈퇴'}

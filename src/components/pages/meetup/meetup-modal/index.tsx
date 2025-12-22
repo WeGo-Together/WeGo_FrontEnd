@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui';
 import { ModalContent, ModalDescription, ModalTitle, useModal } from '@/components/ui/modal';
 import { useAttendGroup } from '@/hooks/use-group/use-group-attend';
-import { useCancelGroup } from '@/hooks/use-group/use-group-cancel';
 import { useDeleteGroup } from '@/hooks/use-group/use-group-delete';
+import { useLeaveGroup } from '@/hooks/use-group/use-group-leave';
 
 interface Props {
-  type: 'attend' | 'cancel' | 'delete';
+  type: 'attend' | 'leave' | 'delete';
   groupId: string;
 }
 
@@ -17,7 +17,7 @@ export const MeetupModal = ({ type, groupId }: Props) => {
   const { replace } = useRouter();
   const { close } = useModal();
   const { mutate: attendMutate, isPending: isAttending } = useAttendGroup({ groupId }, close);
-  const { mutate: cancelMutate, isPending: isCanceling } = useCancelGroup({ groupId }, close);
+  const { mutate: leaveMutate, isPending: isCanceling } = useLeaveGroup({ groupId }, close);
   const { mutate: deleteMutate, isPending: isDeleting } = useDeleteGroup({ groupId }, () => {
     close();
     replace('/');
@@ -29,7 +29,7 @@ export const MeetupModal = ({ type, groupId }: Props) => {
 
   const handleConfirmClick = () => {
     if (type === 'attend') attendMutate();
-    else if (type === 'cancel') cancelMutate();
+    else if (type === 'leave') leaveMutate();
     else if (type === 'delete') deleteMutate();
   };
 
@@ -65,7 +65,7 @@ const MODAL_MESSAGE = {
     description: '참여 후 바로 그룹채팅에 참여할 수 있어요!',
     confirm: '참여하기',
   },
-  cancel: {
+  leave: {
     title: '모임을 정말 탈퇴하시겠어요?',
     description: '탈퇴 시 그룹채팅과 모임 활동이 종료돼요.',
     confirm: '탈퇴하기',
