@@ -18,7 +18,7 @@ export const MeetupDetailField = ({ field }: Props) => {
       </Label>
       <textarea
         id='post-meetup-Detail'
-        className='bg-mono-white focus:border-mint-500 text-text-md-medium h-40 w-full resize-none rounded-2xl border border-gray-300 px-5 py-4 text-gray-800 focus:outline-none'
+        className='bg-mono-white scrollbar-thin focus:border-mint-500 text-text-md-medium h-40 w-full resize-none rounded-2xl border border-gray-300 px-5 py-4 text-gray-800 focus:outline-none'
         maxLength={300}
         placeholder='모임에 대해 설명해주세요'
         required
@@ -27,7 +27,7 @@ export const MeetupDetailField = ({ field }: Props) => {
       />
       <div className='mt-0.5 flex'>
         {isInvalid && <Hint message={field.state.meta.errors[0].message} />}
-        <div className='text-text-sm-medium w-full text-right text-gray-500'>
+        <div className='text-text-sm-medium ml-auto text-right text-gray-500'>
           {field.state.value.length}/300
         </div>
       </div>

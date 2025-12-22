@@ -90,7 +90,7 @@
     />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="congratulate" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#bea)">
+    <g clip-path="url(#bfa)">
       <path
         fill="#FFDC2D"
         d="M2.599 22.259c-1.214.48-2.414-.721-1.934-1.934l5.903-14.92 10.95 10.95z"
@@ -117,7 +117,7 @@
       <circle cx="18.512" cy="19.561" r=".745" fill="#FF6F00" />
     </g>
     <defs>
-      <clipPath id="bea"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
+      <clipPath id="bfa"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
     </defs>
   </symbol>
   <symbol fill="none" viewBox="0 0 20 20" id="edit" xmlns="http://www.w3.org/2000/svg">
@@ -197,53 +197,14 @@
       d="M12 1a9 9 0 0 1 9 9c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 9-9m0 6a3 3 0 1 0 0 6 3 3 0 0 0 0-6"
     />
   </symbol>
-  <symbol fill="none" viewBox="0 0 24 24" id="message-read" xmlns="http://www.w3.org/2000/svg">
+  <symbol fill="none" viewBox="0 0 24 24" id="message" xmlns="http://www.w3.org/2000/svg">
     <path
-      stroke="#A5AFB6"
+      stroke="currentColor"
       stroke-linecap="round"
       stroke-linejoin="round"
       stroke-width="2"
       d="M21 16a2 2 0 0 1-2 2H7l-4 3V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
     />
-  </symbol>
-  <symbol
-    fill="none"
-    viewBox="0 0 24 24"
-    id="message-read-activate"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      stroke="#00C9EC"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M21 16a2 2 0 0 1-2 2H7l-4 3V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-    />
-  </symbol>
-  <symbol fill="none" viewBox="0 0 24 24" id="message-unread" xmlns="http://www.w3.org/2000/svg">
-    <path
-      stroke="#A5AFB6"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M21 16a2 2 0 0 1-2 2H7l-4 3V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-    />
-    <circle cx="20" cy="4" r="4" fill="#00C9EC" />
-  </symbol>
-  <symbol
-    fill="none"
-    viewBox="0 0 24 24"
-    id="message-unread-activate"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      stroke="#00C9EC"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M21 16a2 2 0 0 1-2 2H7l-4 3V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-    />
-    <circle cx="20" cy="4" r="4" fill="#00C9EC" />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="plus" xmlns="http://www.w3.org/2000/svg">
     <path
@@ -255,7 +216,7 @@
     />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="plus-circle" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#bja)">
+    <g clip-path="url(#bga)">
       <path
         fill="#00C9EC"
         d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12"
@@ -269,7 +230,7 @@
       />
     </g>
     <defs>
-      <clipPath id="bja"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
+      <clipPath id="bga"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
     </defs>
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="search" xmlns="http://www.w3.org/2000/svg">
@@ -282,7 +243,7 @@
     />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="send" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#asa)">
+    <g clip-path="url(#ata)">
       <path
         stroke="currentColor"
         stroke-linecap="round"
@@ -292,7 +253,7 @@
       />
     </g>
     <defs>
-      <clipPath id="asa"><path fill="currentColor" d="M0 0h24v24H0z" /></clipPath>
+      <clipPath id="ata"><path fill="currentColor" d="M0 0h24v24H0z" /></clipPath>
     </defs>
   </symbol>
   <symbol fill="none" viewBox="0 0 12 12" id="small-x-1" xmlns="http://www.w3.org/2000/svg">

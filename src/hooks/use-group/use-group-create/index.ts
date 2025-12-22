@@ -6,7 +6,7 @@ import { CreateGroupPayload } from '@/types/service/group';
 export const useCreateGroup = () => {
   const query = useMutation({
     mutationFn: (payload: CreateGroupPayload) => API.groupService.createGroup(payload),
-    onSuccess: () => {
+    onSuccess: async () => {
       console.log('모임 생성 성공.');
     },
     onError: () => {

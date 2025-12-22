@@ -18,7 +18,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    type: 'info',
+    type: 'success',
     children: '모임 신청 완료! Share the fun',
   },
   parameters: {
@@ -43,13 +43,13 @@ export const Default: Story = {
           </thead>
           <tbody>
             <tr className='border-b'>
-              <td className='px-4 py-4'>info</td>
+              <td className='px-4 py-4'>success</td>
               <td className='px-4 py-4'>
-                <Toast type='info'>모임 신청 완료! Share the fun</Toast>
+                <Toast type='success'>모임 신청 완료! Share the fun</Toast>
               </td>
               <td className='px-4 py-4'>
                 <code className='rounded bg-gray-100 px-2 py-1 text-sm'>
-                  {`<Toast type="info">모임 신청 완료! Share the fun</Toast>`}
+                  {`<Toast type="success">모임 신청 완료! Share the fun</Toast>`}
                 </code>
               </td>
             </tr>
@@ -62,7 +62,7 @@ export const Default: Story = {
 
 export const Code_Snippet: Story = {
   args: {
-    type: 'info',
+    type: 'success',
     children: '모임 신청 완료! Share the fun',
   },
   parameters: {
@@ -79,7 +79,7 @@ export const Code_Snippet: Story = {
             className='rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600'
             onClick={() => {
               console.log('Button clicked');
-              run(<Toast type='info'>모임 신청 완료! Share the fun</Toast>);
+              run(<Toast type='success'>모임 신청 완료! Share the fun</Toast>);
               console.log('Toast run called');
             }}
           >
@@ -99,7 +99,7 @@ const HomePage = () => {
   const { run } = useToast();
   return (
     <div>
-      <button onClick={() => run(<Toast type='info'>모임 신청 완료! Share the fun</Toast>)}>
+      <button onClick={() => run(<Toast type='success'>모임 신청 완료! Share the fun</Toast>)}>
         토스트 실행
       </button>
     </div>
