@@ -81,9 +81,8 @@ export interface PreUploadGroupImagePayload {
 
 export interface PreUploadGroupImageResponse {
   images: {
+    imageKey: string;
     sortOrder: number;
-    imageUrl440x240: string;
-    imageUrl100x100: string;
   }[];
 }
 
