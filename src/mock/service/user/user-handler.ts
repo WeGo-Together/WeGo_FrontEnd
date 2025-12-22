@@ -23,6 +23,12 @@ const getUserItemMock = http.get(`*/users/:userId`, ({ params }) => {
   return HttpResponse.json(createMockSuccessResponse(user));
 });
 
+const getMeItemMock = http.get(`*/users/me`, () => {
+  const id = 1;
+  const user = mockUserItems.find((item) => item.userId === id);
+  return HttpResponse.json(createMockSuccessResponse(user));
+});
+
 const updateUserItemMock = http.patch(`*/users`, async ({ request }) => {
   const body = (await request.json()) as User;
   return HttpResponse.json(
@@ -47,6 +53,7 @@ const unfollowUserItemMock = http.delete(`*/follows/:followId`, async () => {
 
 export const userHandlers = [
   getUserItemMock,
+  getMeItemMock,
   updateUserItemMock,
   deleteUserItemMock,
   followUserItemMock,
