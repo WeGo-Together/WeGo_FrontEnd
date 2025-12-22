@@ -30,7 +30,7 @@ export const MeetupDescriptions = ({
     status,
     createdBy,
     createdAt,
-    address: { location },
+    address,
     title,
     tags,
     description,
@@ -49,7 +49,7 @@ export const MeetupDescriptions = ({
       <DescriptionTitle title={title} />
       <DescriptionTags tags={tags} />
       <DescriptionDetail detail={description} />
-      <DescriptionSetting setting={{ location, startTime }} />
+      <DescriptionSetting setting={{ address, startTime }} />
       <DescriptionProgress createdAt={createdAt} progress={{ maxParticipants, participantCount }} />
     </section>
   );
