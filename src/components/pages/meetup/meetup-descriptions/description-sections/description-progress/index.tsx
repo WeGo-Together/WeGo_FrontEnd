@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { formatTimeAgo } from '@/lib/formatDateTime';
 import { GetGroupDetailsResponse } from '@/types/service/group';
 
@@ -13,7 +15,12 @@ export const DescriptionProgress = ({
   progress: { maxParticipants, participantCount },
   createdAt,
 }: Props) => {
+  const [timeAgo, setTimeAgo] = useState<string | null>(null);
   const progressRate = Math.ceil((participantCount / maxParticipants) * 100);
+
+  useEffect(() => {
+    setTimeAgo(formatTimeAgo(createdAt));
+  }, [createdAt]);
 
   return (
     <div className='mt-6 select-none'>
@@ -30,7 +37,7 @@ export const DescriptionProgress = ({
       </div>
 
       <div className='mt-4'>
-        <p className='text-text-xs-medium text-right text-gray-500'>{formatTimeAgo(createdAt)}</p>
+        <p className='text-text-xs-medium h-4.5 text-right text-gray-500'>{timeAgo}</p>
       </div>
     </div>
   );

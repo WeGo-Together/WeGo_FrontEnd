@@ -13,7 +13,6 @@ export const ImageField = ({ field, initialImages }: Props) => {
   return (
     <div className='flex-center py-6'>
       <ImageInput
-        accept='image/*'
         initialImages={initialImages}
         maxFiles={1}
         mode='replace'
