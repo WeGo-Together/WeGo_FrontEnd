@@ -53,6 +53,15 @@
     />
     <path fill="currentColor" d="M3 4h18v6H3z" />
   </symbol>
+  <symbol fill="none" viewBox="0 0 24 24" id="check" xmlns="http://www.w3.org/2000/svg">
+    <path
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2.5"
+      d="m17 8-6.875 7L7 11.818"
+    />
+  </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="chevron-left-1" xmlns="http://www.w3.org/2000/svg">
     <path
       stroke="currentColor"
@@ -90,7 +99,7 @@
     />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="congratulate" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#bfa)">
+    <g clip-path="url(#bga)">
       <path
         fill="#FFDC2D"
         d="M2.599 22.259c-1.214.48-2.414-.721-1.934-1.934l5.903-14.92 10.95 10.95z"
@@ -117,7 +126,7 @@
       <circle cx="18.512" cy="19.561" r=".745" fill="#FF6F00" />
     </g>
     <defs>
-      <clipPath id="bfa"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
+      <clipPath id="bga"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
     </defs>
   </symbol>
   <symbol fill="none" viewBox="0 0 20 20" id="edit" xmlns="http://www.w3.org/2000/svg">
@@ -216,7 +225,7 @@
     />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="plus-circle" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#bga)">
+    <g clip-path="url(#bha)">
       <path
         fill="#00C9EC"
         d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12"
@@ -230,7 +239,7 @@
       />
     </g>
     <defs>
-      <clipPath id="bga"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
+      <clipPath id="bha"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
     </defs>
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="search" xmlns="http://www.w3.org/2000/svg">
@@ -243,7 +252,7 @@
     />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="send" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#ata)">
+    <g clip-path="url(#aua)">
       <path
         stroke="currentColor"
         stroke-linecap="round"
@@ -253,7 +262,7 @@
       />
     </g>
     <defs>
-      <clipPath id="ata"><path fill="currentColor" d="M0 0h24v24H0z" /></clipPath>
+      <clipPath id="aua"><path fill="currentColor" d="M0 0h24v24H0z" /></clipPath>
     </defs>
   </symbol>
   <symbol fill="none" viewBox="0 0 12 12" id="small-x-1" xmlns="http://www.w3.org/2000/svg">
