@@ -125,16 +125,25 @@ export interface CreateGroupResponse {
 export interface GetGroupDetailsResponse {
   id: number;
   title: string;
-  location: string;
-  locationDetail: string;
+  status: 'RECRUITING' | 'FULL' | 'FINISHED';
+  address: {
+    location: string;
+    locationDetail: string;
+  };
   startTime: string;
   endTime: string;
   images: {
+    groupImageId: number;
+    imageKey: string;
     sortOrder: number;
-    imageId440x240: number;
-    imageId100x100: number;
-    imageUrl440x240: string;
-    imageUrl100x100: string;
+    variants: {
+      variantId: number;
+      type: 'CARD_440_240' | 'THUMBNAIL_100_100';
+      width: number;
+      height: number;
+      format: 'WEBP';
+      imageUrl: string;
+    }[];
   }[];
   tags: string[];
   description: string;
@@ -148,16 +157,21 @@ export interface GetGroupDetailsResponse {
   };
   createdAt: string;
   updatedAt: string;
-  userStatus: {
-    isJoined: boolean;
+  myMembership: {
+    groupUserId: number;
+    role: 'HOST' | 'MEMBER';
+    status: 'ATTEND' | 'LEFT';
     joinedAt: string;
+    leftAt: string;
   };
   joinedMembers: {
     userId: 0;
     groupRole: 'HOST' | 'MEMBER';
+    status: 'ATTEND' | 'LEFT';
     nickName: string;
     profileImage: string;
     joinedAt: string;
+    leftAt: string;
   }[];
 }
 
