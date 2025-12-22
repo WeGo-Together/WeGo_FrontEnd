@@ -4,11 +4,11 @@ import { API } from '@/api';
 import { groupKeys } from '@/lib/query-key/query-key-group';
 import { GroupIdPayload } from '@/types/service/group';
 
-export const useCancelGroup = (payload: GroupIdPayload, callback: () => void) => {
+export const useLeaveGroup = (payload: GroupIdPayload, callback: () => void) => {
   const queryClient = useQueryClient();
 
   const query = useMutation({
-    mutationFn: () => API.groupService.cancelGroup(payload),
+    mutationFn: () => API.groupService.leaveGroup(payload),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: groupKeys.detail(payload.groupId) });
       callback();
