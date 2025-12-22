@@ -5,11 +5,10 @@
 import { MeetupModal } from '@/components/pages/meetup/meetup-modal';
 import { Button } from '@/components/ui/button';
 import { useModal } from '@/components/ui/modal';
-import { GetGroupDetailsResponse } from '@/types/service/group';
 
 interface Props {
   conditions: {
-    isJoined: GetGroupDetailsResponse['userStatus']['isJoined'];
+    isJoined: boolean;
     isHost: boolean;
     isPast: boolean;
     isAttendDisabled: boolean;

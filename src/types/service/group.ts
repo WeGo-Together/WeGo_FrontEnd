@@ -157,13 +157,13 @@ export interface GetGroupDetailsResponse {
   };
   createdAt: string;
   updatedAt: string;
-  myMembership: {
+  myMembership?: {
     groupUserId: number;
     role: 'HOST' | 'MEMBER';
     status: 'ATTEND' | 'LEFT';
     joinedAt: string;
     leftAt: string;
-  };
+  } | null;
   joinedMembers: {
     userId: 0;
     groupRole: 'HOST' | 'MEMBER';
