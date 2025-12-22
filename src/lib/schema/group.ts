@@ -18,6 +18,7 @@ export const createGroupSchema = z.object({
   images: z
     .array(
       z.object({
+        imageKey: z.string(),
         sortOrder: z.number(),
         imageUrl440x240: z.string(),
         imageUrl100x100: z.string(),
