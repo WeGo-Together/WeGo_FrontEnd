@@ -3,11 +3,15 @@
 import { type AnyFieldApi, useForm } from '@tanstack/react-form';
 
 import { API } from '@/api';
+import { Icon } from '@/components/icon';
 import { FormInput } from '@/components/shared';
-import { Button } from '@/components/ui';
+import { Button, useModal } from '@/components/ui';
 import { useSignup } from '@/hooks/use-auth';
 import { useAvailabilityCheck } from '@/hooks/use-auth/use-auth-availabilityCheck';
 import { signupSchema } from '@/lib/schema/auth';
+import { cn } from '@/lib/utils';
+
+import { SignupAgreementModal } from '../signup-agreement-modal';
 
 const getHintMessage = (field: AnyFieldApi) => {
   const {
@@ -23,6 +27,7 @@ const getHintMessage = (field: AnyFieldApi) => {
 
 export const SignupForm = () => {
   const signup = useSignup();
+  const { open } = useModal();
 
   const form = useForm({
     defaultValues: {
@@ -30,6 +35,7 @@ export const SignupForm = () => {
       nickname: '',
       password: '',
       confirmPassword: '',
+      termsAgreement: false,
     },
     validators: {
       onChange: signupSchema,
@@ -83,11 +89,11 @@ export const SignupForm = () => {
           {(field) => {
             const validationHint = getHintMessage(field);
 
-            const value = field.state.value.trim();
+            const trimmedValue = field.state.value.trim();
             const hasValidationError = field.state.meta.errors.length > 0;
 
             const availabilityButtonDisabled =
-              !value || hasValidationError || emailCheck.isChecking;
+              !trimmedValue || hasValidationError || emailCheck.isChecking;
 
             return (
               <FormInput
@@ -107,7 +113,7 @@ export const SignupForm = () => {
                 }}
                 labelName='이메일'
                 onClick={() => {
-                  void emailCheck.check(field.state.value);
+                  void emailCheck.check(trimmedValue);
                   console.log(nicknameCheck.state);
                 }}
               />
@@ -119,11 +125,11 @@ export const SignupForm = () => {
           {(field) => {
             const validationHint = getHintMessage(field);
 
-            const value = field.state.value.trim();
+            const trimmedValue = field.state.value.trim();
             const hasValidationError = field.state.meta.errors.length > 0;
 
             const availabilityButtonDisabled =
-              !value || hasValidationError || nicknameCheck.isChecking;
+              !trimmedValue || hasValidationError || nicknameCheck.isChecking;
 
             return (
               <FormInput
@@ -142,7 +148,7 @@ export const SignupForm = () => {
                 }}
                 labelName='닉네임'
                 onClick={() => {
-                  nicknameCheck.check(field.state.value);
+                  nicknameCheck.check(trimmedValue);
                   console.log(nicknameCheck.state);
                 }}
               />
@@ -191,23 +197,56 @@ export const SignupForm = () => {
         </form.Field>
       </div>
 
-      <form.Subscribe
-        selector={(state) => ({
-          canSubmit: state.canSubmit,
-          isSubmitting: state.isSubmitting,
-          isPristine: state.isPristine,
-        })}
-      >
-        {({ canSubmit: formCanSubmit, isSubmitting, isPristine }) => {
-          const disabled = !formCanSubmit || isSubmitting || isPristine || !canSubmit;
+      <div className='flex-col-center w-full gap-4'>
+        <form.Field name='termsAgreement'>
+          {(field) => {
+            const checked = Boolean(field.state.value);
+            return (
+              <div className='flex w-full items-center justify-between'>
+                <label className='flex-center cursor-pointer'>
+                  <input
+                    className='peer sr-only'
+                    checked={checked}
+                    name={field.name}
+                    type='checkbox'
+                    onChange={(e) => field.handleChange(e.target.checked)}
+                  />
+                  <Icon id='check' className={cn(checked ? 'text-mint-500' : 'text-gray-500')} />
+                  <span className='text-text-sm-medium text-gray-700'>
+                    서비스 이용약관에 동의합니다.
+                  </span>
+                </label>
 
-          return (
-            <Button disabled={disabled} size='md' type='submit' variant='primary'>
-              회원가입하기
-            </Button>
-          );
-        }}
-      </form.Subscribe>
+                <button
+                  className='text-text-sm-medium text-gray-500 underline'
+                  type='button'
+                  onClick={() => open(<SignupAgreementModal />)}
+                >
+                  보기
+                </button>
+              </div>
+            );
+          }}
+        </form.Field>
+
+        <form.Subscribe
+          selector={(state) => ({
+            canSubmit: state.canSubmit,
+            isSubmitting: state.isSubmitting,
+            isPristine: state.isPristine,
+          })}
+        >
+          {({ canSubmit: formCanSubmit, isSubmitting, isPristine }) => {
+            const disabled = !formCanSubmit || isSubmitting || isPristine || !canSubmit;
+
+            return (
+              <Button disabled={disabled} size='md' type='submit' variant='primary'>
+                회원가입하기
+              </Button>
+            );
+          }}
+        </form.Subscribe>
+      </div>
     </form>
   );
 };

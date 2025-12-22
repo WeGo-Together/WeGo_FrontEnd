@@ -16,8 +16,14 @@ export const signupSchema = loginSchema
     password: z
       .string()
       .min(8, '비밀번호는 8자 이상이어야 합니다.')
-      .regex(/[!@#$%^&*]/, '!, @, #, $, %, ^, &, * 중 1개 이상 포함해야 합니다.'),
-    confirmPassword: z.string(),
+      .regex(/[!@#$%^&*]/, '!, @, #, $, %, ^, &, * 중 1개 이상 포함해야 합니다.')
+      .regex(/\d/, '숫자를 1개 이상 포함해야 합니다.'),
+    confirmPassword: z.string().min(1, '비밀번호 확인을 입력해주세요.'),
+    termsAgreement: z.literal(true),
+  })
+  .refine((data) => data.termsAgreement === true, {
+    path: ['termsAgreement'],
+    message: '서비스 이용약관에 동의해주세요.',
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ['confirmPassword'],

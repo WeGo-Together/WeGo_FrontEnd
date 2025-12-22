@@ -9,6 +9,7 @@ export type DynamicIconId =
   | 'bell-read'
   | 'calendar-1'
   | 'calendar-2'
+  | 'check'
   | 'chevron-left-1'
   | 'chevron-left-2'
   | 'chevron-right-1'
@@ -76,6 +77,10 @@ export const iconMetadataMap: IconMetadata[] = [
   },
   {
     id: 'calendar-2',
+    variant: 'dynamic',
+  },
+  {
+    id: 'check',
     variant: 'dynamic',
   },
   {
