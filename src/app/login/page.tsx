@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 
 import { Icon } from '@/components/icon';
-import { LoginForm } from '@/components/pages/login';
+import { LoginForm, LoginToastEffect } from '@/components/pages/login';
 import { AuthSwitch } from '@/components/shared';
 
 import LoginTempActions from './_temp/login-temp-actions';
@@ -23,8 +23,7 @@ const LoginPage = async ({ searchParams }: PageProps) => {
         <LoginForm />
       </div>
       <AuthSwitch type='signup' />
-      {/* 📜 임시, toast로 수정 예정 */}
-      {searchParamsData.error && <div className='text-error-500'>로그인 필요!!!!!!!!!!!</div>}
+      <LoginToastEffect error={searchParamsData.error} />
       {/* 📜 임시, 삭제 예정 */}
       {accessToken && <LoginTempActions />}
     </div>
