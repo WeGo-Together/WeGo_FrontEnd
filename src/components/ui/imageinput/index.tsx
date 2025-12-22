@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import { IMAGE_CONFIG } from '@/lib/constants/image';
+import { validateImage } from '@/lib/validateImage';
+
 export type ImageRecord = Record<string, File | null>;
 
 export interface ImageInputProps {
@@ -22,7 +25,7 @@ export const ImageInput = ({
   children,
   onChange,
   maxFiles = 1,
-  accept = 'image/*',
+  accept = IMAGE_CONFIG.allowedTypes.join(','),
   multiple = false,
   mode = 'replace',
   initialImages = [],
@@ -101,8 +104,20 @@ export const ImageInput = ({
     updateImages(newImages);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
+
+    for (const file of files) {
+      const validation = await validateImage(file);
+      if (!validation.valid) {
+        // toast.error(validation.error);
+        alert(validation.error);
+        e.target.value = '';
+        return;
+      }
+    }
+
+    // 검증통과 하면 이미지 추가
     addImages(files);
     e.target.value = '';
   };
