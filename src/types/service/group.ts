@@ -83,10 +83,10 @@ export interface PreUploadGroupImageResponse {
   images: {
     imageKey: string;
     sortOrder: number;
+    imageUrl440x240: string;
+    imageUrl100x100: string;
   }[];
 }
-
-export type CreateGroupImagePayload = PreUploadGroupImageResponse;
 
 export interface CreateGroupPayload {
   title: string;
@@ -97,28 +97,54 @@ export interface CreateGroupPayload {
   tags?: string[] | null;
   description: string;
   maxParticipants: number;
-  images?: CreateGroupImagePayload['images'] | null;
+  images?: {
+    imageKey: string;
+    sortOrder: number;
+  }[];
 }
 
 export interface CreateGroupResponse {
   id: number;
   title: string;
-  location: string;
-  locationDetail?: string | null;
+  status: 'RECRUITING' | 'FULL' | 'FINISHED';
+  address: {
+    location: string;
+    locationDetail: string;
+  };
   startTime: string;
-  endTime?: string;
-  tags?: string[] | null;
+  endTime: string;
+  tags: string[];
   description: string;
   participantCount: number;
   maxParticipants: number;
+  createdAt: string;
+  updatedAt: string;
   createdBy: {
     userId: number;
     nickName: string;
-    profileImage?: string | null;
+    profileImage: string;
+    profileMessage: string;
   };
-  createdAt: string;
-  updatedAt: string;
-  images?: CreateGroupImagePayload['images'] | null;
+  myMembership?: {
+    groupUserId: number;
+    role: 'HOST' | 'MEMBER';
+    status: 'ATTEND' | 'LEFT';
+    joinedAt: string;
+    leftAt: string;
+  } | null;
+  images: {
+    groupImageId: number;
+    imageKey: string;
+    sortOrder: number;
+    variants: {
+      variantId: number;
+      type: 'CARD_440_240' | 'THUMBNAIL_100_100';
+      width: number;
+      height: number;
+      format: 'WEBP';
+      imageUrl: string;
+    }[];
+  }[];
 }
 
 export interface GetGroupDetailsResponse {
