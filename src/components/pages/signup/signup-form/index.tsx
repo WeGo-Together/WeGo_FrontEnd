@@ -2,10 +2,16 @@
 
 import { type AnyFieldApi, useForm } from '@tanstack/react-form';
 
+import { API } from '@/api';
+import { Icon } from '@/components/icon';
 import { FormInput } from '@/components/shared';
-import { Button } from '@/components/ui';
+import { Button, useModal } from '@/components/ui';
 import { useSignup } from '@/hooks/use-auth';
+import { useAvailabilityCheck } from '@/hooks/use-auth/use-auth-availabilityCheck';
 import { signupSchema } from '@/lib/schema/auth';
+import { cn } from '@/lib/utils';
+
+import { SignupAgreementModal } from '../signup-agreement-modal';
 
 const getHintMessage = (field: AnyFieldApi) => {
   const {
@@ -21,6 +27,7 @@ const getHintMessage = (field: AnyFieldApi) => {
 
 export const SignupForm = () => {
   const signup = useSignup();
+  const { open } = useModal();
 
   const form = useForm({
     defaultValues: {
@@ -28,6 +35,7 @@ export const SignupForm = () => {
       nickname: '',
       password: '',
       confirmPassword: '',
+      termsAgreement: false,
     },
     validators: {
       onChange: signupSchema,
@@ -44,6 +52,30 @@ export const SignupForm = () => {
     },
   });
 
+  const emailCheck = useAvailabilityCheck(
+    API.userService.getEmailAvailability,
+    (email) => ({ email }),
+    {
+      checking: '확인 중...',
+      available: '사용 가능한 이메일입니다.',
+      unavailable: '이미 사용 중인 이메일입니다.',
+      error: '중복 확인 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+    },
+  );
+
+  const nicknameCheck = useAvailabilityCheck(
+    API.userService.getNicknameAvailability,
+    (nickName) => ({ nickName }),
+    {
+      checking: '확인 중...',
+      available: '사용 가능한 닉네임입니다.',
+      unavailable: '이미 사용 중인 닉네임입니다.',
+      error: '중복 확인 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+    },
+  );
+
+  const canSubmit = emailCheck.isAvailable && nicknameCheck.isAvailable;
+
   return (
     <form
       className='flex-col-center w-full gap-8'
@@ -55,19 +87,35 @@ export const SignupForm = () => {
       <div className='flex-col-center w-full gap-4'>
         <form.Field name='email'>
           {(field) => {
-            const hintMessage = getHintMessage(field);
+            const validationHint = getHintMessage(field);
+
+            const trimmedValue = field.state.value.trim();
+            const hasValidationError = field.state.meta.errors.length > 0;
+
+            const availabilityButtonDisabled =
+              !trimmedValue || hasValidationError || emailCheck.isChecking;
 
             return (
               <FormInput
-                hintMessage={hintMessage}
+                availabilityButtonDisabled={availabilityButtonDisabled}
+                availabilityHint={emailCheck.hint}
+                availabilityStatus={emailCheck.state}
+                hintMessage={validationHint}
                 inputProps={{
                   type: 'email',
                   autoComplete: 'email',
                   placeholder: '이메일을 입력해주세요',
                   value: field.state.value,
-                  onChange: (e) => field.handleChange(e.target.value),
+                  onChange: (e) => {
+                    field.handleChange(e.target.value);
+                    emailCheck.reset();
+                  },
                 }}
                 labelName='이메일'
+                onClick={() => {
+                  void emailCheck.check(trimmedValue);
+                  console.log(nicknameCheck.state);
+                }}
               />
             );
           }}
@@ -75,18 +123,34 @@ export const SignupForm = () => {
 
         <form.Field name='nickname'>
           {(field) => {
-            const hintMessage = getHintMessage(field);
+            const validationHint = getHintMessage(field);
+
+            const trimmedValue = field.state.value.trim();
+            const hasValidationError = field.state.meta.errors.length > 0;
+
+            const availabilityButtonDisabled =
+              !trimmedValue || hasValidationError || nicknameCheck.isChecking;
 
             return (
               <FormInput
-                hintMessage={hintMessage}
+                availabilityButtonDisabled={availabilityButtonDisabled}
+                availabilityHint={nicknameCheck.hint}
+                availabilityStatus={nicknameCheck.state}
+                hintMessage={validationHint}
                 inputProps={{
                   autoComplete: 'username',
                   placeholder: '닉네임을 입력해주세요',
                   value: field.state.value,
-                  onChange: (e) => field.handleChange(e.target.value),
+                  onChange: (e) => {
+                    field.handleChange(e.target.value);
+                    nicknameCheck.reset();
+                  },
                 }}
                 labelName='닉네임'
+                onClick={() => {
+                  nicknameCheck.check(trimmedValue);
+                  console.log(nicknameCheck.state);
+                }}
               />
             );
           }}
@@ -133,23 +197,56 @@ export const SignupForm = () => {
         </form.Field>
       </div>
 
-      <form.Subscribe
-        selector={(state) => ({
-          canSubmit: state.canSubmit,
-          isSubmitting: state.isSubmitting,
-          isPristine: state.isPristine,
-        })}
-      >
-        {({ canSubmit, isSubmitting, isPristine }) => {
-          const disabled = !canSubmit || isSubmitting || isPristine;
+      <div className='flex-col-center w-full gap-4'>
+        <form.Field name='termsAgreement'>
+          {(field) => {
+            const checked = Boolean(field.state.value);
+            return (
+              <div className='flex w-full items-center justify-between'>
+                <label className='flex-center cursor-pointer'>
+                  <input
+                    className='peer sr-only'
+                    checked={checked}
+                    name={field.name}
+                    type='checkbox'
+                    onChange={(e) => field.handleChange(e.target.checked)}
+                  />
+                  <Icon id='check' className={cn(checked ? 'text-mint-500' : 'text-gray-500')} />
+                  <span className='text-text-sm-medium text-gray-700'>
+                    서비스 이용약관에 동의합니다.
+                  </span>
+                </label>
 
-          return (
-            <Button disabled={disabled} size='md' type='submit' variant='primary'>
-              회원가입하기
-            </Button>
-          );
-        }}
-      </form.Subscribe>
+                <button
+                  className='text-text-sm-medium text-gray-500 underline'
+                  type='button'
+                  onClick={() => open(<SignupAgreementModal />)}
+                >
+                  보기
+                </button>
+              </div>
+            );
+          }}
+        </form.Field>
+
+        <form.Subscribe
+          selector={(state) => ({
+            canSubmit: state.canSubmit,
+            isSubmitting: state.isSubmitting,
+            isPristine: state.isPristine,
+          })}
+        >
+          {({ canSubmit: formCanSubmit, isSubmitting, isPristine }) => {
+            const disabled = !formCanSubmit || isSubmitting || isPristine || !canSubmit;
+
+            return (
+              <Button disabled={disabled} size='md' type='submit' variant='primary'>
+                회원가입하기
+              </Button>
+            );
+          }}
+        </form.Subscribe>
+      </div>
     </form>
   );
 };

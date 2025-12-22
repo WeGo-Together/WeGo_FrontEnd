@@ -11,43 +11,45 @@ import { GetGroupDetailsResponse } from '@/types/service/group';
 interface Props {
   descriptions: Pick<
     GetGroupDetailsResponse,
+    | 'status'
     | 'createdBy'
     | 'createdAt'
+    | 'address'
     | 'title'
     | 'tags'
     | 'description'
-    | 'location'
     | 'startTime'
+    | 'myMembership'
     | 'maxParticipants'
     | 'participantCount'
   >;
-  conditions: {
-    isHost: boolean;
-    isPast: boolean;
-  };
 }
 
 export const MeetupDescriptions = ({
   descriptions: {
+    status,
     createdBy,
     createdAt,
+    address,
     title,
     tags,
     description,
-    location,
     startTime,
+    myMembership,
     maxParticipants,
     participantCount,
   },
-  conditions,
 }: Props) => {
   return (
     <section className='bg-white px-5 pt-6 pb-4'>
-      <DescriptionProfile conditions={conditions} hostInfo={createdBy} />
+      <DescriptionProfile
+        conditions={{ isHost: myMembership?.role === 'HOST', isPast: status === 'FINISHED' }}
+        hostInfo={createdBy}
+      />
       <DescriptionTitle title={title} />
       <DescriptionTags tags={tags} />
       <DescriptionDetail detail={description} />
-      <DescriptionSetting setting={{ location, startTime }} />
+      <DescriptionSetting setting={{ address, startTime }} />
       <DescriptionProgress createdAt={createdAt} progress={{ maxParticipants, participantCount }} />
     </section>
   );

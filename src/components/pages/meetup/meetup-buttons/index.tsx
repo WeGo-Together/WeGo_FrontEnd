@@ -5,11 +5,10 @@
 import { MeetupModal } from '@/components/pages/meetup/meetup-modal';
 import { Button } from '@/components/ui/button';
 import { useModal } from '@/components/ui/modal';
-import { GetGroupDetailsResponse } from '@/types/service/group';
 
 interface Props {
   conditions: {
-    isJoined: GetGroupDetailsResponse['userStatus']['isJoined'];
+    isJoined: boolean;
     isHost: boolean;
     isPast: boolean;
     isAttendDisabled: boolean;
@@ -38,7 +37,7 @@ export const MeetupButtons = ({
             className='flex-[1.2]'
             variant='tertiary'
             onClick={() =>
-              open(<MeetupModal groupId={groupId} type={isHost ? 'delete' : 'cancel'} />)
+              open(<MeetupModal groupId={groupId} type={isHost ? 'delete' : 'leave'} />)
             }
           >
             {isHost ? '모임 취소' : '모임 탈퇴'}

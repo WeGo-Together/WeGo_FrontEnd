@@ -10,7 +10,7 @@ export const Label = ({ children, className, required, ...props }: LabelProps) =
     <label {...props} className={cn('text-text-sm-medium flex items-center px-2', className)}>
       <span className='text-gray-700'>{children}</span>
       {required && (
-        <span aria-hidden='true' className='text-mint-500'>
+        <span aria-hidden='true' className='text-error-500'>
           *
         </span>
       )}
