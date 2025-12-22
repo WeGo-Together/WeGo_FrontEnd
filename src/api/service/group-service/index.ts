@@ -1,4 +1,4 @@
-import { api } from '@/api/core';
+import { api, apiV2 } from '@/api/core';
 import {
   CreateGroupPayload,
   CreateGroupResponse,
@@ -44,7 +44,7 @@ export const groupServiceRemote = () => ({
   },
 
   getGroupDetails: (payload: GroupIdPayload) => {
-    return api.get<GetGroupDetailsResponse>(`/groups/${payload.groupId}`);
+    return apiV2.get<GetGroupDetailsResponse>(`/groups/${payload.groupId}`);
   },
 
   attendGroup: (payload: GroupIdPayload) => {
