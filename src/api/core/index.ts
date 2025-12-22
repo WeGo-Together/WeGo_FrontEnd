@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import { CommonErrorResponse, CommonSuccessResponse } from '@/types/service/common';
 
+import { API } from '..';
+
 export const baseAPI = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   timeout: 20000,
@@ -46,17 +48,25 @@ baseAPI.interceptors.response.use(
 
     const status = error.response?.status ?? errorResponse.status;
     const isServer = typeof window === 'undefined';
+    const originalRequest = error.config;
 
-    if (status === 401) {
-      if (isServer) {
-        const { redirect } = await import('next/navigation');
-        redirect('/login');
-      } else {
-        if (window.location.pathname === '/login') {
-          throw errorResponse;
+    if (status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        await API.authService.refresh();
+        return baseAPI(originalRequest);
+      } catch (refreshError) {
+        if (isServer) {
+          const { redirect } = await import('next/navigation');
+          redirect('/login');
+        } else {
+          if (window.location.pathname === '/login') {
+            throw errorResponse;
+          }
+          const currentPath = window.location.pathname + window.location.search;
+          window.location.href = `/login?error=unauthorized&path=${encodeURIComponent(currentPath)}`;
         }
-        const currentPath = window.location.pathname + window.location.search;
-        window.location.href = `/login?error=unauthorized&path=${encodeURIComponent(currentPath)}`;
+        throw refreshError;
       }
     }
     if (status === 404) {
