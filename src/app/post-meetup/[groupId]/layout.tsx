@@ -26,7 +26,7 @@ const EditMeetupLayout = async ({ children, params }: Props) => {
   const isHost = sessionUserId === createdBy.userId;
   const isEditable = status !== 'FINISHED';
 
-  if (!isHost && !isEditable) {
+  if (!isHost || !isEditable) {
     redirect('/post-meetup');
   }
 
