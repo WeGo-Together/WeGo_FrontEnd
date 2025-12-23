@@ -1,10 +1,10 @@
 'use client';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
 
 import { cn } from '@/lib/utils';
-
 const dummy = [
   {
     id: 1,
@@ -39,12 +39,17 @@ const dummy = [
 ];
 
 export const Chat = () => {
+  const router = useRouter();
+  const handleClick = () => {
+    router.push('/chat/1');
+  };
   return (
     <ul className='flex flex-col'>
       {dummy.map((item) => (
         <li
           key={item.id}
           className='flex cursor-pointer items-center gap-3 bg-white p-5 transition hover:bg-gray-50'
+          onClick={handleClick}
         >
           {/* 프로필 이미지 */}
           <div className='relative size-12 overflow-hidden rounded-full'>
