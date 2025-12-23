@@ -50,7 +50,7 @@ export const ProfileEditModal = ({ user }: Props) => {
           return {
             form: '입력값을 확인해주세요',
             fields: {
-              nickName: { message: '이미 사용 중인 닉네임입니다' },
+              nickName: { message: '이미 사용중인 닉네임 입니다.' },
             },
           };
         }
