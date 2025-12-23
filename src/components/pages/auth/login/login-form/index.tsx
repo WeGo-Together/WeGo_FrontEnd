@@ -9,7 +9,7 @@ import { loginSchema } from '@/lib/schema/auth';
 import { AuthSubmitButton } from '../../auth-button';
 
 export const LoginForm = () => {
-  const login = useLogin();
+  const { handleLogin, loginError } = useLogin();
 
   const form = useForm({
     defaultValues: {
@@ -26,7 +26,7 @@ export const LoginForm = () => {
         password: value.password,
       };
 
-      await login(payload, formApi);
+      await handleLogin(payload, formApi);
     },
   });
 
@@ -46,10 +46,13 @@ export const LoginForm = () => {
         />
       </div>
 
-      <form.Subscribe
-        children={(state) => <AuthSubmitButton state={state} type='login' />}
-        selector={(state) => state}
-      />
+      <div className='flex-col-center w-full gap-2'>
+        <form.Subscribe
+          children={(state) => <AuthSubmitButton state={state} type='login' />}
+          selector={(state) => state}
+        />
+        {loginError && <p className='text-error-500 text-text-sm-medium'>{loginError}</p>}
+      </div>
     </form>
   );
 };
