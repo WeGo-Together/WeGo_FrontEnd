@@ -12,13 +12,7 @@ const followUserMock = http.post(`*/users/follow`, async ({ request }) => {
   const user = mockUserItems.find((v) => v.nickName === followNickname);
 
   if (user?.isFollow === false) {
-    return HttpResponse.json(
-      createMockSuccessResponse({
-        ...user,
-        status: 201,
-        data: '팔로우 성공',
-      }),
-    );
+    return HttpResponse.json(createMockSuccessResponse('팔로우 성공'));
   }
 
   if (user?.isFollow === null) {
@@ -61,7 +55,7 @@ const updateMyNotificationMock = http.patch(`*/users/notification`, async ({ req
   return HttpResponse.json(
     createMockSuccessResponse({
       ...mockUserItems[0],
-      isNotificationEnabled,
+      isNotificationEnabled: !!isNotificationEnabled,
     }),
   );
 });
@@ -122,13 +116,7 @@ const unfollowUserMock = http.delete(`*/users/unfollow`, ({ request }) => {
   const user = mockUserItems.find((v) => v.nickName === unFollowNickname);
 
   if (user?.isFollow === false) {
-    return HttpResponse.json(
-      createMockSuccessResponse({
-        ...user,
-        status: 200,
-        data: '팔로우 취소 성공',
-      }),
-    );
+    return HttpResponse.json(createMockSuccessResponse('팔로우 취소 성공'));
   }
 
   if (user?.isFollow === null) {
