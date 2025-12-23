@@ -2,6 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 
+import { use } from 'react';
+
 import { useForm } from '@tanstack/react-form';
 
 import {
@@ -14,22 +16,42 @@ import {
   MeetupTagsField,
   MeetupTitleField,
 } from '@/components/pages/post-meetup';
-import { useCreateGroup } from '@/hooks/use-group/use-group-create';
+import { useEditGroup } from '@/hooks/use-group/use-group-edit';
+import { useGetGroupDetails } from '@/hooks/use-group/use-group-get-details';
 import { CreateGroupFormValues, createGroupSchema } from '@/lib/schema/group';
+import { GetGroupDetailsResponse, PreUploadGroupImageResponse } from '@/types/service/group';
 
-const PostMeetupPage = () => {
+interface Props {
+  params: Promise<{ groupId: string }>;
+}
+
+const EditMeetupPage = ({ params }: Props) => {
+  const { groupId } = use(params);
   const { replace } = useRouter();
-  const { mutateAsync: createGroup } = useCreateGroup();
+  const { data } = useGetGroupDetails({ groupId });
+  const { mutateAsync: EditGroup } = useEditGroup({ groupId });
+
+  const {
+    title,
+    address: { location },
+    startTime,
+    tags,
+    description,
+    maxParticipants,
+    images,
+  } = data as GetGroupDetailsResponse;
+
+  const { defaultImages } = convertToDefaultImages(images);
 
   const form = useForm({
     defaultValues: {
-      title: '',
-      location: '',
-      startTime: '',
-      tags: [],
-      description: '',
-      maxParticipants: 0,
-      images: [],
+      title,
+      location,
+      startTime,
+      tags,
+      description,
+      maxParticipants,
+      images: defaultImages,
       joinPolicy: 'FREE',
     } as CreateGroupFormValues,
     validators: {
@@ -41,7 +63,7 @@ const PostMeetupPage = () => {
         return { ...image, sortOrder: idx };
       });
 
-      const res = await createGroup(value);
+      const res = await EditGroup(value);
 
       replace(`/meetup/${res.id}`);
     },
@@ -77,4 +99,19 @@ const PostMeetupPage = () => {
   );
 };
 
-export default PostMeetupPage;
+export default EditMeetupPage;
+
+const convertToDefaultImages = (images: GetGroupDetailsResponse['images']) => {
+  const defaultImages: PreUploadGroupImageResponse['images'] = [];
+
+  images.forEach(({ imageKey, sortOrder, variants }) => {
+    defaultImages.push({
+      imageKey,
+      sortOrder,
+      imageUrl100x100: variants[0].imageUrl,
+      imageUrl440x240: variants[1].imageUrl,
+    });
+  });
+
+  return { defaultImages };
+};
