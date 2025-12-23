@@ -1,4 +1,4 @@
-import { api, apiV2 } from '@/api/core';
+import { apiV2 } from '@/api/core';
 import {
   CreateGroupPayload,
   CreateGroupResponse,
@@ -12,7 +12,7 @@ import {
 } from '@/types/service/group';
 
 export const groupServiceRemote = () => ({
-  // 모임 목록 조회 (GET /groups)
+  // 모임 목록 조회 (GET /api/v2/groups)
   getGroups: async (payload: GetGroupsPayload): Promise<GetGroupsResponse> => {
     const params = new URLSearchParams();
     if (payload.keyword) {
@@ -23,9 +23,9 @@ export const groupServiceRemote = () => ({
     }
     params.append('size', payload.size.toString());
 
-    return api.get<GetGroupsResponse>(`/groups?${params.toString()}`);
+    return apiV2.get<GetGroupsResponse>(`/groups?${params.toString()}`);
   },
-  // 내 모임 목록 조회 (GET /groups/me) :스케줄러 페이지
+  // 내 모임 목록 조회 (GET /api/v2/groups/me) :스케줄러 페이지
   getMyGroups: async (payload: GetMyGroupsPayload): Promise<GetMyGroupsResponse> => {
     const params = new URLSearchParams();
     params.append('type', payload.type);
@@ -34,7 +34,7 @@ export const groupServiceRemote = () => ({
     }
     params.append('size', payload.size.toString());
 
-    return api.get<GetMyGroupsResponse>(`/groups/me?${params.toString()}`);
+    return apiV2.get<GetMyGroupsResponse>(`/groups/me?${params.toString()}`);
   },
 
   // 모임 이미지 사전 업로드 (POST /groups/images/upload) - multipart/form-data
