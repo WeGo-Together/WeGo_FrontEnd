@@ -7,7 +7,7 @@ import {
   GetGroupsResponse,
   GetMyGroupsPayload,
   GetMyGroupsResponse,
-  GroupIdPayload,
+  GroupIdParams,
   PreUploadGroupImageResponse,
 } from '@/types/service/group';
 
@@ -43,20 +43,24 @@ export const groupServiceRemote = () => ({
     return apiV2.post<CreateGroupResponse>('/groups/create', payload);
   },
 
-  getGroupDetails: (payload: GroupIdPayload) => {
-    return apiV2.get<GetGroupDetailsResponse>(`/groups/${payload.groupId}`);
+  editGroup: (params: GroupIdParams, payload: CreateGroupPayload) => {
+    return apiV2.patch<CreateGroupResponse>(`/groups/${params.groupId}`, payload);
   },
 
-  attendGroup: (payload: GroupIdPayload) => {
-    return apiV2.post<GetGroupDetailsResponse>(`/groups/${payload.groupId}/attend`);
+  getGroupDetails: (params: GroupIdParams) => {
+    return apiV2.get<GetGroupDetailsResponse>(`/groups/${params.groupId}`);
   },
 
-  leaveGroup: (payload: GroupIdPayload) => {
-    return apiV2.post<GetGroupDetailsResponse>(`/groups/${payload.groupId}/left`);
+  attendGroup: (params: GroupIdParams) => {
+    return apiV2.post<GetGroupDetailsResponse>(`/groups/${params.groupId}/attend`);
   },
 
-  deleteGroup: (payload: GroupIdPayload) => {
-    return apiV2.delete(`/groups/${payload.groupId}`);
+  leaveGroup: (params: GroupIdParams) => {
+    return apiV2.post<GetGroupDetailsResponse>(`/groups/${params.groupId}/left`);
+  },
+
+  deleteGroup: (params: GroupIdParams) => {
+    return apiV2.delete(`/groups/${params.groupId}`);
   },
 
   uploadGroupImages: (payload: FormData) => {
