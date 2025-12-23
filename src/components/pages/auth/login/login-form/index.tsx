@@ -2,12 +2,11 @@
 
 import { useForm } from '@tanstack/react-form';
 
-import { PasswordField } from '@/components/pages/auth/fields';
+import { EmailField, PasswordField } from '@/components/pages/auth/fields';
 import { useLogin } from '@/hooks/use-auth';
 import { loginSchema } from '@/lib/schema/auth';
 
 import { AuthSubmitButton } from '../../auth-button';
-import { EmailField } from '../../fields/email-field';
 
 export const LoginForm = () => {
   const login = useLogin();
@@ -41,7 +40,10 @@ export const LoginForm = () => {
     >
       <div className='flex-col-center w-full gap-4'>
         <form.Field children={(field) => <EmailField field={field} />} name='email' />
-        <form.Field children={(field) => <PasswordField field={field} />} name='password' />
+        <form.Field
+          children={(field) => <PasswordField field={field} passwordType='loginPassword' />}
+          name='password'
+        />
       </div>
 
       <form.Subscribe

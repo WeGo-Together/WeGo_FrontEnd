@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { AnyFieldApi } from '@tanstack/react-form';
+import { type AnyFieldApi } from '@tanstack/react-form';
 
 import { Icon } from '@/components/icon';
 import { FormInput } from '@/components/shared';
@@ -15,6 +15,7 @@ interface PasswordToggleButtonProps {
 
 interface Props {
   field: AnyFieldApi;
+  passwordType: 'loginPassword' | 'signupPassword' | 'confirmPassword';
 }
 
 const PasswordToggleButton = ({ isVisible, onToggle }: PasswordToggleButtonProps) => {
@@ -31,10 +32,13 @@ const PasswordToggleButton = ({ isVisible, onToggle }: PasswordToggleButtonProps
   );
 };
 
-export const PasswordField = ({ field }: Props) => {
+export const PasswordField = ({ field, passwordType }: Props) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const hintMessage = getHintMessage(field);
+
+  const isConfirmPassword = passwordType === 'confirmPassword';
+  const isLogin = passwordType === 'loginPassword';
 
   const handleToggle = () => {
     setIsVisible((prev) => !prev);
@@ -47,13 +51,16 @@ export const PasswordField = ({ field }: Props) => {
       hintMessage={hintMessage}
       inputProps={{
         type: isVisible ? 'text' : 'password',
-        autoComplete: 'current-password',
-        placeholder: '비밀번호를 입력해주세요',
+        autoComplete: isLogin ? 'current-password' : 'new-password',
+        placeholder: !isConfirmPassword
+          ? '비밀번호를 입력해주세요'
+          : '비밀번호를 한 번 더 입력해주세요',
         value: field.state.value,
         iconButton: iconButton,
         onChange: (e) => field.handleChange(e.target.value),
+        onBlur: () => field.handleBlur(),
       }}
-      labelName='비밀번호'
+      labelName={!isConfirmPassword ? '비밀번호' : '비밀번호 확인'}
     />
   );
 };
