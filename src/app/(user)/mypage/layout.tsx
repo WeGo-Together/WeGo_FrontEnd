@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation';
-
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
 import { API } from '@/api';
@@ -13,14 +11,10 @@ interface Props {
 const MyPageLayout = async ({ children }: Props) => {
   const queryClient = getQueryClient();
 
-  try {
-    await queryClient.fetchQuery({
-      queryKey: userKeys.me(),
-      queryFn: () => API.userService.getMe(),
-    });
-  } catch {
-    redirect('/login');
-  }
+  await queryClient.fetchQuery({
+    queryKey: userKeys.me(),
+    queryFn: () => API.userService.getMe(),
+  });
 
   return <HydrationBoundary state={dehydrate(queryClient)}>{children}</HydrationBoundary>;
 };
