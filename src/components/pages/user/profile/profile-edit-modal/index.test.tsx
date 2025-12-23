@@ -115,7 +115,7 @@ describe('ProfileEditModal 테스트', () => {
         await user.type(nickNameInput, 'a');
 
         await waitFor(() => {
-          expect(screen.getByText('닉네임은 2글자 이상이어야 합니다.'));
+          expect(screen.getByText('닉네임은 2글자 이상이어야 합니다.')).toBeInTheDocument();
         });
       });
 
@@ -128,7 +128,7 @@ describe('ProfileEditModal 테스트', () => {
         await user.type(nickNameInput, 'a'.repeat(21));
 
         await waitFor(() => {
-          expect(screen.getByText('닉네임은 20글자 이하여야 합니다.'));
+          expect(screen.getByText('닉네임은 20글자 이하여야 합니다.')).toBeInTheDocument();
         });
       });
     });
