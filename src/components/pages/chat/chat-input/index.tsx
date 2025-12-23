@@ -1,4 +1,4 @@
-' use client';
+'use client';
 import { useRef, useState } from 'react';
 
 import { Icon } from '@/components/icon';
@@ -45,7 +45,7 @@ export const ChatInput = ({ onSubmit }: IProps) => {
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
         />
-        <button className='absolute top-4 right-5 h-6 w-6' aria-label='검색 실행' type='button'>
+        <button className='absolute top-4 right-5 h-6 w-6' aria-label='메세지 전송' type='button'>
           <Icon id='send' className='cursor-pointer text-gray-500' onClick={handleSubmit} />
         </button>
       </div>
