@@ -30,6 +30,7 @@ const PostMeetupPage = () => {
       description: '',
       maxParticipants: 0,
       images: [],
+      joinPolicy: 'FREE',
     } as CreateGroupFormValues,
     validators: {
       onChange: createGroupSchema,
@@ -40,7 +41,7 @@ const PostMeetupPage = () => {
         return { ...image, sortOrder: idx };
       });
 
-      const res = await createGroup({ ...value });
+      const res = await createGroup(value);
 
       replace(`/meetup/${res.id}`);
     },
