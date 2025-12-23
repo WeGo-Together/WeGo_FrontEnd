@@ -12,7 +12,7 @@ export default async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // 둘 다 없으면 로그인
+  // 둘 다 없으면 로그인 페이지로 redirect
   if (!accessToken && !refreshToken) {
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('error', 'unauthorized');
@@ -20,7 +20,6 @@ export default async function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // accessToken 있으면 통과
   return NextResponse.next();
 }
 
