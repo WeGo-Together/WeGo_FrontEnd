@@ -1,25 +1,9 @@
 'use client';
-import { useEffect, useState } from 'react';
-
-import Cookies from 'js-cookie';
-
 import { MyPageInfo, MyPageSetting } from '@/components/pages/user/mypage';
-import { useGetUser } from '@/hooks/use-user';
+import { useUserGetMe } from '@/hooks/use-user/use-user-get-me';
 
 const MyPage = () => {
-  // const [userId, setUserId] = useState(0);
-  const [userId, setUserId] = useState(0);
-
-  const { data: user } = useGetUser({ userId }, { enabled: !!userId });
-
-  // userId가 MyPage의 파라미터로 전달되지 않기 때문에 직접 cookie로 꺼내와야함
-  // 하지만 서버에서는 js-cookie 활용 불가능 => hydration Error 발생
-  // 따라서 userId를 state롤 관리하고 useEffect 시 userId를 쿠키에 불러와야 해결가능
-  useEffect(() => {
-    const id = Cookies.get('userId');
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setUserId(Number(id));
-  }, []);
+  const { data: user } = useUserGetMe();
 
   if (!user) return null;
   return (

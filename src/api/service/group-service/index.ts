@@ -1,4 +1,4 @@
-import { api } from '@/api/core';
+import { api, apiV2 } from '@/api/core';
 import {
   CreateGroupPayload,
   CreateGroupResponse,
@@ -40,26 +40,26 @@ export const groupServiceRemote = () => ({
   // 모임 이미지 사전 업로드 (POST /groups/images/upload) - multipart/form-data
 
   createGroup: (payload: CreateGroupPayload) => {
-    return api.post<CreateGroupResponse>('/groups/create', payload);
+    return apiV2.post<CreateGroupResponse>('/groups/create', payload);
   },
 
   getGroupDetails: (payload: GroupIdPayload) => {
-    return api.get<GetGroupDetailsResponse>(`/groups/${payload.groupId}`);
+    return apiV2.get<GetGroupDetailsResponse>(`/groups/${payload.groupId}`);
   },
 
   attendGroup: (payload: GroupIdPayload) => {
-    return api.post<GetGroupDetailsResponse>(`/groups/${payload.groupId}/attend`);
+    return apiV2.post<GetGroupDetailsResponse>(`/groups/${payload.groupId}/attend`);
   },
 
-  cancelGroup: (payload: GroupIdPayload) => {
-    return api.post<GetGroupDetailsResponse>(`/groups/${payload.groupId}/cancel`);
+  leaveGroup: (payload: GroupIdPayload) => {
+    return apiV2.post<GetGroupDetailsResponse>(`/groups/${payload.groupId}/left`);
   },
 
   deleteGroup: (payload: GroupIdPayload) => {
-    return api.delete(`/groups/${payload.groupId}`);
+    return apiV2.delete(`/groups/${payload.groupId}`);
   },
 
   uploadGroupImages: (payload: FormData) => {
-    return api.post<PreUploadGroupImageResponse>('/groups/images/upload', payload);
+    return apiV2.post<PreUploadGroupImageResponse>('/groups/images/upload', payload);
   },
 });

@@ -24,9 +24,15 @@ export const MeetupBannerImages = ({ images }: Props) => {
     <section className='select-none'>
       {hasImages ? (
         <Swiper className='h-60' loop modules={[Pagination]} pagination>
-          {images.map(({ imageId440x240, imageUrl440x240 }) => (
-            <SwiperSlide key={imageId440x240} className='relative'>
-              <Image alt='image' draggable={false} fill objectFit='cover' src={imageUrl440x240} />
+          {images.map(({ groupImageId, variants }) => (
+            <SwiperSlide key={groupImageId} className='relative'>
+              <Image
+                alt='썸네일 이미지'
+                draggable={false}
+                fill
+                objectFit='cover'
+                src={variants[1].imageUrl}
+              />
             </SwiperSlide>
           ))}
         </Swiper>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
@@ -9,8 +9,19 @@ import { API } from '@/api';
 import { LoginRequest } from '@/types/service/auth';
 import { CommonErrorResponse } from '@/types/service/common';
 
+const normalizePath = (raw: string | null) => {
+  const value = (raw ?? '').trim();
+
+  if (!value) return '/';
+
+  if (value.startsWith('//') || value.includes('://')) return '/';
+
+  return value.startsWith('/') ? value : `/${value}`;
+};
+
 export const useLogin = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleLogin = async (payload: LoginRequest, formApi: { reset: () => void }) => {
     try {
@@ -25,7 +36,8 @@ export const useLogin = () => {
       });
 
       formApi.reset();
-      router.push('/');
+      const nextPath = normalizePath(searchParams.get('path'));
+      router.replace(nextPath);
     } catch (error) {
       const axiosError = error as AxiosError<CommonErrorResponse>;
       const problem = axiosError.response?.data;

@@ -16,11 +16,9 @@ import {
 } from '@/components/pages/post-meetup';
 import { useCreateGroup } from '@/hooks/use-group/use-group-create';
 import { CreateGroupFormValues, createGroupSchema } from '@/lib/schema/group';
-import { PreUploadGroupImageResponse } from '@/types/service/group';
 
 const PostMeetupPage = () => {
   const { replace } = useRouter();
-
   const { mutateAsync: createGroup } = useCreateGroup();
 
   const form = useForm({
@@ -34,23 +32,16 @@ const PostMeetupPage = () => {
       images: [],
     } as CreateGroupFormValues,
     validators: {
+      onChange: createGroupSchema,
       onSubmit: createGroupSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
+      value.images = value.images?.map((image, idx) => {
+        return { ...image, sortOrder: idx };
+      });
 
-      const images = [] as PreUploadGroupImageResponse['images'];
+      const res = await createGroup({ ...value });
 
-      if (value.images) {
-        value.images.forEach((image, idx) => {
-          images.push({
-            ...image,
-            sortOrder: idx,
-          });
-        });
-      }
-
-      const res = await createGroup({ ...value, images: images });
       replace(`/meetup/${res.id}`);
     },
   });
@@ -74,7 +65,12 @@ const PostMeetupPage = () => {
           <form.Field children={(field) => <MeetupTagsField field={field} />} name='tags' />
         </section>
 
-        <MeetupSubmitButton onSubmitClick={() => form.handleSubmit()} />
+        <form.Subscribe
+          children={(state) => (
+            <MeetupSubmitButton state={state} onSubmitClick={() => form.handleSubmit()} />
+          )}
+          selector={(state) => state}
+        />
       </form>
     </div>
   );

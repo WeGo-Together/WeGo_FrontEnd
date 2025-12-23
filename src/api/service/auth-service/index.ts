@@ -28,7 +28,11 @@ export const authServiceRemote = () => ({
 
   // 액세스 토큰 재발급
   refresh: async () => {
-    const data = await api.post<RefreshResponse>('/auth/refresh');
+    const data = await api.post<RefreshResponse>(
+      '/auth/refresh',
+      {},
+      { _retry: true, withCredentials: true },
+    );
 
     setAccessToken(data.accessToken, data.expiresIn);
     return data;

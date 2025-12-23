@@ -3,10 +3,15 @@ import { formatDateTime } from '@/lib/formatDateTime';
 import { GetGroupDetailsResponse } from '@/types/service/group';
 
 interface Props {
-  setting: Pick<GetGroupDetailsResponse, 'location' | 'startTime'>;
+  setting: Pick<GetGroupDetailsResponse, 'address' | 'startTime'>;
 }
 
-export const DescriptionSetting = ({ setting: { location, startTime } }: Props) => {
+export const DescriptionSetting = ({
+  setting: {
+    address: { location },
+    startTime,
+  },
+}: Props) => {
   return (
     <div className='mt-6'>
       <ul className='text-text-sm-medium space-y-[6px] text-gray-900'>

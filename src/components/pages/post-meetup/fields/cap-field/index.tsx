@@ -3,15 +3,13 @@
 import { AnyFieldApi } from '@tanstack/react-form';
 
 import { Icon } from '@/components/icon';
-import { Hint, Input, Label } from '@/components/ui';
+import { Input, Label } from '@/components/ui';
 
 interface Props {
   field: AnyFieldApi;
 }
 
 export const MeetupCapField = ({ field }: Props) => {
-  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-
   return (
     <div className='mt-3 flex w-full flex-col gap-1'>
       <Label htmlFor='post-meetup-cap' required>
@@ -43,8 +41,6 @@ export const MeetupCapField = ({ field }: Props) => {
           field.handleChange(Number(e.target.value));
         }}
       />
-
-      {isInvalid && <Hint className='mt-0.5' message={field.state.meta.errors[0].message} />}
     </div>
   );
 };
