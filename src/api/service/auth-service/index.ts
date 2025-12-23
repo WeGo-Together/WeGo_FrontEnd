@@ -11,7 +11,7 @@ import {
 export const authServiceRemote = () => ({
   // 로그인
   login: async (payload: LoginRequest) => {
-    const data = await api.post<LoginResponse>('/auth/login', payload);
+    const data = await api.post<LoginResponse>('/auth/login', payload, { withCredentials: true });
 
     setAccessToken(data.accessToken, data.expiresIn);
     return data;
