@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import axios, { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
@@ -50,7 +50,7 @@ export const useLogin = () => {
   const searchParams = useSearchParams();
 
   const [loginError, setLoginError] = useState<string | null>(null);
-  const clearLoginError = () => setLoginError(null);
+  const clearLoginError = useCallback(() => setLoginError(null), []);
 
   const handleLogin = async (payload: LoginRequest, formApi: { reset: () => void }) => {
     setLoginError(null);

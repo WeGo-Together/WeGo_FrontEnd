@@ -1,6 +1,8 @@
 'use client';
 
-import { useForm } from '@tanstack/react-form';
+import { useEffect } from 'react';
+
+import { useForm, useStore } from '@tanstack/react-form';
 
 import { EmailField, PasswordField } from '@/components/pages/auth/fields';
 import { useLogin } from '@/hooks/use-auth';
@@ -9,7 +11,7 @@ import { loginSchema } from '@/lib/schema/auth';
 import { AuthSubmitButton } from '../../auth-button';
 
 export const LoginForm = () => {
-  const { handleLogin, loginError } = useLogin();
+  const { handleLogin, loginError, clearLoginError } = useLogin();
 
   const form = useForm({
     defaultValues: {
@@ -29,6 +31,12 @@ export const LoginForm = () => {
       await handleLogin(payload, formApi);
     },
   });
+
+  const { email, password } = useStore(form.baseStore, (state) => state.values);
+
+  useEffect(() => {
+    clearLoginError();
+  }, [email, password, clearLoginError]);
 
   return (
     <form
