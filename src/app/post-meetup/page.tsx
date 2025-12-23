@@ -16,7 +16,6 @@ import {
 } from '@/components/pages/post-meetup';
 import { useCreateGroup } from '@/hooks/use-group/use-group-create';
 import { CreateGroupFormValues, createGroupSchema } from '@/lib/schema/group';
-import { PreUploadGroupImageResponse } from '@/types/service/group';
 
 const PostMeetupPage = () => {
   const { replace } = useRouter();
@@ -37,18 +36,11 @@ const PostMeetupPage = () => {
       onSubmit: createGroupSchema,
     },
     onSubmit: async ({ value }) => {
-      const images = [] as PreUploadGroupImageResponse['images'];
+      value.images = value.images?.map((image, idx) => {
+        return { ...image, sortOrder: idx };
+      });
 
-      if (value.images) {
-        value.images.forEach((image, idx) => {
-          images.push({
-            ...image,
-            sortOrder: idx,
-          });
-        });
-      }
-
-      const res = await createGroup({ ...value, images: images });
+      const res = await createGroup({ ...value });
 
       replace(`/meetup/${res.id}`);
     },

@@ -40,7 +40,7 @@ export const groupServiceRemote = () => ({
   // 모임 이미지 사전 업로드 (POST /groups/images/upload) - multipart/form-data
 
   createGroup: (payload: CreateGroupPayload) => {
-    return api.post<CreateGroupResponse>('/groups/create', payload);
+    return apiV2.post<CreateGroupResponse>('/groups/create', payload);
   },
 
   getGroupDetails: (payload: GroupIdPayload) => {
@@ -60,6 +60,6 @@ export const groupServiceRemote = () => ({
   },
 
   uploadGroupImages: (payload: FormData) => {
-    return api.post<PreUploadGroupImageResponse>('/groups/images/upload', payload);
+    return apiV2.post<PreUploadGroupImageResponse>('/groups/images/upload', payload);
   },
 });
