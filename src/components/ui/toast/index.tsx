@@ -37,7 +37,7 @@ interface Props extends VariantProps<typeof toastVariants> {
   children: React.ReactNode;
 }
 
-export const Toast = ({ type = 'info', offset, className, children }: Props) => {
+export const Toast = ({ type, offset, className, children }: Props) => {
   const iconId = type && toastIcons[type as keyof typeof toastIcons];
   return (
     <div className={cn(toastVariants({ type, offset }), className)}>
