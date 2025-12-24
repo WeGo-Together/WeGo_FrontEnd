@@ -19,7 +19,11 @@ const BASE_TAG_CLASSES =
 
 const HIDDEN_TAG_CLASSES = `${BASE_TAG_CLASSES} invisible absolute`;
 
-const getLastVisibleIndex = (maxWidth: number, tagWidths: number[], gap: number): number | null => {
+export const getLastVisibleIndex = (
+  maxWidth: number,
+  tagWidths: number[],
+  gap: number,
+): number | null => {
   let usedWidth = 0;
   let lastVisibleIndex: number | null = null;
 
