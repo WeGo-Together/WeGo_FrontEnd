@@ -33,6 +33,7 @@ const getLoginErrorMessage = (problem: CommonErrorResponse) => {
   return '로그인에 실패했습니다.';
 };
 
+// 📜 proxy 설정 후 삭제
 const isCommonErrorResponse = (e: unknown): e is CommonErrorResponse => {
   if (!e || typeof e !== 'object') return false;
 
@@ -83,9 +84,6 @@ export const useLogin = () => {
         if (problem) {
           console.error('[LOGIN ERROR]', problem.errorCode, problem.detail);
           setLoginError(getLoginErrorMessage(problem));
-        } else {
-          console.error(error);
-          setLoginError('서버와 연결할 수 없습니다.');
         }
         return;
       }
