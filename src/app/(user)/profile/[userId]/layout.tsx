@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
@@ -15,21 +15,18 @@ const ProfileLayout = async ({ children, params }: Props) => {
   const { userId: id } = await params;
   const userId = Number(id);
 
-  const { cookies } = await import('next/headers');
-  const cookieStore = await cookies();
-  const myId = Number(cookieStore.get('userId')?.value);
-
-  // 본인 id와 같은지 확인 후 같으면 mypage로 리다이렉트
-  if (userId === myId) {
-    redirect('/mypage');
-  }
+  // userId가 숫자가 아닌 경우 notFound redirect 처리
+  if (isNaN(userId)) notFound();
 
   const queryClient = getQueryClient();
 
-  await queryClient.fetchQuery({
+  const user = await queryClient.fetchQuery({
     queryKey: userKeys.item(userId),
     queryFn: () => API.userService.getUser({ userId }),
   });
+
+  // isFollow가 null이면 본인 페이지 이므로 mypage로 redirect 처리
+  if (user.isFollow === null) redirect('/mypage');
 
   return <HydrationBoundary state={dehydrate(queryClient)}>{children}</HydrationBoundary>;
 };
