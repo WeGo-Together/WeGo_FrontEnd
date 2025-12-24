@@ -24,7 +24,7 @@ export const DescriptionProfile = ({
           alt='프로필 사진'
           draggable={false}
           height={40}
-          src={profileImage}
+          src={profileImage ?? ''}
         />
 
         <div className='flex flex-col justify-center *:line-clamp-1'>
