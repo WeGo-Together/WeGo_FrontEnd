@@ -1,4 +1,5 @@
 'use client';
+import { useLogout, useWithdraw } from '@/hooks/use-auth';
 import { useUpdateMyNotification } from '@/hooks/use-user/use-user-notification';
 import { User } from '@/types/service/user';
 
@@ -10,6 +11,8 @@ interface Props {
 
 export const MyPageSetting = ({ user }: Props) => {
   const { mutate } = useUpdateMyNotification();
+  const logout = useLogout();
+  const withdraw = useWithdraw();
 
   return (
     <section className='bg-mono-white flex flex-col gap-3 px-3 py-6'>
@@ -19,8 +22,8 @@ export const MyPageSetting = ({ user }: Props) => {
       >
         알림 받기
       </MyPageToggleButton>
-      <MyPageActionButton onClick={() => console.log('로그아웃')}>로그아웃</MyPageActionButton>
-      <MyPageActionButton onClick={() => console.log('회원탈퇴')}>회원탈퇴</MyPageActionButton>
+      <MyPageActionButton onClick={logout}>로그아웃</MyPageActionButton>
+      <MyPageActionButton onClick={withdraw}>회원탈퇴</MyPageActionButton>
     </section>
   );
 };
