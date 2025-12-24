@@ -8,7 +8,7 @@ import { ChatHeader, ChatInput, MyChat, OtherChat } from '@/components/pages/cha
 // 임시 데이터
 const data = Array.from({ length: 30 }, (_, index) => ({
   id: index + 1,
-  text: '안녕하세요 멍선생입니다 계속 입력하면 어떻게 되나 봅시다',
+  text: '안녕하세요 멍선생입니다 \n 계속 입력하면 어떻게 되나 봅시다',
   time: '오후 11:24',
   profileImage: DEFAULT_PROFILE_IMAGE,
   nickName: '흰둥이',

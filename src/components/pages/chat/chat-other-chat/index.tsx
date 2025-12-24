@@ -23,7 +23,7 @@ export const OtherChat = ({ item }: IProps) => {
       />
       <div className='mr-1.5 flex flex-col'>
         <span className='text-text-xs-medium text-gray-800'>{nickName}</span>
-        <span className='bg-mono-white mt-1 max-w-60 rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl px-4 py-3 text-gray-800'>
+        <span className='bg-mono-white mt-1 max-w-60 rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl px-4 py-3 whitespace-pre-line text-gray-800'>
           {text}
         </span>
       </div>
