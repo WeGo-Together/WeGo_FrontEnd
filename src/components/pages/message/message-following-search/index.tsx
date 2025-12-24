@@ -16,7 +16,7 @@ export const FollowingSearch = ({ userId }: { userId: number }) => {
         <Icon id='plus' className='size-6 text-gray-700' />
       </div>
 
-      <span className='text-text-md-bold'>팔로우 추가</span>
+      <span className='text-text-md-bold text-gray-800'>팔로우 추가</span>
     </div>
   );
 };
