@@ -11,6 +11,7 @@ import { GetGroupDetailsResponse } from '@/types/service/group';
 interface Props {
   descriptions: Pick<
     GetGroupDetailsResponse,
+    | 'id'
     | 'status'
     | 'createdBy'
     | 'createdAt'
@@ -27,6 +28,7 @@ interface Props {
 
 export const MeetupDescriptions = ({
   descriptions: {
+    id,
     status,
     createdBy,
     createdAt,
@@ -44,6 +46,7 @@ export const MeetupDescriptions = ({
     <section className='bg-white px-5 pt-6 pb-4'>
       <DescriptionProfile
         conditions={{ isHost: myMembership?.role === 'HOST', isPast: status === 'FINISHED' }}
+        groupId={id}
         hostInfo={createdBy}
       />
       <DescriptionTitle title={title} />

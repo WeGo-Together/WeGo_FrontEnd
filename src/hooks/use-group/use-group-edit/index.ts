@@ -12,10 +12,10 @@ export const useEditGroup = (params: GroupIdParams) => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: groupKeys.detail(params.groupId) });
 
-      console.log('모임 생성 성공.');
+      console.log('모임 수정 성공.');
     },
     onError: () => {
-      console.log('모임 생성 실패.');
+      console.log('모임 수정 실패.');
     },
   });
   return query;

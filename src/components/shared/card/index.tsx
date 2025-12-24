@@ -67,9 +67,9 @@ const Card = ({
     >
       <div className='flex min-w-0 gap-4'>
         <div className='flex flex-col justify-between'>
-          <div>
-            <CardThumbnail thumbnail={thumbnail} title={title} />
+          <CardThumbnail thumbnail={thumbnail} title={title} />
 
+          <div className='flex flex-1 items-center'>
             <CardProfile nickName={nickName} profileImage={profileImage} />
           </div>
 
