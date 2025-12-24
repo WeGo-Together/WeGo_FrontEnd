@@ -11,7 +11,7 @@ import {
 export const authServiceRemote = () => ({
   // 로그인
   login: async (payload: LoginRequest) => {
-    const data = await api.post<LoginResponse>('/auth/login', payload);
+    const data = await api.post<LoginResponse>('/auth/login', payload, { withCredentials: true });
 
     setAccessToken(data.accessToken, data.expiresIn);
     return data;
@@ -22,7 +22,7 @@ export const authServiceRemote = () => ({
 
   // 로그아웃
   logout: async () => {
-    await api.post<void>('/auth/logout');
+    await api.post<void>('/auth/logout', null, { withCredentials: true });
     clearAccessToken();
   },
 
@@ -40,7 +40,7 @@ export const authServiceRemote = () => ({
 
   // 회원 탈퇴
   withdraw: async () => {
-    await api.delete<void>('/auth/withdraw');
+    await api.delete<void>('/auth/withdraw', { withCredentials: true });
     clearAccessToken();
   },
 });
