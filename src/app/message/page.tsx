@@ -7,7 +7,8 @@ import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 
 import { API } from '@/api';
-import { Chat, FollowingList, FollowingNone, FollowingSearch } from '@/components/pages/message';
+import { Chat } from '@/components/pages/chat';
+import { FollowingList, FollowingNone, FollowingSearch } from '@/components/pages/message';
 import { TabNavigation } from '@/components/shared';
 import { useInfiniteScroll } from '@/hooks/use-group/use-group-infinite-list';
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';

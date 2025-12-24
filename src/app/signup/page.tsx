@@ -1,5 +1,5 @@
 import { Icon } from '@/components/icon';
-import { SignupForm } from '@/components/pages/signup';
+import { SignupForm } from '@/components/pages/auth';
 import { AuthSwitch } from '@/components/shared';
 
 const SignupPage = () => {

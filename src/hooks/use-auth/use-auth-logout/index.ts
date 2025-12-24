@@ -24,7 +24,7 @@ export const useLogout = () => {
 
       // 로컬 스토리지/추가 상태도 정리???
 
-      router.push('/login');
+      router.push('/');
     }
   };
 

@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 
 import { Icon } from '@/components/icon';
-import { LoginForm, LoginToastEffect } from '@/components/pages/login';
+import { LoginForm, LoginToastEffect } from '@/components/pages/auth';
 import { AuthSwitch } from '@/components/shared';
 
 import LoginTempActions from './_temp/login-temp-actions';
