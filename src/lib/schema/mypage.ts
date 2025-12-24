@@ -24,7 +24,7 @@ export const mbtiOnChangeSchema = z.string().refine(
     if (val.length === 4 && !['J', 'P', 'j', 'p'].includes(val[3])) return false;
     return true;
   },
-  { message: '유효한 MBTI가 아닙니다' },
+  { message: '유효한 MBTI가 아닙니다.' },
 );
 
 export const mbtiOnBlurSchema = z.string().refine(
@@ -32,5 +32,5 @@ export const mbtiOnBlurSchema = z.string().refine(
     if (val === '') return true;
     return val.length === 4 && /^[IEie][SNsn][TFtf][JPjp]$/.test(val);
   },
-  { message: 'MBTI 4글자를 모두 입력해주세요' },
+  { message: '유효한 MBTI가 아닙니다.' },
 );

@@ -101,6 +101,7 @@ export interface CreateGroupPayload {
     imageKey: string;
     sortOrder: number;
   }[];
+  joinPolicy: 'FREE' | 'APPROVE';
 }
 
 export interface CreateGroupResponse {
@@ -200,6 +201,6 @@ export interface GetGroupDetailsResponse {
   }[];
 }
 
-export interface GroupIdPayload {
+export interface GroupIdParams {
   groupId: string;
 }
