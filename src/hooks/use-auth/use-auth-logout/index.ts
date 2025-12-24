@@ -6,14 +6,18 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { API } from '@/api';
 import { userKeys } from '@/lib/query-key/query-key-user';
+import { useAuth } from '@/providers';
 
 export const useLogout = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  const { accessToken } = useAuth();
+
   const handleLogout = async () => {
     try {
       await API.authService.logout();
+      accessToken.remove();
     } catch (error) {
       console.error('[LOGOUT ERROR]', error);
     } finally {
