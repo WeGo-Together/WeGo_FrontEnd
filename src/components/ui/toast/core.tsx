@@ -63,26 +63,32 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
               {toasts.map((t, i) => {
                 const toastIndex = toasts.length - 1 - i;
                 return (
-                  <m.div
+                  <div
                     key={t.id}
-                    className='pointer-events-auto absolute bottom-35 left-1/2 z-99999 -translate-x-1/2'
-                    animate={{
-                      opacity: toastIndex > 2 ? 0 : 1 - toastIndex * 0.01,
-                      y: toastIndex * 10,
-                      scale: 1 - toastIndex * 0.05,
-                      transition: {
-                        type: 'spring',
-                        stiffness: 200,
-                        duration: 0.2,
-                        ease: 'easeOut',
-                      },
-                    }}
-                    exit={{ opacity: 0, transition: { duration: 0.3 }, scale: 0.1 }}
-                    initial={{ opacity: 0, scale: 0.1 }}
-                    role='status'
+                    className='pointer-events-none fixed inset-0 z-9999 flex items-end justify-center'
                   >
-                    {t.content}
-                  </m.div>
+                    <m.div
+                      key={t.id}
+                      className='mb-14 w-full max-w-110 px-4'
+                      animate={{
+                        opacity: toastIndex > 2 ? 0 : 1 - toastIndex * 0.01,
+                        y: toastIndex * 10,
+                        scale: 1 - toastIndex * 0.05,
+                        transition: {
+                          type: 'spring',
+                          stiffness: 200,
+                          damping: 19,
+                          mass: 1,
+                          ease: 'easeOut',
+                        },
+                      }}
+                      exit={{ opacity: 0, transition: { duration: 0.2 }, scale: 0.5 }}
+                      initial={{ opacity: 0, scale: 0.1 }}
+                      role='status'
+                    >
+                      {t.content}
+                    </m.div>
+                  </div>
                 );
               })}
             </AnimatePresence>
