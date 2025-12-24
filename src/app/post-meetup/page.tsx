@@ -68,7 +68,11 @@ const PostMeetupPage = () => {
 
         <form.Subscribe
           children={(state) => (
-            <MeetupSubmitButton state={state} onSubmitClick={() => form.handleSubmit()} />
+            <MeetupSubmitButton
+              state={state}
+              submitName='모임 생성'
+              onSubmitClick={() => form.handleSubmit()}
+            />
           )}
           selector={(state) => state}
         />
