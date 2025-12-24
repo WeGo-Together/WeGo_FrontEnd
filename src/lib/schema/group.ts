@@ -25,7 +25,7 @@ export const createGroupSchema = z.object({
       }),
     )
     .optional(),
-  joinPolicy: z.union([z.literal('FREE'), z.literal('APPROVE')]),
+  joinPolicy: z.union([z.literal('FREE'), z.literal('APPROVAL_REQUIRED')]),
 });
 
 export type CreateGroupFormValues = z.infer<typeof createGroupSchema>;
