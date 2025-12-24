@@ -12,7 +12,7 @@ export const NotificationHeader = () => {
   };
 
   return (
-    <nav className='bg-mono-white flex-center sticky top-14 h-12 border-b-1 border-gray-200'>
+    <nav className='bg-mono-white flex-center sticky top-14 z-10 h-12 border-b-1 border-gray-200'>
       <Icon
         id='chevron-left-2'
         className='absolute left-5 size-6 cursor-pointer rounded-md text-gray-500 transition-colors duration-300 hover:bg-gray-100 active:bg-gray-100'
