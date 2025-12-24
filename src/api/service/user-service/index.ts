@@ -34,9 +34,9 @@ export const userServiceRemote = () => ({
 
   // 4. 알림 설정 변경
   updateMyNotification: async (queryParams: UpdateMyNotificationQueryParams) => {
-    return apiV1.patch<User>(
-      `/users/notification?isNotificationEnabled=${queryParams.isNotificationEnabled}`,
-    );
+    return apiV1.patch<User>(`/users/notification`, null, {
+      params: { ...queryParams },
+    });
   },
 
   // 5. 유저 프로필 조회
@@ -50,7 +50,7 @@ export const userServiceRemote = () => ({
   // 7. 닉네임 중복 검사
   getNicknameAvailability: async (queryParams: GetNicknameAvailabilityQueryParams) => {
     return apiV1.get<Availability>(`/users/nickname/availability`, {
-      params: { nickname: queryParams.nickName },
+      params: { ...queryParams },
     });
   },
 
