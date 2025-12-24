@@ -1,16 +1,25 @@
 'use client';
 
 import { NotificationCard } from '@/components/pages/notification';
-import { useNotifications } from '@/hooks/use-notifications';
+import { useGetNotificationsInfinite } from '@/hooks/use-notification/use-notification-get-list';
 
 export default function NotificationPage() {
-  const messages = useNotifications();
+  const { data: notificationList, fetchNextPage } = useGetNotificationsInfinite({ size: 1 });
+
+  if (!notificationList) return;
 
   return (
     <section>
-      {messages.map((data, idx) => (
-        <NotificationCard key={idx} data={data} />
+      <div className='flex h-10 flex-row items-center justify-end gap-2'>
+        <p className='text-mono-white bg-mint-500 flex-center size-4 rounded-full'>v</p>
+        <p className='text-mono-black text-text-sm mr-3 text-right'>모두 읽음 처리</p>
+      </div>
+      {notificationList.map((item, idx) => (
+        <NotificationCard key={idx} item={item} />
       ))}
+      <button className='text-black' onClick={() => fetchNextPage()}>
+        다음
+      </button>
     </section>
   );
 }
