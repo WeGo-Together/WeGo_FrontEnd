@@ -16,6 +16,7 @@ interface TabNavigationProps {
   tabs: Tab[];
   paramName?: string;
   basePath?: string;
+  defaultValue?: string;
 }
 
 interface TabItemProps {
@@ -48,9 +49,14 @@ const TabItem = ({ label, href, isActive }: TabItemProps) => (
   </li>
 );
 
-const TabNavigationInner = ({ tabs, paramName = 'tab', basePath = '' }: TabNavigationProps) => {
+const TabNavigationInner = ({
+  tabs,
+  paramName = 'tab',
+  basePath = '',
+  defaultValue,
+}: TabNavigationProps) => {
   const searchParams = useSearchParams();
-  const currentTab = searchParams.get(paramName) || tabs[0].value;
+  const currentTab = searchParams.get(paramName) ?? defaultValue ?? tabs[0].value;
 
   return (
     <nav className='sticky top-14 z-50 h-11 bg-white'>
