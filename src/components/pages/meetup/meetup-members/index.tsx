@@ -48,7 +48,7 @@ export const MeetupMembers = ({ members }: Props) => {
                     alt='프로필 사진'
                     draggable={false}
                     height={64}
-                    src={profileImage}
+                    src={profileImage ?? ''}
                   />
                 </Link>
                 <p
