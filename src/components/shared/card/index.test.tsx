@@ -3,6 +3,13 @@ import userEvent from '@testing-library/user-event';
 
 import Card from '.';
 
+// ResizeObserver 목
+global.ResizeObserver = class ResizeObserver {
+  observe = jest.fn();
+  disconnect = jest.fn();
+  unobserve = jest.fn();
+} as unknown as typeof global.ResizeObserver;
+
 describe('Card', () => {
   const defaultProps = {
     title: '네즈코와 함께하는 자바 스터디',
