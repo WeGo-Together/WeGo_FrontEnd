@@ -22,7 +22,7 @@ const SOCIAL_TABS = [
 export default function FollowingPage() {
   const [userId, setUserId] = useState(0);
   const params = useSearchParams();
-  const tab = params.get('tab') || 'following';
+  const tab = params.get('tab') || 'chat';
 
   useEffect(() => {
     const id = Cookies.get('userId');
@@ -64,7 +64,7 @@ export default function FollowingPage() {
 
   return (
     <div className='min-h-screen bg-[#F1F5F9]'>
-      <TabNavigation basePath='/message' tabs={SOCIAL_TABS} />
+      <TabNavigation basePath='/message' defaultValue='chat' tabs={SOCIAL_TABS} />
 
       {tab === 'chat' && <Chat />}
       {tab === 'following' && (
