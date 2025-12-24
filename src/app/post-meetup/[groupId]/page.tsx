@@ -90,7 +90,11 @@ const EditMeetupPage = ({ params }: Props) => {
 
         <form.Subscribe
           children={(state) => (
-            <MeetupSubmitButton state={state} onSubmitClick={() => form.handleSubmit()} />
+            <MeetupSubmitButton
+              state={state}
+              submitName='모임 수정'
+              onSubmitClick={() => form.handleSubmit()}
+            />
           )}
           selector={(state) => state}
         />
