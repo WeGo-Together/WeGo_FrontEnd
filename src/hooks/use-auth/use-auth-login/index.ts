@@ -71,9 +71,11 @@ export const useLogin = () => {
       });
 
       formApi.reset();
+
+      accessToken.set(result.accessToken);
+
       const nextPath = normalizePath(searchParams.get('path'));
       router.replace(nextPath);
-      accessToken.set(result.accessToken);
     } catch (error) {
       if (isCommonErrorResponse(error)) {
         console.error('[LOGIN ERROR]', error.errorCode, error.detail);

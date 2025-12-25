@@ -17,12 +17,13 @@ export const useLogout = () => {
   const handleLogout = async () => {
     try {
       await API.authService.logout();
-      accessToken.remove();
     } catch (error) {
       console.error('[LOGOUT ERROR]', error);
     } finally {
       // 로그인 유저 관련 캐시 정리
       queryClient.removeQueries({ queryKey: userKeys.all });
+
+      accessToken.remove();
 
       router.push('/');
     }

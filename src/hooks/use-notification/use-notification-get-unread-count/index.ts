@@ -9,11 +9,10 @@ export const useGetNotificationUnreadCount = () => {
   const queryResult = useQuery({
     queryKey: notificationKeys.unReadCount(),
     queryFn: () => API.notificationService.getUnreadCount(),
-    retry: false,
     enabled: !!accessToken.value,
   });
 
-  const finalData = accessToken.value ? queryResult.data : 0;
+  const finalData = accessToken.value ? (queryResult.data ?? 0) : 0;
 
   return {
     ...queryResult,
