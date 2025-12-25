@@ -13,7 +13,7 @@ interface Props {
   groupId: string;
 }
 
-export const MeetupModal = ({ type, groupId }: Props) => {
+export const GroupModal = ({ type, groupId }: Props) => {
   const { replace } = useRouter();
   const { close } = useModal();
   const { mutate: attendMutate, isPending: isAttending } = useAttendGroup({ groupId }, close);

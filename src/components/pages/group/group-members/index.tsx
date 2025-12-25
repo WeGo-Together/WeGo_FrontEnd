@@ -15,7 +15,7 @@ interface Props {
   members: GetGroupDetailsResponse['joinedMembers'];
 }
 
-export const MeetupMembers = ({ members }: Props) => {
+export const GroupMembers = ({ members }: Props) => {
   const [expand, setExpand] = useState(false);
   const [coverMember, setCoverMember] = useState(2 < Math.ceil(members.length / 3));
 

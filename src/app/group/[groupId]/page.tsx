@@ -3,18 +3,18 @@
 import { use } from 'react';
 
 import {
-  MeetupBannerImages,
-  MeetupButtons,
-  MeetupDescriptions,
-  MeetupMembers,
-} from '@/components/pages/meetup';
+  GroupBannerImages,
+  GroupButtons,
+  GroupDescriptions,
+  GroupMembers,
+} from '@/components/pages/group';
 import { useGetGroupDetails } from '@/hooks/use-group/use-group-get-details';
 
 interface Props {
   params: Promise<{ groupId: string }>;
 }
 
-const MeetupDetailPage = ({ params }: Props) => {
+const GroupDetailPage = ({ params }: Props) => {
   const { groupId } = use(params);
   const { data } = useGetGroupDetails({ groupId });
 
@@ -26,10 +26,10 @@ const MeetupDetailPage = ({ params }: Props) => {
 
   return (
     <div>
-      <MeetupBannerImages images={images} />
-      <MeetupDescriptions descriptions={data} />
-      <MeetupMembers members={joinedMembers} />
-      <MeetupButtons
+      <GroupBannerImages images={images} />
+      <GroupDescriptions descriptions={data} />
+      <GroupMembers members={joinedMembers} />
+      <GroupButtons
         conditions={{
           isHost: myMembership?.role === 'HOST',
           isJoined: myMembership?.status === 'ATTEND',
@@ -42,4 +42,4 @@ const MeetupDetailPage = ({ params }: Props) => {
   );
 };
 
-export default MeetupDetailPage;
+export default GroupDetailPage;

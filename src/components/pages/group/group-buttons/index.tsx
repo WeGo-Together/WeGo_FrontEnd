@@ -2,7 +2,7 @@
 
 // import { useRouter } from 'next/navigation';
 
-import { MeetupModal } from '@/components/pages/meetup/meetup-modal';
+import { GroupModal } from '@/components/pages/group/group-modal';
 import { Button } from '@/components/ui/button';
 import { useModal } from '@/components/ui/modal';
 
@@ -16,7 +16,7 @@ interface Props {
   groupId: string;
 }
 
-export const MeetupButtons = ({
+export const GroupButtons = ({
   conditions: { isJoined, isHost, isPast, isAttendDisabled },
   groupId,
 }: Props) => {
@@ -37,7 +37,7 @@ export const MeetupButtons = ({
             className='flex-[1.2]'
             variant='tertiary'
             onClick={() =>
-              open(<MeetupModal groupId={groupId} type={isHost ? 'delete' : 'leave'} />)
+              open(<GroupModal groupId={groupId} type={isHost ? 'delete' : 'leave'} />)
             }
           >
             {isHost ? '모임 취소' : '모임 탈퇴'}
@@ -49,7 +49,7 @@ export const MeetupButtons = ({
       ) : (
         <Button
           disabled={isAttendDisabled}
-          onClick={() => open(<MeetupModal groupId={groupId} type='attend' />)}
+          onClick={() => open(<GroupModal groupId={groupId} type='attend' />)}
         >
           참여하기
         </Button>

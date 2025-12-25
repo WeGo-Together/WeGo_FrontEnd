@@ -67,7 +67,7 @@ export default function GroupList({ initialData, initialKeyword }: GroupListProp
               profileImage={meeting.createdBy.profileImage}
               tags={meeting.tags}
               title={meeting.title}
-              onClick={() => router.push(`/meetup/${meeting.id}`)}
+              onClick={() => router.push(`/group/${meeting.id}`)}
             />
           ))
         )}

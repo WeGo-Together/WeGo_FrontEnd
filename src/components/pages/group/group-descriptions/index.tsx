@@ -5,7 +5,7 @@ import {
   DescriptionSetting,
   DescriptionTags,
   DescriptionTitle,
-} from '@/components/pages/meetup/meetup-descriptions/description-sections';
+} from '@/components/pages/group/group-descriptions/description-sections';
 import { GetGroupDetailsResponse } from '@/types/service/group';
 
 interface Props {
@@ -26,7 +26,7 @@ interface Props {
   >;
 }
 
-export const MeetupDescriptions = ({
+export const GroupDescriptions = ({
   descriptions: {
     id,
     status,
