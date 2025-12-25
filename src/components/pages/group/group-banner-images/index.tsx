@@ -17,7 +17,7 @@ interface Props {
   images: GetGroupDetailsResponse['images'];
 }
 
-export const MeetupBannerImages = ({ images }: Props) => {
+export const GroupBannerImages = ({ images }: Props) => {
   const hasImages = Boolean(images.length);
 
   return (

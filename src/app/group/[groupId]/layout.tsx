@@ -9,7 +9,7 @@ interface Props {
   params: Promise<{ groupId: string }>;
 }
 
-const MeetupDetailLayout = async ({ children, params }: Props) => {
+const GroupDetailLayout = async ({ children, params }: Props) => {
   const { groupId } = await params;
 
   const queryClient = new QueryClient();
@@ -24,4 +24,4 @@ const MeetupDetailLayout = async ({ children, params }: Props) => {
   return <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>;
 };
 
-export default MeetupDetailLayout;
+export default GroupDetailLayout;

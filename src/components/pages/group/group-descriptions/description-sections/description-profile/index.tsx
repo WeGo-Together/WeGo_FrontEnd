@@ -36,7 +36,10 @@ export const DescriptionProfile = ({
       </Link>
       {isPast && <p className='text-text-xs-semibold pr-1 text-gray-500'>모임 마감</p>}
       {isHost && !isPast && (
-        <Link href={`/post-meetup/${groupId}`} className='text-text-xs-semibold text-mint-500 pr-1'>
+        <Link
+          href={`/create-group/${groupId}`}
+          className='text-text-xs-semibold text-mint-500 pr-1'
+        >
           모임 수정하기
         </Link>
       )}

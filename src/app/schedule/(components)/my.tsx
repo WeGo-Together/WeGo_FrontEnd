@@ -33,7 +33,7 @@ export default function My() {
   return (
     <MeetingList
       completedMessage={completedMessage}
-      emptyStatePath='/post-meetup'
+      emptyStatePath='/create-group'
       emptyStateType='myPost'
       error={error}
       hasNextPage={hasNextPage}

@@ -33,7 +33,7 @@ const NAV_MENU = [
     svgId: 'calendar-1',
   },
   {
-    path: '/post-meetup',
+    path: '/create-group',
     svgId: 'plus-circle',
   },
   {
