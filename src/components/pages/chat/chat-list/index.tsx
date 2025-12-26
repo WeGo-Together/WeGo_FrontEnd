@@ -38,7 +38,7 @@ const dummy = [
   },
 ];
 
-export const Chat = () => {
+export const ChatList = () => {
   const router = useRouter();
   const handleClick = () => {
     router.push('/chat/1');

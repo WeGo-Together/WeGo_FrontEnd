@@ -41,3 +41,10 @@
 .scrollbar-thin::-webkit-scrollbar-thumb {
   @apply rounded-lg bg-gray-400;
 }
+
+.line-clamp-20 {
+  display: -webkit-box;
+  -webkit-line-clamp: 20;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
