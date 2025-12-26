@@ -8,6 +8,7 @@ import axios, { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
 
 import { API } from '@/api';
+import { useAuth } from '@/providers';
 import { LoginRequest } from '@/types/service/auth';
 import { CommonErrorResponse } from '@/types/service/common';
 
@@ -53,6 +54,8 @@ export const useLogin = () => {
   const [loginError, setLoginError] = useState<string | null>(null);
   const clearLoginError = useCallback(() => setLoginError(null), []);
 
+  const { accessToken } = useAuth();
+
   const handleLogin = async (payload: LoginRequest, formApi: { reset: () => void }) => {
     setLoginError(null);
 
@@ -68,6 +71,9 @@ export const useLogin = () => {
       });
 
       formApi.reset();
+
+      accessToken.set(result.accessToken);
+
       const nextPath = normalizePath(searchParams.get('path'));
       router.replace(nextPath);
     } catch (error) {

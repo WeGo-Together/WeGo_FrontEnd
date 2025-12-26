@@ -3,14 +3,16 @@
 import { useRouter } from 'next/navigation';
 
 import { useQueryClient } from '@tanstack/react-query';
-import Cookies from 'js-cookie';
 
 import { API } from '@/api';
 import { userKeys } from '@/lib/query-key/query-key-user';
+import { useAuth } from '@/providers';
 
 export const useLogout = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
+
+  const { accessToken } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -20,9 +22,8 @@ export const useLogout = () => {
     } finally {
       // 로그인 유저 관련 캐시 정리
       queryClient.removeQueries({ queryKey: userKeys.all });
-      Cookies.remove('userId');
 
-      // 로컬 스토리지/추가 상태도 정리???
+      accessToken.remove();
 
       router.push('/');
     }

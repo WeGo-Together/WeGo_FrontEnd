@@ -50,7 +50,7 @@ export const userServiceRemote = () => ({
   // 7. 닉네임 중복 검사
   getNicknameAvailability: async (queryParams: GetNicknameAvailabilityQueryParams) => {
     return apiV1.get<Availability>(`/users/nickname/availability`, {
-      params: { ...queryParams },
+      params: { nickname: queryParams.nickName },
     });
   },
 
