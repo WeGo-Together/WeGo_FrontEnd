@@ -5,6 +5,7 @@ import { useConnectSSE } from '@/hooks/use-notification/use-notification-connect
 
 interface NotificationContextType {
   unReadCount: number;
+  receivedNewNotification: boolean;
 }
 
 const NotificationContext = createContext<NotificationContextType | null>(null);
@@ -21,9 +22,9 @@ interface NotificationProviderProps {
 
 export const NotificationProvider = ({ children }: NotificationProviderProps) => {
   const { data: unReadCount = 0 } = useGetNotificationUnreadCount();
-  useConnectSSE();
+  const { receivedNewNotification } = useConnectSSE();
   return (
-    <NotificationContext.Provider value={{ unReadCount: unReadCount }}>
+    <NotificationContext.Provider value={{ unReadCount, receivedNewNotification }}>
       {children}
     </NotificationContext.Provider>
   );

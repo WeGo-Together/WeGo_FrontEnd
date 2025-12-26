@@ -51,9 +51,9 @@ export const NotificationCard = ({ item }: Props) => {
 
 const IconMap: Record<NotificationType, React.ReactNode> = {
   FOLLOW: <Icon id='heart' className='text-mint-500 size-6' />,
-  CREATE: <Icon id='map-pin-2' className='size-6 text-[#FFBA1A]' />,
-  CANCLE: <Icon id='x-2' className='size-6 text-gray-500' />,
-  ENTER: <Icon id='symbol' className='text-mint-500 size-6' />,
+  GROUP_CREATE: <Icon id='map-pin-2' className='size-6 text-[#FFBA1A]' />,
+  GROUP_DELETE: <Icon id='x-2' className='size-6 text-gray-500' />,
+  GROUP_JOIN: <Icon id='symbol' className='text-mint-500 size-6' />,
   EXIT: <Icon id='x-2' className='size-6 text-gray-500' />,
 };
 
@@ -61,11 +61,11 @@ const getTitle = (data: NotificationItem) => {
   switch (data.type) {
     case 'FOLLOW':
       return `새 팔로워`;
-    case 'CREATE':
+    case 'GROUP_CREATE':
       return `모임 생성`;
-    case 'CANCLE':
+    case 'GROUP_DELETE':
       return `모임 취소`;
-    case 'ENTER':
+    case 'GROUP_JOIN':
       return `모임 현황`;
     case 'EXIT':
       return `모임 현황`;
@@ -73,18 +73,19 @@ const getTitle = (data: NotificationItem) => {
 };
 
 const getDescription = (data: NotificationItem) => {
-  switch (data.type) {
-    case 'FOLLOW':
-      return `${data.actorNickname} 님이 팔로우 했습니다.`;
-    case 'CREATE':
-      return `${data.actorNickname} 님이 "${data.actorNickname}" 모임을 생성했습니다.`;
-    case 'CANCLE':
-      return `${data.actorNickname} 님이 "${data.actorNickname}" 모임을 취소했습니다.`;
-    case 'ENTER':
-      return `${data.actorNickname} 님이 "${data.actorNickname}" 모임에 참가했습니다.`;
-    case 'EXIT':
-      return `${data.actorNickname} 님이 "${data.actorNickname}" 모임을 떠났습니다.`;
-  }
+  // switch (data.type) {
+  //   case 'FOLLOW':
+  //     return `${data.actorNickname} 님이 팔로우 했습니다.`;
+  //   case 'GROUP_CREATE':
+  //     return `${data.actorNickname} 님이 "${data.actorNickname}" 모임을 생성했습니다.`;
+  //   case 'CANCLE':
+  //     return `${data.actorNickname} 님이 "${data.actorNickname}" 모임을 취소했습니다.`;
+  //   case 'ENTER':
+  //     return `${data.actorNickname} 님이 "${data.actorNickname}" 모임에 참가했습니다.`;
+  //   case 'EXIT':
+  //     return `${data.actorNickname} 님이 "${data.actorNickname}" 모임을 떠났습니다.`;
+  // }
+  return data.message;
 };
 
 const getTimeAgo = (data: NotificationItem) => {
