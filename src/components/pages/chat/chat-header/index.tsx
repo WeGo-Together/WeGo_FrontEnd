@@ -7,7 +7,7 @@ import { Icon } from '@/components/icon';
 export const ChatHeader = () => {
   const router = useRouter();
   return (
-    <div className='bg-mono-white sticky flex w-full items-center justify-between border-b border-gray-200 px-5 py-3'>
+    <div className='bg-mono-white flex w-full items-center justify-between border-b border-gray-200 px-5 py-3'>
       <Icon
         id='chevron-left-2'
         className='w-6 cursor-pointer text-gray-500'

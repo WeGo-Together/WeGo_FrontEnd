@@ -22,7 +22,7 @@ data = [
     time: '오후 11:25',
     profileImage: DEFAULT_PROFILE_IMAGE,
     nickName: '흰둥이',
-    userId: 1,
+    userId: 0,
   },
 ];
 const myId = 0;

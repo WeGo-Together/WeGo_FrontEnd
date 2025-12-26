@@ -29,7 +29,7 @@ export const ExpandableText = ({ text, className }: Props) => {
           className='text-text-xs-medium mt-2 flex items-center'
           onClick={() => open(<LongTextModal text={text} />)}
         >
-          <span className='text-gray-500'>전체보기 </span>
+          <span className='text-text-xs-regular text-gray-500'>전체보기 </span>
           <Icon id='chevron-right-1' className='w-4 text-gray-600' />
         </button>
       )}
