@@ -1,8 +1,9 @@
 import Image from 'next/image';
 
+import { ExpandableText } from '../chat-long-text';
+
 interface IProps {
   item: {
-    id: number;
     nickName: string;
     profileImage: string;
     text: string;
@@ -12,8 +13,9 @@ interface IProps {
 
 export const OtherChat = ({ item }: IProps) => {
   const { nickName, profileImage, text, time } = item;
+
   return (
-    <div className='mb-5 flex'>
+    <div className='flex'>
       <Image
         width={40}
         className='mr-3 size-10 rounded-full object-cover'
@@ -21,12 +23,15 @@ export const OtherChat = ({ item }: IProps) => {
         height={40}
         src={profileImage}
       />
-      <div className='mr-1.5 flex flex-col'>
+
+      <div className='mr-1.5 max-w-60'>
         <span className='text-text-xs-medium text-gray-800'>{nickName}</span>
-        <span className='bg-mono-white mt-1 max-w-60 rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl px-4 py-3 text-gray-800'>
-          {text}
-        </span>
+
+        <div className='bg-mono-white mt-1 rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl px-4 py-3'>
+          <ExpandableText text={text} />
+        </div>
       </div>
+
       <div className='text-text-2xs-regular flex items-end py-1 text-gray-500'>{time}</div>
     </div>
   );
