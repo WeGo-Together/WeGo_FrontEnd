@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
 
@@ -43,18 +43,27 @@ const ChatRoomPage = () => {
     setMessages((prev) => [...prev, newMessage]);
   };
 
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // 마지막 메세지 ref로 스크롤 이동
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  // 마지막(가장 최근) 메세지 ref로 스크롤 이동
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // 다음 프레임에서 스크롤 실행
+    requestAnimationFrame(() => {
+      container.scrollTop = container.scrollHeight;
+    });
   }, [messages]);
 
   return (
     <div className='flex h-[calc(100vh-112px)] flex-col'>
       <ChatHeader />
 
-      <div className='scrollbar-thin ml-4 flex-1 overflow-y-auto pt-4'>
+      <div
+        ref={containerRef}
+        className='scrollbar-thin ml-4 flex flex-1 flex-col gap-4 overflow-y-auto py-4'
+      >
         {messages.map((item) =>
           item.userId === myId ? (
             <MyChat key={item.id} item={item} />
@@ -62,7 +71,6 @@ const ChatRoomPage = () => {
             <OtherChat key={item.id} item={item} />
           ),
         )}
-        <div ref={bottomRef} />
       </div>
 
       <ChatInput onSubmit={handleSubmit} />

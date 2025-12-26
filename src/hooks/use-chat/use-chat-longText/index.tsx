@@ -4,6 +4,7 @@ export const useLongText = (text: string, maxLines = 20) => {
   const textRef = useRef<HTMLSpanElement>(null);
   const [isLongText, setIsLongText] = useState(false);
 
+  // 20줄이 넘어가면 longText로 판단.
   useLayoutEffect(() => {
     if (!textRef.current) return;
 

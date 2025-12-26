@@ -1,10 +1,19 @@
-import { ExpandableText } from '@/components/chat/ExpandableText';
+import { ExpandableText } from '../chat-long-text';
+
+interface IProps {
+  item: {
+    nickName: string;
+    profileImage: string;
+    text: string;
+    time: string;
+  };
+}
 
 export const MyChat = ({ item }: IProps) => {
   const { text, time } = item;
 
   return (
-    <div className='mr-3 mb-5 flex justify-end'>
+    <div className='mr-3 flex justify-end'>
       <div className='text-text-2xs-regular flex items-end py-1 text-gray-500'>{time}</div>
 
       <div className='ml-1.5'>

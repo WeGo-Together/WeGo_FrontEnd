@@ -2,11 +2,20 @@ import Image from 'next/image';
 
 import { ExpandableText } from '../chat-long-text';
 
+interface IProps {
+  item: {
+    nickName: string;
+    profileImage: string;
+    text: string;
+    time: string;
+  };
+}
+
 export const OtherChat = ({ item }: IProps) => {
   const { nickName, profileImage, text, time } = item;
 
   return (
-    <div className='mb-5 flex'>
+    <div className='flex'>
       <Image
         width={40}
         className='mr-3 size-10 rounded-full object-cover'
