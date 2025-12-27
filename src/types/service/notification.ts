@@ -1,4 +1,4 @@
-export type NotificationType = 'FOLLOW' | 'ENTER' | 'EXIT' | 'CREATE' | 'CANCLE';
+export type NotificationType = 'FOLLOW' | 'GROUP_JOIN' | 'EXIT' | 'GROUP_CREATE' | 'GROUP_DELETE';
 
 export interface NotificationItem {
   id: number;
@@ -12,6 +12,7 @@ export interface NotificationItem {
   relatedType: NotificationType;
   redirectUrl: string;
   createdAt: string;
+  message: string;
 }
 
 export interface NotificationList {
