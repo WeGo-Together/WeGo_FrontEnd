@@ -17,7 +17,7 @@ export const GroupTagsField = ({ field }: Props) => {
   const [inputValue, setInputValue] = useState('');
 
   const onEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.code !== 'Enter' && e.code !== 'NumpadEnter') return;
+    if (e.key !== 'Enter') return;
     if (e.nativeEvent.isComposing) return;
 
     const isUniqueTag = !field.state.value.includes(inputValue);
