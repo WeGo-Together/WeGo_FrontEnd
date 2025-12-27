@@ -43,7 +43,7 @@ const CreateGroupPage = () => {
 
       const res = await createGroup(value);
 
-      replace(`/Group/${res.id}`);
+      replace(`/group/${res.id}`);
     },
   });
 
