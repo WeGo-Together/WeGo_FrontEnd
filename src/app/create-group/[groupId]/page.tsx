@@ -65,7 +65,7 @@ const EditGroupPage = ({ params }: Props) => {
 
       const res = await EditGroup(value);
 
-      replace(`/Group/${res.id}`);
+      replace(`/group/${res.id}`);
     },
   });
 
