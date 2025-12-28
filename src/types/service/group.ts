@@ -84,35 +84,6 @@ export interface GetMyGroupsResponse {
   nextCursor: number | null;
 }
 
-/**
-
- * 밑에 타입들은 다른 분들이 아직 다른 파일에서 사용 중이므로 그냥 제거해버리시면 안됩니다(다른 분들도 다 수정 후에 제거 예정)
- * 아직 사용 중인 파일:
- * - src/types/service/notification.ts (Notification.group)
- * - src/mock/service/group/group-mock.ts (groupMockItem)
- */
-export interface Group {
-  id: number;
-  title: string;
-  location: string;
-  locationDetail: string;
-  startTime: string;
-  endTime: string;
-  images: string[];
-  tags: string[];
-  description: string;
-  participantCount: number;
-  maxParticipants: number;
-  createdBy: {
-    userId: number;
-    nickName: string;
-    profileImage: null | string;
-  };
-  createdAt: string;
-  updatedAt: string;
-  joinedCount: number;
-}
-
 export interface PreUploadGroupImagePayload {
   images: File[];
 }
@@ -185,6 +156,7 @@ export interface CreateGroupResponse {
 export interface GetGroupDetailsResponse {
   id: number;
   title: string;
+  joinPolicy: GroupV2JoinPolicy;
   status: GroupV2Status;
   address: {
     location: string;
@@ -232,4 +204,20 @@ export interface GetGroupDetailsResponse {
 
 export interface GroupIdParams {
   groupId: string;
+}
+
+// 승인 대기자 목록 조회 응답 (GET /api/v2/groups/{groupId}/attendance/pending)
+export interface GetPendingMembersResponse {
+  groupId: number;
+  joinPolicy: GroupV2JoinPolicy;
+  pendingMembers: {
+    userId: number;
+    groupUserId: number;
+    nickName: string;
+    profileImage: string | null;
+    profileMessage: string | null;
+    requestMessage: string | null;
+    requestedAt: string;
+  }[];
+  serverTime: string;
 }
