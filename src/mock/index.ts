@@ -16,7 +16,7 @@ export const initMocks = async () => {
   const shouldEnable = process.env.NEXT_PUBLIC_MSW_ENABLED === 'true';
   if (!shouldEnable) return;
 
-  if (typeof window === 'undefined') {
+  if (typeof window === 'undefined' || process.env.NODE_ENV === 'test') {
     // Server
     const { server } = await import('./server');
     server.listen({
