@@ -52,6 +52,7 @@ export const useConnectSSE = () => {
         console.log('SSE 수신 성공:', data);
         setReceivedNewNotification(true);
         queryClient.invalidateQueries({ queryKey: notificationKeys.unReadCount() });
+        queryClient.invalidateQueries({ queryKey: notificationKeys.list() });
         // TODO: 알림 타입별 처리 추가 예정
       } catch (error) {
         console.error('SSE 데이터 파싱 실패:', error);
@@ -62,6 +63,7 @@ export const useConnectSSE = () => {
     es.onerror = (_error) => {
       console.log('SSE 오류 발생:');
       // todo: 재 연결 로직 추가 필요
+      accessToken.value = null;
     };
 
     // SSE Cleanup
@@ -70,7 +72,7 @@ export const useConnectSSE = () => {
       es.close();
       eventSourceRef.current = null;
     };
-  }, [accessToken.value, queryClient]);
+  }, [accessToken, queryClient]);
 
   return { receivedNewNotification };
 };
