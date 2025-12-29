@@ -142,9 +142,9 @@ const unfollowUserMock = http.delete(`*/users/unfollow`, ({ request }) => {
 
 export const userHandlers = [
   followUserMock,
+  getMeItemMock,
   getUserItemMock,
   updateMyNotificationMock,
-  getMeItemMock,
   updateUserItemMock,
   getNicknameAvailabilityMock,
   getEmailAvailabilityMock,
