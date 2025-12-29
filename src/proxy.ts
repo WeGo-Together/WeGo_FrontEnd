@@ -4,7 +4,7 @@ export default async function proxy(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken');
   const refreshToken = request.cookies.get('refreshToken');
 
-  const protectedPaths = ['/mypage', '/post-meetup', '/message', '/schedule'];
+  const protectedPaths = ['/mypage', '/create-group', '/message', '/schedule'];
   const isProtected = protectedPaths.some((path) => request.nextUrl.pathname.startsWith(path));
 
   // 보호되지 않은 경로는 그냥 통과

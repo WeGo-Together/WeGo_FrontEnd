@@ -75,7 +75,7 @@ export const MeetingList = ({
           tabType={tabType}
           tags={meeting.tags}
           title={meeting.title}
-          onClick={() => router.push(`/meetup/${meeting.id}`)}
+          onClick={() => router.push(`/group/${meeting.id}`)}
         />
       ))}
 

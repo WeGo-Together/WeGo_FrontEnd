@@ -101,4 +101,8 @@ const refreshMock = http.post('*/api/v1/auth/refresh', async ({ cookies }) => {
   return HttpResponse.json(createMockSuccessResponse<RefreshResponse>(response));
 });
 
-export const authHandlers = [signupMock, loginMock, logoutMock, refreshMock];
+const withdrawMock = http.delete('*/api/v1/auth/withdraw', async () => {
+  return HttpResponse.json(createMockSuccessResponse<void>(undefined));
+});
+
+export const authHandlers = [signupMock, loginMock, logoutMock, refreshMock, withdrawMock];

@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 
 import { API } from '@/api';
-import { Chat } from '@/components/pages/chat';
+import { ChatList } from '@/components/pages/chat';
 import { FollowingList, FollowingNone, FollowingSearch } from '@/components/pages/message';
 import { TabNavigation } from '@/components/shared';
 import { useInfiniteScroll } from '@/hooks/use-group/use-group-infinite-list';
@@ -66,7 +66,7 @@ export default function FollowingPage() {
     <div className='min-h-screen bg-[#F1F5F9]'>
       <TabNavigation basePath='/message' defaultValue='chat' tabs={SOCIAL_TABS} />
 
-      {tab === 'chat' && <Chat />}
+      {tab === 'chat' && <ChatList />}
       {tab === 'following' && (
         <>
           <FollowingSearch userId={userId} />
