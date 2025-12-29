@@ -34,7 +34,7 @@ const EMPTY_STATE_CONFIG = {
       </>
     ),
     buttonText: '모임 만들기',
-    buttonWidth: 'w-[112px]',
+    buttonWidth: 'w-31',
   },
   past: {
     text: (
