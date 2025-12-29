@@ -45,7 +45,7 @@ const EMPTY_STATE_CONFIG = {
       </>
     ),
     buttonText: '모임 보러가기',
-    buttonWidth: 'w-[124px]',
+    buttonWidth: 'w-31',
   },
 } as const;
 
