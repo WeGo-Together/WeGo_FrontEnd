@@ -6,7 +6,7 @@ import { GetNotificationListQueryParams } from '@/types/service/notification';
 
 export const useGetNotificationsInfinite = (params?: GetNotificationListQueryParams) => {
   return useInfiniteQuery({
-    queryKey: notificationKeys.list(),
+    queryKey: notificationKeys.list(params),
     queryFn: ({ pageParam }) => API.notificationService.getList({ ...params, cursor: pageParam }),
     initialPageParam: params?.cursor,
     getNextPageParam: (lastPage) => lastPage.nextCursor,

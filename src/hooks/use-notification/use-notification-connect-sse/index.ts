@@ -72,7 +72,7 @@ export const useConnectSSE = () => {
       es.close();
       eventSourceRef.current = null;
     };
-  }, [accessToken, queryClient]);
+  }, [accessToken, accessToken.value, queryClient]);
 
   return { receivedNewNotification };
 };
