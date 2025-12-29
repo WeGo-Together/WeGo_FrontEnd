@@ -56,7 +56,6 @@ baseAPI.interceptors.response.use(
         await API.authService.refresh();
         return baseAPI(originalRequest);
       } catch (refreshError) {
-        await API.authService.logout();
         if (isServer) {
           const { redirect } = await import('next/navigation');
           redirect('/login');

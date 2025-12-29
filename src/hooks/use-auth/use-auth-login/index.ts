@@ -54,7 +54,7 @@ export const useLogin = () => {
   const [loginError, setLoginError] = useState<string | null>(null);
   const clearLoginError = useCallback(() => setLoginError(null), []);
 
-  const { accessToken } = useAuth();
+  const { setIsAuthenticated } = useAuth();
 
   const handleLogin = async (payload: LoginRequest, formApi: { reset: () => void }) => {
     setLoginError(null);
@@ -72,7 +72,7 @@ export const useLogin = () => {
 
       formApi.reset();
 
-      accessToken.set(result.accessToken);
+      setIsAuthenticated(true);
 
       const nextPath = normalizePath(searchParams.get('path'));
       router.replace(nextPath);

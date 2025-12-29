@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic';
 const MyPageLayout = async ({ children }: Props) => {
   const queryClient = getQueryClient();
 
-  await queryClient.fetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: userKeys.me(),
     queryFn: () => API.userService.getMe(),
   });
