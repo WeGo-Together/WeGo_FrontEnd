@@ -79,7 +79,7 @@ export const MeetingList = ({
   if (meetings.length === 0 && !error) {
     const config = EMPTY_STATE_CONFIG[emptyStateType];
     return (
-      <div className='relative flex min-h-[calc(100vh-200px)] flex-col items-center justify-center py-8'>
+      <div className='relative flex min-h-[calc(100vh-156px)] flex-col items-center justify-center py-8'>
         <EmptyState>{config.text}</EmptyState>
 
         <Button
