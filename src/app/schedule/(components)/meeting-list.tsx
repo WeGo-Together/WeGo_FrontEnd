@@ -83,7 +83,7 @@ export const MeetingList = ({
         <EmptyState>{config.text}</EmptyState>
 
         <Button
-          className={`bg-mint-500 text-text-sm-bold text-mono-white hover:bg-mint-600 active:bg-mint-700 relative z-10 mt-[250px] h-10 rounded-xl ${config.buttonWidth}`}
+          className={`bg-mint-500 text-text-sm-bold text-mono-white hover:bg-mint-600 active:bg-mint-700 relative z-10 mt-62.5 h-10 rounded-xl ${config.buttonWidth}`}
           onClick={() => router.push(emptyStatePath)}
         >
           {config.buttonText}
