@@ -10,6 +10,8 @@ export const formatTimeAgo = (isoString: string) => {
   const dateInput = new Date(isoString.endsWith('Z') ? isoString : `${isoString}Z`);
   const dateNow = new Date();
 
+  if (dateInput.getTime() >= dateNow.getTime()) return '0초 전';
+
   const diffPerSec = Math.floor((dateNow.getTime() - dateInput.getTime()) / 1000);
   if (diffPerSec < 60) return `${diffPerSec}초 전`;
 
