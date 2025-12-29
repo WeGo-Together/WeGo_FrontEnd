@@ -16,10 +16,10 @@ export const NotificationHeader = () => {
     router.back();
   };
 
-  const handleReadAllClick = () => {
+  const handleReadAllClick = async () => {
     if (unReadCount === 0) return;
     try {
-      mutateAsync();
+      await mutateAsync();
     } catch {
       alert('요청 처리에 실패했습니다.');
     }
