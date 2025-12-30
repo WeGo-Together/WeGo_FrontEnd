@@ -2,6 +2,9 @@
 
 import { useEffect } from 'react';
 
+import { Icon } from '@/components/icon';
+import { Button } from '@/components/ui';
+
 export default function Error({
   error,
   reset,
@@ -14,11 +17,15 @@ export default function Error({
   }, [error]);
 
   return (
-    <div>
-      <h2 className='text-gray-700'>문제가 발생했습니다</h2>
-      <button className='text-gray-700' onClick={() => reset()}>
+    <div className='flex-col-center absolute inset-0'>
+      <Icon id='empty' className='mb-2 size-35' />
+      <h2 className='text-text-sm-medium flex-col-center mb-4.5 text-gray-600'>
+        <span>요청을 처리하는데 실패했습니다.</span>
+        <span>잠시후 다시 시도해주세요.</span>
+      </h2>
+      <Button className='w-21.25' size='sm' onClick={reset}>
         다시 시도
-      </button>
+      </Button>
     </div>
   );
 }
