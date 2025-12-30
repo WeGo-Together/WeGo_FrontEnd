@@ -1,13 +1,23 @@
-import Link from 'next/link';
+'use client';
+import { useRouter } from 'next/navigation';
+
+import { Icon } from '@/components/icon';
+import { Button } from '@/components/ui';
 
 export default function NotFound() {
+  const router = useRouter();
+
+  const handleHomeButtonClick = () => {
+    router.push('/');
+  };
+
   return (
-    <div>
-      <h2 className='text-gray-700'>페이지를 찾을 수 없습니다.</h2>
-      <p className='text-gray-700'>존재하지 않는 경로입니다</p>
-      <Link href='/' className='text-gray-700'>
+    <div className='flex-col-center absolute inset-0'>
+      <Icon id='not-found' className='mb-2 size-35' />
+      <h2 className='text-text-sm-medium mb-4.5 text-gray-600'>페이지가 존재하지 않습니다.</h2>
+      <Button className='w-21.25' size='sm' onClick={handleHomeButtonClick}>
         홈으로
-      </Link>
+      </Button>
     </div>
   );
 }
