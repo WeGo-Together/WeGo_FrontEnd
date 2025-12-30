@@ -99,6 +99,7 @@ export default function GroupList({ initialData, initialKeyword }: GroupListProp
                 key={meeting.id}
                 dateTime={formatDateTime(meeting.startTime)}
                 images={meeting.images}
+                isClosed={!meeting.joinable}
                 isPending={meeting.myMembership?.status === 'PENDING'}
                 location={meeting.location}
                 maxParticipants={meeting.maxParticipants}
