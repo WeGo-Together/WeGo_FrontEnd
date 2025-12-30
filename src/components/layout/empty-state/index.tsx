@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { Icon } from '@/components/icon';
 
 interface Props {
   children?: React.ReactNode;
@@ -7,13 +7,7 @@ interface Props {
 export const EmptyState = ({ children }: Props) => {
   return (
     <section className='flex-col-center text-text-sm-medium absolute inset-0 text-center text-gray-600'>
-      <Image
-        width={140}
-        className='mb-2'
-        alt='빈 화면'
-        height={140}
-        src='/images/image-empty.png'
-      />
+      <Icon id='empty' className='mb-2 size-35' />
       {children}
     </section>
   );
