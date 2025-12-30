@@ -71,9 +71,9 @@ export const groupServiceRemote = () => ({
     return apiV2.get<GetGroupDetailsResponse>(`/groups/${params.groupId}`);
   },
 
-  attendGroup: (params: GroupIdParams, payload: AttendGroupPayload) => {
+  attendGroup: (params: GroupIdParams, payload?: AttendGroupPayload) => {
     // 승인제 모임 신청 시 message 포함해서 API 요청
-    if (payload.message) {
+    if (payload?.message) {
       return apiV2.post<GetGroupDetailsResponse>(`/groups/${params.groupId}/attend`, payload);
     }
     return apiV2.post<GetGroupDetailsResponse>(`/groups/${params.groupId}/attend`);
