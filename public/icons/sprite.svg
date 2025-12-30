@@ -184,6 +184,10 @@
       d="M12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2M12 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2M12 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2"
     />
   </symbol>
+  <symbol fill="none" viewBox="0 0 20 20" id="kick" xmlns="http://www.w3.org/2000/svg">
+    <rect width="20" height="20" fill="#F04438" rx="10" />
+    <path stroke="#fff" stroke-linecap="round" stroke-width="1.875" d="M5.938 10.313h8.125" />
+  </symbol>
   <symbol fill="none" viewBox="0 0 20 20" id="map-pin-1" xmlns="http://www.w3.org/2000/svg">
     <path
       stroke="currentColor"
@@ -225,7 +229,7 @@
     />
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="plus-circle" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#bha)">
+    <g clip-path="url(#bia)">
       <path
         fill="#00C9EC"
         d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12"
@@ -239,7 +243,7 @@
       />
     </g>
     <defs>
-      <clipPath id="bha"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
+      <clipPath id="bia"><path fill="#fff" d="M0 0h24v24H0z" /></clipPath>
     </defs>
   </symbol>
   <symbol fill="none" viewBox="0 0 24 24" id="search" xmlns="http://www.w3.org/2000/svg">
