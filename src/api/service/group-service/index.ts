@@ -8,6 +8,7 @@ import {
   GetMyGroupsPayload,
   GetMyGroupsResponse,
   GroupIdParams,
+  KickGroupMemberParams,
   PreUploadGroupImageResponse,
 } from '@/types/service/group';
 
@@ -79,6 +80,10 @@ export const groupServiceRemote = () => ({
 
   deleteGroup: (params: GroupIdParams) => {
     return apiV2.delete(`/groups/${params.groupId}`);
+  },
+
+  kickGroupMember: (params: KickGroupMemberParams) => {
+    return apiV2.post(`/groups/${params.groupId}/attendance/${params.targetUserId}/kick`);
   },
 
   uploadGroupImages: (payload: FormData) => {
