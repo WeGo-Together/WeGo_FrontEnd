@@ -11,7 +11,7 @@ type CardThumbnailProps = {
 
 export const CardThumbnail = ({ title, thumbnail, isPending, isClosed }: CardThumbnailProps) => {
   return (
-    <div className='relative h-[100px] w-[100px] shrink-0 overflow-hidden rounded-2xl bg-gray-200'>
+    <div className='relative h-25 w-25 shrink-0 overflow-hidden rounded-2xl bg-gray-200'>
       <ImageWithFallback
         width={100}
         className='h-full w-full object-cover'
@@ -29,7 +29,7 @@ export const CardThumbnail = ({ title, thumbnail, isPending, isClosed }: CardThu
       {isClosed && (
         <>
           <div className='absolute inset-0 bg-black/60' />
-          <div className='absolute inset-0 flex items-center justify-center'>
+          <div className='flex-center absolute inset-0'>
             <span className='text-text-sm-bold text-mono-white'>모임 마감</span>
           </div>
         </>
