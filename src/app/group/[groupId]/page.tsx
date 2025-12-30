@@ -28,7 +28,11 @@ const GroupDetailPage = ({ params }: Props) => {
     <div>
       <GroupBannerImages images={images} />
       <GroupDescriptions descriptions={data} />
-      <GroupMembers members={joinedMembers} />
+      <GroupMembers
+        groupId={groupId}
+        isHost={myMembership?.role === 'HOST'}
+        members={joinedMembers}
+      />
       <GroupButtons
         conditions={{
           isHost: myMembership?.role === 'HOST',

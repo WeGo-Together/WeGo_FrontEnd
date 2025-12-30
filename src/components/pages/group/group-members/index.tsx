@@ -7,23 +7,30 @@ import { useState } from 'react';
 import clsx from 'clsx';
 
 import { Icon } from '@/components/icon';
+import { GroupModal } from '@/components/pages/group/group-modal';
 import { AnimateDynamicHeight } from '@/components/shared';
 import { Button, ImageWithFallback } from '@/components/ui';
-import { GetGroupDetailsResponse } from '@/types/service/group';
+import { useModal } from '@/components/ui';
+import { GetGroupDetailsResponse, KickGroupMemberParams } from '@/types/service/group';
 
 interface Props {
   members: GetGroupDetailsResponse['joinedMembers'];
+  isHost: boolean;
+  groupId: string;
 }
 
-export const GroupMembers = ({ members }: Props) => {
+export const GroupMembers = ({ members, isHost, groupId }: Props) => {
   const [expand, setExpand] = useState(false);
-  const [coverMember, setCoverMember] = useState(2 < Math.ceil(members.length / 3));
-
   const hasMoreMember = 2 < Math.ceil(members.length / 3);
+
+  const { open } = useModal();
 
   const onExpandClick = () => {
     setExpand((prev) => !prev);
-    setCoverMember((prev) => !prev);
+  };
+
+  const onKickMemberClick = (targetUserId: KickGroupMemberParams['targetUserId']) => {
+    open(<GroupModal groupId={groupId} targetUserId={targetUserId} type='kick' />);
   };
 
   return (
@@ -35,41 +42,49 @@ export const GroupMembers = ({ members }: Props) => {
           {members.map(({ nickName, profileImage, userId }, idx) => (
             <li
               key={nickName}
-              className={clsx(
-                'relative',
-                hasMoreMember && !expand ? '[&:nth-child(n+7)]:hidden' : 'block',
-              )}
+              className={hasMoreMember && !expand ? '[&:nth-child(n+6)]:hidden' : 'block'}
             >
               <div className='flex-col-center gap-1.5'>
-                <Link href={`/profile/${userId}`}>
-                  <ImageWithFallback
-                    width={64}
-                    className='object-fit h-16 w-16 rounded-full'
-                    alt='프로필 사진'
-                    draggable={false}
-                    height={64}
-                    src={profileImage ?? ''}
-                  />
-                </Link>
+                <div className='relative'>
+                  <Link href={`/profile/${userId}`}>
+                    <ImageWithFallback
+                      width={64}
+                      className='object-fit h-16 w-16 rounded-full'
+                      alt='프로필 사진'
+                      draggable={false}
+                      height={64}
+                      src={profileImage ?? ''}
+                    />
+                  </Link>
+                  {isHost && idx !== 0 && (
+                    <button
+                      className='absolute top-0 right-0'
+                      type='button'
+                      onClick={() => onKickMemberClick(userId.toString())}
+                    >
+                      <Icon id='kick' className='h-4 w-4' />
+                    </button>
+                  )}
+                </div>
+
                 <p
                   className={clsx(
                     'text-text-xs-medium line-clamp-1 w-full text-center break-all text-gray-800',
-                    coverMember && idx === 5 ? 'hidden' : 'block',
+                    hasMoreMember && !expand && idx === 5 ? 'hidden' : 'block',
                   )}
                 >
                   {nickName}
                 </p>
               </div>
-
-              {coverMember && idx === 5 && (
-                <div className='absolute inset-0'>
-                  <span className='flex-center text-text-md-semibold mx-auto h-[65px] w-[65px] rounded-full bg-gray-200 text-gray-600'>
-                    {members.length - 5}+
-                  </span>
-                </div>
-              )}
             </li>
           ))}
+          {hasMoreMember && !expand && (
+            <li className='mx-auto'>
+              <div className='flex-center h-16 w-16 rounded-full bg-gray-200'>
+                <span className='text-text-md-semibold text-gray-600'>{members.length - 5}+</span>
+              </div>
+            </li>
+          )}
         </ul>
       </AnimateDynamicHeight>
 

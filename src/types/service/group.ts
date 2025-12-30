@@ -206,6 +206,10 @@ export interface GroupIdParams {
   groupId: string;
 }
 
+export interface AttendGroupPayload {
+  message: string;
+}
+
 export interface KickGroupMemberParams {
   groupId: GroupIdParams['groupId'];
   targetUserId: string;
