@@ -12,6 +12,7 @@ import {
   GroupDetailField,
   GroupImagesField,
   GroupLocationField,
+  GroupPolicyField,
   GroupSubmitButton,
   GroupTagsField,
   GroupTitleField,
@@ -38,7 +39,9 @@ const EditGroupPage = ({ params }: Props) => {
     tags,
     description,
     maxParticipants,
+    joinPolicy,
     images,
+    participantCount,
   } = data as GetGroupDetailsResponse;
 
   const { defaultImages } = convertToDefaultImages(images);
@@ -51,8 +54,8 @@ const EditGroupPage = ({ params }: Props) => {
       tags,
       description,
       maxParticipants,
+      joinPolicy,
       images: defaultImages,
-      joinPolicy: 'FREE',
     } as CreateGroupFormValues,
     validators: {
       onChange: createGroupSchema,
@@ -77,8 +80,14 @@ const EditGroupPage = ({ params }: Props) => {
           <form.Field children={(field) => <GroupLocationField field={field} />} name='location' />
           <form.Field children={(field) => <GroupDateField field={field} />} name='startTime' />
           <form.Field
-            children={(field) => <GroupCapField field={field} />}
+            children={(field) => (
+              <GroupCapField field={field} participantCount={participantCount} />
+            )}
             name='maxParticipants'
+          />
+          <form.Field
+            children={(field) => <GroupPolicyField field={field} isEditMode={true} />}
+            name='joinPolicy'
           />
           <form.Field children={(field) => <GroupImagesField field={field} />} name='images' />
           <form.Field children={(field) => <GroupDetailField field={field} />} name='description' />
