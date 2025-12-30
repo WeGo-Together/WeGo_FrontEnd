@@ -38,7 +38,9 @@ export type DynamicIconId =
 export type ResizableIconId =
   | 'bell-unread'
   | 'congratulate'
+  | 'empty'
   | 'kick'
+  | 'not-found'
   | 'plus-circle'
   | 'visibility-false'
   | 'visibility-true'
@@ -193,7 +195,15 @@ export const iconMetadataMap: IconMetadata[] = [
     variant: 'resizable',
   },
   {
+    id: 'empty',
+    variant: 'resizable',
+  },
+  {
     id: 'kick',
+    variant: 'resizable',
+  },
+  {
+    id: 'not-found',
     variant: 'resizable',
   },
   {
