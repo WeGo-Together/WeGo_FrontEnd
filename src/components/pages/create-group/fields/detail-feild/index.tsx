@@ -18,7 +18,7 @@ export const GroupDetailField = ({ field }: Props) => {
       </Label>
       <textarea
         id='create-group-Detail'
-        className='bg-mono-white scrollbar-thin focus:border-mint-500 text-text-md-medium h-40 w-full resize-none rounded-2xl border border-gray-300 px-5 py-4 text-gray-800 focus:outline-none'
+        className='bg-mono-white scrollbar-thin focus:border-mint-500 text-text-md-medium h-40 w-full resize-none rounded-2xl border border-gray-300 px-5 py-4 text-gray-800 placeholder:select-none focus:outline-none'
         maxLength={300}
         placeholder='모임에 대해 설명해주세요'
         required
@@ -27,9 +27,9 @@ export const GroupDetailField = ({ field }: Props) => {
       />
       <div className='mt-0.5 flex'>
         {isInvalid && <Hint message={field.state.meta.errors[0].message} />}
-        <div className='text-text-sm-medium ml-auto text-right text-gray-500'>
+        <span className='text-text-sm-medium ml-auto text-right text-gray-500 select-none'>
           {field.state.value.length}/300
-        </div>
+        </span>
       </div>
     </div>
   );

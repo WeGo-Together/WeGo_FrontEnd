@@ -90,8 +90,9 @@ export const GroupImagesField = ({ field }: Props) => {
           ({ imageUrl100x100 }: PreUploadGroupImageResponse['images'][0], idx: number) => (
             <div key={imageUrl100x100} className='relative aspect-square w-full max-w-20'>
               <Image
-                className='border-mono-black/5 h-full w-full rounded-2xl border-1 object-cover'
+                className='border-mono-black/5 h-full w-full rounded-2xl border-1 object-cover select-none'
                 alt='썸네일 이미지'
+                draggable={false}
                 fill
                 src={imageUrl100x100}
               />
@@ -112,7 +113,9 @@ export const GroupImagesField = ({ field }: Props) => {
           ),
         )}
       </div>
-      <p className='text-text-sm-medium px-2 text-gray-500'>최대 3개까지 업로드할 수 있어요.</p>
+      <p className='text-text-sm-medium px-2 text-gray-500 select-none'>
+        최대 3개까지 업로드할 수 있어요.
+      </p>
     </div>
   );
 };
