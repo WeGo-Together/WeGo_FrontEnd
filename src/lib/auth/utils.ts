@@ -11,3 +11,13 @@ export const getHintMessage = (field: AnyFieldApi) => {
 
   return showError ? firstError?.message : undefined;
 };
+
+export const normalizePath = (raw: string | null) => {
+  const value = (raw ?? '').trim();
+
+  if (!value) return '/';
+
+  if (value.startsWith('//') || value.includes('://')) return '/';
+
+  return value.startsWith('/') ? value : `/${value}`;
+};

@@ -8,19 +8,10 @@ import axios, { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
 
 import { API } from '@/api';
+import { normalizePath } from '@/lib/auth/utils';
 import { useAuth } from '@/providers';
 import { LoginRequest } from '@/types/service/auth';
 import { CommonErrorResponse } from '@/types/service/common';
-
-const normalizePath = (raw: string | null) => {
-  const value = (raw ?? '').trim();
-
-  if (!value) return '/';
-
-  if (value.startsWith('//') || value.includes('://')) return '/';
-
-  return value.startsWith('/') ? value : `/${value}`;
-};
 
 const getLoginErrorMessage = (problem: CommonErrorResponse) => {
   if (
