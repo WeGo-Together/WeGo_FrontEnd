@@ -16,7 +16,7 @@ export const generateMetadata = async ({ params }: Props) => {
   const { userId: id } = await params;
   const userId = Number(id);
   if (isNaN(userId)) notFound();
-  await generateProfileMetadata(userId);
+  return await generateProfileMetadata(userId);
 };
 
 const ProfileLayout = async ({ children, params }: Props) => {
