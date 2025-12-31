@@ -25,7 +25,19 @@ export const useChatSocket = ({
   const [isConnected, setIsConnected] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
+  const onMessageRef = useRef(onMessage);
+  const onNotificationRef = useRef(onNotification);
+
   useEffect(() => {
+    onMessageRef.current = onMessage;
+  }, [onMessage]);
+
+  useEffect(() => {
+    onNotificationRef.current = onNotification;
+  }, [onNotification]);
+
+  useEffect(() => {
+    if (!accessToken) return;
     const client = new Client({
       webSocketFactory: () => {
         const socket = new SockJS(`${process.env.NEXT_PUBLIC_API_BASE_URL}/ws-chat`, null, {
@@ -50,13 +62,13 @@ export const useChatSocket = ({
       client.subscribe(`/sub/chat/room/${roomId}`, (message: IMessage) => {
         const payload: ChatMessage = JSON.parse(message.body);
         setMessages((prev) => [...prev, payload]);
-        onMessage?.(payload);
+        onMessageRef.current?.(payload);
       });
 
       // 개인 알림 구독
       client.subscribe(`/sub/user/${userId}`, (message: IMessage) => {
         const payload = JSON.parse(message.body);
-        onNotification?.(payload);
+        onNotificationRef.current?.(payload);
       });
     };
 
@@ -75,7 +87,7 @@ export const useChatSocket = ({
     return () => {
       client.deactivate();
     };
-  }, [roomId, userId, accessToken, onMessage, onNotification]);
+  }, [roomId, userId, accessToken]);
 
   const sendMessage = useCallback(
     (content: string) => {
