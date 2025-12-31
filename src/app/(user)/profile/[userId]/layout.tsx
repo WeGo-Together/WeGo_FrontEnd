@@ -3,6 +3,7 @@ import { notFound, redirect } from 'next/navigation';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
 import { API } from '@/api';
+import { generateProfileMetadata } from '@/lib/metadata/profile';
 import { getQueryClient } from '@/lib/query-client';
 import { userKeys } from '@/lib/query-key/query-key-user';
 
@@ -10,6 +11,13 @@ interface Props {
   children: React.ReactNode;
   params: Promise<{ userId: string }>;
 }
+
+export const generateMetadata = async ({ params }: Props) => {
+  const { userId: id } = await params;
+  const userId = Number(id);
+  if (isNaN(userId)) notFound();
+  await generateProfileMetadata(userId);
+};
 
 const ProfileLayout = async ({ children, params }: Props) => {
   const { userId: id } = await params;
