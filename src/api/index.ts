@@ -1,5 +1,6 @@
 import {
   authServiceRemote,
+  chatServiceRemote,
   followerServiceRemote,
   groupServiceRemote,
   notificationServiceRemote,
@@ -12,6 +13,7 @@ const provideAPIService = () => {
   const followerService = followerServiceRemote();
   const notificationService = notificationServiceRemote();
   const groupService = groupServiceRemote();
+  const chatService = chatServiceRemote();
 
   return {
     userService,
@@ -19,6 +21,7 @@ const provideAPIService = () => {
     followerService,
     notificationService,
     groupService,
+    chatService,
   };
 };
 
