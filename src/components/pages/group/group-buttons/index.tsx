@@ -11,14 +11,14 @@ interface Props {
     isJoined: boolean;
     isHost: boolean;
     isPast: boolean;
+    isPending: boolean;
     isAttendDisabled: boolean;
+    isFreeGroup: boolean;
   };
-  groupId: string;
 }
 
 export const GroupButtons = ({
-  conditions: { isJoined, isHost, isPast, isAttendDisabled },
-  groupId,
+  conditions: { isJoined, isHost, isPast, isFreeGroup, isAttendDisabled },
 }: Props) => {
   const { open } = useModal();
   // const { push } = useRouter();
@@ -35,10 +35,9 @@ export const GroupButtons = ({
         <div className='flex gap-[10px]'>
           <Button
             className='flex-[1.2]'
+            disabled={isPast}
             variant='tertiary'
-            onClick={() =>
-              open(<GroupModal groupId={groupId} type={isHost ? 'delete' : 'leave'} />)
-            }
+            onClick={() => open(<GroupModal type={isHost ? 'delete' : 'leave'} />)}
           >
             {isHost ? '모임 취소' : '모임 탈퇴'}
           </Button>
@@ -49,9 +48,9 @@ export const GroupButtons = ({
       ) : (
         <Button
           disabled={isAttendDisabled}
-          onClick={() => open(<GroupModal groupId={groupId} type='attend' />)}
+          onClick={() => open(<GroupModal type={isFreeGroup ? 'attend' : 'approval'} />)}
         >
-          참여하기
+          {isFreeGroup ? '참여하기' : '참여 신청하기'}
         </Button>
       )}
     </div>

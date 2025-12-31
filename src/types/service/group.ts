@@ -230,3 +230,17 @@ export interface GetPendingMembersResponse {
   }[];
   serverTime: string;
 }
+
+export interface KickGroupMemberResponse {
+  groupId: number;
+  groupStatus: GroupV2Status;
+  joinPolicy: GroupV2JoinPolicy;
+  participantCount: number;
+  maxParticipants: number;
+  targetMembership: {
+    userId: number;
+    groupUserId: number;
+    status: GroupUserV2Status;
+  };
+  serverTime: string;
+}
