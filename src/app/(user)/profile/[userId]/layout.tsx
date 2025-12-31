@@ -15,7 +15,6 @@ interface Props {
 export const generateMetadata = async ({ params }: Props) => {
   const { userId: id } = await params;
   const userId = Number(id);
-  if (isNaN(userId)) notFound();
   return await generateProfileMetadata(userId);
 };
 
