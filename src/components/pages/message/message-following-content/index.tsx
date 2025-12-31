@@ -51,7 +51,7 @@ export const FollowingContent = ({ initialUserId }: FollowingContentProps) => {
         fetchNextPage();
       }
     },
-    enabled: hasNextPage && error === null,
+    enabled: hasNextPage && !error && tab === 'following',
     threshold: INTERSECTION_OBSERVER_THRESHOLD,
   });
 
