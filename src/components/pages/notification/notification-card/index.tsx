@@ -1,23 +1,41 @@
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { Icon } from '@/components/icon';
+import { useUpdateNotificationRead } from '@/hooks/use-notification/use-notification-update-read';
 import { formatTimeAgo } from '@/lib/formatDateTime';
-import { Notification, NotificationType } from '@/types/service/notification';
+import { cn } from '@/lib/utils';
+import { NotificationItem, NotificationType } from '@/types/service/notification';
 
 interface Props {
-  data: Notification;
+  item: NotificationItem;
 }
 
-export const NotificationCard = ({ data }: Props) => {
-  const NotificationIcon = IconMap[data.type];
-  const title = getTitle(data);
-  const description = getDescription(data);
-  const route = getRoute(data);
-  const routeCaption = getRouteCaption(data);
-  const timeAgo = getTimeAgo(data);
+export const NotificationCard = ({ item }: Props) => {
+  const router = useRouter();
+  const { mutateAsync } = useUpdateNotificationRead();
+
+  const NotificationIcon = IconMap[item.type];
+  const title = getTitle(item);
+  const description = getDescription(item);
+  const timeAgo = getTimeAgo(item);
+
+  const handleNotificationClick = () => {
+    try {
+      mutateAsync(item.id);
+
+      router.push(`${item.redirectUrl}`);
+    } catch {}
+  };
+
   return (
-    <article className='bg-mono-white flex flex-row gap-3 px-5 py-6'>
-      <div className='flex-center mt-0.5 size-10 shrink-0 rounded-xl bg-gray-100'>
+    <article
+      className={cn(
+        'bg-mono-white flex cursor-pointer flex-row gap-3 px-5 py-6',
+        !item.readAt && 'bg-mint-50',
+      )}
+      onClick={handleNotificationClick}
+    >
+      <div className={cn('flex-center mt-0.5 size-10 shrink-0 rounded-xl bg-gray-100')}>
         {NotificationIcon}
       </div>
       <div className='w-full'>
@@ -26,85 +44,51 @@ export const NotificationCard = ({ data }: Props) => {
           <span className='text-text-xs-medium text-gray-500'>{timeAgo}</span>
         </div>
         <p className='text-gray-600'>{description}</p>
-        {route && (
-          <Link href={route} className='text-mint-500'>
-            {routeCaption}
-          </Link>
-        )}
       </div>
     </article>
   );
 };
 
 const IconMap: Record<NotificationType, React.ReactNode> = {
-  follow: <Icon id='heart' className='text-mint-500 size-6' />,
-  'group-create': <Icon id='map-pin-2' className='size-6 text-[#FFBA1A]' />,
-  'group-delete': <Icon id='x-2' className='size-6 text-gray-500' />,
-  'group-join': <Icon id='symbol' className='text-mint-500 size-6' />,
-  'group-leave': <Icon id='x-2' className='size-6 text-gray-500' />,
+  FOLLOW: <Icon id='heart' className='text-mint-500 size-6' />,
+  GROUP_CREATE: <Icon id='map-pin-2' className='size-6 text-[#FFBA1A]' />,
+  GROUP_DELETE: <Icon id='x-2' className='size-6 text-gray-500' />,
+  GROUP_JOIN: <Icon id='symbol' className='text-mint-500 size-6' />,
+  EXIT: <Icon id='x-2' className='size-6 text-gray-500' />,
 };
 
-const getTitle = (data: Notification) => {
+const getTitle = (data: NotificationItem) => {
   switch (data.type) {
-    case 'follow':
+    case 'FOLLOW':
       return `새 팔로워`;
-    case 'group-create':
+    case 'GROUP_CREATE':
       return `모임 생성`;
-    case 'group-delete':
+    case 'GROUP_DELETE':
       return `모임 취소`;
-    case 'group-join':
+    case 'GROUP_JOIN':
       return `모임 현황`;
-    case 'group-leave':
+    case 'EXIT':
       return `모임 현황`;
   }
 };
 
-const getDescription = (data: Notification) => {
-  switch (data.type) {
-    case 'follow':
-      return `${data.user.nickName} 님이 팔로우 했습니다.`;
-    case 'group-create':
-      return `${data.user.nickName} 님이 "${data.group?.title}" 모임을 생성했습니다.`;
-    case 'group-delete':
-      return `${data.user.nickName} 님이 "${data.group?.title}" 모임을 취소했습니다.`;
-    case 'group-join':
-      return `${data.user.nickName} 님이 "${data.group?.title}" 모임에 참가했습니다.`;
-    case 'group-leave':
-      return `${data.user.nickName} 님이 "${data.group?.title}" 모임을 떠났습니다.`;
-  }
+const getDescription = (data: NotificationItem) => {
+  // switch (data.type) {
+  //   case 'FOLLOW':
+  //     return `${data.actorNickname} 님이 팔로우 했습니다.`;
+  //   case 'GROUP_CREATE':
+  //     return `${data.actorNickname} 님이 "${data.actorNickname}" 모임을 생성했습니다.`;
+  //   case 'CANCLE':
+  //     return `${data.actorNickname} 님이 "${data.actorNickname}" 모임을 취소했습니다.`;
+  //   case 'ENTER':
+  //     return `${data.actorNickname} 님이 "${data.actorNickname}" 모임에 참가했습니다.`;
+  //   case 'EXIT':
+  //     return `${data.actorNickname} 님이 "${data.actorNickname}" 모임을 떠났습니다.`;
+  // }
+  return data.message;
 };
 
-const getRoute = (data: Notification) => {
-  switch (data.type) {
-    case 'follow':
-      return `/profile/${data.user.userId}`;
-    case 'group-create':
-      return `/profile/${data.user.userId}`;
-    case 'group-delete':
-      return ``;
-    case 'group-join':
-      return `/meetup/${data.group?.id}`;
-    case 'group-leave':
-      return ``;
-  }
-};
-
-const getRouteCaption = (data: Notification) => {
-  switch (data.type) {
-    case 'follow':
-      return `프로필 바로가기`;
-    case 'group-create':
-      return `프로필 바로가기`;
-    case 'group-delete':
-      return ``;
-    case 'group-join':
-      return `모임 바로가기`;
-    case 'group-leave':
-      return ``;
-  }
-};
-
-const getTimeAgo = (data: Notification) => {
+const getTimeAgo = (data: NotificationItem) => {
   const { createdAt } = data;
   return formatTimeAgo(createdAt);
 };

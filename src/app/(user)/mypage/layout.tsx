@@ -1,16 +1,24 @@
-import { redirect } from 'next/navigation';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+
+import { API } from '@/api';
+import { getQueryClient } from '@/lib/query-client';
+import { userKeys } from '@/lib/query-key/query-key-user';
 
 interface Props {
   children: React.ReactNode;
 }
 
-const MyPageLayout = async ({ children }: Props) => {
-  const { cookies } = await import('next/headers');
-  const cookieStore = await cookies();
-  const myId = Number(cookieStore.get('userId')?.value);
+export const dynamic = 'force-dynamic';
 
-  if (!myId) redirect('/login');
-  return <>{children}</>;
+const MyPageLayout = async ({ children }: Props) => {
+  const queryClient = getQueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: userKeys.me(),
+    queryFn: () => API.userService.getMe(),
+  });
+
+  return <HydrationBoundary state={dehydrate(queryClient)}>{children}</HydrationBoundary>;
 };
 
 export default MyPageLayout;

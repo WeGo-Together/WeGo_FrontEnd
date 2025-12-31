@@ -11,7 +11,7 @@ export interface User {
   groupCreatedCnt: number;
   isNotificationEnabled: boolean;
   createdAt: string;
-  isFollow: boolean;
+  isFollow: boolean | null;
 }
 
 export interface GetUserPathParams {

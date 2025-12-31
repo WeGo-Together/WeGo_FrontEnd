@@ -18,12 +18,14 @@ export const createGroupSchema = z.object({
   images: z
     .array(
       z.object({
+        imageKey: z.string(),
         sortOrder: z.number(),
         imageUrl440x240: z.string(),
         imageUrl100x100: z.string(),
       }),
     )
     .optional(),
+  joinPolicy: z.union([z.literal('FREE'), z.literal('APPROVAL_REQUIRED')]),
 });
 
 export type CreateGroupFormValues = z.infer<typeof createGroupSchema>;

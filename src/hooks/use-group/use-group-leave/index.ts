@@ -2,16 +2,15 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { API } from '@/api';
 import { groupKeys } from '@/lib/query-key/query-key-group';
-import { GroupIdPayload } from '@/types/service/group';
+import { GroupIdParams } from '@/types/service/group';
 
-export const useLeaveGroup = (payload: GroupIdPayload, callback: () => void) => {
+export const useLeaveGroup = (params: GroupIdParams) => {
   const queryClient = useQueryClient();
 
   const query = useMutation({
-    mutationFn: () => API.groupService.leaveGroup(payload),
+    mutationFn: () => API.groupService.leaveGroup(params),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: groupKeys.detail(payload.groupId) });
-      callback();
+      await queryClient.invalidateQueries({ queryKey: groupKeys.detail(params.groupId) });
       console.log('모임 탈퇴 성공.');
     },
     onError: () => {

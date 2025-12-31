@@ -1,57 +1,57 @@
 'use client';
 
-import { InputHTMLAttributes, useId, useState } from 'react';
+import { InputHTMLAttributes, useId } from 'react';
 
-import { Icon } from '@/components/icon';
 import { Hint, Input, Label } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
-interface PasswordToggleButtonProps {
-  isVisible: boolean;
-  onToggle: () => void;
-}
-
-const PasswordToggleButton = ({ isVisible, onToggle }: PasswordToggleButtonProps) => {
-  return (
-    <button
-      className='absolute top-4 right-5 h-6 w-6'
-      aria-label={isVisible ? '비밀번호 숨기기' : '비밀번호 보기'}
-      tabIndex={-1}
-      type='button'
-      onClick={onToggle}
-    >
-      <Icon id={isVisible ? 'visibility-true' : 'visibility-false'} className='text-gray-600' />
-    </button>
-  );
+type InputPropsWithIcon = InputHTMLAttributes<HTMLInputElement> & {
+  iconButton?: React.ReactNode;
 };
 
 interface FormInputProps {
   className?: string;
   labelName?: string;
   hintMessage?: string;
+  availabilityHint?: string;
+  availabilityButtonDisabled?: boolean;
+  availabilityStatus?: AvailabilityState;
   required?: boolean;
-  inputProps?: InputHTMLAttributes<HTMLInputElement>;
+  inputProps?: InputPropsWithIcon;
+  onClick?: () => void;
 }
+
+type AvailabilityState =
+  | { status: 'idle' }
+  | { status: 'checking' }
+  | { status: 'available' }
+  | { status: 'unavailable' }
+  | { status: 'error' };
 
 export const FormInput = ({
   className,
   labelName,
   hintMessage,
+  availabilityHint,
+  availabilityStatus,
   required = true,
   inputProps = {},
 }: FormInputProps) => {
-  const { type = 'text', id, required: _, ...restInputProps } = inputProps;
+  const { type, id, required: _, iconButton, ...restInputProps } = inputProps;
 
   const generatedId = useId();
-  const [isVisible, setIsVisible] = useState(false);
 
-  const isPasswordField = type === 'password';
-  const inputType = isPasswordField && isVisible ? 'text' : type;
   const inputId = id ?? generatedId;
 
-  const handleToggle = () => {
-    setIsVisible((prev) => !prev);
-  };
+  let tone: 'default' | 'error' | 'success' = 'default';
+
+  if (hintMessage || availabilityStatus?.status === 'unavailable') {
+    tone = 'error';
+  }
+
+  if (availabilityStatus?.status === 'available') {
+    tone = 'success';
+  }
 
   return (
     <div className={cn('flex w-full flex-col gap-1', className)}>
@@ -63,18 +63,25 @@ export const FormInput = ({
         id={inputId}
         className={cn(
           'bg-mono-white focus:border-mint-500 h-14 rounded-2xl border border-gray-300',
-          hintMessage && 'border-error-500',
+          tone === 'error' && 'border-error-500',
+          tone === 'success' && 'border-gray-300',
+          availabilityStatus && 'pr-23',
         )}
-        iconButton={
-          isPasswordField ? (
-            <PasswordToggleButton isVisible={isVisible} onToggle={handleToggle} />
-          ) : undefined
-        }
+        iconButton={iconButton}
         required={required}
-        type={inputType}
+        type={type}
         {...restInputProps}
       />
       {hintMessage && <Hint message={hintMessage} />}
+      {availabilityHint && (
+        <Hint
+          className={cn(
+            tone === 'error' && 'text-error-500',
+            tone === 'success' && 'text-mint-600',
+          )}
+          message={availabilityHint}
+        />
+      )}
     </div>
   );
 };

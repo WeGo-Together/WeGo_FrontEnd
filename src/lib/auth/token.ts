@@ -1,9 +1,14 @@
 const ACCESS_TOKEN_KEY = 'accessToken';
+const COOKIE_DOMAIN = '.wego.monster';
 
 export const setAccessToken = (token: string, maxAgeSeconds?: number) => {
   if (typeof document === 'undefined') return;
 
-  const parts = [`${ACCESS_TOKEN_KEY}=${encodeURIComponent(token)}`, 'path=/'];
+  const parts = [
+    `${ACCESS_TOKEN_KEY}=${encodeURIComponent(token)}`,
+    'path=/',
+    `domain=${COOKIE_DOMAIN}`,
+  ];
 
   if (typeof maxAgeSeconds === 'number' && maxAgeSeconds > 0) {
     parts.push(`Max-Age=${maxAgeSeconds}`);
@@ -14,6 +19,14 @@ export const setAccessToken = (token: string, maxAgeSeconds?: number) => {
 
 export const clearAccessToken = () => {
   if (typeof document === 'undefined') return;
+
+  document.cookie = [
+    `${ACCESS_TOKEN_KEY}=`,
+    'Max-Age=0',
+    'Expires=Thu, 01 Jan 1970 00:00:00 GMT',
+    'path=/',
+    `domain=${COOKIE_DOMAIN}`,
+  ].join('; ');
 
   document.cookie = `${ACCESS_TOKEN_KEY}=; Max-Age=0; path=/`;
 };

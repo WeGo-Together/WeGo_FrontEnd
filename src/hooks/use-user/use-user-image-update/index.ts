@@ -8,8 +8,8 @@ export const useUserImageUpdate = () => {
   const queryClient = useQueryClient();
   const query = useMutation({
     mutationFn: (payload: UpdateMyImagePayloads) => API.userService.updateMyImage(payload),
-    onSuccess: (data, _variables, _context) => {
-      queryClient.invalidateQueries({ queryKey: userKeys.item(data.userId) });
+    onSuccess: (_data, _variables, _context) => {
+      queryClient.invalidateQueries({ queryKey: userKeys.me() });
     },
     onError: () => {},
   });

@@ -31,7 +31,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   return (
     <>
       <GroupSearchBar />
-      <GroupList initialData={initialData} initialKeyword={keyword} />;
+      <GroupList initialData={initialData} initialKeyword={keyword} />
     </>
   );
 }

@@ -9,6 +9,7 @@ export type DynamicIconId =
   | 'bell-read'
   | 'calendar-1'
   | 'calendar-2'
+  | 'check'
   | 'chevron-left-1'
   | 'chevron-left-2'
   | 'chevron-right-1'
@@ -37,6 +38,9 @@ export type DynamicIconId =
 export type ResizableIconId =
   | 'bell-unread'
   | 'congratulate'
+  | 'empty'
+  | 'kick'
+  | 'not-found'
   | 'plus-circle'
   | 'visibility-false'
   | 'visibility-true'
@@ -76,6 +80,10 @@ export const iconMetadataMap: IconMetadata[] = [
   },
   {
     id: 'calendar-2',
+    variant: 'dynamic',
+  },
+  {
+    id: 'check',
     variant: 'dynamic',
   },
   {
@@ -184,6 +192,18 @@ export const iconMetadataMap: IconMetadata[] = [
   },
   {
     id: 'congratulate',
+    variant: 'resizable',
+  },
+  {
+    id: 'empty',
+    variant: 'resizable',
+  },
+  {
+    id: 'kick',
+    variant: 'resizable',
+  },
+  {
+    id: 'not-found',
     variant: 'resizable',
   },
   {

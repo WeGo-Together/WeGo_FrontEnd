@@ -1,5 +1,6 @@
-import { api, apiV2 } from '@/api/core';
+import { apiV2 } from '@/api/core';
 import {
+  AttendGroupPayload,
   CreateGroupPayload,
   CreateGroupResponse,
   GetGroupDetailsResponse,
@@ -7,12 +8,14 @@ import {
   GetGroupsResponse,
   GetMyGroupsPayload,
   GetMyGroupsResponse,
-  GroupIdPayload,
+  GroupIdParams,
+  KickGroupMemberParams,
+  KickGroupMemberResponse,
   PreUploadGroupImageResponse,
 } from '@/types/service/group';
 
 export const groupServiceRemote = () => ({
-  // 모임 목록 조회 (GET /groups)
+  // 모임 목록 조회 (GET /api/v2/groups)
   getGroups: async (payload: GetGroupsPayload): Promise<GetGroupsResponse> => {
     const params = new URLSearchParams();
     if (payload.keyword) {
@@ -23,9 +26,9 @@ export const groupServiceRemote = () => ({
     }
     params.append('size', payload.size.toString());
 
-    return api.get<GetGroupsResponse>(`/groups?${params.toString()}`);
+    return apiV2.get<GetGroupsResponse>(`/groups?${params.toString()}`);
   },
-  // 내 모임 목록 조회 (GET /groups/me) :스케줄러 페이지
+  // 내 모임 목록 조회 (GET /api/v2/groups/me) :스케줄러 페이지
   getMyGroups: async (payload: GetMyGroupsPayload): Promise<GetMyGroupsResponse> => {
     const params = new URLSearchParams();
     params.append('type', payload.type);
@@ -33,33 +36,65 @@ export const groupServiceRemote = () => ({
       params.append('cursor', payload.cursor.toString());
     }
     params.append('size', payload.size.toString());
+    if (payload.filter) {
+      params.append('filter', payload.filter);
+    }
+    if (payload.includeStatuses && payload.includeStatuses.length > 0) {
+      payload.includeStatuses.forEach((status) => {
+        params.append('includeStatuses', status);
+      });
+    }
+    if (payload.excludeStatuses && payload.excludeStatuses.length > 0) {
+      payload.excludeStatuses.forEach((status) => {
+        params.append('excludeStatuses', status);
+      });
+    }
+    if (payload.myStatuses && payload.myStatuses.length > 0) {
+      payload.myStatuses.forEach((status) => {
+        params.append('myStatuses', status);
+      });
+    }
 
-    return api.get<GetMyGroupsResponse>(`/groups/me?${params.toString()}`);
+    return apiV2.get<GetMyGroupsResponse>(`/groups/me?${params.toString()}`);
   },
 
   // 모임 이미지 사전 업로드 (POST /groups/images/upload) - multipart/form-data
 
   createGroup: (payload: CreateGroupPayload) => {
-    return api.post<CreateGroupResponse>('/groups/create', payload);
+    return apiV2.post<CreateGroupResponse>('/groups/create', payload);
   },
 
-  getGroupDetails: (payload: GroupIdPayload) => {
-    return apiV2.get<GetGroupDetailsResponse>(`/groups/${payload.groupId}`);
+  editGroup: (params: GroupIdParams, payload: CreateGroupPayload) => {
+    return apiV2.patch<CreateGroupResponse>(`/groups/${params.groupId}`, payload);
   },
 
-  attendGroup: (payload: GroupIdPayload) => {
-    return apiV2.post<GetGroupDetailsResponse>(`/groups/${payload.groupId}/attend`);
+  getGroupDetails: (params: GroupIdParams) => {
+    return apiV2.get<GetGroupDetailsResponse>(`/groups/${params.groupId}`);
   },
 
-  leaveGroup: (payload: GroupIdPayload) => {
-    return apiV2.post<GetGroupDetailsResponse>(`/groups/${payload.groupId}/left`);
+  attendGroup: (params: GroupIdParams, payload?: AttendGroupPayload) => {
+    // 승인제 모임 신청 시 message 포함해서 API 요청
+    if (payload) {
+      return apiV2.post<GetGroupDetailsResponse>(`/groups/${params.groupId}/attend`, payload);
+    }
+    return apiV2.post<GetGroupDetailsResponse>(`/groups/${params.groupId}/attend`);
   },
 
-  deleteGroup: (payload: GroupIdPayload) => {
-    return apiV2.delete(`/groups/${payload.groupId}`);
+  leaveGroup: (params: GroupIdParams) => {
+    return apiV2.post<GetGroupDetailsResponse>(`/groups/${params.groupId}/left`);
+  },
+
+  deleteGroup: (params: GroupIdParams) => {
+    return apiV2.delete<void>(`/groups/${params.groupId}`);
+  },
+
+  kickGroupMember: (params: KickGroupMemberParams) => {
+    return apiV2.post<KickGroupMemberResponse>(
+      `/groups/${params.groupId}/attendance/${params.targetUserId}/kick`,
+    );
   },
 
   uploadGroupImages: (payload: FormData) => {
-    return api.post<PreUploadGroupImageResponse>('/groups/images/upload', payload);
+    return apiV2.post<PreUploadGroupImageResponse>('/groups/images/upload', payload);
   },
 });

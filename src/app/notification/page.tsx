@@ -1,16 +1,34 @@
 'use client';
 
-import { NotificationCard } from '@/components/pages/notification';
-import { useNotifications } from '@/hooks/use-notifications';
+import { EmptyState } from '@/components/layout/empty-state';
+import { NotificationCard, NotificationHeader } from '@/components/pages/notification';
+import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
+import { useGetNotificationsInfinite } from '@/hooks/use-notification/use-notification-get-list';
 
 export default function NotificationPage() {
-  const messages = useNotifications();
+  const {
+    data: list,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetNotificationsInfinite({ size: 20 });
+
+  const fetchObserverRef = useIntersectionObserver({
+    onIntersect: () => {
+      if (hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    },
+  });
+
+  if (!list) return;
 
   return (
     <section>
-      {messages.map((data, idx) => (
-        <NotificationCard key={idx} data={data} />
-      ))}
+      <NotificationHeader />
+      {list.length > 0 && list.map((item) => <NotificationCard key={item.id} item={item} />)}
+      {hasNextPage && <div ref={fetchObserverRef}>다음</div>}
+      {list.length === 0 && <EmptyState>아직 받은 알림이 없어요.</EmptyState>}
     </section>
   );
 }
