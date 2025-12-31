@@ -7,9 +7,18 @@ import { Input, Label } from '@/components/ui';
 
 interface Props {
   field: AnyFieldApi;
+  participantCount?: number;
 }
 
-export const GroupCapField = ({ field }: Props) => {
+export const GroupCapField = ({ field, participantCount = 0 }: Props) => {
+  const handleOnBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+
+    if (value < participantCount) field.handleChange(participantCount);
+    else if (value < 2) field.handleChange(2);
+    else if (value > 12) field.handleChange(12);
+  };
+
   return (
     <div className='mt-3 flex w-full flex-col gap-1'>
       <Label htmlFor='create-group-cap' required>
@@ -32,11 +41,7 @@ export const GroupCapField = ({ field }: Props) => {
         required
         type='number'
         value={!!field.state.value && field.state.value}
-        onBlur={(e) => {
-          const value = Number(e.target.value);
-          if (value < 2) field.handleChange(2);
-          else if (value > 12) field.handleChange(12);
-        }}
+        onBlur={(e) => handleOnBlur(e)}
         onChange={(e) => {
           field.handleChange(Number(e.target.value));
         }}

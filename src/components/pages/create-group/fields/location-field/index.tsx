@@ -19,6 +19,7 @@ export const GroupLocationField = ({ field }: Props) => {
     open(<LocationSearchModal LocationField={field} />);
   };
 
+  const hasValue = field.state.value;
   const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
   return (
@@ -39,11 +40,11 @@ export const GroupLocationField = ({ field }: Props) => {
         />
         <p
           className={clsx(
-            'text-text-md-medium text-left text-gray-500',
+            'text-text-md-medium text-left text-gray-500 select-none',
             field.state.value && 'text-gray-800',
           )}
         >
-          {field.state.value ? field.state.value : '모임 장소를 입력해주세요'}
+          {hasValue ? field.state.value : <span>모임 장소를 입력해주세요</span>}
         </p>
       </button>
       {isInvalid && <Hint className='mt-0.5' message={field.state.meta.errors[0].message} />}

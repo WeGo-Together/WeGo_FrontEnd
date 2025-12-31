@@ -1,5 +1,6 @@
 import { apiV2 } from '@/api/core';
 import {
+  AttendGroupPayload,
   CreateGroupPayload,
   CreateGroupResponse,
   GetGroupDetailsResponse,
@@ -8,6 +9,8 @@ import {
   GetMyGroupsPayload,
   GetMyGroupsResponse,
   GroupIdParams,
+  KickGroupMemberParams,
+  KickGroupMemberResponse,
   PreUploadGroupImageResponse,
 } from '@/types/service/group';
 
@@ -33,6 +36,24 @@ export const groupServiceRemote = () => ({
       params.append('cursor', payload.cursor.toString());
     }
     params.append('size', payload.size.toString());
+    if (payload.filter) {
+      params.append('filter', payload.filter);
+    }
+    if (payload.includeStatuses && payload.includeStatuses.length > 0) {
+      payload.includeStatuses.forEach((status) => {
+        params.append('includeStatuses', status);
+      });
+    }
+    if (payload.excludeStatuses && payload.excludeStatuses.length > 0) {
+      payload.excludeStatuses.forEach((status) => {
+        params.append('excludeStatuses', status);
+      });
+    }
+    if (payload.myStatuses && payload.myStatuses.length > 0) {
+      payload.myStatuses.forEach((status) => {
+        params.append('myStatuses', status);
+      });
+    }
 
     return apiV2.get<GetMyGroupsResponse>(`/groups/me?${params.toString()}`);
   },
@@ -51,7 +72,11 @@ export const groupServiceRemote = () => ({
     return apiV2.get<GetGroupDetailsResponse>(`/groups/${params.groupId}`);
   },
 
-  attendGroup: (params: GroupIdParams) => {
+  attendGroup: (params: GroupIdParams, payload?: AttendGroupPayload) => {
+    // 승인제 모임 신청 시 message 포함해서 API 요청
+    if (payload) {
+      return apiV2.post<GetGroupDetailsResponse>(`/groups/${params.groupId}/attend`, payload);
+    }
     return apiV2.post<GetGroupDetailsResponse>(`/groups/${params.groupId}/attend`);
   },
 
@@ -60,7 +85,13 @@ export const groupServiceRemote = () => ({
   },
 
   deleteGroup: (params: GroupIdParams) => {
-    return apiV2.delete(`/groups/${params.groupId}`);
+    return apiV2.delete<void>(`/groups/${params.groupId}`);
+  },
+
+  kickGroupMember: (params: KickGroupMemberParams) => {
+    return apiV2.post<KickGroupMemberResponse>(
+      `/groups/${params.groupId}/attendance/${params.targetUserId}/kick`,
+    );
   },
 
   uploadGroupImages: (payload: FormData) => {

@@ -2,19 +2,19 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { API } from '@/api';
 import { groupKeys } from '@/lib/query-key/query-key-group';
-import { AttendGroupPayload, GroupIdParams } from '@/types/service/group';
+import { KickGroupMemberParams } from '@/types/service/group';
 
-export const useAttendGroup = (params: GroupIdParams) => {
+export const useKickGroupMember = (params: KickGroupMemberParams) => {
   const queryClient = useQueryClient();
 
   const query = useMutation({
-    mutationFn: (payload?: AttendGroupPayload) => API.groupService.attendGroup(params, payload),
+    mutationFn: () => API.groupService.kickGroupMember(params),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: groupKeys.detail(params.groupId) });
-      console.log('모임 참여 성공.');
+      console.log('강퇴 성공.');
     },
     onError: () => {
-      console.log('모임 참여 실패.');
+      console.log('강퇴 실패.');
     },
   });
   return query;

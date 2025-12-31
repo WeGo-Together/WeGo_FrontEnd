@@ -22,21 +22,30 @@ const GroupDetailPage = ({ params }: Props) => {
 
   if (!data) return null;
 
-  const { images, status, myMembership, joinedMembers, participantCount, maxParticipants } = data;
+  const {
+    images,
+    status,
+    joinPolicy,
+    myMembership,
+    joinedMembers,
+    participantCount,
+    maxParticipants,
+  } = data;
 
   return (
     <div>
       <GroupBannerImages images={images} />
       <GroupDescriptions descriptions={data} />
-      <GroupMembers members={joinedMembers} />
+      <GroupMembers isHost={myMembership?.role === 'HOST'} members={joinedMembers} />
       <GroupButtons
         conditions={{
           isHost: myMembership?.role === 'HOST',
           isJoined: myMembership?.status === 'ATTEND',
           isPast: status === 'FINISHED',
+          isPending: myMembership?.status === 'PENDING',
+          isFreeGroup: joinPolicy === 'FREE',
           isAttendDisabled: participantCount >= maxParticipants || status === 'FINISHED',
         }}
-        groupId={groupId}
       />
     </div>
   );

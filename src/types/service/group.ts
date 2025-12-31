@@ -206,6 +206,15 @@ export interface GroupIdParams {
   groupId: string;
 }
 
+export interface AttendGroupPayload {
+  message: string;
+}
+
+export interface KickGroupMemberParams {
+  groupId: GroupIdParams['groupId'];
+  targetUserId: string;
+}
+
 // 승인 대기자 목록 조회 응답 (GET /api/v2/groups/{groupId}/attendance/pending)
 export interface GetPendingMembersResponse {
   groupId: number;
@@ -219,5 +228,19 @@ export interface GetPendingMembersResponse {
     requestMessage: string | null;
     requestedAt: string;
   }[];
+  serverTime: string;
+}
+
+export interface KickGroupMemberResponse {
+  groupId: number;
+  groupStatus: GroupV2Status;
+  joinPolicy: GroupV2JoinPolicy;
+  participantCount: number;
+  maxParticipants: number;
+  targetMembership: {
+    userId: number;
+    groupUserId: number;
+    status: GroupUserV2Status;
+  };
   serverTime: string;
 }

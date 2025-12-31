@@ -25,6 +25,8 @@ type CardProps = {
     onChat: () => void;
   };
   tabType?: 'current' | 'myPost' | 'past';
+  isPending?: boolean;
+  isClosed?: boolean;
 };
 
 const calculateProgress = (count: number, max: number): number => {
@@ -50,6 +52,8 @@ const Card = ({
   onClick,
   leaveAndChatActions,
   tabType,
+  isPending,
+  isClosed,
 }: CardProps) => {
   const thumbnail = images?.[0];
   const cardTags = convertToCardTags(tags);
@@ -67,7 +71,12 @@ const Card = ({
     >
       <div className='flex min-w-0 gap-4'>
         <div className='flex flex-col justify-between'>
-          <CardThumbnail thumbnail={thumbnail} title={title} />
+          <CardThumbnail
+            isClosed={isClosed}
+            isPending={isPending}
+            thumbnail={thumbnail}
+            title={title}
+          />
 
           <div className='flex flex-1 items-center'>
             <CardProfile nickName={nickName} profileImage={profileImage} />
