@@ -1,6 +1,9 @@
 import { useRouter } from 'next/navigation';
 
+import { useState } from 'react';
+
 import { ImageWithFallback } from '@/components/ui';
+import { useCreateDMChat } from '@/hooks/use-chat/use-chat-dm';
 import { cn } from '@/lib/utils';
 
 interface FollowingCardProps {
@@ -20,12 +23,30 @@ export const FollowingCard = ({
   profileMessage,
   type,
   count = 0,
-  onMessageClick,
 }: FollowingCardProps) => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const { mutateAsync } = useCreateDMChat(userId);
+
   const handleClick = () => {
     router.push(`/profile/${userId}`);
   };
+
+  // 메세지 보내기 버튼 클릭 시 (DM)
+  const handleDMClick = async () => {
+    if (isLoading) return;
+
+    try {
+      setIsLoading(true);
+      const data = await mutateAsync({ targetUserId: userId });
+      router.push(`/chat/${data.chatRoomId}`);
+    } catch (error) {
+      console.error('DM 생성 오류:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div
       data-testid='following-card'
@@ -59,7 +80,7 @@ export const FollowingCard = ({
           className='text-text-xs-semibold cursor-pointer rounded-lg bg-gray-100 px-5 py-1 text-gray-800 transition hover:opacity-80'
           onClick={(e) => {
             e.stopPropagation();
-            onMessageClick?.();
+            handleDMClick();
           }}
         >
           메세지
