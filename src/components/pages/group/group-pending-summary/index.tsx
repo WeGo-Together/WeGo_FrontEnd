@@ -31,7 +31,6 @@ export const GroupPendingSummary = ({
           fallbackSrc={DEFAULT_GROUP_IMAGE}
           height={56}
           src={thumbnail ?? ''}
-          unoptimized
         />
       </div>
 

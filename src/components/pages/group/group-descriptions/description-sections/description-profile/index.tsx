@@ -24,7 +24,6 @@ export const DescriptionProfile = ({
           width={40}
           className='object-fit h-10 w-10 shrink-0 rounded-full'
           alt='프로필 사진'
-          draggable={false}
           height={40}
           src={profileImage ?? ''}
         />
