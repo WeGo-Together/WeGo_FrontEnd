@@ -50,10 +50,18 @@ baseAPI.interceptors.response.use(
     const isServer = typeof window === 'undefined';
     const originalRequest = error.config;
 
+    // skipAuthRedirect flag가 지정되어있지 않으면 항상 redirect 되도록
+    if (originalRequest.skipAuthRedirect === undefined) {
+      originalRequest.skipAuthRedirect = true;
+    }
+
     if (status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        await API.authService.refresh(originalRequest.skipAuthRedirect);
+        // refresh - set cookie는 클라이언트 요청만 동작함
+        if (!isServer) {
+          await API.authService.refresh(originalRequest.skipAuthRedirect);
+        }
         return baseAPI(originalRequest);
       } catch (refreshError) {
         if (!originalRequest.skipAuthRedirect) throw refreshError;

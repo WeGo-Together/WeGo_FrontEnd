@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { API } from '@/api';
 import { userKeys } from '@/lib/query-key/query-key-user';
+import { useAuth } from '@/providers';
 
 export const useUserGetMe = () => {
   const query = useQuery({
@@ -18,6 +19,8 @@ export const useUserGetMe = () => {
 };
 
 export const useUserGetMeSkipRedirect = () => {
+  const { isAuthenticated } = useAuth();
+
   const query = useQuery({
     queryKey: userKeys.me(),
     queryFn: () => API.userService.getMeSkipRedirect(),
@@ -27,6 +30,8 @@ export const useUserGetMeSkipRedirect = () => {
       profileMessage: data.profileMessage ?? '',
       mbti: data.mbti ?? '',
     }),
+    retry: false,
+    enabled: isAuthenticated,
   });
   return query;
 };

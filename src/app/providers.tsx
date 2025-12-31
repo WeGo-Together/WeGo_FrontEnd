@@ -11,13 +11,14 @@ import {
 
 interface Props {
   children: React.ReactNode;
+  hasRefreshToken: boolean;
 }
 
-export const Providers = ({ children }: Props) => {
+export const Providers = ({ children, hasRefreshToken }: Props) => {
   return (
     <QueryProvider>
       <MSWProvider>
-        <AuthProvider>
+        <AuthProvider hasRefreshToken={hasRefreshToken}>
           <NotificationProvider>
             <LazyMotionProvider>
               <ToastProvider>
