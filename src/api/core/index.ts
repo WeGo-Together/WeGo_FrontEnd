@@ -53,9 +53,10 @@ baseAPI.interceptors.response.use(
     if (status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        await API.authService.refresh();
+        await API.authService.refresh(originalRequest.skipAuthRedirect);
         return baseAPI(originalRequest);
       } catch (refreshError) {
+        if (!originalRequest.skipAuthRedirect) throw refreshError;
         if (isServer) {
           const { redirect } = await import('next/navigation');
           redirect('/login');
@@ -66,7 +67,6 @@ baseAPI.interceptors.response.use(
           const currentPath = window.location.pathname + window.location.search;
           window.location.href = `/login?error=unauthorized&path=${encodeURIComponent(currentPath)}`;
         }
-        throw refreshError;
       }
     }
     if (status === 404) {
