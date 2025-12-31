@@ -38,6 +38,12 @@ export const generateProfileMetadata = async (userId: number): Promise<Metadata>
             ]
           : [],
       },
+      twitter: {
+        card: 'summary',
+        title: metaTitle,
+        description: metaDescription,
+        images: profileImage ? [profileImage] : undefined,
+      },
       robots: {
         index: true,
         follow: true,
@@ -56,6 +62,9 @@ export const generateProfileMetadata = async (userId: number): Promise<Metadata>
         description: '사용자의 프로필과 리뷰를 확인해보세요.',
         url: currentUrl,
         type: 'profile',
+      },
+      twitter: {
+        card: 'summary',
       },
     };
   }
