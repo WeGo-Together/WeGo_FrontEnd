@@ -10,6 +10,7 @@ import {
   GetMyGroupsResponse,
   GroupIdParams,
   KickGroupMemberParams,
+  KickGroupMemberResponse,
   PreUploadGroupImageResponse,
 } from '@/types/service/group';
 
@@ -73,7 +74,7 @@ export const groupServiceRemote = () => ({
 
   attendGroup: (params: GroupIdParams, payload?: AttendGroupPayload) => {
     // 승인제 모임 신청 시 message 포함해서 API 요청
-    if (payload?.message) {
+    if (payload) {
       return apiV2.post<GetGroupDetailsResponse>(`/groups/${params.groupId}/attend`, payload);
     }
     return apiV2.post<GetGroupDetailsResponse>(`/groups/${params.groupId}/attend`);
@@ -84,11 +85,13 @@ export const groupServiceRemote = () => ({
   },
 
   deleteGroup: (params: GroupIdParams) => {
-    return apiV2.delete(`/groups/${params.groupId}`);
+    return apiV2.delete<void>(`/groups/${params.groupId}`);
   },
 
   kickGroupMember: (params: KickGroupMemberParams) => {
-    return apiV2.post(`/groups/${params.groupId}/attendance/${params.targetUserId}/kick`);
+    return apiV2.post<KickGroupMemberResponse>(
+      `/groups/${params.groupId}/attendance/${params.targetUserId}/kick`,
+    );
   },
 
   uploadGroupImages: (payload: FormData) => {

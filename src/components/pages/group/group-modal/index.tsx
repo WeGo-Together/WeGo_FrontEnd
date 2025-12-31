@@ -1,86 +1,106 @@
 'use client';
 
-import { Button } from '@/components/ui';
-import { ModalContent, ModalDescription, ModalTitle, useModal } from '@/components/ui/modal';
+import { useParams, useRouter } from 'next/navigation';
+
+import { GroupModalApprovalContent } from '@/components/pages/group/group-modal/approval-content';
+import { GroupModalCommonContent } from '@/components/pages/group/group-modal/common-content';
+import { ModalContent } from '@/components/ui/modal';
 import { useAttendGroup } from '@/hooks/use-group/use-group-attend';
 import { useDeleteGroup } from '@/hooks/use-group/use-group-delete';
 import { useKickGroupMember } from '@/hooks/use-group/use-group-kick';
 import { useLeaveGroup } from '@/hooks/use-group/use-group-leave';
+import { AttendGroupPayload } from '@/types/service/group';
 
-interface Props {
-  type: 'attend' | 'leave' | 'delete' | 'kick';
-  groupId: string;
-  targetUserId?: string;
+type ModalType = 'attend' | 'approval' | 'leave' | 'delete' | 'kick';
+
+interface BaseProps {
+  type: Exclude<ModalType, 'kick'>;
 }
 
-export const GroupModal = ({ type, groupId, targetUserId = '' }: Props) => {
-  const { close } = useModal();
+interface KickProps {
+  type: 'kick';
+  targetInfo: {
+    targetUserId: string;
+    targetUserName: string;
+  };
+}
+
+type Props = BaseProps | KickProps;
+
+export const GroupModal = (props: Props) => {
+  const { type } = props;
+
+  const { replace } = useRouter();
+  const { groupId } = useParams() as { groupId: string };
+
   const { mutateAsync: attendMutate, isPending: isAttending } = useAttendGroup({ groupId });
   const { mutateAsync: leaveMutate, isPending: isCanceling } = useLeaveGroup({ groupId });
   const { mutateAsync: deleteMutate, isPending: isDeleting } = useDeleteGroup({ groupId });
   const { mutateAsync: kickMutate, isPending: isKicking } = useKickGroupMember({
     groupId,
-    targetUserId,
+    targetUserId: type === 'kick' ? props.targetInfo.targetUserId : '',
   });
 
   const isPending = isAttending || isCanceling || isDeleting || isKicking;
 
-  const { title, description, confirm } = MODAL_MESSAGE[type];
-
-  const handleConfirmClick = async () => {
-    if (type === 'attend') await attendMutate();
-    else if (type === 'leave') await leaveMutate();
-    else if (type === 'delete') await deleteMutate();
-    else if (type === 'kick') await kickMutate();
-
-    close();
+  const mutateByType = {
+    attend: () => attendMutate(undefined),
+    approval: (message: AttendGroupPayload) => attendMutate(message),
+    leave: () => leaveMutate(),
+    delete: async () => {
+      await deleteMutate();
+      replace('/');
+    },
+    kick: () => kickMutate(),
   };
 
   return (
     <ModalContent className='max-w-80'>
-      <ModalTitle className='pt-8 text-center break-keep'>{title}</ModalTitle>
-      <ModalDescription className='text-center break-keep'>{description}</ModalDescription>
-      <div className='mt-6 flex gap-2'>
-        <Button
-          className='!text-text-sm-semibold w-[50%]'
-          size='sm'
-          variant='tertiary'
-          onClick={close}
-        >
-          취소
-        </Button>
-        <Button
-          className='!text-text-sm-bold w-[50%]'
-          disabled={isPending}
-          size='sm'
-          onClick={handleConfirmClick}
-        >
-          {isPending ? '로딩중...' : confirm}
-        </Button>
-      </div>
+      {type === 'approval' ? (
+        <GroupModalApprovalContent
+          isPending={isPending}
+          modalContent={MODAL_CONTENTS['approval']()}
+          onConfirmClick={mutateByType['approval']}
+        />
+      ) : (
+        <GroupModalCommonContent
+          isPending={isPending}
+          modalContent={
+            type === 'kick'
+              ? MODAL_CONTENTS['kick'](props.targetInfo.targetUserName)
+              : MODAL_CONTENTS[type]()
+          }
+          onConfirmClick={mutateByType[type]}
+        />
+      )}
     </ModalContent>
   );
 };
 
-const MODAL_MESSAGE = {
-  attend: {
+const MODAL_CONTENTS = {
+  attend: () => ({
     title: '모임에 참여하시겠어요?',
     description: '참여 후 바로 그룹채팅에 참여할 수 있어요!',
-    confirm: '참여하기',
-  },
-  leave: {
+    confirmMessage: '참여하기',
+  }),
+  approval: () => ({
+    title: '참여 신청하기',
+    description: '참여 신청 메세지',
+    confirmMessage: '신청하기',
+  }),
+  leave: () => ({
     title: '모임을 정말 탈퇴하시겠어요?',
     description: '탈퇴 시 그룹채팅과 모임 활동이 종료돼요.',
-    confirm: '탈퇴하기',
-  },
-  delete: {
+    confirmMessage: '탈퇴하기',
+  }),
+  delete: () => ({
     title: '모임을 정말 취소하시겠어요?',
     description: '취소 후에는 다시 복구할 수 없어요.',
-    confirm: '취소하기',
-  },
-  kick: {
-    title: `을 내보내시겠어요?`,
+    confirmMessage: '취소하기',
+  }),
+  kick: (targetUserName: string) => ({
+    title: `${targetUserName} 님을 내보내시겠어요?`,
     description: '이 작업은 취소할 수 없습니다.',
-    confirm: '내보내기',
-  },
-};
+    confirmMessage: '내보내기',
+  }),
+} as const;
