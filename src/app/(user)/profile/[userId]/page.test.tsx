@@ -9,6 +9,14 @@ import { mockUserItems } from '@/mock/service/user/user-mock';
 
 import ProfilePage from './page';
 
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(() => ({
+    replace: jest.fn(),
+    push: jest.fn(),
+    back: jest.fn(),
+  })),
+}));
+
 const createTestQueryClient = () =>
   new QueryClient({
     defaultOptions: {
