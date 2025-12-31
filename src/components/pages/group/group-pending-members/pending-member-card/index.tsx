@@ -23,7 +23,6 @@ export const PendingMemberCard = ({ member, onReject, onApprove }: Props) => {
           width={40}
           className='object-fit h-10 w-10 shrink-0 rounded-full'
           alt={`${member.nickName} 프로필`}
-          draggable={false}
           height={40}
           src={member.profileImage ?? ''}
         />
