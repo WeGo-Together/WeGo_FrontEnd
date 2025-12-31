@@ -6,6 +6,7 @@ export const useGetChatMessages = (roomId: number, cursor?: number, size?: numbe
   const query = useQuery({
     queryKey: ['chatMessages', roomId],
     queryFn: () => API.chatService.getChatMessages({ roomId, cursor, size }),
+    staleTime: 0,
   });
   return query;
 };

@@ -49,7 +49,7 @@ export const useChatSocket = ({
         Authorization: `Bearer ${accessToken}`,
       },
       debug: (str) => console.log(str),
-      reconnectDelay: 60000,
+      reconnectDelay: 6000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
     });

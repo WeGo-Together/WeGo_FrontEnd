@@ -2,6 +2,9 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import { useEffect } from 'react';
+
+import { useQueryClient } from '@tanstack/react-query';
 import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
 
 import { useGetChatList } from '@/hooks/use-chat/use-chat-list';
@@ -13,12 +16,19 @@ interface IProps {
 
 export const ChatList = ({ userId }: IProps) => {
   const router = useRouter();
-
+  const queryClient = useQueryClient();
   const handleClick = (chatId: number) => {
     router.push(`/chat/${chatId}`);
   };
   const { data: chatList } = useGetChatList({ userId });
+
   console.log(chatList);
+
+  // 현재 방식은 tanstack query를 이용해서 단지 목록 조회
+  // but, 소켓 통신을 하고 있는 상황이므로 목록 역시 소켓을 열어서 페이지에 머물러 있을 때도 실시간으로 확인 가능하도록
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ['chatList', userId] });
+  }, [chatList, userId]);
 
   return (
     <ul className='flex flex-col'>
