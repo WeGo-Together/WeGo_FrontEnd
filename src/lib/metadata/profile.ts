@@ -31,8 +31,8 @@ export const generateProfileMetadata = async (userId: number): Promise<Metadata>
           ? [
               {
                 url: profileImage,
-                width: 200,
-                height: 200,
+                width: 100,
+                height: 100,
                 alt: `${nickName}님의 프로필 사진`,
               },
             ]
