@@ -11,6 +11,7 @@ import { DEFAULT_GROUP_IMAGE } from 'constants/default-images';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import { ImageWithFallback } from '@/components/ui';
 import { GetGroupDetailsResponse } from '@/types/service/group';
 
 interface Props {
@@ -23,15 +24,16 @@ export const GroupBannerImages = ({ images }: Props) => {
   return (
     <section className='select-none'>
       {hasImages ? (
-        <Swiper className='h-60' loop modules={[Pagination]} pagination>
+        <Swiper loop={images.length > 1} modules={[Pagination]} pagination>
           {images.map(({ groupImageId, variants }) => (
             <SwiperSlide key={groupImageId} className='relative'>
-              <Image
-                alt='썸네일 이미지'
-                draggable={false}
-                fill
-                objectFit='cover'
-                src={variants[1].imageUrl}
+              <ImageWithFallback
+                width={440}
+                className='h-60 w-110 object-cover'
+                alt='모임 썸네일 이미지'
+                fallbackSrc={DEFAULT_GROUP_IMAGE}
+                height={240}
+                src={variants[0].imageUrl}
               />
             </SwiperSlide>
           ))}

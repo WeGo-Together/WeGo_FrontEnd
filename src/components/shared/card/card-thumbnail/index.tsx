@@ -1,4 +1,4 @@
-import { DEFAULT_GROUP_IMAGE } from 'constants/default-images';
+import { DEFAULT_GROUP_LIST_IMAGE } from 'constants/default-images';
 
 import { ImageWithFallback, PendingBadge } from '@/components/ui';
 
@@ -16,10 +16,9 @@ export const CardThumbnail = ({ title, thumbnail, isPending, isClosed }: CardThu
         width={100}
         className='h-full w-full object-cover'
         alt={title}
-        fallbackSrc={DEFAULT_GROUP_IMAGE}
+        fallbackSrc={DEFAULT_GROUP_LIST_IMAGE}
         height={100}
         src={thumbnail ?? ''}
-        unoptimized
       />
       {isPending && (
         <div className='absolute top-1.5 left-1.5'>

@@ -28,7 +28,9 @@ export const ImageWithFallback = ({
   return (
     <Image
       {...rest}
+      draggable={false}
       src={imgSrc}
+      unoptimized
       onError={(e) => {
         e.preventDefault();
         setError(true);
