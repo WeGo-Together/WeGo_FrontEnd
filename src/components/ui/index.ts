@@ -13,4 +13,5 @@ export {
   ModalTitle,
   useModal,
 } from './modal';
+export { PendingBadge } from './pending-badge';
 export { Toast } from './toast';

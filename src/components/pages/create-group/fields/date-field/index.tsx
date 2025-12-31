@@ -46,7 +46,11 @@ export const GroupDateField = ({ field }: Props) => {
             hasValue && 'text-gray-800',
           )}
         >
-          {hasValue ? formattedDate : '날짜와 시간을 선택해주세요'}
+          {hasValue ? (
+            formattedDate
+          ) : (
+            <span className='select-none'>날짜와 시간을 선택해주세요</span>
+          )}
         </p>
       </button>
       {isInvalid && <Hint className='mt-0.5' message={field.state.meta.errors[0].message} />}

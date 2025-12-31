@@ -17,10 +17,6 @@ export const notificationServiceRemote = () => ({
   },
 
   getUnreadCount: async () => {
-    try {
-      return await apiV1.get<number>(`/notifications/unread-count`);
-    } catch {
-      return 0;
-    }
+    return await apiV1.get<number>(`/notifications/unread-count`);
   },
 });

@@ -4,6 +4,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
 
 import { ChatHeader, ChatInput, MyChat, OtherChat } from '@/components/pages/chat';
+import { UserList } from '@/components/pages/chat/chat-user-list';
 
 // 임시 데이터
 let data = Array.from({ length: 30 }, (_, index) => ({
@@ -27,8 +28,73 @@ data = [
 ];
 const myId = 0;
 
+// 임시 사용자 데이터
+const users = [
+  {
+    id: 0,
+    nickName: '멍선생',
+    profileImage: DEFAULT_PROFILE_IMAGE,
+    profileMessage: '한줄 소개 내용입니다.',
+  },
+  {
+    id: 1,
+    nickName: '짱구',
+    profileImage: DEFAULT_PROFILE_IMAGE,
+    profileMessage: '한줄 소개 내용입니다.',
+  },
+  {
+    id: 2,
+    nickName: '맹구',
+    profileImage: DEFAULT_PROFILE_IMAGE,
+    profileMessage: '한줄 소개 내용입니다.',
+  },
+  {
+    id: 3,
+    nickName: '철수',
+    profileImage: DEFAULT_PROFILE_IMAGE,
+    profileMessage: '한줄 소개 내용입니다아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ.',
+  },
+  {
+    id: 4,
+    nickName: '철수',
+    profileImage: DEFAULT_PROFILE_IMAGE,
+    profileMessage: '한줄 소개 내용입니다.',
+  },
+  {
+    id: 5,
+    nickName: '철수',
+    profileImage: DEFAULT_PROFILE_IMAGE,
+    profileMessage: '한줄 소개 내용입니다.',
+  },
+  {
+    id: 6,
+    nickName: '철수',
+    profileImage: DEFAULT_PROFILE_IMAGE,
+    profileMessage: '한줄 소개 내용입니다.',
+  },
+  {
+    id: 7,
+    nickName: '철수',
+    profileImage: DEFAULT_PROFILE_IMAGE,
+    profileMessage: '한줄 소개 내용입니다.',
+  },
+  {
+    id: 8,
+    nickName: '철수',
+    profileImage: DEFAULT_PROFILE_IMAGE,
+    profileMessage: '한줄 소개 내용입니다.',
+  },
+  {
+    id: 9,
+    nickName: '철수',
+    profileImage: DEFAULT_PROFILE_IMAGE,
+    profileMessage: '한줄 소개 내용입니다.',
+  },
+];
+
 const ChatRoomPage = () => {
   const [messages, setMessages] = useState(data);
+  const [isUserListOpen, setIsUserListOpen] = useState(false);
 
   const handleSubmit = (text: string) => {
     const newMessage = {
@@ -57,23 +123,38 @@ const ChatRoomPage = () => {
   }, [messages]);
 
   return (
-    <div className='flex h-[calc(100vh-112px)] flex-col'>
-      <ChatHeader />
-
+    <div className='relative h-[calc(100vh-112px)] overflow-hidden'>
+      {/* 채팅 화면 */}
       <div
-        ref={containerRef}
-        className='scrollbar-thin ml-4 flex flex-1 flex-col gap-4 overflow-y-auto py-4'
+        className={`absolute inset-0 flex flex-col transition-transform duration-300 ease-in-out ${
+          isUserListOpen ? '-translate-x-full' : 'translate-x-0'
+        }`}
       >
-        {messages.map((item) =>
-          item.userId === myId ? (
-            <MyChat key={item.id} item={item} />
-          ) : (
-            <OtherChat key={item.id} item={item} />
-          ),
-        )}
+        <ChatHeader onUserListClick={() => setIsUserListOpen(true)} />
+
+        <div
+          ref={containerRef}
+          className='scrollbar-thin ml-4 flex flex-1 flex-col gap-4 overflow-y-auto py-4'
+        >
+          {messages.map((item) =>
+            item.userId === myId ? (
+              <MyChat key={item.id} item={item} />
+            ) : (
+              <OtherChat key={item.id} item={item} />
+            ),
+          )}
+        </div>
+
+        <ChatInput onSubmit={handleSubmit} />
       </div>
 
-      <ChatInput onSubmit={handleSubmit} />
+      <div
+        className={`absolute inset-0 transition-transform duration-300 ease-in-out ${
+          isUserListOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <UserList users={users} onClose={() => setIsUserListOpen(false)} />
+      </div>
     </div>
   );
 };

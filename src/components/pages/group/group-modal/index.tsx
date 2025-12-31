@@ -1,36 +1,39 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { Button } from '@/components/ui';
 import { ModalContent, ModalDescription, ModalTitle, useModal } from '@/components/ui/modal';
 import { useAttendGroup } from '@/hooks/use-group/use-group-attend';
 import { useDeleteGroup } from '@/hooks/use-group/use-group-delete';
+import { useKickGroupMember } from '@/hooks/use-group/use-group-kick';
 import { useLeaveGroup } from '@/hooks/use-group/use-group-leave';
 
 interface Props {
-  type: 'attend' | 'leave' | 'delete';
+  type: 'attend' | 'leave' | 'delete' | 'kick';
   groupId: string;
+  targetUserId?: string;
 }
 
-export const GroupModal = ({ type, groupId }: Props) => {
-  const { replace } = useRouter();
+export const GroupModal = ({ type, groupId, targetUserId = '' }: Props) => {
   const { close } = useModal();
-  const { mutate: attendMutate, isPending: isAttending } = useAttendGroup({ groupId }, close);
-  const { mutate: leaveMutate, isPending: isCanceling } = useLeaveGroup({ groupId }, close);
-  const { mutate: deleteMutate, isPending: isDeleting } = useDeleteGroup({ groupId }, () => {
-    close();
-    replace('/');
+  const { mutateAsync: attendMutate, isPending: isAttending } = useAttendGroup({ groupId });
+  const { mutateAsync: leaveMutate, isPending: isCanceling } = useLeaveGroup({ groupId });
+  const { mutateAsync: deleteMutate, isPending: isDeleting } = useDeleteGroup({ groupId });
+  const { mutateAsync: kickMutate, isPending: isKicking } = useKickGroupMember({
+    groupId,
+    targetUserId,
   });
 
-  const isPending = isAttending || isCanceling || isDeleting;
+  const isPending = isAttending || isCanceling || isDeleting || isKicking;
 
   const { title, description, confirm } = MODAL_MESSAGE[type];
 
-  const handleConfirmClick = () => {
-    if (type === 'attend') attendMutate();
-    else if (type === 'leave') leaveMutate();
-    else if (type === 'delete') deleteMutate();
+  const handleConfirmClick = async () => {
+    if (type === 'attend') await attendMutate();
+    else if (type === 'leave') await leaveMutate();
+    else if (type === 'delete') await deleteMutate();
+    else if (type === 'kick') await kickMutate();
+
+    close();
   };
 
   return (
@@ -74,5 +77,10 @@ const MODAL_MESSAGE = {
     title: '모임을 정말 취소하시겠어요?',
     description: '취소 후에는 다시 복구할 수 없어요.',
     confirm: '취소하기',
+  },
+  kick: {
+    title: `을 내보내시겠어요?`,
+    description: '이 작업은 취소할 수 없습니다.',
+    confirm: '내보내기',
   },
 };
