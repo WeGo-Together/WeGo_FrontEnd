@@ -27,13 +27,22 @@ const ProfileLayout = async ({ children, params }: Props) => {
 
   const queryClient = getQueryClient();
 
-  const user = await queryClient.fetchQuery({
-    queryKey: userKeys.item(userId),
-    queryFn: () => API.userService.getUser({ userId }),
-  });
+  const [user, me] = await Promise.all([
+    queryClient.fetchQuery({
+      queryKey: userKeys.item(userId),
+      queryFn: () => API.userService.getUser({ userId }),
+    }),
+    queryClient
+      .fetchQuery({
+        queryKey: userKeys.me(),
+        queryFn: () => API.userService.getMe(),
+      })
+      .catch(() => null),
+  ]);
 
-  // isFollow가 null이면 본인 페이지 이므로 mypage로 redirect 처리
-  if (user.isFollow === null) redirect('/mypage');
+  if (!user) notFound();
+
+  if (me?.userId === user.userId) redirect('/mypage');
 
   return <HydrationBoundary state={dehydrate(queryClient)}>{children}</HydrationBoundary>;
 };
