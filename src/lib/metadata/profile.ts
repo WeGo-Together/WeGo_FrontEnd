@@ -16,6 +16,10 @@ export const generateProfileMetadata = async (userId: number): Promise<Metadata>
     const metaTitle = `${nickName}님의 프로필 | WeGo`;
     const metaDescription = `${nickName}님의 프로필 | 팔로워 ${followersCnt}명\n\n${profileMessage}`;
 
+    const croppedImageUrl = profileImage
+      ? `https://${host}/api/crop-image?url=${encodeURIComponent(profileImage)}`
+      : undefined;
+
     return {
       title: metaTitle,
       description: metaDescription,
@@ -27,12 +31,12 @@ export const generateProfileMetadata = async (userId: number): Promise<Metadata>
         locale: 'ko_KR',
         type: 'profile',
         url: currentUrl,
-        images: profileImage
+        images: croppedImageUrl
           ? [
               {
-                url: profileImage,
-                width: 100,
-                height: 100,
+                url: croppedImageUrl,
+                width: 1200,
+                height: 600,
                 alt: `${nickName}님의 프로필 사진`,
               },
             ]
