@@ -6,7 +6,7 @@ import { API } from '@/api';
 export const generateProfileMetadata = async (userId: number): Promise<Metadata> => {
   const headersList = headers();
   const host = (await headersList).get('host') || process.env.DOMAIN;
-  const currentUrl = `https://${host}/user/${userId}`;
+  const currentUrl = `https://${host}/profile/${userId}`;
 
   try {
     const userProfile = await API.userService.getUser({ userId });
