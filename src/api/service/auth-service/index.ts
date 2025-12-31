@@ -8,6 +8,12 @@ import {
   SignupResponse,
 } from '@/types/service/auth';
 
+// 임시 타입 정의
+type GoogleOAuthExchangeRequest = {
+  code: string;
+  redirectUri: string;
+};
+
 export const authServiceRemote = () => ({
   // 로그인
   login: async (payload: LoginRequest) => {
@@ -42,5 +48,12 @@ export const authServiceRemote = () => ({
   withdraw: async () => {
     await api.delete<void>('/auth/withdraw', { withCredentials: true });
     clearAccessToken();
+  },
+
+  // 구글 OAuth 코드 교환
+  exchangeGoogleCode: async (payload: GoogleOAuthExchangeRequest) => {
+    return api.post<void>('/auth/oauth/google', payload, {
+      withCredentials: true,
+    });
   },
 });
