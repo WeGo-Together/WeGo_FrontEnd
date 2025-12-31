@@ -59,7 +59,7 @@ export const FollowingContent = ({ initialUserId }: FollowingContentProps) => {
     <div className='min-h-screen bg-[#F1F5F9]'>
       <TabNavigation basePath='/message' defaultValue='chat' tabs={SOCIAL_TABS} />
 
-      {tab === 'chat' && <ChatList />}
+      {tab === 'chat' && <ChatList userId={initialUserId} />}
       {tab === 'following' && (
         <>
           <FollowingSearch userId={initialUserId} />

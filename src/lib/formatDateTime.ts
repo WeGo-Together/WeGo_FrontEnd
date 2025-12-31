@@ -55,3 +55,19 @@ export const formatDateTime = (startTime: string, customFormat?: string): string
     .replace(/mm/g, minutes)
     .replace(/ss/g, seconds);
 };
+
+export const formatKoreanTime = (timestamp: string): string => {
+  const date = new Date(timestamp);
+
+  date.setHours(date.getHours() + 9);
+
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  const period = hours >= 12 ? '오후' : '오전';
+  // eslint-disable-next-line
+  const displayHours = hours > 12 ? hours - 12 : hours === 0 ? 12 : hours;
+  const displayMinutes = minutes.toString().padStart(2, '0');
+
+  return `${period} ${displayHours}:${displayMinutes}`;
+};
