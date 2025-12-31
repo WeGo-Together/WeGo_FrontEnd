@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import { GroupModalApprovalContent } from '@/components/pages/group/group-modal/approval-content';
 import { GroupModalCommonContent } from '@/components/pages/group/group-modal/common-content';
@@ -30,6 +30,7 @@ type Props = BaseProps | KickProps;
 export const GroupModal = (props: Props) => {
   const { type } = props;
 
+  const { replace } = useRouter();
   const { groupId } = useParams() as { groupId: string };
 
   const { mutateAsync: attendMutate, isPending: isAttending } = useAttendGroup({ groupId });
@@ -46,7 +47,10 @@ export const GroupModal = (props: Props) => {
     attend: () => attendMutate(undefined),
     approval: (message: AttendGroupPayload) => attendMutate(message),
     leave: () => leaveMutate(),
-    delete: () => deleteMutate(),
+    delete: async () => {
+      await deleteMutate();
+      replace('/');
+    },
     kick: () => kickMutate(),
   };
 
