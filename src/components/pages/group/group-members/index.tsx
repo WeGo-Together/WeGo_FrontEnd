@@ -53,7 +53,6 @@ export const GroupMembers = ({ members, isHost }: Props) => {
                       width={64}
                       className='object-fit h-16 w-16 rounded-full'
                       alt='프로필 사진'
-                      draggable={false}
                       height={64}
                       src={profileImage ?? ''}
                     />

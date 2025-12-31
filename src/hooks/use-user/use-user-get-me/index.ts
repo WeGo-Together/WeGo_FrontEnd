@@ -16,3 +16,17 @@ export const useUserGetMe = () => {
   });
   return query;
 };
+
+export const useUserGetMeSkipRedirect = () => {
+  const query = useQuery({
+    queryKey: userKeys.me(),
+    queryFn: () => API.userService.getMeSkipRedirect(),
+    select: (data) => ({
+      ...data,
+      profileImage: data.profileImage ?? '',
+      profileMessage: data.profileMessage ?? '',
+      mbti: data.mbti ?? '',
+    }),
+  });
+  return query;
+};
