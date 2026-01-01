@@ -12,7 +12,12 @@ export default function My() {
   const { items, error, fetchNextPage, hasNextPage, isFetchingNextPage, completedMessage } =
     useInfiniteScroll<GroupListItemResponse, ['myGroups', 'myPost']>({
       queryFn: async ({ cursor, size }) => {
-        return await API.groupService.getMyGroups({ type: 'myPost', cursor, size });
+        return await API.groupService.getMyGroups({
+          type: 'myPost',
+          cursor,
+          size,
+          filter: 'ALL',
+        });
       },
       queryKey: ['myGroups', 'myPost'],
       pageSize: 10,

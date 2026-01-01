@@ -4,14 +4,50 @@ import { useRouter } from 'next/navigation';
 
 import { RefObject } from 'react';
 
+import { EmptyState } from '@/components/layout/empty-state';
 import { ErrorMessage } from '@/components/shared';
 import Card from '@/components/shared/card';
+import { Button } from '@/components/ui';
 import { formatDateTime } from '@/lib/formatDateTime';
 import { GroupListItemResponse } from '@/types/service/group';
 
-import { EmptyState } from './empty-state';
-
 type TabType = 'current' | 'myPost' | 'past';
+
+const EMPTY_STATE_CONFIG = {
+  current: {
+    text: (
+      <>
+        현재 참여 중인 모임이 없어요.
+        <br />
+        지금 바로 모임을 참여해보세요!
+      </>
+    ),
+    buttonText: '모임 보러가기',
+    buttonWidth: 'w-31',
+  },
+  myPost: {
+    text: (
+      <>
+        아직 생성한 모임이 없어요.
+        <br />
+        지금 바로 모임을 만들어보세요!
+      </>
+    ),
+    buttonText: '모임 만들기',
+    buttonWidth: 'w-31',
+  },
+  past: {
+    text: (
+      <>
+        아직 참여한 모임이 없어요.
+        <br />
+        마음에 드는 모임을 발견해보세요!
+      </>
+    ),
+    buttonText: '모임 보러가기',
+    buttonWidth: 'w-31',
+  },
+} as const;
 
 type MeetingListProps = {
   meetings: GroupListItemResponse[];
@@ -41,7 +77,19 @@ export const MeetingList = ({
   const router = useRouter();
 
   if (meetings.length === 0 && !error) {
-    return <EmptyState type={emptyStateType} onButtonClick={() => router.push(emptyStatePath)} />;
+    const config = EMPTY_STATE_CONFIG[emptyStateType];
+    return (
+      <div className='relative flex min-h-[calc(100vh-156px)] flex-col items-center justify-center py-8'>
+        <EmptyState>{config.text}</EmptyState>
+
+        <Button
+          className={`bg-mint-500 text-text-sm-bold text-mono-white hover:bg-mint-600 active:bg-mint-700 relative z-10 mt-62.5 h-10 rounded-xl ${config.buttonWidth}`}
+          onClick={() => router.push(emptyStatePath)}
+        >
+          {config.buttonText}
+        </Button>
+      </div>
+    );
   }
 
   return (
@@ -59,6 +107,7 @@ export const MeetingList = ({
           key={meeting.id}
           dateTime={formatDateTime(meeting.startTime)}
           images={meeting.images}
+          isClosed={!meeting.joinable}
           leaveAndChatActions={
             showActions
               ? {

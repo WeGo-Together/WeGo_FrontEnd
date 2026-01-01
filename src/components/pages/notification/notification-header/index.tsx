@@ -2,12 +2,27 @@
 import { useRouter } from 'next/navigation';
 
 import { Icon } from '@/components/icon';
+import { useUpdateNotificationReadAll } from '@/hooks/use-notification';
+import { cn } from '@/lib/utils';
+import { useNotification } from '@/providers';
 
 export const NotificationHeader = () => {
   const router = useRouter();
 
+  const { unReadCount } = useNotification();
+  const { mutateAsync } = useUpdateNotificationReadAll();
+
   const handleHistoryBackClick = () => {
     router.back();
+  };
+
+  const handleReadAllClick = async () => {
+    if (unReadCount === 0) return;
+    try {
+      await mutateAsync();
+    } catch {
+      alert('요청 처리에 실패했습니다.');
+    }
   };
 
   return (
@@ -20,6 +35,17 @@ export const NotificationHeader = () => {
         <Icon id='chevron-left-2' className='text-gray-500' />
       </button>
       <h2 className='text-text-md-bold text-gray-800'>알림</h2>
+      <button
+        className={cn(
+          'text-text-sm-semibold absolute right-5',
+          unReadCount > 0 && 'text-mint-500',
+          unReadCount === 0 && 'text-gray-500',
+        )}
+        disabled={unReadCount === 0}
+        onClick={handleReadAllClick}
+      >
+        모두 읽음
+      </button>
     </nav>
   );
 };

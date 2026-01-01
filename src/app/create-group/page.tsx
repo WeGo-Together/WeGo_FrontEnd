@@ -10,6 +10,7 @@ import {
   GroupDetailField,
   GroupImagesField,
   GroupLocationField,
+  GroupPolicyField,
   GroupSubmitButton,
   GroupTagsField,
   GroupTitleField,
@@ -29,8 +30,8 @@ const CreateGroupPage = () => {
       tags: [],
       description: '',
       maxParticipants: 0,
-      images: [],
       joinPolicy: 'FREE',
+      images: [],
     } as CreateGroupFormValues,
     validators: {
       onChange: createGroupSchema,
@@ -57,6 +58,10 @@ const CreateGroupPage = () => {
           <form.Field
             children={(field) => <GroupCapField field={field} />}
             name='maxParticipants'
+          />
+          <form.Field
+            children={(field) => <GroupPolicyField field={field} isEditMode={false} />}
+            name='joinPolicy'
           />
           <form.Field children={(field) => <GroupImagesField field={field} />} name='images' />
           <form.Field children={(field) => <GroupDetailField field={field} />} name='description' />

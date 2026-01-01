@@ -75,7 +75,9 @@ export const GroupTagsField = ({ field }: Props) => {
         ))}
       </ul>
 
-      <p className='text-text-sm-medium px-2 text-gray-500'>최대 10개까지 업로드할 수 있어요.</p>
+      <p className='text-text-sm-medium px-2 text-gray-500 select-none'>
+        최대 10개까지 업로드할 수 있어요.
+      </p>
       {isInvalid && <Hint className='mt-0.5' message={field.state.meta.errors[0].message} />}
     </div>
   );

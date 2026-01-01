@@ -10,6 +10,8 @@ export const formatTimeAgo = (isoString: string) => {
   const dateInput = new Date(isoString.endsWith('Z') ? isoString : `${isoString}Z`);
   const dateNow = new Date();
 
+  if (dateInput.getTime() >= dateNow.getTime()) return '0초 전';
+
   const diffPerSec = Math.floor((dateNow.getTime() - dateInput.getTime()) / 1000);
   if (diffPerSec < 60) return `${diffPerSec}초 전`;
 
@@ -31,7 +33,8 @@ export const formatTimeAgo = (isoString: string) => {
 
 // 모임 시작 시간을 Card 컴포넌트용 형식으로 변환 (예: "25. 12. 25 - 19:00")
 export const formatDateTime = (startTime: string, customFormat?: string): string => {
-  const start = new Date(startTime);
+  let start = new Date(startTime);
+  if (!startTime.endsWith('Z')) start = new Date(startTime + 'Z');
 
   const fullYear = start.getFullYear().toString();
   const shortYear = fullYear.slice(-2);
@@ -51,4 +54,20 @@ export const formatDateTime = (startTime: string, customFormat?: string): string
     .replace(/HH/g, hours)
     .replace(/mm/g, minutes)
     .replace(/ss/g, seconds);
+};
+
+export const formatKoreanTime = (timestamp: string): string => {
+  const date = new Date(timestamp);
+
+  date.setHours(date.getHours() + 9);
+
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  const period = hours >= 12 ? '오후' : '오전';
+  // eslint-disable-next-line
+  const displayHours = hours > 12 ? hours - 12 : hours === 0 ? 12 : hours;
+  const displayMinutes = minutes.toString().padStart(2, '0');
+
+  return `${period} ${displayHours}:${displayMinutes}`;
 };

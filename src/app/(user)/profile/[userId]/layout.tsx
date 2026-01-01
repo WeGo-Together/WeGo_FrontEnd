@@ -3,6 +3,7 @@ import { notFound, redirect } from 'next/navigation';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
 import { API } from '@/api';
+import { generateProfileMetadata } from '@/lib/metadata/profile';
 import { getQueryClient } from '@/lib/query-client';
 import { userKeys } from '@/lib/query-key/query-key-user';
 
@@ -10,6 +11,12 @@ interface Props {
   children: React.ReactNode;
   params: Promise<{ userId: string }>;
 }
+
+export const generateMetadata = async ({ params }: Props) => {
+  const { userId: id } = await params;
+  const userId = Number(id);
+  return await generateProfileMetadata(userId);
+};
 
 const ProfileLayout = async ({ children, params }: Props) => {
   const { userId: id } = await params;
@@ -20,13 +27,22 @@ const ProfileLayout = async ({ children, params }: Props) => {
 
   const queryClient = getQueryClient();
 
-  const user = await queryClient.fetchQuery({
-    queryKey: userKeys.item(userId),
-    queryFn: () => API.userService.getUser({ userId }),
-  });
+  const [user, me] = await Promise.all([
+    queryClient.fetchQuery({
+      queryKey: userKeys.item(userId),
+      queryFn: () => API.userService.getUser({ userId }),
+    }),
+    queryClient
+      .fetchQuery({
+        queryKey: userKeys.me(),
+        queryFn: () => API.userService.getMeSkipRedirect(),
+      })
+      .catch(() => null),
+  ]);
 
-  // isFollow가 null이면 본인 페이지 이므로 mypage로 redirect 처리
-  if (user.isFollow === null) redirect('/mypage');
+  if (!user) notFound();
+
+  if (me?.userId === user.userId) redirect('/mypage');
 
   return <HydrationBoundary state={dehydrate(queryClient)}>{children}</HydrationBoundary>;
 };

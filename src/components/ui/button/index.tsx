@@ -4,7 +4,7 @@ import { cva } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
 
-const buttonVariants = cva('bg-mono-white w-full border transition', {
+const buttonVariants = cva('bg-mono-white w-full border transition select-none', {
   variants: {
     variant: {
       primary: 'bg-mint-400 text-text-md-bold text-mono-white hover:bg-mint-600 active:bg-mint-700',

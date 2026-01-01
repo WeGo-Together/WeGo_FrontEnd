@@ -1,22 +1,26 @@
 import Link from 'next/link';
 
 import { ImageWithFallback } from '@/components/ui';
+import { PendingBadge } from '@/components/ui';
 import { GetGroupDetailsResponse } from '@/types/service/group';
 
 interface Props {
   hostInfo: GetGroupDetailsResponse['createdBy'];
+  groupId: number;
   conditions: {
     isHost: boolean;
-    isPast: boolean;
+    isPending: boolean;
+    isFinished: boolean;
   };
-  groupId: number;
 }
 
 export const DescriptionProfile = ({
   hostInfo: { userId, nickName, profileImage, profileMessage },
-  conditions: { isHost, isPast },
+  conditions: { isHost, isPending, isFinished },
   groupId,
 }: Props) => {
+  const isEditable = isHost && !isFinished;
+
   return (
     <div className='flex-between w-full select-none'>
       <Link href={`/profile/${userId}`} className='flex gap-3'>
@@ -24,7 +28,6 @@ export const DescriptionProfile = ({
           width={40}
           className='object-fit h-10 w-10 shrink-0 rounded-full'
           alt='프로필 사진'
-          draggable={false}
           height={40}
           src={profileImage ?? ''}
         />
@@ -34,8 +37,9 @@ export const DescriptionProfile = ({
           {profileMessage && <p className='text-text-xs-regular text-gray-600'>{profileMessage}</p>}
         </div>
       </Link>
-      {isPast && <p className='text-text-xs-semibold pr-1 text-gray-500'>모임 마감</p>}
-      {isHost && !isPast && (
+      {isFinished && <p className='text-text-xs-semibold pr-1 text-gray-500'>모임 마감</p>}
+      {isPending && <PendingBadge children={'대기중'} variant='md' />}
+      {isEditable && (
         <Link
           href={`/create-group/${groupId}`}
           className='text-text-xs-semibold text-mint-500 pr-1'

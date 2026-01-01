@@ -6,8 +6,17 @@ import { formatISO } from '@/lib/formatDateTime';
 import { server } from '@/mock/server';
 import { createMockSuccessResponse } from '@/mock/service/common/common-mock';
 import { mockUserItems } from '@/mock/service/user/user-mock';
+import { AuthProvider } from '@/providers';
 
 import ProfilePage from './page';
+
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(() => ({
+    replace: jest.fn(),
+    push: jest.fn(),
+    back: jest.fn(),
+  })),
+}));
 
 const createTestQueryClient = () =>
   new QueryClient({
@@ -25,7 +34,9 @@ const renderWithQueryClient = async (component: React.ReactElement) => {
   let renderResult;
   await act(async () => {
     renderResult = render(
-      <QueryClientProvider client={testQueryClient}>{component}</QueryClientProvider>,
+      <QueryClientProvider client={testQueryClient}>
+        <AuthProvider hasRefreshToken={false}>{component}</AuthProvider>
+      </QueryClientProvider>,
     );
   });
 

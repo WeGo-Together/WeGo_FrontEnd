@@ -31,7 +31,7 @@ export const NotificationCard = ({ item }: Props) => {
     <article
       className={cn(
         'bg-mono-white flex cursor-pointer flex-row gap-3 px-5 py-6',
-        !item.readAt && 'bg-mint-100',
+        !item.readAt && 'bg-mint-50',
       )}
       onClick={handleNotificationClick}
     >

@@ -27,11 +27,11 @@ export const authServiceRemote = () => ({
   },
 
   // 액세스 토큰 재발급
-  refresh: async () => {
+  refresh: async (redirect: boolean = true) => {
     const data = await api.post<RefreshResponse>(
       '/auth/refresh',
       {},
-      { _retry: true, withCredentials: true },
+      { _retry: true, withCredentials: true, skipAuthRedirect: redirect },
     );
 
     setAccessToken(data.accessToken, data.expiresIn);

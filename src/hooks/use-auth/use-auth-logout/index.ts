@@ -12,7 +12,7 @@ export const useLogout = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const { accessToken } = useAuth();
+  const { setIsAuthenticated } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -23,7 +23,7 @@ export const useLogout = () => {
       // 로그인 유저 관련 캐시 정리
       queryClient.removeQueries({ queryKey: userKeys.all });
 
-      accessToken.remove();
+      setIsAuthenticated(false);
 
       router.push('/');
     }

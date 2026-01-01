@@ -33,7 +33,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           className={cn(
-            'text-text-md-medium w-full px-4 py-4 text-gray-800 placeholder:text-gray-500 focus:outline-none',
+            'text-text-md-medium w-full px-4 py-4 text-gray-800 placeholder:text-gray-500 placeholder:select-none focus:outline-none',
             hasIcon && 'pr-11',
             hasFrontIcon && 'pl-11',
             className,
