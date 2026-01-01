@@ -76,9 +76,15 @@ export const useLogin = () => {
 
       const nextPath = normalizePath(searchParams.get('path'));
       // window.location.href = nextPath;
-      console.log('[LOGIN] nextPath:', nextPath);
-      console.log('[LOGIN] router object:', router);
-      console.log('[LOGIN] typeof router.replace:', typeof router.replace);
+
+      console.log('[DEBUG] ========== Navigation Info ==========');
+      console.log('[DEBUG] window.location.href:', window.location.href);
+      console.log('[DEBUG] window.location.pathname:', window.location.pathname);
+      console.log('[DEBUG] window.location.search:', window.location.search);
+      console.log('[DEBUG] searchParams.get("path"):', searchParams.get('path'));
+      console.log('[DEBUG] nextPath:', nextPath);
+      console.log('[DEBUG] Same pathname?', window.location.pathname === nextPath);
+      console.log('[DEBUG] =====================================');
       try {
         router.replace(nextPath);
         console.log('[LOGIN] router.replace called successfully');
