@@ -56,7 +56,7 @@ export const useLogin = () => {
 
   const { setIsAuthenticated: _ } = useAuth();
 
-  const handleLogin = async (payload: LoginRequest, formApi: { reset: () => void }) => {
+  const handleLogin = async (payload: LoginRequest, _formApi: { reset: () => void }) => {
     setLoginError(null);
 
     try {
@@ -70,13 +70,21 @@ export const useLogin = () => {
         secure: process.env.NODE_ENV === 'production',
       });
 
-      formApi.reset();
+      // formApi.reset();
 
       // setIsAuthenticated(true);
 
       const nextPath = normalizePath(searchParams.get('path'));
       // window.location.href = nextPath;
-      router.replace(nextPath);
+      console.log('[LOGIN] nextPath:', nextPath);
+      console.log('[LOGIN] router object:', router);
+      console.log('[LOGIN] typeof router.replace:', typeof router.replace);
+      try {
+        router.replace(nextPath);
+        console.log('[LOGIN] router.replace called successfully');
+      } catch (e) {
+        console.error('[LOGIN] router.replace threw error:', e);
+      }
     } catch (error) {
       if (isCommonErrorResponse(error)) {
         console.error('[LOGIN ERROR]', error.errorCode, error.detail);
