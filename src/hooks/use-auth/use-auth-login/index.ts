@@ -56,7 +56,7 @@ export const useLogin = () => {
 
   const { setIsAuthenticated } = useAuth();
 
-  const handleLogin = async (payload: LoginRequest, _formApi: { reset: () => void }) => {
+  const handleLogin = async (payload: LoginRequest, formApi: { reset: () => void }) => {
     setLoginError(null);
 
     try {
@@ -70,12 +70,14 @@ export const useLogin = () => {
         secure: process.env.NODE_ENV === 'production',
       });
 
-      // formApi.reset();
+      formApi.reset();
 
       setIsAuthenticated(true);
 
       const nextPath = normalizePath(searchParams.get('path'));
-      router.replace(nextPath);
+      setTimeout(() => {
+        router.replace(nextPath);
+      }, 0);
     } catch (error) {
       if (isCommonErrorResponse(error)) {
         console.error('[LOGIN ERROR]', error.errorCode, error.detail);
