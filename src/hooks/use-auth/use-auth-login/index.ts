@@ -48,7 +48,7 @@ const isCommonErrorResponse = (e: unknown): e is CommonErrorResponse => {
 };
 
 export const useLogin = () => {
-  const router = useRouter();
+  const _router = useRouter();
   const searchParams = useSearchParams();
 
   const [loginError, setLoginError] = useState<string | null>(null);
@@ -75,9 +75,7 @@ export const useLogin = () => {
       setIsAuthenticated(true);
 
       const nextPath = normalizePath(searchParams.get('path'));
-      setTimeout(() => {
-        router.replace(nextPath);
-      }, 0);
+      window.location.href = nextPath;
     } catch (error) {
       if (isCommonErrorResponse(error)) {
         console.error('[LOGIN ERROR]', error.errorCode, error.detail);
