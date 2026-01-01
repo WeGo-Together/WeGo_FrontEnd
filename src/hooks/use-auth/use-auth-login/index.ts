@@ -75,6 +75,7 @@ export const useLogin = () => {
       setIsAuthenticated(true);
 
       const nextPath = normalizePath(searchParams.get('path'));
+      router.refresh();
       router.replace(nextPath);
     } catch (error) {
       if (isCommonErrorResponse(error)) {
