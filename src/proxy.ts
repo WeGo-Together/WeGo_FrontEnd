@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export default async function proxy(request: NextRequest) {
-  const accessToken = request.cookies.get('accessToken');
+  // const accessToken = request.cookies.get('accessToken');
   const refreshToken = request.cookies.get('refreshToken');
 
   const protectedPaths = ['/mypage', '/create-group', '/message', '/schedule', '/notification'];
@@ -13,7 +13,7 @@ export default async function proxy(request: NextRequest) {
   }
 
   // 둘 다 없으면 로그인 페이지로 redirect
-  if (!accessToken && !refreshToken) {
+  if (!refreshToken) {
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('error', 'unauthorized');
     loginUrl.searchParams.set('path', request.nextUrl.pathname);

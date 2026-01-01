@@ -54,9 +54,9 @@ export const useLogin = () => {
   const [loginError, setLoginError] = useState<string | null>(null);
   const clearLoginError = useCallback(() => setLoginError(null), []);
 
-  const { setIsAuthenticated: _ } = useAuth();
+  const { setIsAuthenticated } = useAuth();
 
-  const handleLogin = async (payload: LoginRequest, _formApi: { reset: () => void }) => {
+  const handleLogin = async (payload: LoginRequest, formApi: { reset: () => void }) => {
     setLoginError(null);
 
     try {
@@ -70,27 +70,12 @@ export const useLogin = () => {
         secure: process.env.NODE_ENV === 'production',
       });
 
-      // formApi.reset();
+      formApi.reset();
 
-      // setIsAuthenticated(true);
+      setIsAuthenticated(true);
 
       const nextPath = normalizePath(searchParams.get('path'));
-      // window.location.href = nextPath;
-
-      console.log('[DEBUG] ========== Navigation Info ==========');
-      console.log('[DEBUG] window.location.href:', window.location.href);
-      console.log('[DEBUG] window.location.pathname:', window.location.pathname);
-      console.log('[DEBUG] window.location.search:', window.location.search);
-      console.log('[DEBUG] searchParams.get("path"):', searchParams.get('path'));
-      console.log('[DEBUG] nextPath:', nextPath);
-      console.log('[DEBUG] Same pathname?', window.location.pathname === nextPath);
-      console.log('[DEBUG] =====================================');
-      try {
-        router.replace(nextPath);
-        console.log('[LOGIN] router.replace called successfully');
-      } catch (e) {
-        console.error('[LOGIN] router.replace threw error:', e);
-      }
+      router.replace(nextPath);
     } catch (error) {
       if (isCommonErrorResponse(error)) {
         console.error('[LOGIN ERROR]', error.errorCode, error.detail);
