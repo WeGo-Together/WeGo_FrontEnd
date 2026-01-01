@@ -56,7 +56,7 @@ export const useLogin = () => {
 
   const { setIsAuthenticated } = useAuth();
 
-  const handleLogin = async (payload: LoginRequest, formApi: { reset: () => void }) => {
+  const handleLogin = async (payload: LoginRequest, _formApi: { reset: () => void }) => {
     setLoginError(null);
 
     try {
@@ -70,7 +70,7 @@ export const useLogin = () => {
         secure: process.env.NODE_ENV === 'production',
       });
 
-      formApi.reset();
+      // formApi.reset();
 
       setIsAuthenticated(true);
 
