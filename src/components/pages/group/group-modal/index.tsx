@@ -11,7 +11,7 @@ import { useKickGroupMember } from '@/hooks/use-group/use-group-kick';
 import { useLeaveGroup } from '@/hooks/use-group/use-group-leave';
 import { AttendGroupPayload } from '@/types/service/group';
 
-type ModalType = 'attend' | 'approval' | 'leave' | 'delete' | 'kick';
+type ModalType = 'attend' | 'approval' | 'pending' | 'leave' | 'delete' | 'kick';
 
 interface BaseProps {
   type: Exclude<ModalType, 'kick'>;
@@ -46,6 +46,7 @@ export const GroupModal = (props: Props) => {
   const mutateByType = {
     attend: () => attendMutate(undefined),
     approval: (message: AttendGroupPayload) => attendMutate(message),
+    pending: () => leaveMutate(),
     leave: () => leaveMutate(),
     delete: async () => {
       await deleteMutate();
@@ -87,6 +88,11 @@ const MODAL_CONTENTS = {
     title: '참여 신청하기',
     description: '참여 신청 메세지',
     confirmMessage: '신청하기',
+  }),
+  pending: () => ({
+    title: '참여 신청을 취소하시겠어요?',
+    description: '조금만 더 기다려 보는건 어떨까요?',
+    confirmMessage: '취소하기',
   }),
   leave: () => ({
     title: '모임을 정말 탈퇴하시겠어요?',
