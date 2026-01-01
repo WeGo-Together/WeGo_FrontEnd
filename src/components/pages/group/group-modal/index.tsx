@@ -4,7 +4,9 @@ import { useParams, useRouter } from 'next/navigation';
 
 import { GroupModalApprovalContent } from '@/components/pages/group/group-modal/approval-content';
 import { GroupModalCommonContent } from '@/components/pages/group/group-modal/common-content';
+import { Toast } from '@/components/ui';
 import { ModalContent } from '@/components/ui/modal';
+import { useToast } from '@/components/ui/toast/core';
 import { useAttendGroup } from '@/hooks/use-group/use-group-attend';
 import { useDeleteGroup } from '@/hooks/use-group/use-group-delete';
 import { useKickGroupMember } from '@/hooks/use-group/use-group-kick';
@@ -32,6 +34,7 @@ export const GroupModal = (props: Props) => {
 
   const { replace } = useRouter();
   const { groupId } = useParams() as { groupId: string };
+  const { run } = useToast();
 
   const { mutateAsync: attendMutate, isPending: isAttending } = useAttendGroup({ groupId });
   const { mutateAsync: leaveMutate, isPending: isCanceling } = useLeaveGroup({ groupId });
@@ -44,7 +47,14 @@ export const GroupModal = (props: Props) => {
   const isPending = isAttending || isCanceling || isDeleting || isKicking;
 
   const mutateByType = {
-    attend: () => attendMutate(undefined),
+    attend: async () => {
+      await attendMutate(undefined);
+      run(
+        <Toast offset='button' type='success'>
+          모임 신청 완료! Share the fun
+        </Toast>,
+      );
+    },
     approval: (message: AttendGroupPayload) => attendMutate(message),
     pending: () => leaveMutate(),
     leave: () => leaveMutate(),
