@@ -48,13 +48,13 @@ const isCommonErrorResponse = (e: unknown): e is CommonErrorResponse => {
 };
 
 export const useLogin = () => {
-  const _router = useRouter();
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   const [loginError, setLoginError] = useState<string | null>(null);
   const clearLoginError = useCallback(() => setLoginError(null), []);
 
-  const { setIsAuthenticated } = useAuth();
+  const { setIsAuthenticated: _ } = useAuth();
 
   const handleLogin = async (payload: LoginRequest, formApi: { reset: () => void }) => {
     setLoginError(null);
@@ -72,10 +72,11 @@ export const useLogin = () => {
 
       formApi.reset();
 
-      setIsAuthenticated(true);
+      // setIsAuthenticated(true);
 
       const nextPath = normalizePath(searchParams.get('path'));
-      window.location.href = nextPath;
+      // window.location.href = nextPath;
+      router.replace(nextPath);
     } catch (error) {
       if (isCommonErrorResponse(error)) {
         console.error('[LOGIN ERROR]', error.errorCode, error.detail);
