@@ -1,10 +1,12 @@
-import { useRouter } from 'next/navigation';
-
 import { render, screen } from '@testing-library/react';
 
 import { GetFollowerResponse } from '@/types/service/follow';
 
 import { FollowingList } from '.';
+
+jest.mock('../message-following-card', () => ({
+  FollowingCard: ({ nickname }: { nickname: string }) => <div>{nickname}</div>,
+}));
 
 const TEST_ITEMS: GetFollowerResponse = {
   items: [
@@ -33,19 +35,7 @@ const TEST_ITEMS: GetFollowerResponse = {
   nextCursor: null,
 };
 
-jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(),
-}));
-
-describe('Following List 컴포넌트 테스트', () => {
-  beforeEach(() => {
-    // 각 테스트 전에 mock 초기화
-    jest.clearAllMocks();
-    (useRouter as jest.Mock).mockReturnValue({
-      push: jest.fn(),
-    });
-  });
-
+describe('FollowingList 컴포넌트 테스트', () => {
   test('모든 아이템이 렌더링 되는지 테스트', () => {
     render(<FollowingList items={TEST_ITEMS.items} />);
 

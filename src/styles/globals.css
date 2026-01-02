@@ -6,8 +6,8 @@
 @import '../styles/animations.css';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #dde7f0;
+  --foreground: #dde7f0;
 }
 
 @theme inline {
@@ -18,8 +18,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #dde7f0;
+    --foreground: #dde7f0;
   }
 }
 

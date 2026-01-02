@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export default async function proxy(request: NextRequest) {
-  const accessToken = request.cookies.get('accessToken');
+export const middleware = (request: NextRequest) => {
+  // const accessToken = request.cookies.get('accessToken');
   const refreshToken = request.cookies.get('refreshToken');
 
   const protectedPaths = ['/mypage', '/create-group', '/message', '/schedule', '/notification'];
@@ -12,8 +12,11 @@ export default async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  console.log(`refreshToken 보유 여부`);
+  console.log(refreshToken);
+
   // 둘 다 없으면 로그인 페이지로 redirect
-  if (!accessToken && !refreshToken) {
+  if (!refreshToken) {
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('error', 'unauthorized');
     loginUrl.searchParams.set('path', request.nextUrl.pathname);
@@ -21,7 +24,7 @@ export default async function proxy(request: NextRequest) {
   }
 
   return NextResponse.next();
-}
+};
 
 export const config = {
   matcher: ['/((?!api|_next/static|_next/image|favicon.ico|login|signup).*)'],

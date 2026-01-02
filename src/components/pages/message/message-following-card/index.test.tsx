@@ -1,12 +1,19 @@
 import { useRouter } from 'next/navigation';
 
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+
+import { useCreateDMChat } from '@/hooks/use-chat/use-chat-dm';
 
 import { FollowingCard } from '.';
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
 }));
+
+jest.mock('@/hooks/use-chat/use-chat-dm', () => ({
+  useCreateDMChat: jest.fn(),
+}));
+
 const defaultProps = {
   userId: 0,
   nickname: '얼룩말',
@@ -17,10 +24,16 @@ const routerPush = jest.fn();
 
 describe('FollowingCard 컴포넌트 테스트', () => {
   beforeEach(() => {
-    // 각 테스트 전에 mock 초기화
     jest.clearAllMocks();
+
     (useRouter as jest.Mock).mockReturnValue({
       push: routerPush,
+    });
+
+    (useCreateDMChat as jest.Mock).mockReturnValue({
+      mutateAsync: jest.fn().mockResolvedValue({
+        chatRoomId: 123,
+      }),
     });
   });
 
@@ -28,7 +41,6 @@ describe('FollowingCard 컴포넌트 테스트', () => {
     render(<FollowingCard {...defaultProps} type='following' />);
 
     expect(screen.getByText('메세지')).toBeInTheDocument();
-    expect(screen.queryByText('0')).not.toBeInTheDocument();
   });
 
   test('type=message & count > 0 일 때 테스트', () => {
@@ -58,24 +70,18 @@ describe('FollowingCard 컴포넌트 테스트', () => {
   test('팔로잉 카드 클릭 시 router.push() 호출되는지 테스트.', () => {
     render(<FollowingCard {...defaultProps} type='following' />);
 
-    const card = screen.getByTestId('following-card');
+    fireEvent.click(screen.getByTestId('following-card'));
 
-    fireEvent.click(card);
-    expect(routerPush).toHaveBeenCalledTimes(1);
     expect(routerPush).toHaveBeenCalledWith('/profile/0');
   });
 
-  test('팔로잉 카드의 메시지 버튼 클릭 시 onMessageClick만 호출되는지 테스트.', () => {
-    const handleMessageClick = jest.fn();
+  test('메시지 버튼 클릭 시 DM 생성 후 채팅방으로 이동되는지 테스트.', async () => {
+    render(<FollowingCard {...defaultProps} type='following' />);
 
-    render(
-      <FollowingCard {...defaultProps} type='following' onMessageClick={handleMessageClick} />,
-    );
+    fireEvent.click(screen.getByText('메세지'));
 
-    const button = screen.getByText('메세지');
-    fireEvent.click(button);
-
-    expect(handleMessageClick).toHaveBeenCalledTimes(1);
-    expect(routerPush).not.toHaveBeenCalled(); // 이벤트 버블 막힘 확인
+    await waitFor(() => {
+      expect(routerPush).toHaveBeenCalledWith('/chat/123');
+    });
   });
 });

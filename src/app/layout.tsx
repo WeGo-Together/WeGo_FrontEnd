@@ -16,15 +16,19 @@ export const metadata: Metadata = {
 
 initMocks();
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { cookies } = await import('next/headers');
+  const cookieStore = await cookies();
+  const hasRefreshToken = !!cookieStore.get('refreshToken')?.value;
+
   return (
     <html lang='ko'>
       <body className={`${pretendard.className} ${pretendard.variable} antialiased`}>
-        <Providers>
+        <Providers hasRefreshToken={hasRefreshToken}>
           <div id='root'>
             <LayoutWrapper>{children}</LayoutWrapper>
           </div>
