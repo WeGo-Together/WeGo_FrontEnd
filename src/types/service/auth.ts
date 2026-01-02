@@ -33,3 +33,8 @@ export interface RefreshResponse {
   expiresIn: number;
   expiresAt: string;
 }
+
+export interface GoogleOAuthExchangeRequest {
+  authorizationCode: string;
+  redirectUri: string;
+}

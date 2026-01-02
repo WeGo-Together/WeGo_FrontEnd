@@ -1,18 +1,13 @@
 import { api } from '@/api/core';
 import { clearAccessToken, setAccessToken } from '@/lib/auth/token';
 import {
+  GoogleOAuthExchangeRequest,
   LoginRequest,
   LoginResponse,
   RefreshResponse,
   SignupRequest,
   SignupResponse,
 } from '@/types/service/auth';
-
-// 임시 타입 정의
-type GoogleOAuthExchangeRequest = {
-  code: string;
-  redirectUri: string;
-};
 
 export const authServiceRemote = () => ({
   // 로그인
@@ -52,7 +47,7 @@ export const authServiceRemote = () => ({
 
   // 구글 OAuth 코드 교환
   exchangeGoogleCode: async (payload: GoogleOAuthExchangeRequest) => {
-    return api.post<void>('/auth/oauth/google', payload, {
+    return api.post<void>('/auth/google', payload, {
       withCredentials: true,
     });
   },
