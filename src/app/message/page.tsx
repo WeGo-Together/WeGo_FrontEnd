@@ -10,7 +10,7 @@ const INITIAL_PAGE_SIZE = 10;
 export default async function MessagePage() {
   const cookieStore = await cookies();
   const userId = Number(cookieStore.get('userId')?.value || 0);
-
+  const accessToken = cookieStore.get('accessToken')?.value || null;
   const queryClient = new QueryClient();
 
   // 첫 페이지 우선 prefetch
@@ -35,7 +35,7 @@ export default async function MessagePage() {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <FollowingContent initialUserId={userId} />
+      <FollowingContent accessToken={accessToken} initialUserId={userId} />
     </HydrationBoundary>
   );
 }
