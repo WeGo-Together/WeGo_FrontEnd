@@ -138,6 +138,12 @@ const getRedirectUrl = (data: NotificationItem) => {
   // 알림 필드 type 변경 전 데이터는 group 필드가 null로 조회되므로 fallback 처리
   if (!data.group) return null;
 
-  // group 필드가 null이 아닐 경우
+  // 모임 참여 신청 목록 페이지
+  switch (data.type) {
+    case 'group-join-request':
+      return `/pending/${data.group.id}`;
+  }
+
+  // 그 외는 전부 모임 페이지로 redirect
   return `/group/${data.group.id}`;
 };
