@@ -45,7 +45,11 @@ export const GroupDescriptions = ({
   return (
     <section className='bg-white px-5 pt-6 pb-4'>
       <DescriptionProfile
-        conditions={{ isHost: myMembership?.role === 'HOST', isPast: status === 'FINISHED' }}
+        conditions={{
+          isHost: myMembership?.role === 'HOST',
+          isPending: myMembership?.status === 'PENDING',
+          isFinished: status === 'FINISHED',
+        }}
         groupId={id}
         hostInfo={createdBy}
       />

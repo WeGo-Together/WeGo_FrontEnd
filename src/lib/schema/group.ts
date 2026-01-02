@@ -7,7 +7,10 @@ export const createGroupSchema = z.object({
     .nonempty('모임 제목을 입력해 주세요.')
     .max(50, '모임 제목은 50자 이내 입력해 주세요.'),
   location: z.string().nonempty('모임 장소를 입력해 주세요.'),
-  startTime: z.string().nonempty('모임 날짜와 시간을 입력해 주세요.'),
+  startTime: z
+    .string()
+    .nonempty('모임 날짜와 시간을 입력해 주세요.')
+    .refine((value) => new Date() < new Date(value), '모임 시간은 현재 이후로 입력해 주세요.'),
   tags: z.array(z.string().nonempty().max(8, '태그는 8자 이내 입력해 주세요.')).max(10).optional(),
   description: z
     .string()

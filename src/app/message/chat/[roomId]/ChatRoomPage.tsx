@@ -1,32 +1,14 @@
 'use client';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
 
 import { ChatHeader, ChatInput, MyChat, OtherChat } from '@/components/pages/chat';
 import { UserList } from '@/components/pages/chat/chat-user-list';
-
-// 임시 데이터
-let data = Array.from({ length: 30 }, (_, index) => ({
-  id: index + 1,
-  text: '안녕하세요 멍선생입니다 \n 계속 입력하면 어떻게 되나 봅시다',
-  time: '오후 11:24',
-  profileImage: DEFAULT_PROFILE_IMAGE,
-  nickName: '흰둥이',
-  userId: index % 3 === 0 ? 0 : 1,
-}));
-data = [
-  ...data,
-  {
-    id: 31,
-    text: '어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마어마하게 긴 메세지',
-    time: '오후 11:25',
-    profileImage: DEFAULT_PROFILE_IMAGE,
-    nickName: '흰둥이',
-    userId: 0,
-  },
-];
-const myId = 0;
+import { useGetChatMessages } from '@/hooks/use-chat';
+import { useReadMessages } from '@/hooks/use-chat/use-chat-read';
+import { useChatSocket } from '@/hooks/use-chat/use-chat-socket';
+import { ChatMessage } from '@/types/service/chat';
 
 // 임시 사용자 데이터
 const users = [
@@ -92,21 +74,48 @@ const users = [
   },
 ];
 
-const ChatRoomPage = () => {
-  const [messages, setMessages] = useState(data);
+interface IProps {
+  accessToken: string | null;
+  roomId: number;
+  userId: number;
+}
+
+const ChatRoomPage = ({ accessToken, roomId, userId }: IProps) => {
   const [isUserListOpen, setIsUserListOpen] = useState(false);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+
+  const { data: previousMessages } = useGetChatMessages(roomId);
+  const { mutate: readMessages } = useReadMessages(roomId, userId);
+  const {
+    messages: newMessages,
+    sendMessage,
+    isConnected,
+  } = useChatSocket({
+    roomId,
+    userId,
+    accessToken,
+    onMessage: (message) => {
+      console.log('새 메시지:', message);
+      setChatMessages((prev) => [...prev, message]);
+    },
+  });
+
+  useEffect(() => {
+    if (!isConnected) return;
+
+    readMessages();
+  }, [isConnected, readMessages, newMessages]);
+
+  useEffect(() => {
+    if (!previousMessages) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setChatMessages([...previousMessages.messages].reverse());
+  }, [previousMessages]);
+
+  console.log(newMessages);
 
   const handleSubmit = (text: string) => {
-    const newMessage = {
-      id: Date.now(),
-      text,
-      profileImage: DEFAULT_PROFILE_IMAGE,
-      nickName: '흰둥이',
-      time: '지금',
-      userId: myId,
-    };
-
-    setMessages((prev) => [...prev, newMessage]);
+    sendMessage(text);
   };
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -120,7 +129,7 @@ const ChatRoomPage = () => {
     requestAnimationFrame(() => {
       container.scrollTop = container.scrollHeight;
     });
-  }, [messages]);
+  }, [chatMessages.length]);
 
   return (
     <div className='relative h-[calc(100vh-112px)] overflow-hidden'>
@@ -136,11 +145,12 @@ const ChatRoomPage = () => {
           ref={containerRef}
           className='scrollbar-thin ml-4 flex flex-1 flex-col gap-4 overflow-y-auto py-4'
         >
-          {messages.map((item) =>
-            item.userId === myId ? (
-              <MyChat key={item.id} item={item} />
+          {!isConnected && <div>연결 중...</div>}
+          {chatMessages.map((item) =>
+            item.senderId === userId ? (
+              <MyChat key={item.messageId} item={item} />
             ) : (
-              <OtherChat key={item.id} item={item} />
+              <OtherChat key={item.messageId} item={item} />
             ),
           )}
         </div>

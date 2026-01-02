@@ -16,10 +16,9 @@ import { GetGroupDetailsResponse, KickGroupMemberParams } from '@/types/service/
 interface Props {
   members: GetGroupDetailsResponse['joinedMembers'];
   isHost: boolean;
-  groupId: string;
 }
 
-export const GroupMembers = ({ members, isHost, groupId }: Props) => {
+export const GroupMembers = ({ members, isHost }: Props) => {
   const [expand, setExpand] = useState(false);
   const hasMoreMember = 2 < Math.ceil(members.length / 3);
 
@@ -29,8 +28,11 @@ export const GroupMembers = ({ members, isHost, groupId }: Props) => {
     setExpand((prev) => !prev);
   };
 
-  const onKickMemberClick = (targetUserId: KickGroupMemberParams['targetUserId']) => {
-    open(<GroupModal groupId={groupId} targetUserId={targetUserId} type='kick' />);
+  const onKickMemberClick = (
+    targetUserId: KickGroupMemberParams['targetUserId'],
+    targetUserName: string,
+  ) => {
+    open(<GroupModal targetInfo={{ targetUserId, targetUserName }} type='kick' />);
   };
 
   return (
@@ -51,7 +53,6 @@ export const GroupMembers = ({ members, isHost, groupId }: Props) => {
                       width={64}
                       className='object-fit h-16 w-16 rounded-full'
                       alt='프로필 사진'
-                      draggable={false}
                       height={64}
                       src={profileImage ?? ''}
                     />
@@ -60,7 +61,7 @@ export const GroupMembers = ({ members, isHost, groupId }: Props) => {
                     <button
                       className='absolute top-0 right-0'
                       type='button'
-                      onClick={() => onKickMemberClick(userId.toString())}
+                      onClick={() => onKickMemberClick(userId.toString(), nickName)}
                     >
                       <Icon id='kick' className='h-4 w-4' />
                     </button>
