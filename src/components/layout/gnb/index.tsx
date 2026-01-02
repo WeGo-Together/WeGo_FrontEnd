@@ -8,13 +8,23 @@ import { Icon } from '@/components/icon';
 export const GNB = () => {
   const pathname = usePathname();
 
+  const highLightPath = (path: string) => {
+    if (path === '/') {
+      return pathname === '/';
+    }
+    return pathname.startsWith(path);
+  };
+
   return (
     <nav className='sticky bottom-0 z-100 h-14 border-t-1 border-gray-200 bg-white py-2'>
       <ul className='flex w-full justify-evenly gap-4'>
         {NAV_MENU.map(({ path, svgId }) => (
           <li key={path}>
             <Link href={path} className='flex-center h-10 w-10'>
-              <Icon id={svgId} className={pathname === path ? 'text-mint-500' : 'text-gray-500'} />
+              <Icon
+                id={svgId}
+                className={highLightPath(path) ? 'text-mint-500' : 'text-gray-500'}
+              />
             </Link>
           </li>
         ))}

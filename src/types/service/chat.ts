@@ -52,3 +52,13 @@ export interface GetChatMessagesResponse {
   nextCursor: number | null;
   hasNext: boolean;
 }
+
+export interface ReadMessagesParams {
+  roomId: number;
+}
+
+export interface ReadMessagesResponse {
+  chatRoomId: number;
+  lastReadMessageId: number;
+  unreadCount: number;
+}

@@ -4,14 +4,16 @@ import { useParams, useRouter } from 'next/navigation';
 
 import { GroupModalApprovalContent } from '@/components/pages/group/group-modal/approval-content';
 import { GroupModalCommonContent } from '@/components/pages/group/group-modal/common-content';
+import { Toast } from '@/components/ui';
 import { ModalContent } from '@/components/ui/modal';
+import { useToast } from '@/components/ui/toast/core';
 import { useAttendGroup } from '@/hooks/use-group/use-group-attend';
 import { useDeleteGroup } from '@/hooks/use-group/use-group-delete';
 import { useKickGroupMember } from '@/hooks/use-group/use-group-kick';
 import { useLeaveGroup } from '@/hooks/use-group/use-group-leave';
 import { AttendGroupPayload } from '@/types/service/group';
 
-type ModalType = 'attend' | 'approval' | 'leave' | 'delete' | 'kick';
+type ModalType = 'attend' | 'approval' | 'pending' | 'leave' | 'delete' | 'kick';
 
 interface BaseProps {
   type: Exclude<ModalType, 'kick'>;
@@ -32,6 +34,7 @@ export const GroupModal = (props: Props) => {
 
   const { replace } = useRouter();
   const { groupId } = useParams() as { groupId: string };
+  const { run } = useToast();
 
   const { mutateAsync: attendMutate, isPending: isAttending } = useAttendGroup({ groupId });
   const { mutateAsync: leaveMutate, isPending: isCanceling } = useLeaveGroup({ groupId });
@@ -44,8 +47,16 @@ export const GroupModal = (props: Props) => {
   const isPending = isAttending || isCanceling || isDeleting || isKicking;
 
   const mutateByType = {
-    attend: () => attendMutate(undefined),
+    attend: async () => {
+      await attendMutate(undefined);
+      run(
+        <Toast offset='button' type='success'>
+          모임 신청 완료! Share the fun
+        </Toast>,
+      );
+    },
     approval: (message: AttendGroupPayload) => attendMutate(message),
+    pending: () => leaveMutate(),
     leave: () => leaveMutate(),
     delete: async () => {
       await deleteMutate();
@@ -87,6 +98,11 @@ const MODAL_CONTENTS = {
     title: '참여 신청하기',
     description: '참여 신청 메세지',
     confirmMessage: '신청하기',
+  }),
+  pending: () => ({
+    title: '참여 신청을 취소하시겠어요?',
+    description: '조금만 더 기다려 보는건 어떨까요?',
+    confirmMessage: '취소하기',
   }),
   leave: () => ({
     title: '모임을 정말 탈퇴하시겠어요?',
