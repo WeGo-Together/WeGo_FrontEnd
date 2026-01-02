@@ -4,7 +4,11 @@ import {
   CreateDMPayloads,
   GetChatMessagesParams,
   GetChatMessagesResponse,
+  GetChatRoomParams,
+  getChatRoomResponse,
   GetChatRoomsResponse,
+  GetParticipantsParams,
+  GetParticipantsResponse,
   ReadMessagesParams,
   ReadMessagesResponse,
 } from '@/types/service/chat';
@@ -33,5 +37,15 @@ export const chatServiceRemote = () => ({
   // 메세지 읽음 처리
   readMessages: async ({ roomId }: ReadMessagesParams) => {
     return apiV1.put<ReadMessagesResponse>(`/chat/rooms/${roomId}/read`);
+  },
+
+  // 채팅방 상세 조회
+  getChatRoom: async ({ roomId }: GetChatRoomParams) => {
+    return apiV1.get<getChatRoomResponse>(`/chat/rooms/${roomId}`);
+  },
+
+  // 참여자 목록 조회
+  getParticipants: async ({ roomId }: GetParticipantsParams) => {
+    return apiV1.get<GetParticipantsResponse>(`/chat/rooms/${roomId}/participants`);
   },
 });

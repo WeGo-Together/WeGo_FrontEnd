@@ -9,16 +9,7 @@ export interface ChattingRoom {
     senderName: string;
     timestamp: string;
   };
-  participants: [
-    {
-      participantId: number;
-      userId: number;
-      nickName: string;
-      profileImage: string;
-      status: 'ACTIVE' | 'INACTIVE'; // 확인 필요💥💥
-      joinedAt: string;
-    },
-  ];
+  participants: ChatUser[];
   unreadCount: number;
 }
 
@@ -31,6 +22,15 @@ export interface ChatMessage {
   messageType: 'TEXT' | 'SYSTEM';
   timestamp?: string;
   createdAt?: string;
+}
+
+export interface ChatUser {
+  joinedAt: string;
+  nickName: string;
+  participantId: 77;
+  profileImage: string;
+  status: 'ACTIVE' | 'INACTIVE'; // 확인 필요💥💥
+  userId: number;
 }
 
 export interface GetChatRoomsResponse {
@@ -61,4 +61,28 @@ export interface ReadMessagesResponse {
   chatRoomId: number;
   lastReadMessageId: number;
   unreadCount: number;
+}
+
+export interface GetChatRoomParams {
+  roomId: number;
+}
+
+export interface getChatRoomResponse {
+  chatRoomId: number;
+  chatRoomName: string;
+  chatType: string;
+  createdAt: string;
+  groupId: number | null;
+  participantCount: number;
+  participants: ChatUser[];
+}
+
+export interface GetParticipantsParams {
+  roomId: number;
+}
+
+export interface GetParticipantsResponse {
+  chatRoomId: number;
+  totalCount: number;
+  participants: ChatUser[];
 }
