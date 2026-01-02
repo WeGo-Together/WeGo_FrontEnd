@@ -107,7 +107,7 @@ export const MeetingList = ({
           key={meeting.id}
           dateTime={formatDateTime(meeting.startTime)}
           images={meeting.images}
-          isClosed={!meeting.joinable}
+          isClosed={meeting.status === 'FINISHED'}
           leaveAndChatActions={
             showActions
               ? {
