@@ -17,9 +17,10 @@ const SOCIAL_TABS = [
 
 interface FollowingContentProps {
   initialUserId: number;
+  accessToken: string | null;
 }
 
-export const FollowingContent = ({ initialUserId }: FollowingContentProps) => {
+export const FollowingContent = ({ initialUserId, accessToken }: FollowingContentProps) => {
   const params = useSearchParams();
   const tab = params.get('tab') || 'chat';
 
@@ -59,7 +60,7 @@ export const FollowingContent = ({ initialUserId }: FollowingContentProps) => {
     <div className='min-h-screen bg-[#F1F5F9]'>
       <TabNavigation basePath='/message' defaultValue='chat' tabs={SOCIAL_TABS} />
 
-      {tab === 'chat' && <ChatList userId={initialUserId} />}
+      {tab === 'chat' && <ChatList accessToken={accessToken} userId={initialUserId} />}
       {tab === 'following' && (
         <>
           <FollowingSearch userId={initialUserId} />
