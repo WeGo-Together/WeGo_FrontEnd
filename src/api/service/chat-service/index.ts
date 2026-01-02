@@ -5,6 +5,8 @@ import {
   GetChatMessagesParams,
   GetChatMessagesResponse,
   GetChatRoomsResponse,
+  ReadMessagesParams,
+  ReadMessagesResponse,
 } from '@/types/service/chat';
 
 export const chatServiceRemote = () => ({
@@ -26,5 +28,10 @@ export const chatServiceRemote = () => ({
         size,
       },
     });
+  },
+
+  // 메세지 읽음 처리
+  readMessages: async ({ roomId }: ReadMessagesParams) => {
+    return apiV1.put<ReadMessagesResponse>(`/chat/rooms/${roomId}/read`);
   },
 });

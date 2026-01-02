@@ -6,6 +6,7 @@ import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
 import { ChatHeader, ChatInput, MyChat, OtherChat } from '@/components/pages/chat';
 import { UserList } from '@/components/pages/chat/chat-user-list';
 import { useGetChatMessages } from '@/hooks/use-chat';
+import { useReadMessages } from '@/hooks/use-chat/use-chat-read';
 import { useChatSocket } from '@/hooks/use-chat/use-chat-socket';
 import { ChatMessage } from '@/types/service/chat';
 
@@ -82,14 +83,9 @@ interface IProps {
 const ChatRoomPage = ({ accessToken, roomId, userId }: IProps) => {
   const [isUserListOpen, setIsUserListOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+
   const { data: previousMessages } = useGetChatMessages(roomId);
-
-  useEffect(() => {
-    if (!previousMessages) return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setChatMessages([...previousMessages.messages].reverse());
-  }, [previousMessages]);
-
+  const { mutate: readMessages } = useReadMessages(roomId, userId);
   const {
     messages: newMessages,
     sendMessage,
@@ -103,6 +99,19 @@ const ChatRoomPage = ({ accessToken, roomId, userId }: IProps) => {
       setChatMessages((prev) => [...prev, message]);
     },
   });
+
+  useEffect(() => {
+    if (!isConnected) return;
+
+    readMessages();
+  }, [isConnected, readMessages, newMessages]);
+
+  useEffect(() => {
+    if (!previousMessages) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setChatMessages([...previousMessages.messages].reverse());
+  }, [previousMessages]);
+
   console.log(newMessages);
 
   const handleSubmit = (text: string) => {
