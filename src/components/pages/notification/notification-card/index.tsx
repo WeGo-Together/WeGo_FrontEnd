@@ -115,7 +115,7 @@ const getDescription = (data: NotificationItem) => {
     case 'group-join-request':
       return `${data.user.nickname} 님이 "${data.group.title}" 모임에 참여를 요청했어요.`;
     case 'group-join-approved':
-      return `"${data.group.title} 모임 참여 신청이 승인됐어요."`;
+      return `"${data.group.title}" 모임 참여 신청이 승인됐어요.`;
     case 'group-join-rejected':
       return `"${data.group.title}" 모임 참여 신청이 거절됐어요.`;
     case 'group-join-kicked':
