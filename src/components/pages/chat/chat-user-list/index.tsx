@@ -71,7 +71,7 @@ export const UserList = ({ onClose, roomId, roomType }: UserListProps) => {
               </div>
 
               {/* 방장이 0번째로 들어온다면 이렇게, 방장이라는걸 알 수 있는 필드가 있다면 수정 */}
-              {index === 0 ? (
+              {roomType === 'GROUP' && index === 0 ? (
                 <span className='bg-mint-100 text-mint-700 text-text-xs-medium rounded-full px-2.5 py-1'>
                   방장
                 </span>
@@ -82,7 +82,13 @@ export const UserList = ({ onClose, roomId, roomType }: UserListProps) => {
                   className='bg-error-500 flex h-5 w-5 items-center justify-center rounded-full'
                   onClick={(e) => {
                     e.stopPropagation();
-                    open(<UserOutModal nickName={user.nickName} />);
+                    open(
+                      <UserOutModal
+                        nickName={user.nickName}
+                        roomId={roomId}
+                        userId={user.userId}
+                      />,
+                    );
                   }}
                 >
                   <div className='bg-mono-white h-0.5 w-2.5' />

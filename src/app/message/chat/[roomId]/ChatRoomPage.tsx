@@ -1,4 +1,7 @@
 'use client';
+
+import { useRouter } from 'next/navigation';
+
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { ChatHeader, ChatInput, MyChat, OtherChat } from '@/components/pages/chat';
@@ -18,6 +21,7 @@ interface IProps {
 }
 
 const ChatRoomPage = ({ accessToken, roomId, userId }: IProps) => {
+  const router = useRouter();
   const [isUserListOpen, setIsUserListOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
@@ -36,6 +40,14 @@ const ChatRoomPage = ({ accessToken, roomId, userId }: IProps) => {
       console.log('새 메시지:', message);
       setChatMessages((prev) => [...prev, message]);
     },
+    // 백엔드 로직 확인 필요.(동작 X)
+    onNotification: (notification) => {
+      console.log(notification);
+      if (notification.type === 'KICKED' && notification.chatRoomId === roomId) {
+        alert('채팅방에서 추방되었습니다.');
+        router.replace('/');
+      }
+    },
   });
 
   useEffect(() => {
@@ -49,8 +61,6 @@ const ChatRoomPage = ({ accessToken, roomId, userId }: IProps) => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setChatMessages([...previousMessages.messages].reverse());
   }, [previousMessages]);
-
-  console.log(newMessages);
 
   const handleSubmit = (text: string) => {
     sendMessage(text);

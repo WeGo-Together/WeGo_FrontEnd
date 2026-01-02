@@ -1,5 +1,6 @@
 export { useGetChatRoom } from './use-chat-detail';
 export { useCreateDMChat } from './use-chat-dm';
+export { useKickUser } from './use-chat-kick';
 export { useGetChatList } from './use-chat-list';
 export { useChatListSocket } from './use-chat-list-socket';
 export { useLongText } from './use-chat-longText';

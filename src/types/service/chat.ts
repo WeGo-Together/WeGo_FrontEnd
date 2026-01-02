@@ -86,3 +86,11 @@ export interface GetParticipantsResponse {
   totalCount: number;
   participants: ChatUser[];
 }
+
+export interface KickUserParams {
+  roomId: number;
+}
+
+export interface KickUserPayloads {
+  targetUserId: number;
+}

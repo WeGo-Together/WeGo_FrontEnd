@@ -9,6 +9,7 @@ import {
   GetChatRoomsResponse,
   GetParticipantsParams,
   GetParticipantsResponse,
+  KickUserPayloads,
   ReadMessagesParams,
   ReadMessagesResponse,
 } from '@/types/service/chat';
@@ -47,5 +48,10 @@ export const chatServiceRemote = () => ({
   // 참여자 목록 조회
   getParticipants: async ({ roomId }: GetParticipantsParams) => {
     return apiV1.get<GetParticipantsResponse>(`/chat/rooms/${roomId}/participants`);
+  },
+
+  // 추방하기
+  kickUser: async (roomId: number, payload: KickUserPayloads) => {
+    return apiV1.post(`/chat/rooms/${roomId}/kick`, payload);
   },
 });
