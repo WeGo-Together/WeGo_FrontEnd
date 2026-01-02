@@ -28,7 +28,7 @@ export const OtherChat = ({ item }: IProps) => {
       <div className='mr-1.5 max-w-60'>
         <span className='text-text-xs-medium text-gray-800'>{senderName}</span>
 
-        <div className='bg-mono-white mt-1 rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl px-4 py-3'>
+        <div className='bg-mono-white mt-1 rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl px-4 py-3 break-words'>
           <ExpandableText text={content} />
         </div>
       </div>
