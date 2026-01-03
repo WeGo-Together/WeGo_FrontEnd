@@ -4,9 +4,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { Icon } from '@/components/icon';
+import { useAuth } from '@/providers';
 
 export const GNB = () => {
   const pathname = usePathname();
+
+  const { isAuthenticated } = useAuth();
 
   const highLightPath = (path: string) => {
     if (path === '/') {
@@ -20,7 +23,7 @@ export const GNB = () => {
       <ul className='flex w-full justify-evenly gap-4'>
         {NAV_MENU.map(({ path, svgId }) => (
           <li key={path}>
-            <Link href={path} className='flex-center h-10 w-10'>
+            <Link href={path} prefetch={isAuthenticated} className='flex-center h-10 w-10'>
               <Icon
                 id={svgId}
                 className={highLightPath(path) ? 'text-mint-500' : 'text-gray-500'}

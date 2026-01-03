@@ -38,9 +38,8 @@ const getLoginErrorMessage = (problem: CommonErrorResponse) => {
 // };
 
 export const useLogin = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
-
+  const router = useRouter();
   const [loginError, setLoginError] = useState<string | null>(null);
   const clearLoginError = useCallback(() => setLoginError(null), []);
 
@@ -57,6 +56,8 @@ export const useLogin = () => {
       setIsAuthenticated(true);
 
       const nextPath = normalizePath(searchParams.get('path'));
+      // window.location.replace(nextPath);
+
       router.replace(nextPath);
     } catch (error) {
       // if (isCommonErrorResponse(error)) {

@@ -1,15 +1,25 @@
 import { Button, ModalContent, ModalDescription, ModalTitle, useModal } from '@/components/ui';
+import { useKickUser } from '@/hooks/use-chat';
 
 interface IProps {
   nickName: string;
+  roomId: number;
+  userId: number;
 }
 
-export const UserOutModal = ({ nickName }: IProps) => {
+export const UserOutModal = ({ nickName, roomId, userId }: IProps) => {
   const { close } = useModal();
 
-  const handleOut = () => {
-    console.log(`${nickName} 내보내기 완료`);
-    close();
+  const { mutateAsync } = useKickUser(roomId);
+
+  const handleOut = async () => {
+    try {
+      await mutateAsync({ targetUserId: userId });
+      console.log(`${nickName} 내보내기 완료`);
+      close();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
