@@ -26,15 +26,15 @@ export const FollowingModal = ({ userId }: { userId: number }) => {
           onSuccess: () => {
             close();
           },
-          onError: () => {
-            setErrorMessage('존재하지 않는 유저입니다.');
+          onError: (e) => {
+            setErrorMessage(e.detail.slice(4));
           },
         },
       );
     },
   });
   return (
-    <ModalContent className='mx-8'>
+    <ModalContent className='max-w-77.75'>
       <ModalTitle className='mb-3'>팔로우 할 닉네임을 입력하세요</ModalTitle>
       <form
         onSubmit={(e) => {

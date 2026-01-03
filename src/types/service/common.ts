@@ -16,5 +16,3 @@ export class CommonSuccessResponse<T> {
     public data: T,
   ) {}
 }
-
-export const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'] as const;
