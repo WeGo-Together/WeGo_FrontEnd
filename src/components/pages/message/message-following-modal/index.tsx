@@ -34,7 +34,7 @@ export const FollowingModal = ({ userId }: { userId: number }) => {
     },
   });
   return (
-    <ModalContent className='mx-8'>
+    <ModalContent className='max-w-77.75'>
       <ModalTitle className='mb-3'>팔로우 할 닉네임을 입력하세요</ModalTitle>
       <form
         onSubmit={(e) => {

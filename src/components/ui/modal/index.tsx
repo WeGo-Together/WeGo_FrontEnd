@@ -168,7 +168,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
                 initial={{ opacity: 0 }}
                 role='dialog'
               >
-                <div className='flex w-full max-w-110 justify-center px-4'>{content}</div>
+                <div className='flex w-full max-w-110 min-w-70 justify-center px-4'>{content}</div>
               </m.div>
             )}
           </div>,
