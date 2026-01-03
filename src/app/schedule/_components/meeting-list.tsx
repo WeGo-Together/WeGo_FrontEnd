@@ -108,6 +108,9 @@ export const MeetingList = ({
           dateTime={formatDateTime(meeting.startTime)}
           images={meeting.images}
           isFinished={meeting.status === 'FINISHED'}
+          isHost={meeting.myMembership?.role === 'HOST'}
+          isPending={meeting.myMembership?.status === 'PENDING'}
+          joinPolicy={meeting.joinPolicy}
           leaveAndChatActions={
             showActions
               ? {

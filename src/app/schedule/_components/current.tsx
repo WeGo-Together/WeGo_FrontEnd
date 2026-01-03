@@ -12,7 +12,12 @@ export default function Current() {
   const { items, error, fetchNextPage, hasNextPage, isFetchingNextPage, completedMessage } =
     useInfiniteScroll<GroupListItemResponse, ['myGroups', 'current']>({
       queryFn: async ({ cursor, size }) => {
-        return await API.groupService.getMyGroups({ type: 'current', cursor, size });
+        return await API.groupService.getMyGroups({
+          type: 'current',
+          cursor,
+          size,
+          myStatuses: ['ATTEND', 'PENDING'],
+        });
       },
       queryKey: ['myGroups', 'current'],
       pageSize: 10,
