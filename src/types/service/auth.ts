@@ -38,3 +38,25 @@ export interface GoogleOAuthExchangeRequest {
   authorizationCode: string;
   redirectUri: string;
 }
+
+export interface GoogleOAuthExchangeResponse {
+  accessToken: string;
+  tokenType: string;
+  expiresIn: number;
+  expiresAt: string;
+  user: {
+    userId: number;
+    email: string;
+    nickName: string;
+    mbti: string | null;
+    profileImage: string | null;
+    profileMessage: string | null;
+    followeesCnt: number;
+    followersCnt: number;
+    groupJoinedCnt: number;
+    groupCreatedCnt: number;
+    isNotificationEnabled: boolean;
+    isFollow: boolean;
+    createdAt: string;
+  };
+}
