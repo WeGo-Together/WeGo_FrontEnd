@@ -36,7 +36,7 @@ const renderWithQueryClient = async (component: React.ReactElement) => {
   await act(async () => {
     renderResult = render(
       <QueryClientProvider client={testQueryClient}>
-        <AuthProvider>
+        <AuthProvider hasRefreshToken={false}>
           <ModalProvider>{component}</ModalProvider>
         </AuthProvider>
       </QueryClientProvider>,
