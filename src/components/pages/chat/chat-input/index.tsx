@@ -11,8 +11,11 @@ export const ChatInput = ({ onSubmit }: IProps) => {
   const [message, setMessage] = useState('');
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
   // Enter 키로 전송, Shift + Enter 로 줄바꿈
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (isMobile) return;
     if (e.key !== 'Enter' || e.shiftKey) return;
     if (e.nativeEvent.isComposing) return;
 
