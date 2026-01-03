@@ -75,9 +75,9 @@ export const useLogin = () => {
 
       const nextPath = normalizePath(searchParams.get('path'));
       // window.location.replace(nextPath);
-      setTimeout(() => {
-        router.replace(nextPath);
-      }, 200);
+
+      router.prefetch(nextPath);
+      router.replace(nextPath);
     } catch (error) {
       if (isCommonErrorResponse(error)) {
         console.error('[LOGIN ERROR]', error.errorCode, error.detail);
