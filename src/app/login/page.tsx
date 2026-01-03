@@ -1,19 +1,12 @@
-import { cookies } from 'next/headers';
-
 import { Icon } from '@/components/icon';
 import { LoginForm, LoginToastEffect } from '@/components/pages/auth';
 import { AuthSwitch } from '@/components/shared';
-
-import LoginTempActions from './_temp/login-temp-actions';
 
 type PageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
 const LoginPage = async ({ searchParams }: PageProps) => {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get('accessToken')?.value;
-
   const searchParamsData = await searchParams;
 
   return (
@@ -24,8 +17,6 @@ const LoginPage = async ({ searchParams }: PageProps) => {
       </div>
       <AuthSwitch type='signup' />
       <LoginToastEffect error={searchParamsData.error} />
-      {/* 📜 임시, 삭제 예정 */}
-      {accessToken && <LoginTempActions />}
     </div>
   );
 };
