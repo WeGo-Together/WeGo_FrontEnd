@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 import { useCallback, useState } from 'react';
 
@@ -48,7 +48,6 @@ const isCommonErrorResponse = (e: unknown): e is CommonErrorResponse => {
 };
 
 export const useLogin = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const [loginError, setLoginError] = useState<string | null>(null);
@@ -75,7 +74,7 @@ export const useLogin = () => {
       setIsAuthenticated(true);
 
       const nextPath = normalizePath(searchParams.get('path'));
-      router.replace(nextPath);
+      window.location.replace(nextPath);
     } catch (error) {
       if (isCommonErrorResponse(error)) {
         console.error('[LOGIN ERROR]', error.errorCode, error.detail);
