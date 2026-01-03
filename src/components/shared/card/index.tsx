@@ -26,7 +26,9 @@ type CardProps = {
   };
   tabType?: 'current' | 'myPost' | 'past';
   isPending?: boolean;
-  isClosed?: boolean;
+  isFinished?: boolean;
+  joinPolicy?: 'FREE' | 'APPROVAL_REQUIRED';
+  isHost?: boolean;
 };
 
 const calculateProgress = (count: number, max: number): number => {
@@ -37,6 +39,22 @@ const calculateProgress = (count: number, max: number): number => {
 
 const convertToCardTags = (tags: string[]): CardTag[] => {
   return tags.map((tag, index) => ({ id: index, label: tag }));
+};
+
+const getLeaveButtonText = (
+  tabType?: 'current' | 'myPost' | 'past',
+  isHost?: boolean,
+  isPending?: boolean,
+): string => {
+  if (tabType === 'myPost' || (tabType === 'current' && isHost)) {
+    return '모임 취소';
+  }
+
+  if (tabType === 'current' && isPending) {
+    return '신청 취소';
+  }
+
+  return '모임 탈퇴';
 };
 
 const Card = ({
@@ -53,13 +71,14 @@ const Card = ({
   leaveAndChatActions,
   tabType,
   isPending,
-  isClosed,
+  isFinished,
+  isHost,
 }: CardProps) => {
   const thumbnail = images?.[0];
   const cardTags = convertToCardTags(tags);
   const progress = calculateProgress(participantCount, maxParticipants);
   const shouldShowButtons = leaveAndChatActions && tabType !== 'past';
-  const leaveButtonText = tabType === 'myPost' ? '모임 취소' : '모임 탈퇴';
+  const leaveButtonText = getLeaveButtonText(tabType, isHost, isPending);
 
   return (
     <div
@@ -72,7 +91,7 @@ const Card = ({
       <div className='flex min-w-0 gap-4'>
         <div className='flex flex-col justify-between'>
           <CardThumbnail
-            isClosed={isClosed}
+            isFinished={isFinished}
             isPending={isPending}
             thumbnail={thumbnail}
             title={title}
