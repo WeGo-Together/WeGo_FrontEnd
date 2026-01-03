@@ -8,9 +8,13 @@ import { GetGroupDetailsResponse } from '@/types/service/group';
 
 interface Props {
   statuses: Pick<GetGroupDetailsResponse, 'status' | 'myMembership' | 'joinPolicy'>;
+  chatRoomId: GetGroupDetailsResponse['chatRoomId'];
 }
 
-export const GroupButtons = ({ statuses: { status, myMembership, joinPolicy } }: Props) => {
+export const GroupButtons = ({
+  statuses: { status, myMembership, joinPolicy },
+  chatRoomId,
+}: Props) => {
   const isMember = myMembership?.status === 'ATTEND' && status !== 'FINISHED';
 
   const isPending = myMembership?.status === 'PENDING' && status !== 'FINISHED';
@@ -27,7 +31,12 @@ export const GroupButtons = ({ statuses: { status, myMembership, joinPolicy } }:
         />
       )}
       {isPending && <PendingButton />}
-      {isMember && <MembersButton conditions={{ isHost: myMembership.role === 'HOST' }} />}
+      {isMember && (
+        <MembersButton
+          chatRoomId={chatRoomId}
+          conditions={{ isHost: myMembership.role === 'HOST' }}
+        />
+      )}
       {isFinished && <FinishedButton />}
     </div>
   );
