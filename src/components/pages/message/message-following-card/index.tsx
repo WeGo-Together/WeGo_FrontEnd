@@ -39,7 +39,7 @@ export const FollowingCard = ({
     try {
       setIsLoading(true);
       const data = await mutateAsync({ targetUserId: userId });
-      router.push(`/chat/${data.chatRoomId}`);
+      router.push(`/message/chat/${data.chatRoomId}`);
     } catch (error) {
       console.error('DM 생성 오류:', error);
     } finally {

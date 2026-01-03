@@ -42,48 +42,50 @@ export const ChatList = ({ userId, accessToken }: IProps) => {
       {chatList?.chatRooms.length === 0 ? (
         <ChattingNone />
       ) : (
-        chatList?.chatRooms?.map((chat) => (
-          <li
-            key={chat.chatRoomId}
-            className='flex cursor-pointer items-center gap-3 bg-white p-5 transition hover:bg-gray-50'
-            onClick={() => handleClick(chat.chatRoomId)}
-          >
-            {/* 프로필 이미지 - 이미지 수정 필요💥💥*/}
-            <div className='relative size-12 overflow-hidden rounded-full'>
-              <Image
-                className='object-cover'
-                alt='프로필 이미지'
-                fill
-                loading='eager'
-                src={DEFAULT_PROFILE_IMAGE}
-              />
-            </div>
+        chatList?.chatRooms
+          ?.filter((chatRoom) => chatRoom.lastMessage !== null)
+          .map((chat) => (
+            <li
+              key={chat.chatRoomId}
+              className='flex cursor-pointer items-center gap-3 bg-white p-5 transition hover:bg-gray-50'
+              onClick={() => handleClick(chat.chatRoomId)}
+            >
+              {/* 프로필 이미지 - 이미지 수정 필요💥💥*/}
+              <div className='relative size-12 overflow-hidden rounded-full'>
+                <Image
+                  className='object-cover'
+                  alt='프로필 이미지'
+                  fill
+                  loading='eager'
+                  src={chat.thumbnail || DEFAULT_PROFILE_IMAGE}
+                />
+              </div>
 
-            {/* 텍스트 영역 */}
-            <div className='flex flex-1 flex-col'>
-              <span className='text-text-md-bold text-gray-800'>{chat.chatRoomName}</span>
+              {/* 텍스트 영역 */}
+              <div className='flex flex-1 flex-col'>
+                <span className='text-text-md-bold text-gray-800'>{chat.chatRoomName}</span>
+                <span
+                  className={cn(
+                    'text-text-sm-medium line-clamp-1 overflow-hidden break-all text-gray-700',
+                  )}
+                >
+                  {chat.lastMessage ? chat.lastMessage.content : '아직 대화가 없습니다.'}
+                </span>
+              </div>
+
+              {/* 안 읽은 메시지 수 */}
               <span
                 className={cn(
-                  'text-text-sm-medium line-clamp-1 overflow-hidden break-all text-gray-700',
+                  'text-mono-white text-text-xs-bold bg-mint-500 flex items-center justify-center rounded-full',
+                  chat.unreadCount === 0 && 'opacity-0',
+                  chat.unreadCount < 10 && 'size-6',
+                  chat.unreadCount >= 10 && 'h-6 w-7',
                 )}
               >
-                {chat.lastMessage ? chat.lastMessage.content : '아직 대화가 없습니다.'}
+                {chat.unreadCount > 99 ? '99' : chat.unreadCount}
               </span>
-            </div>
-
-            {/* 안 읽은 메시지 수 */}
-            <span
-              className={cn(
-                'text-mono-white text-text-xs-bold bg-mint-500 flex items-center justify-center rounded-full',
-                chat.unreadCount === 0 && 'opacity-0',
-                chat.unreadCount < 10 && 'size-6',
-                chat.unreadCount >= 10 && 'h-6 w-7',
-              )}
-            >
-              {chat.unreadCount > 99 ? '99' : chat.unreadCount}
-            </span>
-          </li>
-        ))
+            </li>
+          ))
       )}
     </ul>
   );
