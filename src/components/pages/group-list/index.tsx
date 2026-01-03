@@ -19,9 +19,10 @@ interface GroupListProps {
   initialKeyword?: string;
 }
 
-const SearchResultCount = ({ count }: { count: number }) => (
+const SearchResultCount = ({ keyword, count }: { keyword: string; count: number }) => (
   <div className='mt-4 flex h-5 items-center pl-2'>
-    <span className='text-text-sm-medium text-gray-800'>검색결과</span>
+    <span className='text-text-sm-medium text-mint-600'>{keyword}</span>
+    <span className='text-text-sm-medium ml-1 text-gray-800'>검색결과</span>
     <span className='text-text-sm-medium text-mint-600 ml-1'>{count}</span>
     <span className='text-text-sm-medium text-gray-800'>개</span>
   </div>
@@ -67,7 +68,7 @@ export default function GroupList({ initialData, initialKeyword }: GroupListProp
           </div>
         )}
 
-        {hasKeyword && <SearchResultCount count={items.length} />}
+        {hasKeyword && keyword && <SearchResultCount keyword={keyword} count={items.length} />}
 
         {!hasKeyword && hasNoItems && (
           <div className='relative flex min-h-[calc(100vh-200px)] flex-col items-center justify-center py-8'>
