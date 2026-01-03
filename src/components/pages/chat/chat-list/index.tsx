@@ -57,7 +57,7 @@ export const ChatList = ({ userId, accessToken }: IProps) => {
                   alt='프로필 이미지'
                   fill
                   loading='eager'
-                  src={DEFAULT_PROFILE_IMAGE}
+                  src={chat.thumbnail || DEFAULT_PROFILE_IMAGE}
                 />
               </div>
 
