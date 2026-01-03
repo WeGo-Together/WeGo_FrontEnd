@@ -49,6 +49,7 @@ export const DatePicker = () => {
                 className={clsx(
                   'flex-center size-10',
                   d.selected && 'bg-mint-500 text-text-sm-medium rounded-full text-white',
+                  d.disabled && 'text-gray-600',
                   !d.inCurrentMonth && 'text-gray-600',
                 )}
               >
