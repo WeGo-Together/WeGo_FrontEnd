@@ -13,10 +13,11 @@ export const ChatInput = ({ onSubmit }: IProps) => {
 
   // Enter 키로 전송, Shift + Enter 로 줄바꿈
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmit();
-    }
+    if (e.key !== 'Enter' || e.shiftKey) return;
+    if (e.nativeEvent.isComposing) return;
+
+    e.preventDefault();
+    handleSubmit();
   };
 
   const handleSubmit = () => {
