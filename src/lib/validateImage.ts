@@ -6,7 +6,7 @@ export const validateImage = async (file: File): Promise<{ valid: boolean; error
   const hasValidExtension = IMAGE_CONFIG.allowedExtensions.some((ext) => fileName.endsWith(ext));
   const hasValidType = IMAGE_CONFIG.allowedTypes.some((type) => file.type === type);
 
-  const isValidImage = hasValidExtension || hasValidType;
+  const isValidImage = hasValidExtension && hasValidType;
 
   if (!isValidImage) {
     return {
