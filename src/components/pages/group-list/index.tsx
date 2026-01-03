@@ -55,7 +55,7 @@ export default function GroupList({ initialData, initialKeyword }: GroupListProp
   const hasNoItems = items.length === 0 && !error;
 
   return (
-    <section className='min-h-screen bg-[#F1F5F9]'>
+    <section className='min-h-[calc(100vh-168px)] bg-[#F1F5F9]'>
       <div className='flex w-full flex-col px-4'>
         {error && items.length === 0 && (
           <div className='py-4'>
@@ -99,7 +99,7 @@ export default function GroupList({ initialData, initialKeyword }: GroupListProp
                 key={meeting.id}
                 dateTime={formatDateTime(meeting.startTime)}
                 images={meeting.images}
-                isClosed={!meeting.joinable}
+                isFinished={meeting.status === 'FINISHED'}
                 isPending={meeting.myMembership?.status === 'PENDING'}
                 location={meeting.location}
                 maxParticipants={meeting.maxParticipants}

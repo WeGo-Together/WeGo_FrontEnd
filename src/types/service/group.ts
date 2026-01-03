@@ -215,6 +215,25 @@ export interface KickGroupMemberParams {
   targetUserId: string;
 }
 
+// 가입 신청 목록 조회 응답 (GET /api/v2/groups/{groupId}/attendance?status=PENDING)
+export interface GetJoinRequestsResponse {
+  groupId: number;
+  groupTitle: string;
+  thumbnail100x100Url: string | null;
+  status: GroupUserV2Status;
+  count: number;
+  items: {
+    userId: number;
+    nickName: string;
+    profileImage: string | null;
+    groupUserId: number;
+    status: GroupUserV2Status;
+    joinedAt: string;
+    joinRequestMessage: string | null;
+  }[];
+  serverTime: string;
+}
+
 // 승인 대기자 목록 조회 응답 (GET /api/v2/groups/{groupId}/attendance/pending)
 export interface GetPendingMembersResponse {
   groupId: number;

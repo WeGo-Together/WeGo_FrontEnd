@@ -6,6 +6,7 @@ import {
   GetGroupDetailsResponse,
   GetGroupsPayload,
   GetGroupsResponse,
+  GetJoinRequestsResponse,
   GetMyGroupsPayload,
   GetMyGroupsResponse,
   GroupIdParams,
@@ -91,6 +92,29 @@ export const groupServiceRemote = () => ({
   kickGroupMember: (params: KickGroupMemberParams) => {
     return apiV2.post<KickGroupMemberResponse>(
       `/groups/${params.groupId}/attendance/${params.targetUserId}/kick`,
+    );
+  },
+
+  // 가입 신청 목록 조회 (GET /api/v2/groups/{groupId}/attendance?status=PENDING)
+  getJoinRequests: (params: GroupIdParams, status: string = 'PENDING') => {
+    const queryParams = new URLSearchParams();
+    queryParams.append('status', status);
+    return apiV2.get<GetJoinRequestsResponse>(
+      `/groups/${params.groupId}/attendance?${queryParams.toString()}`,
+    );
+  },
+
+  // 승인 (POST /api/v2/groups/{groupId}/attendance/{targetUserId}/approve)
+  approveJoinRequest: (params: KickGroupMemberParams) => {
+    return apiV2.post<GetGroupDetailsResponse>(
+      `/groups/${params.groupId}/attendance/${params.targetUserId}/approve`,
+    );
+  },
+
+  // 거절 (POST /api/v2/groups/{groupId}/attendance/{targetUserId}/reject)
+  rejectJoinRequest: (params: KickGroupMemberParams) => {
+    return apiV2.post<GetGroupDetailsResponse>(
+      `/groups/${params.groupId}/attendance/${params.targetUserId}/reject`,
     );
   },
 
