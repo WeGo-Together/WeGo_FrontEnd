@@ -26,10 +26,18 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        push() {},
+        replace() {},
+        prefetch() {},
+      },
+    },
   },
   decorators: [
     (Story) => (
-      <Providers>
+      <Providers hasRefreshToken={false}>
         <Story />
       </Providers>
     ),
