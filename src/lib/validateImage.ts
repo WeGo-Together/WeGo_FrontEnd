@@ -1,11 +1,14 @@
 import { IMAGE_CONFIG } from './constants/image';
 
 export const validateImage = async (file: File): Promise<{ valid: boolean; error?: string }> => {
-  // 1. 확장자 검증
+  // 1. 파일 확장자 & 파일 타입 검증
   const fileName = file.name.toLowerCase();
   const hasValidExtension = IMAGE_CONFIG.allowedExtensions.some((ext) => fileName.endsWith(ext));
+  const hasValidType = IMAGE_CONFIG.allowedTypes.some((type) => file.type === type);
 
-  if (!hasValidExtension) {
+  const isValidImage = hasValidExtension || hasValidType;
+
+  if (!isValidImage) {
     return {
       valid: false,
       error: `파일 확장자가 올바르지 않습니다. \n(${IMAGE_CONFIG.allowedExtensions.join(', ')}만 가능)`,
@@ -17,7 +20,7 @@ export const validateImage = async (file: File): Promise<{ valid: boolean; error
     const currentSizeMB = (file.size / (1024 * 1024)).toFixed(0);
     return {
       valid: false,
-      error: `이미지 크기가 너무 큽니다. 최대 20MB까지 가능합니다. \n현재: ${currentSizeMB}MB`,
+      error: `이미지 크기가 너무 큽니다. 최대 10MB까지 가능합니다. \n현재: ${currentSizeMB}MB`,
     };
   }
 
