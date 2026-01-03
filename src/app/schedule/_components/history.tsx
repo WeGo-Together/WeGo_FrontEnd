@@ -12,12 +12,7 @@ export default function History() {
   const { items, error, fetchNextPage, hasNextPage, isFetchingNextPage, completedMessage } =
     useInfiniteScroll<GroupListItemResponse, ['myGroups', 'past']>({
       queryFn: async ({ cursor, size }) => {
-        return await API.groupService.getMyGroups({
-          type: 'past',
-          cursor,
-          size,
-          filter: 'ALL',
-        });
+        return await API.groupService.getMyGroups({ type: 'past', cursor, size });
       },
       queryKey: ['myGroups', 'past'],
       pageSize: 10,
