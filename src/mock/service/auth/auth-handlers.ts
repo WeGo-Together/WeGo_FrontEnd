@@ -1,6 +1,8 @@
 import { http, HttpResponse } from 'msw';
 
 import {
+  GoogleOAuthExchangeRequest,
+  GoogleOAuthExchangeResponse,
   LoginRequest,
   LoginResponse,
   RefreshResponse,
@@ -105,4 +107,53 @@ const withdrawMock = http.delete('*/api/v1/auth/withdraw', async () => {
   return HttpResponse.json(createMockSuccessResponse<void>(undefined));
 });
 
-export const authHandlers = [signupMock, loginMock, logoutMock, refreshMock, withdrawMock];
+// 구글 OAuth 코드 교환
+const exchangeGoogleCodeMock = http.post('*/api/v1/auth/google', async ({ request }) => {
+  const body = (await request.json()) as GoogleOAuthExchangeRequest;
+
+  if (!body.authorizationCode || !body.redirectUri) {
+    return HttpResponse.json(
+      createMockErrorResponse({
+        status: 400,
+        detail: 'authorizationCode 또는 redirectUri가 누락되었습니다.',
+        errorCode: 'A005',
+      }),
+      { status: 400 },
+    );
+  }
+
+  const response: GoogleOAuthExchangeResponse = {
+    accessToken: 'mock-google-access-token',
+    tokenType: 'Bearer',
+    expiresIn: 3600,
+    expiresAt: new Date(Date.now() + 3600 * 1000).toISOString(),
+    user: {
+      userId: 999,
+      email: 'googleuser@test.com',
+      nickName: '구글유저',
+      mbti: null,
+      profileImage: null,
+      profileMessage: null,
+      followeesCnt: 0,
+      followersCnt: 0,
+      groupJoinedCnt: 0,
+      groupCreatedCnt: 0,
+      isNotificationEnabled: true,
+      isFollow: false,
+      createdAt: new Date().toISOString(),
+    },
+  };
+
+  return HttpResponse.json(createMockSuccessResponse<GoogleOAuthExchangeResponse>(response), {
+    status: 200,
+  });
+});
+
+export const authHandlers = [
+  signupMock,
+  loginMock,
+  logoutMock,
+  refreshMock,
+  withdrawMock,
+  exchangeGoogleCodeMock,
+];
