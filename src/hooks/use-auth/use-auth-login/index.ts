@@ -76,7 +76,6 @@ export const useLogin = () => {
       const nextPath = normalizePath(searchParams.get('path'));
       // window.location.replace(nextPath);
 
-      router.prefetch(nextPath);
       router.replace(nextPath);
     } catch (error) {
       if (isCommonErrorResponse(error)) {
