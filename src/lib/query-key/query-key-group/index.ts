@@ -7,4 +7,6 @@ export const groupKeys = {
   myList: (filters: { type: 'current' | 'myPost' | 'past'; cursor?: number; size: number }) =>
     [...groupKeys.myLists(), filters] as const,
   detail: (groupId: string) => [...groupKeys.all, groupId] as const,
+  joinRequests: (groupId: string, status: string = 'PENDING') =>
+    ['joinRequests', groupId, status] as const,
 };

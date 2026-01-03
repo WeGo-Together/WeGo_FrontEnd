@@ -5,22 +5,12 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
 
 import axios, { AxiosError } from 'axios';
-import Cookies from 'js-cookie';
 
 import { API } from '@/api';
+import { normalizePath } from '@/lib/auth/utils';
 import { useAuth } from '@/providers';
 import { LoginRequest } from '@/types/service/auth';
 import { CommonErrorResponse } from '@/types/service/common';
-
-const normalizePath = (raw: string | null) => {
-  const value = (raw ?? '').trim();
-
-  if (!value) return '/';
-
-  if (value.startsWith('//') || value.includes('://')) return '/';
-
-  return value.startsWith('/') ? value : `/${value}`;
-};
 
 const getLoginErrorMessage = (problem: CommonErrorResponse) => {
   if (
@@ -35,17 +25,17 @@ const getLoginErrorMessage = (problem: CommonErrorResponse) => {
 };
 
 // 📜 proxy 설정 후 삭제
-const isCommonErrorResponse = (e: unknown): e is CommonErrorResponse => {
-  if (!e || typeof e !== 'object') return false;
+// const isCommonErrorResponse = (e: unknown): e is CommonErrorResponse => {
+//   if (!e || typeof e !== 'object') return false;
 
-  const obj = e as Record<string, unknown>;
-  return (
-    typeof obj.status === 'number' &&
-    typeof obj.detail === 'string' &&
-    typeof obj.errorCode === 'string' &&
-    typeof obj.instance === 'string'
-  );
-};
+//   const obj = e as Record<string, unknown>;
+//   return (
+//     typeof obj.status === 'number' &&
+//     typeof obj.detail === 'string' &&
+//     typeof obj.errorCode === 'string' &&
+//     typeof obj.instance === 'string'
+//   );
+// };
 
 export const useLogin = () => {
   const searchParams = useSearchParams();
@@ -59,15 +49,7 @@ export const useLogin = () => {
     setLoginError(null);
 
     try {
-      const result = await API.authService.login(payload);
-      // 📜 추후 삭제
-      console.log('login success:', result);
-
-      Cookies.set('userId', String(result.user.userId), {
-        path: '/',
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production',
-      });
+      await API.authService.login(payload);
 
       formApi.reset();
 
@@ -78,11 +60,11 @@ export const useLogin = () => {
 
       router.replace(nextPath);
     } catch (error) {
-      if (isCommonErrorResponse(error)) {
-        console.error('[LOGIN ERROR]', error.errorCode, error.detail);
-        setLoginError(getLoginErrorMessage(error));
-        return;
-      }
+      // if (isCommonErrorResponse(error)) {
+      //   console.error('[LOGIN ERROR]', error.errorCode, error.detail);
+      //   setLoginError(getLoginErrorMessage(error));
+      //   return;
+      // }
 
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError<CommonErrorResponse>;

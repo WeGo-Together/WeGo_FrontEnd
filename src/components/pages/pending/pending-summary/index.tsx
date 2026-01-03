@@ -7,6 +7,7 @@ import { DEFAULT_GROUP_IMAGE } from 'constants/default-images';
 
 import { API } from '@/api';
 import { ImageWithFallback } from '@/components/ui';
+import { groupKeys } from '@/lib/query-key/query-key-group';
 import { GetJoinRequestsResponse } from '@/types/service/group';
 
 interface Props {
@@ -16,7 +17,7 @@ interface Props {
 
 export const GroupPendingSummary = ({ groupId, initialData }: Props) => {
   const { data } = useQuery<GetJoinRequestsResponse>({
-    queryKey: ['joinRequests', groupId, 'PENDING'],
+    queryKey: groupKeys.joinRequests(groupId, 'PENDING'),
     queryFn: () => API.groupService.getJoinRequests({ groupId }, 'PENDING'),
     initialData,
   });
