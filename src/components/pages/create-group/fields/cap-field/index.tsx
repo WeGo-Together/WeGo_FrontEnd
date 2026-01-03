@@ -10,11 +10,11 @@ interface Props {
   participantCount?: number;
 }
 
-export const GroupCapField = ({ field, participantCount = 0 }: Props) => {
+export const GroupCapField = ({ field, participantCount }: Props) => {
   const handleOnBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
 
-    if (value < participantCount) field.handleChange(participantCount);
+    if (participantCount && value < participantCount) field.handleChange(participantCount);
     else if (value < 2) field.handleChange(2);
     else if (value > 12) field.handleChange(12);
   };
@@ -40,12 +40,15 @@ export const GroupCapField = ({ field, participantCount = 0 }: Props) => {
         placeholder='최대 인원을 선택해주세요'
         required
         type='number'
-        value={!!field.state.value && field.state.value}
+        value={field.state.value ? field.state.value : ''}
         onBlur={(e) => handleOnBlur(e)}
         onChange={(e) => {
           field.handleChange(Number(e.target.value));
         }}
       />
+      <p className='text-text-sm-medium px-2 text-gray-500 select-none'>
+        최대 12명까지 모집할 수 있어요.
+      </p>
     </div>
   );
 };
