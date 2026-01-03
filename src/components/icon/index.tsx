@@ -39,6 +39,7 @@ export type ResizableIconId =
   | 'bell-unread'
   | 'congratulate'
   | 'empty'
+  | 'google-login'
   | 'kick'
   | 'not-found'
   | 'plus-circle'
@@ -196,6 +197,10 @@ export const iconMetadataMap: IconMetadata[] = [
   },
   {
     id: 'empty',
+    variant: 'resizable',
+  },
+  {
+    id: 'google-login',
     variant: 'resizable',
   },
   {

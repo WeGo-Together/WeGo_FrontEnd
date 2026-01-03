@@ -11,6 +11,7 @@ export interface ChattingRoom {
   };
   participants: ChatUser[];
   unreadCount: number;
+  thumbnail: string;
 }
 
 export interface ChatMessage {

@@ -1,9 +1,12 @@
+import type { Metadata } from 'next';
+
 import { InfiniteData } from '@tanstack/react-query';
 
 import { API } from '@/api';
 import GroupList from '@/components/pages/group-list';
 import { GroupSearchBar } from '@/components/pages/group-list/group-search-bar';
 import { GROUP_LIST_PAGE_SIZE } from '@/lib/constants/group-list';
+import { generateHomeMetadata } from '@/lib/metadata/home';
 import { GetGroupsResponse } from '@/types/service/group';
 
 export const dynamic = 'force-dynamic';
@@ -11,6 +14,11 @@ export const dynamic = 'force-dynamic';
 interface HomePageProps {
   searchParams: Promise<{ keyword?: string }>;
 }
+
+export const generateMetadata = async ({ searchParams }: HomePageProps): Promise<Metadata> => {
+  const params = await searchParams;
+  return await generateHomeMetadata(params.keyword);
+};
 
 export default async function HomePage({ searchParams }: HomePageProps) {
   const params = await searchParams;
