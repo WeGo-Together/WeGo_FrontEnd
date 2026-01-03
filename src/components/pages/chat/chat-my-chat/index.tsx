@@ -19,7 +19,7 @@ export const MyChat = ({ item }: IProps) => {
       </div>
 
       <div className='ml-1.5'>
-        <div className='bg-mint-200 mt-1 max-w-60 rounded-tl-2xl rounded-tr-sm rounded-br-2xl rounded-bl-2xl px-4 py-3'>
+        <div className='bg-mint-200 mt-1 max-w-60 rounded-tl-2xl rounded-tr-sm rounded-br-2xl rounded-bl-2xl px-4 py-3 break-words'>
           <ExpandableText text={content} />
         </div>
       </div>

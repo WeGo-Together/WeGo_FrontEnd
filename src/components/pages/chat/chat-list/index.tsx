@@ -19,7 +19,7 @@ interface IProps {
 export const ChatList = ({ userId, accessToken }: IProps) => {
   const router = useRouter();
   const handleClick = (chatId: number) => {
-    router.push(`/chat/${chatId}`);
+    router.push(`/message/chat/${chatId}`);
   };
   const { data: chatList } = useGetChatList({ userId });
 
@@ -62,7 +62,11 @@ export const ChatList = ({ userId, accessToken }: IProps) => {
             {/* 텍스트 영역 */}
             <div className='flex flex-1 flex-col'>
               <span className='text-text-md-bold text-gray-800'>{chat.chatRoomName}</span>
-              <span className={cn('text-text-sm-medium line-clamp-1 text-gray-700')}>
+              <span
+                className={cn(
+                  'text-text-sm-medium line-clamp-1 overflow-hidden break-all text-gray-700',
+                )}
+              >
                 {chat.lastMessage ? chat.lastMessage.content : '아직 대화가 없습니다.'}
               </span>
             </div>
@@ -70,11 +74,13 @@ export const ChatList = ({ userId, accessToken }: IProps) => {
             {/* 안 읽은 메시지 수 */}
             <span
               className={cn(
-                'text-mono-white text-text-xs-bold rounded-full bg-red-500 px-2 py-0.5',
+                'text-mono-white text-text-xs-bold bg-mint-500 flex items-center justify-center rounded-full',
                 chat.unreadCount === 0 && 'opacity-0',
+                chat.unreadCount < 10 && 'size-6',
+                chat.unreadCount >= 10 && 'h-6 w-7',
               )}
             >
-              {chat.unreadCount > 99 ? '99+' : chat.unreadCount}
+              {chat.unreadCount > 99 ? '99' : chat.unreadCount}
             </span>
           </li>
         ))
