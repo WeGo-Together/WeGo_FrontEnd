@@ -7,7 +7,7 @@ export const LongTextModal = ({ text }: { text: string }) => (
     </div>
 
     <div className='scrollbar-thin max-h-[70vh] overflow-y-auto px-1'>
-      <div className='whitespace-pre-line text-gray-800'>{text}</div>
+      <div className='break-all whitespace-pre-line text-gray-800'>{text}</div>
     </div>
   </ModalContent>
 );

@@ -38,7 +38,8 @@ export const ChatInput = ({ onSubmit }: IProps) => {
       <div className='relative w-full max-w-110'>
         <textarea
           ref={inputRef}
-          className='bg-mono-white text-text-md-medium w-full resize-none rounded-2xl border border-gray-300 px-4 py-4 text-gray-800 placeholder:text-gray-500 focus:outline-none [&::-webkit-scrollbar]:hidden'
+          className='bg-mono-white text-text-md-medium w-full resize-none rounded-2xl border border-gray-300 px-4 py-4 pr-14 break-words text-gray-800 placeholder:text-gray-500 focus:outline-none [&::-webkit-scrollbar]:hidden'
+          maxLength={1000}
           placeholder='메세지를 입력해주세요.'
           rows={1}
           value={message}

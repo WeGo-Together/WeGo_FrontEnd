@@ -19,7 +19,7 @@ export const ExpandableText = ({ text, className }: Props) => {
     <>
       <span
         ref={textRef}
-        className={`line-clamp-20 block whitespace-pre-line text-gray-800 ${className}`}
+        className={`line-clamp-20 block break-all whitespace-pre-line text-gray-800 ${className}`}
       >
         {text}
       </span>
