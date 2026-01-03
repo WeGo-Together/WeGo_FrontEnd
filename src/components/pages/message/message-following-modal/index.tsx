@@ -26,8 +26,8 @@ export const FollowingModal = ({ userId }: { userId: number }) => {
           onSuccess: () => {
             close();
           },
-          onError: () => {
-            setErrorMessage('존재하지 않는 유저입니다.');
+          onError: (e) => {
+            setErrorMessage(e.detail.slice(4));
           },
         },
       );

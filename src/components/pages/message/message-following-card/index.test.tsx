@@ -81,7 +81,7 @@ describe('FollowingCard 컴포넌트 테스트', () => {
     fireEvent.click(screen.getByText('메세지'));
 
     await waitFor(() => {
-      expect(routerPush).toHaveBeenCalledWith('/chat/123');
+      expect(routerPush).toHaveBeenCalledWith('/message/chat/123');
     });
   });
 });

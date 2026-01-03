@@ -155,6 +155,7 @@ export interface CreateGroupResponse {
 
 export interface GetGroupDetailsResponse {
   id: number;
+  chatRoomId: number;
   title: string;
   joinPolicy: GroupV2JoinPolicy;
   status: GroupV2Status;
