@@ -6,6 +6,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { ChatHeader, ChatInput, MyChat, OtherChat } from '@/components/pages/chat';
 import { UserList } from '@/components/pages/chat/chat-user-list';
+import { Toast } from '@/components/ui';
+import { useToast } from '@/components/ui/toast/core';
 import {
   useChatSocket,
   useGetChatMessages,
@@ -28,6 +30,8 @@ const ChatRoomPage = ({ accessToken, roomId, userId }: IProps) => {
   const { data: chatInfo } = useGetChatRoom(roomId);
   const { data: previousMessages } = useGetChatMessages(roomId);
   const { mutate: readMessages } = useReadMessages(roomId, userId);
+  const { run } = useToast();
+
   const {
     messages: newMessages,
     sendMessage,
@@ -37,16 +41,13 @@ const ChatRoomPage = ({ accessToken, roomId, userId }: IProps) => {
     userId,
     accessToken,
     onMessage: (message) => {
+      if (message.messageType === 'KICK' && message.targetUserId === userId) {
+        router.replace('/');
+        run(<Toast type='info'>채팅방에서 추방당했어요.</Toast>);
+        return;
+      }
       console.log('새 메시지:', message);
       setChatMessages((prev) => [...prev, message]);
-    },
-    // 백엔드 로직 확인 필요.(동작 X)
-    onNotification: (notification) => {
-      console.log(notification);
-      if (notification.type === 'KICKED' && notification.chatRoomId === roomId) {
-        alert('채팅방에서 추방되었습니다.');
-        router.replace('/');
-      }
     },
   });
 

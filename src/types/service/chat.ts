@@ -20,9 +20,10 @@ export interface ChatMessage {
   senderName: string | null;
   senderProfileImage: string | null;
   content: string;
-  messageType: 'TEXT' | 'SYSTEM';
+  messageType: 'TEXT' | 'SYSTEM' | 'KICK';
   timestamp?: string;
   createdAt?: string;
+  targetUserId: number;
 }
 
 export interface ChatUser {
