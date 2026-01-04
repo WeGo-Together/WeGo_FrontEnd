@@ -117,6 +117,7 @@ const ChatRoomPage = ({ accessToken, roomId, userId }: IProps) => {
         <UserList
           roomId={roomId}
           roomType={chatInfo?.chatType as 'DM' | 'GROUP'}
+          userId={userId}
           onClose={() => setIsUserListOpen(false)}
         />
       </div>

@@ -33,6 +33,7 @@ export interface ChatUser {
   status: 'ACTIVE' | 'INACTIVE'; // 확인 필요💥💥
   userId: number;
   profileMessage: string;
+  isOwner: boolean;
 }
 
 export interface GetChatRoomsResponse {
