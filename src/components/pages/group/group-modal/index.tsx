@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation';
 
+import { revalidateGroupAction } from '@/app/group/[groupId]/actions';
 import { GroupModalApprovalContent } from '@/components/pages/group/group-modal/approval-content';
 import { GroupModalCommonContent } from '@/components/pages/group/group-modal/common-content';
 import { Toast } from '@/components/ui';
@@ -32,8 +33,8 @@ type Props = BaseProps | KickProps;
 export const GroupModal = (props: Props) => {
   const { type } = props;
 
-  const { replace } = useRouter();
   const { groupId } = useParams() as { groupId: string };
+  const { replace } = useRouter();
   const { run } = useToast();
 
   const { mutateAsync: attendMutate, isPending: isAttending } = useAttendGroup({ groupId });
@@ -60,6 +61,7 @@ export const GroupModal = (props: Props) => {
     leave: () => leaveMutate(),
     delete: async () => {
       await deleteMutate();
+      await revalidateGroupAction(groupId);
       replace('/');
     },
     kick: () => kickMutate(),
