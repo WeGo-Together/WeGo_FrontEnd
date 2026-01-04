@@ -34,6 +34,11 @@ export const NotificationCard = ({ item }: Props) => {
     } catch {}
   };
 
+  const handleNotificationHover = () => {
+    if (!redirectUrl) return;
+    router.prefetch(redirectUrl);
+  };
+
   return (
     <article
       className={cn(
@@ -41,6 +46,7 @@ export const NotificationCard = ({ item }: Props) => {
         !item.readAt && 'bg-mint-50',
       )}
       onClick={handleNotificationClick}
+      onMouseEnter={handleNotificationHover}
     >
       <div className={cn('flex-center mt-0.5 size-10 shrink-0 rounded-xl bg-gray-100')}>
         {NotificationIcon}
@@ -57,36 +63,36 @@ export const NotificationCard = ({ item }: Props) => {
 };
 
 const IconMap: Record<NotificationType, React.ReactNode> = {
-  follow: <Icon id='heart' className='text-mint-500 size-6' />,
-  'group-join': <Icon id='symbol' className='text-mint-500 size-6' />,
-  'group-leave': <Icon id='x-2' className='size-6 text-gray-500' />,
-  'group-create': <Icon id='map-pin-2' className='size-6 text-[#FFBA1A]' />,
-  'group-delete': <Icon id='x-2' className='size-6 text-gray-500' />,
-  'group-join-request': <Icon id='send' className='text-mint-500 size-6' />,
-  'group-join-approved': <Icon id='congratulate' className='size-6' />,
-  'group-join-rejected': <Icon id='kick' className='size-6' />,
-  'group-join-kicked': <Icon id='kick' className='size-6' />,
+  FOLLOW: <Icon id='heart' className='text-mint-500 size-6' />,
+  GROUP_JOIN: <Icon id='symbol' className='text-mint-500 size-6' />,
+  GROUP_LEAVE: <Icon id='x-2' className='size-6 text-gray-500' />,
+  GROUP_CREATE: <Icon id='map-pin-2' className='size-6 text-[#FFBA1A]' />,
+  GROUP_DELETE: <Icon id='x-2' className='size-6 text-gray-500' />,
+  GROUP_JOIN_REQUEST: <Icon id='send' className='text-mint-500 size-6' />,
+  GROUP_JOIN_APPROVED: <Icon id='congratulate' className='size-6' />,
+  GROUP_JOIN_REJECTED: <Icon id='kick' className='size-6' />,
+  GROUP_JOIN_KICKED: <Icon id='kick' className='size-6' />,
 };
 
 const getTitle = (data: NotificationItem) => {
   switch (data.type) {
-    case 'follow':
+    case 'FOLLOW':
       return `새 팔로워`;
-    case 'group-join':
+    case 'GROUP_JOIN':
       return `모임 현황`;
-    case 'group-leave':
+    case 'GROUP_LEAVE':
       return `모임 현황`;
-    case 'group-create':
+    case 'GROUP_CREATE':
       return `모임 생성`;
-    case 'group-delete':
+    case 'GROUP_DELETE':
       return `모임 취소`;
-    case 'group-join-request':
+    case 'GROUP_JOIN_REQUEST':
       return `모임 참여 신청`;
-    case 'group-join-approved':
+    case 'GROUP_JOIN_APPROVED':
       return `모임 신청 승인`;
-    case 'group-join-rejected':
+    case 'GROUP_JOIN_REJECTED':
       return `모임 신청 거절`;
-    case 'group-join-kicked':
+    case 'GROUP_JOIN_KICKED':
       return `모임 강퇴`;
   }
 };
@@ -94,7 +100,7 @@ const getTitle = (data: NotificationItem) => {
 const getDescription = (data: NotificationItem) => {
   // user type 알림
   switch (data.type) {
-    case 'follow':
+    case 'FOLLOW':
       return `${data.user.nickname} 님이 팔로우했어요.`;
   }
 
@@ -104,21 +110,21 @@ const getDescription = (data: NotificationItem) => {
 
   // group 필드가 null이 아닐 경우
   switch (data.type) {
-    case 'group-join':
+    case 'GROUP_JOIN':
       return `${data.user.nickname} 님이 "${data.group.title}" 모임에 참여했어요.`;
-    case 'group-leave':
+    case 'GROUP_LEAVE':
       return `${data.user.nickname} 님이 "${data.group.title}" 모임을 탈퇴했어요.`;
-    case 'group-create':
+    case 'GROUP_CREATE':
       return `${data.user.nickname} 님이 "${data.group.title}" 모임을 생성했어요.`;
-    case 'group-delete':
+    case 'GROUP_DELETE':
       return `${data.user.nickname} 님이 "${data.group.title}" 모임을 취소했어요.`;
-    case 'group-join-request':
+    case 'GROUP_JOIN_REQUEST':
       return `${data.user.nickname} 님이 "${data.group.title}" 모임에 참여를 요청했어요.`;
-    case 'group-join-approved':
+    case 'GROUP_JOIN_APPROVED':
       return `"${data.group.title}" 모임 참여 신청이 승인됐어요.`;
-    case 'group-join-rejected':
+    case 'GROUP_JOIN_REJECTED':
       return `"${data.group.title}" 모임 참여 신청이 거절됐어요.`;
-    case 'group-join-kicked':
+    case 'GROUP_JOIN_KICKED':
       return `"${data.group.title}" 모임에서 퇴장됐어요.`;
   }
 };
@@ -131,7 +137,7 @@ const getTimeAgo = (data: NotificationItem) => {
 const getRedirectUrl = (data: NotificationItem) => {
   // user type 알림
   switch (data.type) {
-    case 'follow':
+    case 'FOLLOW':
       return `/profile/${data.user.id}`;
   }
 
@@ -139,7 +145,7 @@ const getRedirectUrl = (data: NotificationItem) => {
   if (!data.group) return null;
 
   switch (data.type) {
-    case 'group-join-request':
+    case 'GROUP_JOIN_REQUEST':
       return `/pending/${data.group.id}`;
     default:
       return `/group/${data.group.id}`;
