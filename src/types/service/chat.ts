@@ -20,9 +20,10 @@ export interface ChatMessage {
   senderName: string | null;
   senderProfileImage: string | null;
   content: string;
-  messageType: 'TEXT' | 'SYSTEM';
+  messageType: 'TEXT' | 'SYSTEM' | 'KICK';
   timestamp?: string;
   createdAt?: string;
+  targetUserId: number;
 }
 
 export interface ChatUser {
@@ -33,6 +34,7 @@ export interface ChatUser {
   status: 'ACTIVE' | 'INACTIVE'; // 확인 필요💥💥
   userId: number;
   profileMessage: string;
+  isOwner: boolean;
 }
 
 export interface GetChatRoomsResponse {
