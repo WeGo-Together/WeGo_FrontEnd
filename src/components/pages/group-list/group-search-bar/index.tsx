@@ -22,6 +22,7 @@ export const GroupSearchBar = () => {
   return (
     <div className='sticky top-14 z-100 bg-white px-5 pb-3'>
       <SearchBar
+        key={currentKeyword || 'empty'}
         className='h-11'
         defaultValue={currentKeyword}
         placeholder='원하는 모임을 검색해보세요'
