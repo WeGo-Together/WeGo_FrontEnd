@@ -12,7 +12,7 @@ export const generateHomeMetadata = async (keyword?: string): Promise<Metadata> 
   const currentUrl = keyword
     ? `${protocol}://${host}/?keyword=${encodeURIComponent(keyword)}`
     : `${protocol}://${host}/`;
-  const logoImageUrl = `${protocol}://${host}/icons/resizable/icon-wego-logo.svg`;
+  const logoImageUrl = `${protocol}://${host}/images/wego-logo.png`;
 
   try {
     if (keyword) {
@@ -48,14 +48,14 @@ export const generateHomeMetadata = async (keyword?: string): Promise<Metadata> 
           images: [
             {
               url: searchImageUrl,
-              width: 400,
-              height: 400,
+              width: 1200,
+              height: 630,
               alt: `${keyword} 검색 결과 모임 이미지`,
             },
           ],
         },
         twitter: {
-          card: 'summary',
+          card: 'summary_large_image',
           title: metaTitle,
           description: metaDescription,
           images: [searchImageUrl],
@@ -87,14 +87,14 @@ export const generateHomeMetadata = async (keyword?: string): Promise<Metadata> 
         images: [
           {
             url: logoImageUrl,
-            width: 400,
-            height: 400,
+            width: 1200,
+            height: 630,
             alt: 'WeGo 로고',
           },
         ],
       },
       twitter: {
-        card: 'summary',
+        card: 'summary_large_image',
         title: metaTitle,
         description: metaDescription,
         images: [logoImageUrl],
@@ -120,14 +120,14 @@ export const generateHomeMetadata = async (keyword?: string): Promise<Metadata> 
         images: [
           {
             url: logoImageUrl,
-            width: 400,
-            height: 400,
+            width: 1200,
+            height: 630,
             alt: 'WeGo 로고',
           },
         ],
       },
       twitter: {
-        card: 'summary',
+        card: 'summary_large_image',
         images: [logoImageUrl],
       },
     };
