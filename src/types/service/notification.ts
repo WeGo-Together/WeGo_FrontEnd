@@ -1,15 +1,15 @@
 export type NotificationType =
-  | 'follow'
-  | 'group-join'
-  | 'group-leave'
-  | 'group-create'
-  | 'group-delete'
-  | 'group-join-request'
-  | 'group-join-approved'
-  | 'group-join-rejected'
-  | 'group-join-kicked';
+  | 'FOLLOW'
+  | 'GROUP_JOIN'
+  | 'GROUP_LEAVE'
+  | 'GROUP_CREATE'
+  | 'GROUP_DELETE'
+  | 'GROUP_JOIN_REQUEST'
+  | 'GROUP_JOIN_APPROVED'
+  | 'GROUP_JOIN_REJECTED'
+  | 'GROUP_JOIN_KICKED';
 
-type NotificationTypeWithoutGroup = 'follow';
+type NotificationTypeWithoutGroup = 'FOLLOW';
 type NotificationTypeWithGroup = Exclude<NotificationType, NotificationTypeWithoutGroup>;
 
 interface BaseNotification {
