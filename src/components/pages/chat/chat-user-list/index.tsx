@@ -66,7 +66,7 @@ export const UserList = ({ onClose, roomId, roomType }: UserListProps) => {
               <div className='flex-1'>
                 <div className='text-text-md-bold text-gray-800'>{user.nickName}</div>
                 <div className='text-text-sm-medium line-clamp-1 text-gray-600'>
-                  {user.userId || '상태 메시지가 없습니다.'}
+                  {user.profileMessage || '상태 메시지가 없습니다.'}
                 </div>
               </div>
 

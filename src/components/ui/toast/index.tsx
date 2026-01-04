@@ -9,7 +9,7 @@ const toastVariants = cva(
     variants: {
       type: {
         info: 'text-mono-white bg-[#0D2D3A]/80 justify-center',
-        success: 'text-mono-white bg-[#0D2D3A]/80 justify-start',
+        success: 'text-mono-white bg-[#0D2D3A]/80 justify-center',
         // error: 'text-mono-white bg-red-600',
         // warning: 'text-mono-white bg-yellow-600',
       },
