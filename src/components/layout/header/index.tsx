@@ -9,10 +9,15 @@ export const Header = () => {
   const { isAuthenticated } = useAuth();
   const { unReadCount, receivedNewNotification } = useNotification();
 
+  const onLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    window.location.href = '/';
+  };
+
   return (
     <header className={`sticky top-0 z-100 w-full bg-white`}>
       <nav className='flex-between px-4 py-2'>
-        <Link href={'/'}>
+        <Link href={'/'} onClick={onLogoClick}>
           <Icon id='wego-logo' width={92} height={40} />
         </Link>
         <div className='flex-center gap-2'>
