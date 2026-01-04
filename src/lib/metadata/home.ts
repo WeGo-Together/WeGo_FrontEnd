@@ -12,7 +12,7 @@ export const generateHomeMetadata = async (keyword?: string): Promise<Metadata> 
   const currentUrl = keyword
     ? `${protocol}://${host}/?keyword=${encodeURIComponent(keyword)}`
     : `${protocol}://${host}/`;
-  const logoImageUrl = `${protocol}://${host}/images/wego-logo.png`;
+  const logoImageUrl = `${protocol}://${host}/images/logo.png`;
 
   try {
     if (keyword) {
