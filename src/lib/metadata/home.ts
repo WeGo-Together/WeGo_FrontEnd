@@ -87,8 +87,8 @@ export const generateHomeMetadata = async (keyword?: string): Promise<Metadata> 
         images: [
           {
             url: logoImageUrl,
-            width: 92,
-            height: 40,
+            width: 100,
+            height: 100,
             alt: 'WeGo 로고',
           },
         ],
