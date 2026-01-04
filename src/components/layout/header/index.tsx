@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { Icon } from '@/components/icon';
 import { cn } from '@/lib/utils';
@@ -8,10 +9,11 @@ import { useAuth, useNotification } from '@/providers';
 export const Header = () => {
   const { isAuthenticated } = useAuth();
   const { unReadCount, receivedNewNotification } = useNotification();
+  const router = useRouter();
 
   const onLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    window.location.href = '/';
+    router.push('/');
   };
 
   return (
