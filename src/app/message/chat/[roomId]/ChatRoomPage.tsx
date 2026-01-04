@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
+import NotFound from '@/app/not-found';
 import { ChatHeader, ChatInput, MyChat, OtherChat } from '@/components/pages/chat';
 import { UserList } from '@/components/pages/chat/chat-user-list';
 import { Toast } from '@/components/ui';
@@ -27,7 +28,7 @@ const ChatRoomPage = ({ accessToken, roomId, userId }: IProps) => {
   const [isUserListOpen, setIsUserListOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
-  const { data: chatInfo } = useGetChatRoom(roomId);
+  const { data: chatInfo, error, isError } = useGetChatRoom(roomId);
   const { data: previousMessages } = useGetChatMessages(roomId);
   const { mutate: readMessages } = useReadMessages(roomId, userId);
   const { run } = useToast();
@@ -40,6 +41,7 @@ const ChatRoomPage = ({ accessToken, roomId, userId }: IProps) => {
     roomId,
     userId,
     accessToken,
+    enabled: !!chatInfo,
     onMessage: (message) => {
       if (message.messageType === 'KICK' && message.targetUserId === userId) {
         router.replace('/');
@@ -79,6 +81,20 @@ const ChatRoomPage = ({ accessToken, roomId, userId }: IProps) => {
       container.scrollTop = container.scrollHeight;
     });
   }, [chatMessages.length]);
+
+  if (isError) {
+    const status = error?.status;
+
+    if (status === 403) {
+      run(<Toast type='info'>채팅방에 입장할 수 없습니다.</Toast>);
+      router.replace('/');
+      return null;
+    }
+
+    if (status === 404) {
+      return <NotFound />;
+    }
+  }
 
   return (
     <div className='relative h-[calc(100vh-112px)] overflow-hidden'>
