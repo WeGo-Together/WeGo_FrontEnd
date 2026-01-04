@@ -9,16 +9,23 @@ import { GroupListItemResponse } from '@/types/service/group';
 import { MeetingList } from './meeting-list';
 
 export default function History() {
-  const { items, error, fetchNextPage, hasNextPage, isFetchingNextPage, completedMessage } =
-    useInfiniteScroll<GroupListItemResponse, ['myGroups', 'past']>({
-      queryFn: async ({ cursor, size }) => {
-        return await API.groupService.getMyGroups({ type: 'past', cursor, size });
-      },
-      queryKey: ['myGroups', 'past'],
-      pageSize: 10,
-      errorMessage: '모임 이력을 불러오는데 실패했습니다.',
-      completedMessage: '모든 모임 이력을 불러왔습니다.',
-    });
+  const {
+    items,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isFetching,
+    completedMessage,
+  } = useInfiniteScroll<GroupListItemResponse, ['myGroups', 'past']>({
+    queryFn: async ({ cursor, size }) => {
+      return await API.groupService.getMyGroups({ type: 'past', cursor, size });
+    },
+    queryKey: ['myGroups', 'past'],
+    pageSize: 10,
+    errorMessage: '모임 이력을 불러오는데 실패했습니다.',
+    completedMessage: '모든 모임 이력을 불러왔습니다.',
+  });
 
   const sentinelRef = useIntersectionObserver({
     onIntersect: () => {
@@ -37,6 +44,7 @@ export default function History() {
       emptyStateType='past'
       error={error}
       hasNextPage={hasNextPage}
+      isLoading={isFetching && items.length === 0}
       meetings={items}
       sentinelRef={sentinelRef}
       showActions={false}
