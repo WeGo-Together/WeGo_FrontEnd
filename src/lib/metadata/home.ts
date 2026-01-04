@@ -48,14 +48,14 @@ export const generateHomeMetadata = async (keyword?: string): Promise<Metadata> 
           images: [
             {
               url: searchImageUrl,
-              width: 500,
-              height: 500,
+              width: 400,
+              height: 400,
               alt: `${keyword} 검색 결과 모임 이미지`,
             },
           ],
         },
         twitter: {
-          card: 'summary_large_image',
+          card: 'summary',
           title: metaTitle,
           description: metaDescription,
           images: [searchImageUrl],
@@ -87,14 +87,14 @@ export const generateHomeMetadata = async (keyword?: string): Promise<Metadata> 
         images: [
           {
             url: logoImageUrl,
-            width: 500,
-            height: 500,
+            width: 400,
+            height: 400,
             alt: 'WeGo 로고',
           },
         ],
       },
       twitter: {
-        card: 'summary_large_image',
+        card: 'summary',
         title: metaTitle,
         description: metaDescription,
         images: [logoImageUrl],
@@ -120,14 +120,14 @@ export const generateHomeMetadata = async (keyword?: string): Promise<Metadata> 
         images: [
           {
             url: logoImageUrl,
-            width: 500,
-            height: 500,
+            width: 400,
+            height: 400,
             alt: 'WeGo 로고',
           },
         ],
       },
       twitter: {
-        card: 'summary_large_image',
+        card: 'summary',
         images: [logoImageUrl],
       },
     };
