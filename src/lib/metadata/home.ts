@@ -87,8 +87,8 @@ export const generateHomeMetadata = async (keyword?: string): Promise<Metadata> 
         images: [
           {
             url: logoImageUrl,
-            width: 100,
-            height: 100,
+            width: 200,
+            height: 200,
             alt: 'WeGo 로고',
           },
         ],
@@ -120,8 +120,8 @@ export const generateHomeMetadata = async (keyword?: string): Promise<Metadata> 
         images: [
           {
             url: logoImageUrl,
-            width: 92,
-            height: 40,
+            width: 200,
+            height: 200,
             alt: 'WeGo 로고',
           },
         ],
