@@ -25,55 +25,55 @@ type Story = StoryObj<typeof meta>;
 
 export const Follow: Story = {
   args: {
-    item: mockNotificationItems.find((item) => item.type === 'follow')!,
+    item: mockNotificationItems.find((item) => item.type === 'FOLLOW')!,
   },
 };
 
 export const GroupJoin: Story = {
   args: {
-    item: mockNotificationItems.find((item) => item.type === 'group-join')!,
+    item: mockNotificationItems.find((item) => item.type === 'GROUP_JOIN')!,
   },
 };
 
 export const GroupLeave: Story = {
   args: {
-    item: mockNotificationItems.find((item) => item.type === 'group-leave')!,
+    item: mockNotificationItems.find((item) => item.type === 'GROUP_LEAVE')!,
   },
 };
 
 export const GroupCreate: Story = {
   args: {
-    item: mockNotificationItems.find((item) => item.type === 'group-create')!,
+    item: mockNotificationItems.find((item) => item.type === 'GROUP_CREATE')!,
   },
 };
 
 export const GroupDelete: Story = {
   args: {
-    item: mockNotificationItems.find((item) => item.type === 'group-delete')!,
+    item: mockNotificationItems.find((item) => item.type === 'GROUP_DELETE')!,
   },
 };
 
 export const GroupJoinRequest: Story = {
   args: {
-    item: mockNotificationItems.find((item) => item.type === 'group-join-request')!,
+    item: mockNotificationItems.find((item) => item.type === 'GROUP_JOIN_REQUEST')!,
   },
 };
 
 export const GroupJoinApproved: Story = {
   args: {
-    item: mockNotificationItems.find((item) => item.type === 'group-join-approved')!,
+    item: mockNotificationItems.find((item) => item.type === 'GROUP_JOIN_APPROVED')!,
   },
 };
 
 export const GroupJoinRejected: Story = {
   args: {
-    item: mockNotificationItems.find((item) => item.type === 'group-join-rejected')!,
+    item: mockNotificationItems.find((item) => item.type === 'GROUP_JOIN_REJECTED')!,
   },
 };
 
 export const GroupJoinKicked: Story = {
   args: {
-    item: mockNotificationItems.find((item) => item.type === 'group-join-kicked')!,
+    item: mockNotificationItems.find((item) => item.type === 'GROUP_JOIN_KICKED')!,
   },
 };
 

@@ -6,7 +6,7 @@ export const mockNotificationItems: NotificationItem[] = [
     message: 'A 님이 팔로우했습니다.',
     readAt: null,
     createdAt: '2025-12-25T08:10:38.747958',
-    type: 'follow',
+    type: 'FOLLOW',
     user: {
       id: 1,
       nickname: 'A',
@@ -18,7 +18,7 @@ export const mockNotificationItems: NotificationItem[] = [
     message: 'B님이 "A가 만든 모임" 모임에 참가했습니다.',
     readAt: null,
     createdAt: '2025-12-25T08:10:38.747958',
-    type: 'group-join',
+    type: 'GROUP_JOIN',
     user: {
       id: 1,
       nickname: 'B',
@@ -33,7 +33,7 @@ export const mockNotificationItems: NotificationItem[] = [
     message: 'B님이 "A가 만든 모임" 모임을 탈퇴했습니다.',
     readAt: null,
     createdAt: '2025-12-25T08:10:38.747958',
-    type: 'group-leave',
+    type: 'GROUP_LEAVE',
     user: {
       id: 1,
       nickname: 'B',
@@ -48,7 +48,7 @@ export const mockNotificationItems: NotificationItem[] = [
     message: 'A님이 "A가 만든 모임" 모임을 생성했습니다.',
     readAt: null,
     createdAt: '2025-12-25T08:10:38.747958',
-    type: 'group-create',
+    type: 'GROUP_CREATE',
     user: {
       id: 1,
       nickname: 'A',
@@ -63,7 +63,7 @@ export const mockNotificationItems: NotificationItem[] = [
     message: 'A님이 "A가 만든 모임" 모임을 취소했습니다.',
     readAt: null,
     createdAt: '2025-12-25T08:10:38.747958',
-    type: 'group-delete',
+    type: 'GROUP_DELETE',
     user: {
       id: 1,
       nickname: 'A',
@@ -78,7 +78,7 @@ export const mockNotificationItems: NotificationItem[] = [
     message: 'B님이 "A가 만든 모임" 모임에 참여 신청했습니다.',
     readAt: null,
     createdAt: '2025-12-25T08:10:38.747958',
-    type: 'group-join-request',
+    type: 'GROUP_JOIN_REQUEST',
     user: {
       id: 1,
       nickname: 'B',
@@ -93,7 +93,7 @@ export const mockNotificationItems: NotificationItem[] = [
     message: '"A가 만든 모임" 모임 참여 신청이 승인되었습니다.',
     readAt: null,
     createdAt: '2025-12-25T08:10:38.747958',
-    type: 'group-join-approved',
+    type: 'GROUP_JOIN_APPROVED',
     user: {
       id: 1,
       nickname: 'A',
@@ -108,7 +108,7 @@ export const mockNotificationItems: NotificationItem[] = [
     message: '"A가 만든 모임" 모임 참여 신청이 거절되었습니다.',
     readAt: null,
     createdAt: '2025-12-25T08:10:38.747958',
-    type: 'group-join-rejected',
+    type: 'GROUP_JOIN_REJECTED',
     user: {
       id: 1,
       nickname: 'A',
@@ -123,7 +123,7 @@ export const mockNotificationItems: NotificationItem[] = [
     message: '"A가 만든 모임" 모임에서 추방되었습니다.',
     readAt: null,
     createdAt: '2025-12-25T08:10:38.747958',
-    type: 'group-join-kicked',
+    type: 'GROUP_JOIN_KICKED',
     user: {
       id: 1,
       nickname: 'A',

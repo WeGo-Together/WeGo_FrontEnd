@@ -25,7 +25,7 @@ export const GroupDetailField = ({ field }: Props) => {
         value={field.state.value}
         onChange={(e) => field.handleChange(e.target.value)}
       />
-      <div className='mt-0.5 flex'>
+      <div className='flex'>
         {isInvalid && <Hint message={field.state.meta.errors[0].message} />}
         <span className='text-text-sm-medium ml-auto text-right text-gray-500 select-none'>
           {field.state.value.length}/300

@@ -22,14 +22,14 @@ const GroupDetailPage = ({ params }: Props) => {
 
   if (!data) return null;
 
-  const { images, status, joinPolicy, myMembership, joinedMembers } = data;
+  const { chatRoomId, images, status, joinPolicy, myMembership, joinedMembers } = data;
 
   return (
     <div>
       <GroupBannerImages images={images} />
       <GroupDescriptions descriptions={data} />
       <GroupMembers isHost={myMembership?.role === 'HOST'} members={joinedMembers} />
-      <GroupButtons statuses={{ status, myMembership, joinPolicy }} />
+      <GroupButtons chatRoomId={chatRoomId} statuses={{ status, myMembership, joinPolicy }} />
     </div>
   );
 };

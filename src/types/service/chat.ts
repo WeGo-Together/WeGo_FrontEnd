@@ -11,6 +11,7 @@ export interface ChattingRoom {
   };
   participants: ChatUser[];
   unreadCount: number;
+  thumbnail: string;
 }
 
 export interface ChatMessage {
@@ -31,6 +32,7 @@ export interface ChatUser {
   profileImage: string;
   status: 'ACTIVE' | 'INACTIVE'; // 확인 필요💥💥
   userId: number;
+  profileMessage: string;
 }
 
 export interface GetChatRoomsResponse {

@@ -8,6 +8,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { API } from '@/api';
 import { EmptyState } from '@/components/layout/empty-state';
+import { Toast } from '@/components/ui';
+import { useToast } from '@/components/ui/toast/core';
+import { groupKeys } from '@/lib/query-key/query-key-group';
 import { GetJoinRequestsResponse } from '@/types/service/group';
 
 import { PendingMemberCard } from './pending-member-card';
@@ -19,9 +22,10 @@ interface Props {
 export const GroupPendingMembers = ({ groupId }: Props) => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { run } = useToast();
 
   const { data, isLoading, error } = useQuery<GetJoinRequestsResponse>({
-    queryKey: ['joinRequests', groupId, 'PENDING'],
+    queryKey: groupKeys.joinRequests(groupId, 'PENDING'),
     queryFn: () => API.groupService.getJoinRequests({ groupId }, 'PENDING'),
   });
 
@@ -41,11 +45,12 @@ export const GroupPendingMembers = ({ groupId }: Props) => {
       // 가입 신청 목록 캐시 무효화 및 자동 refetch
       // GroupPendingSummary의 count도 자동으로 업데이트됨
       await queryClient.invalidateQueries({
-        queryKey: ['joinRequests', groupId, 'PENDING'],
+        queryKey: groupKeys.joinRequests(groupId, 'PENDING'),
         refetchType: 'active', // 활성화된 모든 쿼리 자동 refetch
       });
       // 모임 상세 정보도 갱신
-      await queryClient.invalidateQueries({ queryKey: ['groupDetails', groupId] });
+      await queryClient.invalidateQueries({ queryKey: groupKeys.detail(groupId) });
+      run(<Toast type='success'>모임 신청이 수락되었습니다.</Toast>);
     },
   });
 
@@ -56,9 +61,10 @@ export const GroupPendingMembers = ({ groupId }: Props) => {
       // 가입 신청 목록 캐시 무효화 및 모든 활성 쿼리 refetch
       // GroupPendingSummary의 count도 자동으로 업데이트됨
       await queryClient.invalidateQueries({
-        queryKey: ['joinRequests', groupId, 'PENDING'],
+        queryKey: groupKeys.joinRequests(groupId, 'PENDING'),
         refetchType: 'active', // 활성화된 모든 쿼리 자동 refetch
       });
+      run(<Toast>모임 신청이 거절되었습니다.</Toast>);
     },
   });
 
