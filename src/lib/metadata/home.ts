@@ -12,7 +12,7 @@ export const generateHomeMetadata = async (keyword?: string): Promise<Metadata> 
   const currentUrl = keyword
     ? `${protocol}://${host}/?keyword=${encodeURIComponent(keyword)}`
     : `${protocol}://${host}/`;
-  const logoImageUrl = `${protocol}://${host}/icons/resizable/icon-wego-logo.svg`;
+  const logoImageUrl = `${protocol}://${host}/images/logo.png`;
 
   try {
     if (keyword) {
@@ -87,8 +87,8 @@ export const generateHomeMetadata = async (keyword?: string): Promise<Metadata> 
         images: [
           {
             url: logoImageUrl,
-            width: 400,
-            height: 400,
+            width: 200,
+            height: 200,
             alt: 'WeGo 로고',
           },
         ],
@@ -120,8 +120,8 @@ export const generateHomeMetadata = async (keyword?: string): Promise<Metadata> 
         images: [
           {
             url: logoImageUrl,
-            width: 400,
-            height: 400,
+            width: 200,
+            height: 200,
             alt: 'WeGo 로고',
           },
         ],
