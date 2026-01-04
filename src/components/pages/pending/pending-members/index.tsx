@@ -50,7 +50,7 @@ export const GroupPendingMembers = ({ groupId }: Props) => {
       });
       // 모임 상세 정보도 갱신
       await queryClient.invalidateQueries({ queryKey: groupKeys.detail(groupId) });
-      run(<Toast type='success'>모임 신청이 승인되었습니다.</Toast>);
+      run(<Toast type='success'>모임 신청이 수락되었습니다.</Toast>);
     },
   });
 
