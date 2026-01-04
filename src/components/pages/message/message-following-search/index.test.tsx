@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import { ModalProvider } from '@/components/ui';
+import { ToastProvider } from '@/components/ui/toast/core';
 
 import { FollowingSearch } from '.';
 
@@ -19,9 +20,11 @@ const renderComponent = async () => {
   await act(async () => {
     render(
       <QueryClientProvider client={queryClient}>
-        <ModalProvider>
-          <FollowingSearch userId={0} />
-        </ModalProvider>
+        <ToastProvider>
+          <ModalProvider>
+            <FollowingSearch userId={0} />
+          </ModalProvider>
+        </ToastProvider>
       </QueryClientProvider>,
     );
   });
