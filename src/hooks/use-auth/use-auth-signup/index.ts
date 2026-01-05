@@ -11,9 +11,7 @@ export const useSignup = () => {
 
   const handleSignup = async (payload: SignupRequest, formApi: { reset: () => void }) => {
     try {
-      const result = await API.authService.signup(payload);
-      // 📜 추후 삭제
-      console.log('signup success:', result);
+      await API.authService.signup(payload);
 
       formApi.reset();
       router.push('/login');
@@ -27,7 +25,7 @@ export const useSignup = () => {
         alert(problem.detail || '회원가입에 실패했습니다.');
       } else {
         console.error(error);
-        alert('알 수 없는 오류가 발생했습니다.');
+        alert('회원가입에 실패했습니다. 잠시 후에 다시 시도해주세요.');
       }
     }
   };

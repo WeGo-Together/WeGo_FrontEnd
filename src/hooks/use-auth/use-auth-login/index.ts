@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 import { useCallback, useState } from 'react';
 
@@ -24,22 +24,8 @@ const getLoginErrorMessage = (problem: CommonErrorResponse) => {
   return '로그인에 실패했습니다.';
 };
 
-// 📜 proxy 설정 후 삭제
-// const isCommonErrorResponse = (e: unknown): e is CommonErrorResponse => {
-//   if (!e || typeof e !== 'object') return false;
-
-//   const obj = e as Record<string, unknown>;
-//   return (
-//     typeof obj.status === 'number' &&
-//     typeof obj.detail === 'string' &&
-//     typeof obj.errorCode === 'string' &&
-//     typeof obj.instance === 'string'
-//   );
-// };
-
 export const useLogin = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const [loginError, setLoginError] = useState<string | null>(null);
   const clearLoginError = useCallback(() => setLoginError(null), []);
 
@@ -56,16 +42,8 @@ export const useLogin = () => {
       setIsAuthenticated(true);
 
       const nextPath = normalizePath(searchParams.get('path'));
-      // window.location.replace(nextPath);
-
-      router.replace(nextPath);
+      window.location.replace(nextPath);
     } catch (error) {
-      // if (isCommonErrorResponse(error)) {
-      //   console.error('[LOGIN ERROR]', error.errorCode, error.detail);
-      //   setLoginError(getLoginErrorMessage(error));
-      //   return;
-      // }
-
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError<CommonErrorResponse>;
         const problem = axiosError.response?.data;
@@ -78,7 +56,7 @@ export const useLogin = () => {
       }
 
       console.error(error);
-      setLoginError('알 수 없는 오류가 발생했습니다.');
+      setLoginError('로그인에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
