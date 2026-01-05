@@ -27,6 +27,10 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
     ],
     //imagesSizes, deviceSizes는 기본 설정
     imageSizes: [96, 128, 256, 384],

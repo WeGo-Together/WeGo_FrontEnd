@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 
 import { revalidateGroupAction } from '@/app/group/[groupId]/actions';
 import { GroupModalApprovalContent } from '@/components/pages/group/group-modal/approval-content';
@@ -18,6 +18,7 @@ type ModalType = 'attend' | 'approval' | 'pending' | 'leave' | 'delete' | 'kick'
 
 interface BaseProps {
   type: Exclude<ModalType, 'kick'>;
+  groupId?: string;
 }
 
 interface KickProps {
@@ -26,6 +27,7 @@ interface KickProps {
     targetUserId: string;
     targetUserName: string;
   };
+  groupId?: string;
 }
 
 type Props = BaseProps | KickProps;
@@ -33,8 +35,10 @@ type Props = BaseProps | KickProps;
 export const GroupModal = (props: Props) => {
   const { type } = props;
 
-  const { groupId } = useParams() as { groupId: string };
+  const params = useParams();
+  const groupId = props.groupId || (params as { groupId: string }).groupId;
   const { replace } = useRouter();
+  const pathname = usePathname();
   const { run } = useToast();
 
   const { mutateAsync: attendMutate, isPending: isAttending } = useAttendGroup({ groupId });
@@ -62,7 +66,9 @@ export const GroupModal = (props: Props) => {
     delete: async () => {
       await deleteMutate();
       await revalidateGroupAction(groupId);
-      replace('/');
+      if (!pathname.startsWith('/schedule')) {
+        replace('/');
+      }
     },
     kick: () => kickMutate(),
   };
