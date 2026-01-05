@@ -24,7 +24,8 @@ export default function My() {
         type: 'myPost',
         cursor,
         size,
-        filter: 'ALL',
+        filter: 'ACTIVE',
+        excludeStatuses: ['CLOSED'],
       });
     },
     queryKey: groupKeys.myGroupsList('myPost') as ['myGroups', 'myPost'],
