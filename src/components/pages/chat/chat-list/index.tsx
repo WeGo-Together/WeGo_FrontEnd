@@ -1,11 +1,11 @@
 'use client';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import { useMemo } from 'react';
 
 import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
 
+import { ImageWithFallback } from '@/components/ui';
 import { useChatListSocket, useGetChatList } from '@/hooks/use-chat';
 import { cn } from '@/lib/utils';
 
@@ -52,7 +52,7 @@ export const ChatList = ({ userId, accessToken }: IProps) => {
             >
               {/* 프로필 이미지 - 이미지 수정 필요💥💥*/}
               <div className='relative size-12 overflow-hidden rounded-full'>
-                <Image
+                <ImageWithFallback
                   className='object-cover'
                   alt='프로필 이미지'
                   fill
