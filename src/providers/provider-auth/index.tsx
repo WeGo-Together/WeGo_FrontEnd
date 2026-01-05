@@ -23,7 +23,7 @@ interface Props {
 }
 
 export const AuthProvider = ({ children, hasRefreshToken }: Props) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(hasRefreshToken);
 
   // 초기값 설정
   // 페이지가 새로고침 될 때 accessToken이 없으면 refresh 시도, state update 실행

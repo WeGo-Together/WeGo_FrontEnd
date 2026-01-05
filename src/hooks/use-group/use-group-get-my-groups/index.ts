@@ -6,7 +6,7 @@ import { GetMyGroupsPayload } from '@/types/service/group';
 
 export const useGetMyGroups = (payload: GetMyGroupsPayload) => {
   const query = useQuery({
-    queryKey: groupKeys.myList(payload),
+    queryKey: groupKeys.myGroupsList(payload.type),
     queryFn: () => API.groupService.getMyGroups(payload),
   });
   return query;

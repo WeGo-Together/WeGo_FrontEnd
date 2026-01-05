@@ -13,6 +13,7 @@ export const useDeleteGroup = (params: GroupIdParams) => {
     onSuccess: async () => {
       queryClient.removeQueries({ queryKey: groupKeys.detail(params.groupId) });
       queryClient.invalidateQueries({ queryKey: groupKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: groupKeys.myGroups() });
       console.log('모임 삭제 성공.');
     },
     onError: () => {

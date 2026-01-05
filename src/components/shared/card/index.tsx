@@ -137,14 +137,17 @@ const Card = ({
           {shouldShowButtons && (
             <Button
               className='mt-3'
+              disabled={isPending}
               size='sm'
               variant='primary'
               onClick={(e) => {
                 e.stopPropagation();
-                leaveAndChatActions.onChat();
+                if (!isPending) {
+                  leaveAndChatActions.onChat();
+                }
               }}
             >
-              채팅 입장
+              {isPending ? '대기중' : '채팅 입장'}
             </Button>
           )}
         </div>

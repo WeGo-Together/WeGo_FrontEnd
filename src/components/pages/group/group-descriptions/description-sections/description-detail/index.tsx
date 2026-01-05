@@ -7,7 +7,7 @@ interface Props {
 export const DescriptionDetail = ({ detail }: Props) => {
   return (
     <div className='mt-6'>
-      <p className='text-text-md-regular break-keep text-gray-800'>{detail}</p>
+      <p className='text-text-md-regular break-keep whitespace-pre-wrap text-gray-800'>{detail}</p>
     </div>
   );
 };
