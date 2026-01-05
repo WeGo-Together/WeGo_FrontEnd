@@ -87,7 +87,7 @@ export const FollowingContent = ({ initialUserId, accessToken }: FollowingConten
             </>
           ) : (
             !error && (
-              <div className='flex flex-1 items-center justify-center'>
+              <div className='relative min-h-[500px] flex-1 items-center justify-center'>
                 <FollowingNone />
               </div>
             )
