@@ -48,7 +48,6 @@ const ChatRoomPage = ({ accessToken, roomId, userId }: IProps) => {
         run(<Toast type='info'>채팅방에서 추방당했어요.</Toast>);
         return;
       }
-      console.log('새 메시지:', message);
       setChatMessages((prev) => [...prev, message]);
     },
   });

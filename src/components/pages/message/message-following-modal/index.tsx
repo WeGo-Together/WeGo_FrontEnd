@@ -23,7 +23,6 @@ export const FollowingModal = ({ userId }: { userId: number }) => {
         run(<Toast type='success'>{nickname}님을 팔로우 했어요!</Toast>);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
-        console.log(error);
         setErrorMessage(error.detail.slice(4));
       }
     },
