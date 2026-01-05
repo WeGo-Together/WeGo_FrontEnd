@@ -11,6 +11,7 @@ export const useLeaveGroup = (params: GroupIdParams) => {
     mutationFn: () => API.groupService.leaveGroup(params),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: groupKeys.detail(params.groupId) });
+      await queryClient.invalidateQueries({ queryKey: groupKeys.myGroups() });
       console.log('모임 탈퇴 성공.');
     },
     onError: () => {
