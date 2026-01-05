@@ -8,6 +8,7 @@ import { ChatMessage } from '@/types/service/chat';
 interface UseChatSocketOptions {
   roomId: number;
   userId: number;
+  enabled?: boolean;
   accessToken: string | null;
   onMessage?: (message: ChatMessage) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,6 +19,7 @@ export const useChatSocket = ({
   roomId,
   userId,
   accessToken,
+  enabled = true,
   onMessage,
   onNotification,
 }: UseChatSocketOptions) => {
@@ -37,12 +39,11 @@ export const useChatSocket = ({
   }, [onNotification]);
 
   useEffect(() => {
-    if (!accessToken) return;
+    if (!accessToken || !enabled) return;
+
     const client = new Client({
       webSocketFactory: () => {
-        const socket = new SockJS(`${process.env.NEXT_PUBLIC_API_BASE_URL}/ws-chat`, null, {
-          transports: ['websocket'], // WebSocket만 사용
-        });
+        const socket = new SockJS(`${process.env.NEXT_PUBLIC_API_BASE_URL}/ws-chat`, null, {});
         return socket;
       },
       connectHeaders: {
@@ -60,16 +61,26 @@ export const useChatSocket = ({
 
       // 채팅방 구독
       client.subscribe(`/sub/chat/room/${roomId}`, (message: IMessage) => {
-        const payload: ChatMessage = JSON.parse(message.body);
-        setMessages((prev) => [...prev, payload]);
-        onMessageRef.current?.(payload);
+        try {
+          const payload: ChatMessage = JSON.parse(message.body);
+          setMessages((prev) => [...prev, payload]);
+          onMessageRef.current?.(payload);
+        } catch (error) {
+          console.error('Failed to parse chat message:', error);
+        }
       });
 
       // 개인 알림 구독
       client.subscribe(`/sub/user/${userId}`, (message: IMessage) => {
-        const payload = JSON.parse(message.body);
-        onNotificationRef.current?.(payload);
+        try {
+          const payload = JSON.parse(message.body);
+          onNotificationRef.current?.(payload);
+        } catch (error) {
+          console.error('Failed to parse notification:', error);
+        }
       });
+
+      clientRef.current = client;
     };
 
     client.onDisconnect = () => {
@@ -79,26 +90,49 @@ export const useChatSocket = ({
 
     client.onStompError = (frame) => {
       console.error('STOMP error:', frame);
+      setIsConnected(false);
+    };
+
+    client.onWebSocketError = (event) => {
+      console.error('WebSocket error:', event);
+      setIsConnected(false);
     };
 
     client.activate();
     clientRef.current = client;
 
     return () => {
-      client.deactivate();
+      if (clientRef.current) {
+        // 연결이 활성화되어 있을 때만 deactivate
+        if (clientRef.current.active) {
+          clientRef.current.deactivate();
+        }
+        clientRef.current = null;
+      }
+      setIsConnected(false);
+      setMessages([]); // 메시지 초기화
     };
-  }, [roomId, userId, accessToken]);
+  }, [roomId, userId, accessToken, enabled]);
 
   const sendMessage = useCallback(
     (content: string) => {
-      if (clientRef.current?.connected) {
+      if (!clientRef.current?.connected) {
+        console.log('WebSocket is not connected');
+        return false;
+      }
+
+      try {
         clientRef.current.publish({
           destination: '/pub/chat/message',
           body: JSON.stringify({
             chatRoomId: roomId,
-            content,
+            content: content.trim(),
           }),
         });
+        return true;
+      } catch (error) {
+        console.error('Failed to send message:', error);
+        return false;
       }
     },
     [roomId],

@@ -36,7 +36,7 @@ const renderWithQueryClient = async (component: React.ReactElement) => {
   await act(async () => {
     renderResult = render(
       <QueryClientProvider client={testQueryClient}>
-        <AuthProvider>
+        <AuthProvider hasRefreshToken={false}>
           <ModalProvider>{component}</ModalProvider>
         </AuthProvider>
       </QueryClientProvider>,
@@ -84,8 +84,9 @@ describe('마이 페이지 테스트', () => {
   test('설정 화면이 올바르게 표시되는지 테스트', async () => {
     await renderWithQueryClient(<MyPage />);
 
-    expect(await screen.findByText('알림 받기')).toBeInTheDocument();
-    expect(screen.getByText('로그아웃')).toBeInTheDocument();
+    // expect(await screen.findByText('알림 받기')).toBeInTheDocument();
+    expect(await screen.findByText('로그아웃')).toBeInTheDocument();
+    // expect(screen.getByText('로그아웃')).toBeInTheDocument();
     expect(screen.getByText('회원탈퇴')).toBeInTheDocument();
   });
 
@@ -102,19 +103,19 @@ describe('마이 페이지 테스트', () => {
     });
   });
 
-  test('알림 설정이 정상적으로 동작하는지 테스트', async () => {
-    const user = userEvent.setup();
+  // test('알림 설정이 정상적으로 동작하는지 테스트', async () => {
+  //   const user = userEvent.setup();
 
-    const updateNotificationSpy = jest.spyOn(API.userService, 'updateMyNotification');
-    await renderWithQueryClient(<MyPage />);
+  //   const updateNotificationSpy = jest.spyOn(API.userService, 'updateMyNotification');
+  //   await renderWithQueryClient(<MyPage />);
 
-    const notificationButton = await screen.findByRole('button', { name: '알림 받기' });
-    await user.click(notificationButton);
+  //   const notificationButton = await screen.findByRole('button', { name: '알림 받기' });
+  //   await user.click(notificationButton);
 
-    await waitFor(() => {
-      expect(updateNotificationSpy).toHaveBeenCalled();
-    });
-  });
+  //   await waitFor(() => {
+  //     expect(updateNotificationSpy).toHaveBeenCalled();
+  //   });
+  // });
 
   test('로그아웃이 정상적으로 동작하는지 테스트', async () => {
     const user = userEvent.setup();

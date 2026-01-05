@@ -3,38 +3,34 @@ import { useState } from 'react';
 import { useForm } from '@tanstack/react-form';
 
 import { Icon } from '@/components/icon';
-import { Button, Input, ModalContent, ModalTitle, useModal } from '@/components/ui';
+import { Button, Input, ModalContent, ModalTitle, Toast, useModal } from '@/components/ui';
+import { useToast } from '@/components/ui/toast/core';
 import { useAddFollowers } from '@/hooks/use-follower';
 
 export const FollowingModal = ({ userId }: { userId: number }) => {
   const { close } = useModal();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { mutate: addFollower } = useAddFollowers({ userId });
+  const { mutateAsync } = useAddFollowers({ userId });
+  const { run } = useToast();
   const form = useForm({
-    defaultValues: {
-      nickname: '',
-    },
-    onSubmit: ({ value }) => {
+    defaultValues: { nickname: '' },
+    onSubmit: async ({ value }) => {
       const { nickname } = value;
       setErrorMessage(null);
-
-      addFollower(
-        {
-          followNickname: nickname,
-        },
-        {
-          onSuccess: () => {
-            close();
-          },
-          onError: () => {
-            setErrorMessage('존재하지 않는 유저입니다.');
-          },
-        },
-      );
+      try {
+        await mutateAsync({ followNickname: nickname });
+        close();
+        run(<Toast type='success'>{nickname}님을 팔로우 했어요!</Toast>);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        console.log(error);
+        setErrorMessage(error.detail.slice(4));
+      }
     },
   });
+
   return (
-    <ModalContent className='mx-8'>
+    <ModalContent className='max-w-77.75'>
       <ModalTitle className='mb-3'>팔로우 할 닉네임을 입력하세요</ModalTitle>
       <form
         onSubmit={(e) => {

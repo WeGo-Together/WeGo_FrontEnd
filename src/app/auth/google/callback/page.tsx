@@ -39,23 +39,24 @@ export default function GoogleCallbackPage() {
       return;
     }
 
+    const nextPath = normalizePath(sessionStorage.getItem('post_login_path'));
+
     const exchange = async () => {
       try {
         const redirectUri = `${window.location.origin}/auth/google/callback`;
 
         await API.authService.exchangeGoogleCode({
-          code,
+          authorizationCode: code,
           redirectUri,
         });
 
         cleanupOAuthState();
 
-        const nextPath = normalizePath(sessionStorage.getItem('post_login_path'));
         sessionStorage.removeItem('post_login_path');
 
         router.replace(nextPath);
       } catch {
-        router.replace('/login?error=network_error');
+        router.replace(`/login?error=network_error&path=${nextPath}`);
       } finally {
         cleanupOAuthState();
       }

@@ -1,22 +1,22 @@
-// import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { GroupModal } from '@/components/pages/group/group-modal';
 import { Button, useModal } from '@/components/ui';
+import { GetGroupDetailsResponse } from '@/types/service/group';
 
 interface Props {
   conditions: {
     isHost: boolean;
   };
+  chatRoomId: GetGroupDetailsResponse['chatRoomId'];
 }
 
-export const MembersButton = ({ conditions: { isHost } }: Props) => {
+export const MembersButton = ({ conditions: { isHost }, chatRoomId }: Props) => {
   const { open } = useModal();
-  // const { push } = useRouter();
+  const { push } = useRouter();
 
-  // 그룹 채팅방 아이디 추가해야됨
   const onEnterChatClick = () => {
-    alert('채팅 파업');
-    // push('/message/id');
+    push(`/message/chat/${chatRoomId}`);
   };
 
   return (

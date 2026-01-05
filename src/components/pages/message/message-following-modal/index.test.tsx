@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import { ModalProvider } from '@/components/ui';
+import { ToastProvider } from '@/components/ui/toast/core';
 import { useAddFollowers } from '@/hooks/use-follower';
 
 import { FollowingModal } from '.';
@@ -24,7 +25,9 @@ const renderWithQueryClient = async (component: React.ReactElement) => {
   await act(async () => {
     renderResult = render(
       <QueryClientProvider client={testQueryClient}>
-        <ModalProvider>{component}</ModalProvider>
+        <ToastProvider>
+          <ModalProvider>{component}</ModalProvider>
+        </ToastProvider>
       </QueryClientProvider>,
     );
   });
@@ -33,15 +36,14 @@ const renderWithQueryClient = async (component: React.ReactElement) => {
 };
 
 describe('FollowingModal 테스트', () => {
-  const mockMutate = jest.fn();
+  const mockMutateAsync = jest.fn();
   const mockUserId = 123;
 
   beforeEach(() => {
     jest.clearAllMocks();
 
-    // 기본 mock 설정
     (useAddFollowers as jest.Mock).mockReturnValue({
-      mutate: mockMutate,
+      mutateAsync: mockMutateAsync,
     });
   });
 
@@ -62,9 +64,7 @@ describe('FollowingModal 테스트', () => {
   });
 
   test('Enter 키 입력 시 폼이 제출된다', async () => {
-    mockMutate.mockImplementation((_data, options) => {
-      options?.onSuccess?.();
-    });
+    mockMutateAsync.mockResolvedValue(undefined);
 
     await renderWithQueryClient(<FollowingModal userId={mockUserId} />);
 
@@ -73,7 +73,7 @@ describe('FollowingModal 테스트', () => {
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
 
     await waitFor(() => {
-      expect(mockMutate).toHaveBeenCalledWith({ followNickname: 'test' }, expect.any(Object));
+      expect(mockMutateAsync).toHaveBeenCalledWith({ followNickname: 'test' });
     });
   });
 });

@@ -9,9 +9,11 @@ const INITIAL_PAGE_SIZE = 10;
 
 export default async function MessagePage() {
   const cookieStore = await cookies();
-  const userId = Number(cookieStore.get('userId')?.value || 0);
   const accessToken = cookieStore.get('accessToken')?.value || null;
   const queryClient = new QueryClient();
+
+  const me = await API.userService.getMeSkipRedirect();
+  const userId = me.userId;
 
   // 첫 페이지 우선 prefetch
   await queryClient.prefetchInfiniteQuery({

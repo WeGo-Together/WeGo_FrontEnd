@@ -13,6 +13,7 @@ export const LoginSnsButton = ({ children, onClick }: Props) => {
     <Button
       className='flex-center text-text-md-semibold relative text-gray-700'
       size='md'
+      type='button'
       variant='tertiary'
       onClick={onClick}
     >

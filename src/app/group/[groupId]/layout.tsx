@@ -20,7 +20,7 @@ const GroupDetailLayout = async ({ children, params }: Props) => {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
+  await queryClient.fetchQuery({
     queryKey: groupKeys.detail(groupId),
     queryFn: async () => API.groupService.getGroupDetails({ groupId }),
   });

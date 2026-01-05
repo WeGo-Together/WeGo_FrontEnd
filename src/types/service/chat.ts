@@ -9,17 +9,9 @@ export interface ChattingRoom {
     senderName: string;
     timestamp: string;
   };
-  participants: [
-    {
-      participantId: number;
-      userId: number;
-      nickName: string;
-      profileImage: string;
-      status: 'ACTIVE' | 'INACTIVE'; // 확인 필요💥💥
-      joinedAt: string;
-    },
-  ];
+  participants: ChatUser[];
   unreadCount: number;
+  thumbnail: string;
 }
 
 export interface ChatMessage {
@@ -28,9 +20,21 @@ export interface ChatMessage {
   senderName: string | null;
   senderProfileImage: string | null;
   content: string;
-  messageType: 'TEXT' | 'SYSTEM';
+  messageType: 'TEXT' | 'SYSTEM' | 'KICK';
   timestamp?: string;
   createdAt?: string;
+  targetUserId: number;
+}
+
+export interface ChatUser {
+  joinedAt: string;
+  nickName: string;
+  participantId: 77;
+  profileImage: string;
+  status: 'ACTIVE' | 'INACTIVE'; // 확인 필요💥💥
+  userId: number;
+  profileMessage: string;
+  isOwner: boolean;
 }
 
 export interface GetChatRoomsResponse {
@@ -61,4 +65,36 @@ export interface ReadMessagesResponse {
   chatRoomId: number;
   lastReadMessageId: number;
   unreadCount: number;
+}
+
+export interface GetChatRoomParams {
+  roomId: number;
+}
+
+export interface getChatRoomResponse {
+  chatRoomId: number;
+  chatRoomName: string;
+  chatType: string;
+  createdAt: string;
+  groupId: number | null;
+  participantCount: number;
+  participants: ChatUser[];
+}
+
+export interface GetParticipantsParams {
+  roomId: number;
+}
+
+export interface GetParticipantsResponse {
+  chatRoomId: number;
+  totalCount: number;
+  participants: ChatUser[];
+}
+
+export interface KickUserParams {
+  roomId: number;
+}
+
+export interface KickUserPayloads {
+  targetUserId: number;
 }

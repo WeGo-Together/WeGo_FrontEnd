@@ -6,10 +6,10 @@ type CardThumbnailProps = {
   title: string;
   thumbnail?: string;
   isPending?: boolean;
-  isClosed?: boolean;
+  isFinished?: boolean;
 };
 
-export const CardThumbnail = ({ title, thumbnail, isPending, isClosed }: CardThumbnailProps) => {
+export const CardThumbnail = ({ title, thumbnail, isPending, isFinished }: CardThumbnailProps) => {
   return (
     <div className='relative h-25 w-25 shrink-0 overflow-hidden rounded-2xl bg-gray-200'>
       <ImageWithFallback
@@ -25,7 +25,7 @@ export const CardThumbnail = ({ title, thumbnail, isPending, isClosed }: CardThu
           <PendingBadge variant='sm'>대기중</PendingBadge>
         </div>
       )}
-      {isClosed && (
+      {isFinished && (
         <>
           <div className='absolute inset-0 bg-black/60' />
           <div className='flex-center absolute inset-0'>

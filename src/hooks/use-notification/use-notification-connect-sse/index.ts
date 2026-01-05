@@ -3,8 +3,11 @@ import { useEffect, useRef, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 
+import { groupKeys } from '@/lib/query-key/query-key-group';
 import { notificationKeys } from '@/lib/query-key/query-key-notification';
+import { userKeys } from '@/lib/query-key/query-key-user';
 import { useAuth } from '@/providers/provider-auth';
+import { NotificationItem } from '@/types/service/notification';
 
 export const useConnectSSE = () => {
   const [receivedNewNotification, setReceivedNewNotification] = useState(false);
@@ -51,12 +54,49 @@ export const useConnectSSE = () => {
     // SSE 알림 수신 시
     es.addEventListener('notification', (event) => {
       try {
-        const data = JSON.parse(event.data);
+        const data = JSON.parse(event.data) as NotificationItem;
         console.log('[DEBUG] SSE 수신 성공:', data);
         setReceivedNewNotification(true);
+
+        // Query Key 무효화
+        // 공통
         queryClient.invalidateQueries({ queryKey: notificationKeys.unReadCount() });
         queryClient.invalidateQueries({ queryKey: notificationKeys.list() });
-        // TODO: 알림 타입별 처리 추가 예정
+
+        switch (data.type) {
+          case 'FOLLOW': // 서버 문제 해결 후 검증 필요
+            queryClient.invalidateQueries({ queryKey: userKeys.me() });
+            queryClient.invalidateQueries({ queryKey: userKeys.item(data.user.id) });
+            return;
+          case 'GROUP_CREATE': // 모임 목록이 react query 아니라서 업데이트 안됨
+            queryClient.invalidateQueries({ queryKey: groupKeys.lists() });
+            return;
+          case 'GROUP_DELETE': // 모임 목록이 react query 아니라서 업데이트 안됨
+            queryClient.invalidateQueries({ queryKey: groupKeys.lists() });
+            return;
+          case 'GROUP_JOIN': //OK
+            if (data.group === null) return;
+            queryClient.invalidateQueries({ queryKey: groupKeys.detail(String(data.group.id)) });
+            return;
+          case 'GROUP_LEAVE': //OK
+            if (data.group === null) return;
+            queryClient.invalidateQueries({ queryKey: groupKeys.detail(String(data.group.id)) });
+            return;
+          case 'GROUP_JOIN_REQUEST': //OK
+            if (data.group === null) return;
+            queryClient.invalidateQueries({
+              queryKey: groupKeys.joinRequests(String(data.group.id), 'PENDING'),
+            });
+          case 'GROUP_JOIN_APPROVED': //OK
+            if (data.group === null) return;
+            queryClient.invalidateQueries({ queryKey: groupKeys.detail(String(data.group.id)) });
+          case 'GROUP_JOIN_REJECTED': //OK
+            if (data.group === null) return;
+            queryClient.invalidateQueries({ queryKey: groupKeys.detail(String(data.group.id)) });
+          case 'GROUP_JOIN_KICKED': //OK
+            if (data.group === null) return;
+            queryClient.invalidateQueries({ queryKey: groupKeys.detail(String(data.group.id)) });
+        }
       } catch (error) {
         console.error('[DEBUG] SSE 데이터 파싱 실패:', error);
       }
