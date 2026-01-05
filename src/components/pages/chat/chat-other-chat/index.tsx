@@ -1,7 +1,4 @@
-import Image from 'next/image';
-
-import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
-
+import { ImageWithFallback } from '@/components/ui';
 import { formatKoreanTime } from '@/lib/formatDateTime';
 import { ChatMessage } from '@/types/service/chat';
 
@@ -14,15 +11,14 @@ interface IProps {
 export const OtherChat = ({ item }: IProps) => {
   const { senderProfileImage, senderName, content, timestamp, createdAt } = item;
   const time = timestamp ?? createdAt;
-
   return (
     <div className='flex'>
-      <Image
+      <ImageWithFallback
         width={40}
         className='mr-3 size-10 rounded-full object-cover'
         alt='프로필 이미지'
         height={40}
-        src={senderProfileImage || DEFAULT_PROFILE_IMAGE}
+        src={senderProfileImage || ''}
       />
 
       <div className='mr-1.5 max-w-60'>

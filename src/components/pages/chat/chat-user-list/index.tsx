@@ -27,6 +27,12 @@ export const UserList = ({ onClose, roomId, roomType, userId }: UserListProps) =
   const isCurrentUserOwner = data?.participants.some(
     (participant) => participant.userId === userId && participant.isOwner,
   );
+  const sortedParticipants = data?.participants
+    ? [...data.participants].sort((a, b) => {
+        if (a.isOwner === b.isOwner) return 0;
+        return a.isOwner ? -1 : 1;
+      })
+    : [];
 
   return (
     <div className='bg-mono-white flex h-[calc(100vh-112px)] flex-col'>
@@ -55,7 +61,7 @@ export const UserList = ({ onClose, roomId, roomType, userId }: UserListProps) =
 
       {/* 유저 리스트 */}
       <div className='scrollbar-thin flex-1 overflow-y-auto'>
-        {data?.participants.map((user, index) => (
+        {sortedParticipants.map((user, index) => (
           <div key={user.userId}>
             <div className='bg-mono-white flex h-22 items-center gap-4 p-5'>
               <div className='h-12 w-12 overflow-hidden rounded-full'>
