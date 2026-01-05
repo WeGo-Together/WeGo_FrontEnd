@@ -49,7 +49,11 @@ export const useChatSocket = ({
       connectHeaders: {
         Authorization: `Bearer ${accessToken}`,
       },
-      debug: (str) => console.log(str),
+      debug: (str) => {
+        if (process.env.NODE_ENV === 'development') {
+          console.log(str);
+        }
+      },
       reconnectDelay: 6000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
@@ -57,8 +61,9 @@ export const useChatSocket = ({
 
     client.onConnect = () => {
       setIsConnected(true);
-      console.log('WebSocket connected');
-
+      if (process.env.NODE_ENV === 'development') {
+        console.log('WebSocket connected');
+      }
       // 채팅방 구독
       client.subscribe(`/sub/chat/room/${roomId}`, (message: IMessage) => {
         try {
@@ -85,7 +90,9 @@ export const useChatSocket = ({
 
     client.onDisconnect = () => {
       setIsConnected(false);
-      console.log('WebSocket disconnected');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('WebSocket disconnected');
+      }
     };
 
     client.onStompError = (frame) => {
@@ -117,7 +124,9 @@ export const useChatSocket = ({
   const sendMessage = useCallback(
     (content: string) => {
       if (!clientRef.current?.connected) {
-        console.log('WebSocket is not connected');
+        if (process.env.NODE_ENV === 'development') {
+          console.log('WebSocket is not connected');
+        }
         return false;
       }
 

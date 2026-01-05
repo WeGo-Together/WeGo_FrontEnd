@@ -15,7 +15,6 @@ export const UserOutModal = ({ nickName, roomId, userId }: IProps) => {
   const handleOut = async () => {
     try {
       await mutateAsync({ targetUserId: userId });
-      console.log(`${nickName} 내보내기 완료`);
       close();
     } catch (e) {
       console.error(e);
