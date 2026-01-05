@@ -1,7 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { useQueryClient } from '@tanstack/react-query';
 
 import { API } from '@/api';
@@ -9,7 +7,6 @@ import { userKeys } from '@/lib/query-key/query-key-user';
 import { useAuth } from '@/providers';
 
 export const useLogout = () => {
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const { setIsAuthenticated } = useAuth();
@@ -24,8 +21,7 @@ export const useLogout = () => {
       queryClient.removeQueries({ queryKey: userKeys.all });
 
       setIsAuthenticated(false);
-
-      router.push('/');
+      window.location.replace('/');
     }
   };
 

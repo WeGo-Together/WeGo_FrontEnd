@@ -12,7 +12,7 @@ export const useWithdraw = () => {
     } catch (error) {
       // 📜 에러 UI 결정나면 변경
       console.error('[WITHDRAW ERROR]', error);
-      alert('회원탈퇴에 실패했습니다.');
+      alert('회원탈퇴에 실패했습니다. 잠시 후에 다시 시도해주세요.');
     }
   };
 
