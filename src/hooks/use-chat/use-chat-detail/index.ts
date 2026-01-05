@@ -6,6 +6,7 @@ export const useGetChatRoom = (roomId: number) => {
   const query = useQuery({
     queryKey: ['chatRoom', roomId],
     queryFn: () => API.chatService.getChatRoom({ roomId }),
+    retry: false,
   });
   return query;
 };

@@ -16,13 +16,18 @@ interface UserListProps {
   onClose: () => void;
   roomId: number;
   roomType: 'DM' | 'GROUP';
+  userId: number;
 }
 
-export const UserList = ({ onClose, roomId, roomType }: UserListProps) => {
+export const UserList = ({ onClose, roomId, roomType, userId }: UserListProps) => {
   const [isManaging, setIsManaging] = useState(false);
   const { open } = useModal();
   const { data } = useGetParticipants(roomId);
-  console.log(roomType);
+
+  const isCurrentUserOwner = data?.participants.some(
+    (participant) => participant.userId === userId && participant.isOwner,
+  );
+
   return (
     <div className='bg-mono-white flex h-[calc(100vh-112px)] flex-col'>
       {/* 헤더 */}
@@ -32,19 +37,19 @@ export const UserList = ({ onClose, roomId, roomType }: UserListProps) => {
           <span className='text-gray-800'>참여자</span>
           <span className='text-mint-500'>{data?.totalCount}</span>
         </span>
-        {roomType === 'GROUP' ? (
+        {roomType === 'GROUP' && isCurrentUserOwner ? (
           <button
             className='text-text-sm-semibold cursor-pointer'
             onClick={() => setIsManaging(!isManaging)}
           >
             {isManaging ? (
-              <span className='text-gray-600'>완료</span>
+              <span className='w-6 text-gray-600'>완료</span>
             ) : (
-              <span className='text-mint-600'>관리</span>
+              <span className='text-mint-600 w-6'>관리</span>
             )}
           </button>
         ) : (
-          <div></div>
+          <div className='w-6'></div>
         )}
       </div>
 
@@ -70,8 +75,7 @@ export const UserList = ({ onClose, roomId, roomType }: UserListProps) => {
                 </div>
               </div>
 
-              {/* 방장이 0번째로 들어온다면 이렇게, 방장이라는걸 알 수 있는 필드가 있다면 수정 */}
-              {roomType === 'GROUP' && index === 0 ? (
+              {roomType === 'GROUP' && user.isOwner ? (
                 <span className='bg-mint-100 text-mint-700 text-text-xs-medium rounded-full px-2.5 py-1'>
                   방장
                 </span>
