@@ -38,14 +38,16 @@ export const useChatListSocket = ({
     });
 
     client.onConnect = () => {
-      console.log('✅ Chat list socket connected');
-
+      if (process.env.NODE_ENV === 'development') {
+        console.log('✅ Chat list socket connected');
+      }
       // 모든 채팅방 구독
       chatRoomIds.forEach((roomId) => {
         const subscription = client.subscribe(`/sub/chat/room/${roomId}`, (message: IMessage) => {
           const payload = JSON.parse(message.body);
-          console.log('🔔 새 메시지 수신:', payload);
-
+          if (process.env.NODE_ENV === 'development') {
+            console.log('🔔 새 메시지 수신:', payload);
+          }
           // 채팅 목록 갱신
           queryClient.invalidateQueries({
             queryKey: ['chatList', userId],

@@ -23,8 +23,6 @@ export const ChatList = ({ userId, accessToken }: IProps) => {
   };
   const { data: chatList } = useGetChatList({ userId });
 
-  console.log(chatList);
-
   // 채팅방 ID 목록 추출
   const chatRoomIds = useMemo(() => {
     return chatList?.chatRooms?.map((chat) => chat.chatRoomId) || [];

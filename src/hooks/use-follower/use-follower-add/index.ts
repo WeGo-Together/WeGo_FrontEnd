@@ -13,10 +13,8 @@ export const useAddFollowers = (
     ...options,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['followers', userId] });
-      console.log('팔로워 추가 성공');
     },
     onError: (error) => {
-      console.log('팔로워 추가 실패');
       throw error;
     },
   });
