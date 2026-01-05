@@ -9,8 +9,8 @@ import { ErrorMessage } from '@/components/shared';
 import { Button } from '@/components/ui';
 import { GroupListItemResponse } from '@/types/service/group';
 
+import { ScheduleCard } from './card';
 import { EMPTY_STATE_CONFIG } from './constants';
-import { MeetingCard } from './meeting-card';
 
 type TabType = 'current' | 'myPost' | 'past';
 
@@ -27,7 +27,7 @@ const getModalType = (
   return 'leave';
 };
 
-type MeetingListProps = {
+type MeetingsProps = {
   meetings: GroupListItemResponse[];
   tabType: TabType;
   emptyStateType: TabType;
@@ -42,7 +42,7 @@ type MeetingListProps = {
 
 const MIN_HEIGHT = 'min-h-[calc(100vh-156px)]';
 
-export const MeetingList = ({
+export const Meetings = ({
   meetings,
   tabType,
   emptyStateType,
@@ -53,7 +53,7 @@ export const MeetingList = ({
   isLoading,
   sentinelRef,
   completedMessage,
-}: MeetingListProps) => {
+}: MeetingsProps) => {
   const router = useRouter();
 
   const isEmpty = meetings.length === 0;
@@ -66,7 +66,7 @@ export const MeetingList = ({
 
   if (showLoading) {
     return (
-      <div className={`flex ${MIN_HEIGHT} items-center justify-center py-8`}>
+      <div className={`flex-center ${MIN_HEIGHT} py-8`}>
         <div className='text-gray-500'>로딩 중...</div>
       </div>
     );
@@ -77,7 +77,7 @@ export const MeetingList = ({
     const handleEmptyStateClick = () => router.push(emptyStatePath);
 
     return (
-      <div className={`relative flex ${MIN_HEIGHT} flex-col items-center justify-center py-8`}>
+      <div className={`flex-col-center relative ${MIN_HEIGHT} py-8`}>
         <EmptyState>{config.text}</EmptyState>
 
         <Button
@@ -91,7 +91,6 @@ export const MeetingList = ({
   }
 
   const handleRetry = () => window.location.reload();
-  const getModalTypeForCard = (meeting: GroupListItemResponse) => getModalType(meeting, tabType);
 
   return (
     <section className='flex w-full flex-col gap-4 px-4 py-4'>
@@ -99,15 +98,32 @@ export const MeetingList = ({
         <ErrorMessage className='py-12' message={error.message} onRetry={handleRetry} />
       )}
 
-      {meetings.map((meeting) => (
-        <MeetingCard
-          key={meeting.id}
-          getModalType={getModalTypeForCard}
-          meeting={meeting}
-          showActions={showActions}
-          tabType={tabType}
-        />
-      ))}
+      {meetings.map((meeting) => {
+        const groupId = String(meeting.id);
+        const myMembership = meeting.myMembership;
+        const isPending = myMembership?.status === 'PENDING';
+        const isFinished = meeting.status === 'FINISHED';
+        const isHost = myMembership?.role === 'HOST';
+        const createdBy = meeting.createdBy;
+        const shouldFetchChatRoomId = showActions && !isPending && !isFinished;
+
+        return (
+          <ScheduleCard
+            key={meeting.id}
+            createdBy={createdBy}
+            groupId={groupId}
+            isFinished={isFinished}
+            isHost={isHost}
+            isPending={isPending}
+            joinPolicy={meeting.joinPolicy}
+            meeting={meeting}
+            modalType={getModalType(meeting, tabType)}
+            shouldFetchChatRoomId={shouldFetchChatRoomId}
+            showActions={showActions}
+            tabType={tabType}
+          />
+        );
+      })}
 
       {showErrorWithData && (
         <ErrorMessage className='py-8' message={error.message} onRetry={handleRetry} />

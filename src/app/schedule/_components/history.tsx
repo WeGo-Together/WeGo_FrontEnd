@@ -4,9 +4,10 @@ import { API } from '@/api';
 import { useInfiniteScroll } from '@/hooks/use-group/use-group-infinite-list';
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 import { INTERSECTION_OBSERVER_THRESHOLD } from '@/lib/constants/group-list';
+import { groupKeys } from '@/lib/query-key/query-key-group';
 import { GroupListItemResponse } from '@/types/service/group';
 
-import { MeetingList } from './meeting-list';
+import { Meetings } from './meetings';
 
 export default function History() {
   const {
@@ -17,11 +18,11 @@ export default function History() {
     isFetchingNextPage,
     isFetching,
     completedMessage,
-  } = useInfiniteScroll<GroupListItemResponse, ['myGroups', 'past']>({
+  } = useInfiniteScroll<GroupListItemResponse>({
     queryFn: async ({ cursor, size }) => {
       return await API.groupService.getMyGroups({ type: 'past', cursor, size });
     },
-    queryKey: ['myGroups', 'past'],
+    queryKey: groupKeys.myGroupsList('past') as ['myGroups', 'past'],
     pageSize: 10,
     errorMessage: '모임 이력을 불러오는데 실패했습니다.',
     completedMessage: '모든 모임 이력을 불러왔습니다.',
@@ -38,7 +39,7 @@ export default function History() {
   });
 
   return (
-    <MeetingList
+    <Meetings
       completedMessage={completedMessage}
       emptyStatePath='/'
       emptyStateType='past'

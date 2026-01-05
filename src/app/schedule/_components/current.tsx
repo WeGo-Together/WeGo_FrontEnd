@@ -4,9 +4,10 @@ import { API } from '@/api';
 import { useInfiniteScroll } from '@/hooks/use-group/use-group-infinite-list';
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 import { INTERSECTION_OBSERVER_THRESHOLD } from '@/lib/constants/group-list';
+import { groupKeys } from '@/lib/query-key/query-key-group';
 import { GroupListItemResponse } from '@/types/service/group';
 
-import { MeetingList } from './meeting-list';
+import { Meetings } from './meetings';
 
 export default function Current() {
   const {
@@ -17,7 +18,7 @@ export default function Current() {
     isFetchingNextPage,
     isFetching,
     completedMessage,
-  } = useInfiniteScroll<GroupListItemResponse, ['myGroups', 'current']>({
+  } = useInfiniteScroll<GroupListItemResponse>({
     queryFn: async ({ cursor, size }) => {
       return await API.groupService.getMyGroups({
         type: 'current',
@@ -26,7 +27,7 @@ export default function Current() {
         myStatuses: ['ATTEND', 'PENDING'],
       });
     },
-    queryKey: ['myGroups', 'current'],
+    queryKey: groupKeys.myGroupsList('current') as ['myGroups', 'current'],
     pageSize: 10,
     errorMessage: '현재 모임 목록을 불러오는데 실패했습니다.',
     completedMessage: '모든 현재 모임을 불러왔습니다.',
@@ -43,7 +44,7 @@ export default function Current() {
   });
 
   return (
-    <MeetingList
+    <Meetings
       completedMessage={completedMessage}
       emptyStatePath='/'
       emptyStateType='current'

@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { API } from '@/api';
 import { GroupModal } from '@/components/pages/group/group-modal';
-import Card from '@/components/shared/card';
+import CardComponent from '@/components/shared/card';
 import { useModal } from '@/components/ui';
 import { formatDateTime } from '@/lib/formatDateTime';
 import { groupKeys } from '@/lib/query-key/query-key-group';
@@ -14,28 +14,35 @@ import { GroupListItemResponse } from '@/types/service/group';
 
 type TabType = 'current' | 'myPost' | 'past';
 
-interface MeetingCardProps {
-  getModalType: (meeting: GroupListItemResponse) => 'pending' | 'leave' | 'delete';
+interface ScheduleCardProps {
+  createdBy: GroupListItemResponse['createdBy'];
+  groupId: string;
+  isFinished: boolean;
+  isHost: boolean;
+  isPending: boolean;
+  joinPolicy: GroupListItemResponse['joinPolicy'];
   meeting: GroupListItemResponse;
+  modalType: 'pending' | 'leave' | 'delete';
+  shouldFetchChatRoomId: boolean;
   showActions: boolean;
   tabType: TabType;
 }
 
-/**
- * 모임 상세 페이지에서 chatRoomId를 가져와 채팅 입장할거임
- */
-export const MeetingCard = ({ getModalType, meeting, showActions, tabType }: MeetingCardProps) => {
+export const ScheduleCard = ({
+  createdBy,
+  groupId,
+  isFinished,
+  isHost,
+  isPending,
+  joinPolicy,
+  meeting,
+  modalType,
+  shouldFetchChatRoomId,
+  showActions,
+  tabType,
+}: ScheduleCardProps) => {
   const router = useRouter();
   const { open } = useModal();
-
-  const groupId = String(meeting.id);
-  const myMembership = meeting.myMembership;
-  const isPending = myMembership?.status === 'PENDING';
-  const isFinished = meeting.status === 'FINISHED';
-  const isHost = myMembership?.role === 'HOST';
-  const createdBy = meeting.createdBy;
-
-  const shouldFetchChatRoomId = showActions && !isPending && !isFinished;
 
   const { data: groupDetails } = useQuery({
     queryKey: groupKeys.detail(groupId),
@@ -49,7 +56,6 @@ export const MeetingCard = ({ getModalType, meeting, showActions, tabType }: Mee
   };
 
   const handleLeaveClick = () => {
-    const modalType = getModalType(meeting);
     open(<GroupModal groupId={groupId} type={modalType} />);
   };
 
@@ -58,13 +64,13 @@ export const MeetingCard = ({ getModalType, meeting, showActions, tabType }: Mee
   };
 
   return (
-    <Card
+    <CardComponent
       dateTime={formatDateTime(meeting.startTime)}
       images={meeting.images}
       isFinished={isFinished}
       isHost={isHost}
       isPending={isPending}
-      joinPolicy={meeting.joinPolicy}
+      joinPolicy={joinPolicy}
       leaveAndChatActions={
         showActions
           ? {
