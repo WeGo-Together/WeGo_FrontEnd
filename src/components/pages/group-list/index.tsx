@@ -17,7 +17,7 @@ import { GroupListItemResponse } from '@/types/service/group';
 import { GroupListContent } from './group-list-content';
 import { GroupListEmpty } from './group-list-empty';
 import { GroupListInfiniteScroll } from './group-list-infinite-scroll';
-import { GroupListLoading } from './group-list-loading';
+import { GroupListSkeleton } from './group-list-loading';
 import { GroupListSearchEmpty } from './group-list-search-empty';
 
 const SearchResultCount = ({ keyword, count }: { keyword: string; count: number }) => (
@@ -81,7 +81,7 @@ export default function GroupList() {
   const hasItems = items.length > 0;
 
   if (isLoading) {
-    return <GroupListLoading />;
+    return <GroupListSkeleton />;
   }
 
   return (

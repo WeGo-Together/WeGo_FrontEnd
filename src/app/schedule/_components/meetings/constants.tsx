@@ -3,6 +3,7 @@ import { type ReactNode } from 'react';
 export type TabType = 'current' | 'myPost' | 'past';
 
 const DEFAULT_BUTTON_WIDTH = 'w-31';
+export const SCHEDULE_MIN_HEIGHT = 'min-h-[calc(100vh-156px)]' as const;
 
 export const EMPTY_STATE_CONFIG: Record<
   TabType,

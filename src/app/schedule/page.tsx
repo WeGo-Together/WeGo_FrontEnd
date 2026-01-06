@@ -5,9 +5,12 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 
 import { TabNavigation } from '@/components/shared';
+import { CardSkeleton } from '@/components/shared/card/card-skeleton';
+import { GROUP_LIST_PAGE_SIZE } from '@/lib/constants/group-list';
 
 import Current from './_components/current';
 import History from './_components/history';
+import { SCHEDULE_MIN_HEIGHT } from './_components/meetings/constants';
 import My from './_components/my';
 
 const SCHEDULE_TABS = [
@@ -29,12 +32,24 @@ const ScheduleContent = () => {
   );
 };
 
+const ScheduleSkeleton = () => (
+  <section className={`${SCHEDULE_MIN_HEIGHT} bg-[#F1F5F9]`}>
+    <div className='flex w-full flex-col px-4 py-4'>
+      <div className='flex w-full flex-col gap-4'>
+        {Array.from({ length: GROUP_LIST_PAGE_SIZE }).map((_, i) => (
+          <CardSkeleton key={i} showButtons={true} />
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
 export default function SchedulePage() {
   return (
     <div className='min-h-screen bg-[#F1F5F9]'>
       <TabNavigation basePath='/schedule' tabs={SCHEDULE_TABS} />
 
-      <Suspense fallback={null}>
+      <Suspense fallback={<ScheduleSkeleton />}>
         <ScheduleContent />
       </Suspense>
     </div>
