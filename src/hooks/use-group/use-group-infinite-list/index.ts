@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
+import { InfiniteData, QueryObserverResult, useInfiniteQuery } from '@tanstack/react-query';
 
 const STALE_TIME = 3 * 1000; // 3초
 const DEFAULT_ERROR_MESSAGE = '데이터를 불러오는데 실패했습니다.';
@@ -42,7 +42,9 @@ export interface UseInfiniteScrollReturn<TItem> {
   isFetchingNextPage: boolean;
   isFetching: boolean;
   isLoading: boolean;
-  refetch: () => void;
+  refetch: () => Promise<
+    QueryObserverResult<InfiniteData<InfiniteScrollResponse<TItem>, number | undefined>, Error>
+  >;
   // 모든 데이터 로드 완료시 메시지
   completedMessage: string;
 }
