@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -13,7 +13,9 @@ import { useToast } from '@/components/ui/toast/core';
 import { groupKeys } from '@/lib/query-key/query-key-group';
 import { GetJoinRequestsResponse } from '@/types/service/group';
 
+import { PENDING_MEMBERS_MIN_HEIGHT } from './constants';
 import { PendingMemberCard } from './pending-member-card';
+import { PendingMembersLoading } from './pending-members-loading';
 
 interface Props {
   groupId: string;
@@ -29,8 +31,10 @@ export const GroupPendingMembers = ({ groupId }: Props) => {
     queryFn: () => API.groupService.getJoinRequests({ groupId }, 'PENDING'),
   });
 
-  const isForbidden =
-    error && typeof error === 'object' && 'status' in error && error.status === 403;
+  const isForbidden = useMemo(
+    () => error && typeof error === 'object' && 'status' in error && error.status === 403,
+    [error],
+  );
 
   useEffect(() => {
     if (isForbidden) {
@@ -42,13 +46,10 @@ export const GroupPendingMembers = ({ groupId }: Props) => {
     mutationFn: (targetUserId: string) =>
       API.groupService.approveJoinRequest({ groupId, targetUserId }),
     onSuccess: async () => {
-      // 가입 신청 목록 캐시 무효화 및 자동 refetch
-      // GroupPendingSummary의 count도 자동으로 업데이트됨
       await queryClient.invalidateQueries({
         queryKey: groupKeys.joinRequests(groupId, 'PENDING'),
-        refetchType: 'active', // 활성화된 모든 쿼리 자동 refetch
+        refetchType: 'active',
       });
-      // 모임 상세 정보도 갱신
       await queryClient.invalidateQueries({ queryKey: groupKeys.detail(groupId) });
       run(<Toast type='success'>모임 신청이 수락되었습니다.</Toast>);
     },
@@ -58,11 +59,9 @@ export const GroupPendingMembers = ({ groupId }: Props) => {
     mutationFn: (targetUserId: string) =>
       API.groupService.rejectJoinRequest({ groupId, targetUserId }),
     onSuccess: async () => {
-      // 가입 신청 목록 캐시 무효화 및 모든 활성 쿼리 refetch
-      // GroupPendingSummary의 count도 자동으로 업데이트됨
       await queryClient.invalidateQueries({
         queryKey: groupKeys.joinRequests(groupId, 'PENDING'),
-        refetchType: 'active', // 활성화된 모든 쿼리 자동 refetch
+        refetchType: 'active',
       });
       run(<Toast>모임 신청이 거절되었습니다.</Toast>);
     },
@@ -82,12 +81,8 @@ export const GroupPendingMembers = ({ groupId }: Props) => {
     [rejectMutation],
   );
 
-  if (isLoading) {
-    return (
-      <section className='relative h-[calc(100vh-192px)]'>
-        <div className='flex-center h-full'>로딩 중...</div>
-      </section>
-    );
+  if (isLoading && !data && !error) {
+    return <PendingMembersLoading />;
   }
 
   if (isForbidden) {
@@ -96,7 +91,7 @@ export const GroupPendingMembers = ({ groupId }: Props) => {
 
   if (error && (!('status' in error) || error.status !== 403)) {
     return (
-      <section className='relative h-[calc(100vh-192px)]'>
+      <section className={`relative ${PENDING_MEMBERS_MIN_HEIGHT}`}>
         <div className='flex-center h-full text-gray-600'>데이터를 불러오는데 실패했습니다.</div>
       </section>
     );
@@ -104,7 +99,7 @@ export const GroupPendingMembers = ({ groupId }: Props) => {
 
   if (!data || data.items.length === 0) {
     return (
-      <section className='relative h-[calc(100vh-192px)]'>
+      <section className={`relative ${PENDING_MEMBERS_MIN_HEIGHT}`}>
         <EmptyState>승인 대기 중인 멤버가 없습니다</EmptyState>
       </section>
     );
