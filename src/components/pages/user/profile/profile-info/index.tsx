@@ -1,4 +1,5 @@
 'use client';
+
 import { Button } from '@/components/ui';
 import { useFollowUser, useUnfollowUser } from '@/hooks/use-user';
 import { User } from '@/types/service/user';
@@ -12,9 +13,8 @@ interface Props {
 }
 
 export const ProfileInfo = ({ user }: Props) => {
-  const { mutate: followUser } = useFollowUser();
-
-  const { mutate: unfollowUser } = useUnfollowUser();
+  const { mutate: followUser } = useFollowUser(user.userId);
+  const { mutate: unfollowUser } = useUnfollowUser(user.userId);
 
   const handleFollowClick = () => {
     followUser({ followNickname: user.nickName });

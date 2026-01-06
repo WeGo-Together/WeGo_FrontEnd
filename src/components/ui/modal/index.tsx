@@ -248,7 +248,7 @@ export const ModalContent = ({ children, className }: ModalContentProps) => {
 };
 
 interface ModalTitleProps {
-  children: string;
+  children: React.ReactNode;
   className?: string;
 }
 
