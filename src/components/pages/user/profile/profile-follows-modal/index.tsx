@@ -99,7 +99,7 @@ const FollowList = ({
           </div>
         </Link>
       ))}
-      {hasNextPage && <div ref={fetchObserverRef}>다음</div>}
+      {hasNextPage && <div ref={fetchObserverRef}></div>}
     </div>
   );
 };
