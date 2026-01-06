@@ -10,12 +10,17 @@ interface UseIntersectionObserverParams {
 }
 
 export const useIntersectionObserver = ({
-  onIntersect, // 요소가 화면에 보일 때 실행할 콜백 함수
-  enabled = true, // observer 활성화 여부 (기본값: true)
-  threshold = INTERSECTION_OBSERVER_THRESHOLD, // 요소가 얼마나 보여야 감지할지 (기본값: 10%로 설정)
-  root = null, // 관찰 기준 요소 (기본값: null = 뷰포트)
+  onIntersect,
+  enabled = true,
+  threshold = INTERSECTION_OBSERVER_THRESHOLD,
+  root = null,
 }: UseIntersectionObserverParams) => {
   const targetRef = useRef<HTMLDivElement>(null);
+  const onIntersectRef = useRef(onIntersect);
+
+  useEffect(() => {
+    onIntersectRef.current = onIntersect;
+  }, [onIntersect]);
 
   useEffect(() => {
     const target = targetRef.current;
@@ -24,7 +29,7 @@ export const useIntersectionObserver = ({
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0]?.isIntersecting) {
-          onIntersect();
+          onIntersectRef.current();
         }
       },
       {
@@ -38,7 +43,7 @@ export const useIntersectionObserver = ({
     return () => {
       observer.disconnect();
     };
-  }, [onIntersect, enabled, threshold, root]);
+  }, [enabled, threshold, root]);
 
   return targetRef;
 };

@@ -1,23 +1,24 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
-import { InfiniteData } from '@tanstack/react-query';
-
-import { EmptyState } from '@/components/layout/empty-state';
+import { API } from '@/api';
 import { ErrorMessage } from '@/components/shared';
-import Card from '@/components/shared/card';
-import { Button } from '@/components/ui';
-import { useInfiniteGroupList } from '@/hooks/use-group/use-group-infinite-list';
+import { useInfiniteScroll } from '@/hooks/use-group/use-group-infinite-list';
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
-import { INTERSECTION_OBSERVER_THRESHOLD } from '@/lib/constants/group-list';
-import { formatDateTime } from '@/lib/formatDateTime';
-import { GetGroupsResponse } from '@/types/service/group';
+import {
+  GROUP_LIST_MIN_HEIGHT,
+  GROUP_LIST_PAGE_SIZE,
+  INTERSECTION_OBSERVER_THRESHOLD,
+} from '@/lib/constants/group-list';
+import { groupKeys } from '@/lib/query-key/query-key-group';
+import { GroupListItemResponse } from '@/types/service/group';
 
-interface GroupListProps {
-  initialData?: InfiniteData<GetGroupsResponse, number | undefined>;
-  initialKeyword?: string;
-}
+import { GroupListContent } from './group-list-content';
+import { GroupListEmpty } from './group-list-empty';
+import { GroupListInfiniteScroll } from './group-list-infinite-scroll';
+import { GroupListLoading } from './group-list-loading';
+import { GroupListSearchEmpty } from './group-list-search-empty';
 
 const SearchResultCount = ({ keyword, count }: { keyword: string; count: number }) => (
   <div className='mt-4 flex h-5 items-center pl-2'>
@@ -28,20 +29,42 @@ const SearchResultCount = ({ keyword, count }: { keyword: string; count: number 
   </div>
 );
 
-export default function GroupList({ initialData, initialKeyword }: GroupListProps) {
-  const router = useRouter();
+export default function GroupList() {
   const searchParams = useSearchParams();
-  const keywordFromUrl = searchParams.get('keyword') || undefined;
-  const keyword = initialKeyword ?? keywordFromUrl;
+  const keyword = searchParams.get('keyword') || undefined;
 
-  const { items, error, fetchNextPage, hasNextPage, isFetchingNextPage, completedMessage } =
-    useInfiniteGroupList({
-      initialData,
-      initialKeyword: keyword,
-    });
+  const queryKey = groupKeys.list({ keyword, size: GROUP_LIST_PAGE_SIZE }) as [
+    'group',
+    'list',
+    { keyword?: string; cursor?: number; size: number },
+  ];
 
-  // IntersectionObserver를 통한 무한 스크롤 감지
-  // React Query의 fetchNextPage를 트리거하는 역할만 수행
+  const {
+    items,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isFetching,
+    isLoading,
+    completedMessage,
+    refetch,
+  } = useInfiniteScroll<GroupListItemResponse, typeof queryKey>({
+    queryFn: async ({ cursor, keyword, size }) => {
+      const response = await API.groupService.getGroups({
+        keyword,
+        cursor,
+        size,
+      });
+      return response;
+    },
+    queryKey,
+    keyword,
+    pageSize: GROUP_LIST_PAGE_SIZE,
+    errorMessage: '모임 목록을 불러오는데 실패했습니다.',
+    completedMessage: '모든 모임을 불러왔습니다.',
+  });
+
   const sentinelRef = useIntersectionObserver({
     onIntersect: () => {
       if (hasNextPage && !isFetchingNextPage) {
@@ -53,84 +76,45 @@ export default function GroupList({ initialData, initialKeyword }: GroupListProp
   });
 
   const hasKeyword = Boolean(keyword);
-  const hasNoItems = items.length === 0 && !error;
+  const hasNoItems = items.length === 0 && !error && !isFetching;
+  const hasError = !!error;
+  const hasItems = items.length > 0;
+
+  if (isLoading) {
+    return <GroupListLoading />;
+  }
 
   return (
-    <section className='min-h-[calc(100vh-168px)] bg-[#F1F5F9]'>
+    <section className={`${GROUP_LIST_MIN_HEIGHT} bg-[#F1F5F9]`}>
       <div className='flex w-full flex-col px-4'>
-        {error && items.length === 0 && (
+        {hasError && !hasItems && (
           <div className='py-4'>
-            <ErrorMessage
-              className='py-12'
-              message={error.message}
-              onRetry={() => window.location.reload()}
-            />
+            <ErrorMessage className='py-12' message={error.message} onRetry={() => refetch()} />
           </div>
         )}
 
         {hasKeyword && keyword && <SearchResultCount keyword={keyword} count={items.length} />}
 
-        {!hasKeyword && hasNoItems && (
-          <div className='relative flex min-h-[calc(100vh-200px)] flex-col items-center justify-center py-8'>
-            <EmptyState>
-              아직 모임이 없어요.
-              <br />
-              지금 바로 모임을 만들어보세요!
-            </EmptyState>
+        {!hasKeyword && hasNoItems && <GroupListEmpty />}
 
-            <Button
-              className='bg-mint-500 text-text-sm-bold text-mono-white hover:bg-mint-600 active:bg-mint-700 relative z-10 mt-[250px] h-10 w-[112px] rounded-xl'
-              onClick={() => router.push('/create-group')}
-            >
-              모임 만들기
-            </Button>
-          </div>
-        )}
+        {hasKeyword && hasNoItems && <GroupListSearchEmpty />}
 
-        {hasKeyword && hasNoItems && (
-          <div className='relative mt-[174px] flex h-[200px] flex-col items-center justify-center'>
-            <EmptyState>검색 결과가 없어요.</EmptyState>
-          </div>
-        )}
+        {hasItems && <GroupListContent keyword={keyword} items={items} />}
 
-        {items.length > 0 && (
-          <div className={`flex w-full flex-col gap-4 ${hasKeyword ? 'mt-3' : 'py-4'}`}>
-            {items.map((meeting) => (
-              <Card
-                key={meeting.id}
-                dateTime={formatDateTime(meeting.startTime)}
-                images={meeting.images}
-                isFinished={meeting.status === 'FINISHED'}
-                isPending={meeting.myMembership?.status === 'PENDING'}
-                location={meeting.location}
-                maxParticipants={meeting.maxParticipants}
-                nickName={meeting.createdBy.nickName}
-                participantCount={meeting.participantCount}
-                profileImage={meeting.createdBy.profileImage}
-                tags={meeting.tags}
-                title={meeting.title}
-                onClick={() => router.push(`/group/${meeting.id}`)}
-              />
-            ))}
-          </div>
-        )}
-
-        {error && items.length > 0 && (
+        {hasError && hasItems && (
           <div className='py-4'>
-            <ErrorMessage
-              className='py-8'
-              message={error.message}
-              onRetry={() => window.location.reload()}
-            />
+            <ErrorMessage className='py-8' message={error.message} onRetry={() => refetch()} />
           </div>
         )}
 
-        {/* sentinel 요소 생성: hasNextPage가 true이고 에러가 없으면 렌더 */}
-        {hasNextPage && !error && items.length > 0 && <div ref={sentinelRef} className='h-1' />}
-
-        {/* hasNextPage가 false이면 모든 데이터를 불러온 상태 */}
-        {!hasNextPage && items.length > 0 && !error && (
-          <div className='py-8 text-center text-gray-500'>{completedMessage}</div>
+        {hasItems && (
+          <GroupListInfiniteScroll
+            completedMessage={completedMessage}
+            hasError={hasError}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            sentinelRef={sentinelRef}
+          />
         )}
       </div>
     </section>
