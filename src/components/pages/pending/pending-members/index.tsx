@@ -15,7 +15,7 @@ import { GetJoinRequestsResponse } from '@/types/service/group';
 
 import { PENDING_MEMBERS_MIN_HEIGHT } from './constants';
 import { PendingMemberCard } from './pending-member-card';
-import { PendingMembersLoading } from './pending-members-loading';
+import { PendingMembersSkeleton } from './pending-members-loading';
 
 interface Props {
   groupId: string;
@@ -82,7 +82,7 @@ export const GroupPendingMembers = ({ groupId }: Props) => {
   );
 
   if (isLoading && !data && !error) {
-    return <PendingMembersLoading />;
+    return <PendingMembersSkeleton />;
   }
 
   if (isForbidden) {

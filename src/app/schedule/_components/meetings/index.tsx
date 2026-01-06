@@ -9,7 +9,7 @@ import { type TabType } from './constants';
 import { MeetingsContent } from './meetings-content';
 import { MeetingsEmpty } from './meetings-empty';
 import { MeetingsInfiniteScroll } from './meetings-infinite-scroll';
-import { MeetingsLoading } from './meetings-loading';
+import { MeetingsSkeleton } from './meetings-loading';
 
 type MeetingsProps = {
   meetings: GroupListItemResponse[];
@@ -57,7 +57,7 @@ export const Meetings = ({
   };
 
   if (isLoading) {
-    return <MeetingsLoading />;
+    return <MeetingsSkeleton />;
   }
 
   return (

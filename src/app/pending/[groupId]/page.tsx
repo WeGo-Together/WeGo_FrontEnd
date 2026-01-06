@@ -8,7 +8,7 @@ import {
   GroupPendingMembers,
   GroupPendingSummary,
 } from '@/components/pages/pending';
-import { PendingMembersLoading } from '@/components/pages/pending/pending-members/pending-members-loading';
+import { PendingMembersSkeleton } from '@/components/pages/pending/pending-members/pending-members-loading';
 import { GetJoinRequestsResponse, GroupUserV2Status } from '@/types/service/group';
 
 interface Props {
@@ -35,7 +35,7 @@ export default async function PendingMembersPage({ params }: Props) {
     <>
       <GroupPendingHeader />
       <GroupPendingSummary groupId={groupId} initialData={joinRequestsData} />
-      <Suspense fallback={<PendingMembersLoading />}>
+      <Suspense fallback={<PendingMembersSkeleton />}>
         <GroupPendingMembers groupId={groupId} />
       </Suspense>
     </>

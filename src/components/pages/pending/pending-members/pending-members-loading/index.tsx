@@ -2,7 +2,7 @@ import { PENDING_MEMBERS_MIN_HEIGHT } from '../constants';
 
 const SKELETON_ITEMS_COUNT = 3;
 
-export const PendingMembersLoading = () => {
+export const PendingMembersSkeleton = () => {
   const skeletons = Array.from({ length: SKELETON_ITEMS_COUNT });
 
   return (
