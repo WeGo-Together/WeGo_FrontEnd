@@ -3,29 +3,38 @@
 import { API } from '@/api';
 import { useInfiniteScroll } from '@/hooks/use-group/use-group-infinite-list';
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
-import { INTERSECTION_OBSERVER_THRESHOLD } from '@/lib/constants/group-list';
+import { GROUP_LIST_PAGE_SIZE, INTERSECTION_OBSERVER_THRESHOLD } from '@/lib/constants/group-list';
 import { groupKeys } from '@/lib/query-key/query-key-group';
 import { GroupListItemResponse } from '@/types/service/group';
 
-import { Meetings } from './meetings';
+import { Meetings } from '../meetings/index';
 
-export default function History() {
+export default function My() {
+  const queryKey = groupKeys.myGroupsList('myPost') as ['myGroups', 'myPost'];
+
   const {
     items,
     error,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isFetching,
+    isLoading,
     completedMessage,
-  } = useInfiniteScroll<GroupListItemResponse>({
+    refetch,
+  } = useInfiniteScroll<GroupListItemResponse, typeof queryKey>({
     queryFn: async ({ cursor, size }) => {
-      return await API.groupService.getMyGroups({ type: 'past', cursor, size });
+      return await API.groupService.getMyGroups({
+        type: 'myPost',
+        cursor,
+        size,
+        filter: 'ACTIVE',
+        excludeStatuses: ['CLOSED'],
+      });
     },
-    queryKey: groupKeys.myGroupsList('past') as ['myGroups', 'past'],
-    pageSize: 10,
-    errorMessage: '모임 이력을 불러오는데 실패했습니다.',
-    completedMessage: '모든 모임 이력을 불러왔습니다.',
+    queryKey,
+    pageSize: GROUP_LIST_PAGE_SIZE,
+    errorMessage: '나의 모임 목록을 불러오는데 실패했습니다.',
+    completedMessage: '모든 나의 모임을 불러왔습니다.',
   });
 
   const sentinelRef = useIntersectionObserver({
@@ -40,16 +49,18 @@ export default function History() {
 
   return (
     <Meetings
+      refetch={refetch}
       completedMessage={completedMessage}
-      emptyStatePath='/'
-      emptyStateType='past'
+      emptyStatePath='/create-group'
+      emptyStateType='myPost'
       error={error}
       hasNextPage={hasNextPage}
-      isLoading={isFetching && items.length === 0}
+      isFetchingNextPage={isFetchingNextPage}
+      isLoading={isLoading}
       meetings={items}
       sentinelRef={sentinelRef}
-      showActions={false}
-      tabType='past'
+      showActions={true}
+      tabType='myPost'
     />
   );
 }
