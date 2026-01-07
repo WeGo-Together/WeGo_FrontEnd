@@ -1,5 +1,5 @@
 // 기본 팔로우 타입
-export interface Follower {
+export interface FollowItem {
   followId: number;
   userId: number;
   nickname: string;
@@ -8,13 +8,13 @@ export interface Follower {
 }
 
 // 팔로우 목록 조회 응답
-export interface GetFollowerResponse {
-  items: Follower[];
+export interface GetFollowResponse {
+  items: FollowItem[];
   nextCursor: number | null;
 }
 
 // 팔로우 목록 조회 Parameters
-export interface GetFollowerParams {
+export interface GetFollowParams {
   userId: number;
   cursor?: number | null;
   size?: number;
@@ -24,3 +24,6 @@ export interface GetFollowerParams {
 export interface AddFollowParams {
   followNickname: string;
 }
+
+// 팔로우 유형
+export type FollowType = 'followers' | 'followees';

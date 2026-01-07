@@ -1,11 +1,11 @@
 'use client';
 
-import { Follower } from '@/types/service/follow';
+import { FollowItem } from '@/types/service/follow';
 
 import { FollowingCard } from '../message-following-card';
 
 interface FollowingListProps {
-  items: Follower[];
+  items: FollowItem[];
 }
 
 export const FollowingList = ({ items }: FollowingListProps) => {

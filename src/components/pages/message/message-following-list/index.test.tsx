@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import { GetFollowerResponse } from '@/types/service/follow';
+import { GetFollowResponse } from '@/types/service/follow';
 
 import { FollowingList } from '.';
 
@@ -8,7 +8,7 @@ jest.mock('../message-following-card', () => ({
   FollowingCard: ({ nickname }: { nickname: string }) => <div>{nickname}</div>,
 }));
 
-const TEST_ITEMS: GetFollowerResponse = {
+const TEST_ITEMS: GetFollowResponse = {
   items: [
     {
       followId: 0,

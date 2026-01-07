@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, render, screen } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 
+import { ModalProvider } from '@/components/ui';
 import { formatISO } from '@/lib/formatDateTime';
 import { server } from '@/mock/server';
 import { createMockSuccessResponse } from '@/mock/service/common/common-mock';
@@ -35,7 +36,9 @@ const renderWithQueryClient = async (component: React.ReactElement) => {
   await act(async () => {
     renderResult = render(
       <QueryClientProvider client={testQueryClient}>
-        <AuthProvider hasRefreshToken={false}>{component}</AuthProvider>
+        <AuthProvider hasRefreshToken={false}>
+          <ModalProvider>{component}</ModalProvider>
+        </AuthProvider>
       </QueryClientProvider>,
     );
   });
