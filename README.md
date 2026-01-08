@@ -133,6 +133,9 @@
 
 ---
 
+<h2>♻️ Workflow</h2>
+<img width="1901" height="996" alt="image" src="https://github.com/user-attachments/assets/ef3e138e-98d5-44df-9e8d-81878518e54c" />
+
 <details>
   <summary><h2>🚀 프로젝트 설치 가이드</h2></summary>
 
