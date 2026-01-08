@@ -1,14 +1,116 @@
 <div align="center">
   
-# 🔥 WeGo 🔥
+# 🖥️ WeGo FrontEnd
 
 </div>
 
-<table align='center'>
+<h2>🛠️ Tech Stacks</h2>
+
+<table>
+  <tr>
+    <th width="200px">분류</th>
+    <th width="550px">기술 스택</th>
+  </tr>
+  <tr>
+    <td align="center"><strong>Core</strong></td>
+    <td>
+      <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React">
+      <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white" alt="Next.js">
+      <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Styling</strong></td>
+    <td>
+      <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>State Management</strong></td>
+    <td>
+      <img src="https://img.shields.io/badge/Tanstack_Query-FF4154?style=flat-square&logo=reactquery&logoColor=white" alt="Tanstack Query">
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Development</strong></td>
+    <td>
+      <img src="https://img.shields.io/badge/Storybook-FF4785?style=flat-square&logo=storybook&logoColor=white" alt="Storybook">
+      <img src="https://img.shields.io/badge/Jest-C21325?style=flat-square&logo=jest&logoColor=white" alt="Jest">
+      <img src="https://img.shields.io/badge/Playwright-E5432D?style=flat-square&logo=playwright&logoColor=white" alt="Playwright">
+      <img src="https://img.shields.io/badge/MSW-FF6A33?style=flat-square&logo=mockserviceworker&logoColor=white" alt="MSW">
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Code Quality</strong></td>
+    <td>
+      <img src="https://img.shields.io/badge/ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white" alt="ESLint">
+      <img src="https://img.shields.io/badge/Prettier-F7B93E?style=flat-square&logo=prettier&logoColor=black" alt="Prettier">
+      <img src="https://img.shields.io/badge/Husky-00C7B7?style=flat-square&logo=husky&logoColor=white" alt="Husky">
+      <img src="https://img.shields.io/badge/Lint--Staged-000000?style=flat-square&logo=lint-staged&logoColor=white" alt="Lint-Staged">
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Deployment</strong></td>
+    <td>
+      <img src="https://img.shields.io/badge/AWS_EC2-FF9900?style=flat-square&logo=amazonec2&logoColor=white" alt="AWS EC2">
+      <img src="https://img.shields.io/badge/Nginx-009639?style=flat-square&logo=nginx&logoColor=white" alt="Nginx">
+      <img src="https://img.shields.io/badge/Ubuntu-E95420?style=flat-square&logo=ubuntu&logoColor=white" alt="Ubuntu">
+      <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white" alt="GitHub Actions">
+    </td>
+  </tr>
+</table>
+
+<br></br>
+
+<h2>👥 Members</h2>
+
+<table>
+  <tr>
+    <td align="center" width="150px">
+      <a href="https://github.com/Chiman2937">
+        <img src="https://github.com/Chiman2937.png" width="150" height="150" alt="Chiman2937"/>
+      </a>
+    </td>
+    <td align="center" width="150px">
+      <a href="https://github.com/claudia99503">
+        <img src="https://github.com/claudia99503.png" width="150" height="150" alt="claudia99503"/>
+      </a>
+    </td>
+    <td align="center" width="150px">
+      <a href="https://github.com/HopeFullee">
+        <img src="https://github.com/HopeFullee.png" width="150" height="150" alt="HopeFullee"/>
+      </a>
+    </td>
+    <td align="center" width="150px">
+      <a href="https://github.com/yoorli">
+        <img src="https://github.com/yoorli.png" width="150" height="150" alt="yoorli"/>
+      </a>
+    </td>
+    <td align="center" width="150px">
+      <a href="https://github.com/wooktori">
+        <img src="https://github.com/wooktori.png" width="150" height="150" alt="wooktori"/>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">김치영(FE/Lead)</td>
+    <td align="center">김민서(FE)</td>
+    <td align="center">이소망(FE)</td>
+    <td align="center">이율리(FE)</td>
+    <td align="center">유환욱(FE)</td>
+  </tr>
+</table>
+
+
+<br></br>
+
+<h2>📖 Documentation & Links</h2>
+
+<table>
   <thead>
     <tr>
-      <th width="400px">관리 문서</th>
-      <th width="400px">관련 링크</th>
+      <th width="375px">관리 문서</th>
+      <th width="375px">관련 링크</th>
     </tr>
   </thead>
   <tbody>
