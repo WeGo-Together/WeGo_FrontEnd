@@ -133,8 +133,8 @@
 
 ---
 
-<h2>♻️ Workflow</h2>
-<img width="1901" height="996" alt="image" src="https://github.com/user-attachments/assets/ef3e138e-98d5-44df-9e8d-81878518e54c" />
+<h2>🔄 Development Workflow</h2>
+<img width="1893" height="993" alt="image" src="https://github.com/user-attachments/assets/a7fda7a1-eed8-40d0-8d02-6ac90cb46c2b" />
 
 <details>
   <summary><h2>🚀 프로젝트 설치 가이드</h2></summary>
