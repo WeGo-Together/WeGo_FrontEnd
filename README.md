@@ -144,24 +144,46 @@
 <table>
   <thead>
     <tr>
-      <th width="375px">관리 문서</th>
-      <th width="375px">관련 링크</th>
+      <th width="125px">
+        <a href='https://wego.monster'>
+          <img width="512" height="512" alt="Favicon (3)" src="https://github.com/user-attachments/assets/cc5ef722-49c7-46f4-a7ab-d74d1f53bb0b" />
+        </a>
+      </th>
+      <th width="125px">
+        <a href='https://github.com/orgs/WeGo-Together/projects/1'>
+          <img width="256" height="256" alt="github-142-svgrepo-com (1)" src="https://github.com/user-attachments/assets/41fbfcc4-d075-42d1-a442-7ee9bc37cdfd" />
+        </a>
+      </th>
+      <th width="125px">
+        <a href='https://www.figma.com/design/mnEc0l7EpYrnA5kwi8h17z/WeGo---Prototype?node-id=290-741&p=f&t=T50GX1Aa1R78OX8J-0'>
+          <img width="256" height="256" alt="figma-svgrepo-com" src="https://github.com/user-attachments/assets/38b26fea-14ba-49ef-ac6c-3613df3a89da" />
+        </a>
+      </th>
+      <th width="125px">
+        <a href='https://main--6921b0f53b7a664723f48704.chromatic.com/'>
+          <img width="256" height="256" alt="storybook-icon-svgrepo-com (1)" src="https://github.com/user-attachments/assets/79bb05a5-f910-4336-8420-4279e44bcb2e" />
+        </a>
+      </th>
+      <th width="125px">
+        <a href='https://wego-together.github.io/front/coverage/lcov-report/'>
+          <img width="256" height="256" alt="jest-snapshot-svgrepo-com" src="https://github.com/user-attachments/assets/4518490a-a198-4042-a543-ff01bbe245dd" />
+        </a>
+      </th>
+      <th width="125px">
+        <a href='https://wego-together.github.io/front/playwright-report/'>
+          <img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/6d2dbf26-bae9-4eda-995e-7e2bf87d5044" />
+        </a>
+      </th>
+    </tr>
+    <tr>
+      <th><a href='https://wego.monster'>WeGo Website</a></th>
+      <th><a href='https://github.com/orgs/WeGo-Together/projects/1'>Project Board</a></th>
+      <th><a href='https://www.figma.com/design/mnEc0l7EpYrnA5kwi8h17z/WeGo---Prototype?node-id=290-741&p=f&t=T50GX1Aa1R78OX8J-0'>Figma Design</a></th>
+      <th><a href='https://main--6921b0f53b7a664723f48704.chromatic.com/'>Storybook</a></th>
+      <th><a href='https://wego-together.github.io/front/coverage/lcov-report/'>Test Coverage</a></th>
+      <th><a href='https://wego-together.github.io/front/playwright-report/'>E2E Test Report</a></th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
-      <td>
-        <h3><a href='https://www.notion.so/2-2af53353e9c18079b7cac176ac018106?source=copy_link'>📜 프로젝트 수행 계획서</a></h3>
-        <h3><a href='https://www.figma.com/design/mnEc0l7EpYrnA5kwi8h17z/WeGo---Prototype?node-id=290-741&p=f&t=T50GX1Aa1R78OX8J-0'>🎨 디자인 시안</a></h3>
-        <h3><a href='https://github.com/WeGo-Together/WeGo_BackEnd/wiki'>🗃️ API 명세서</a></h3>
-      </td>
-      <td>
-        <h3><a href='https://wego.monster/'>🚀 배포 사이트</a></h3>
-        <h3><a href='https://main--6921b0f53b7a664723f48704.chromatic.com/'>📚 스토리북</a></h3>
-        <h3><a href='https://wego-together.github.io/front/coverage/lcov-report/'>🔍 테스트 커버리지</a></h3>
-      </td>
-    </tr>
-  </tbody>
 </table>
 
 <br/>
