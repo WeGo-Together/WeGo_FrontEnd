@@ -67,37 +67,72 @@
 <table>
   <tr>
     <td align="center" width="150px">
+      Member
+    </td>
+    <td align="center" width="600px">
+      Role
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="150px">
       <a href="https://github.com/Chiman2937">
         <img src="https://github.com/Chiman2937.png" width="150" height="150" alt="Chiman2937"/>
       </a>
+      김치영(Lead)
     </td>
+    <td>
+      <h3>🔧 인프라 & 개발 환경</h3>
+      <ul>
+        <li>프로젝트 초기 세팅 및 저장소 구성</li>
+        <li>AWS EC2 배포 환경 구축 및 CI/CD 파이프라인 구축</li>
+        <li>Nginx, Let's Encrypt 기반 HTTPS 환경 구성</li>
+        <li>테스트 환경 구성 (Storybook, Jest, Playwright)</li>
+        <li>MSW 기반 API 모킹 환경 구축</li>
+      </ul>
+      <h3>🎯 코드 품질 관리</h3>
+      <ul>
+        <li>ESLint, Prettier 규칙 설정 및 자동화</li>
+        <li>Husky를 통한 Git Hook 설정</li>
+        <li>코드 리뷰 및 팀 컨벤션 확립</li>
+      </ul>
+      <h3>💻 기능 개발</h3>
+      <ul>
+        <li>프로필 페이지 / 마이페이지 UI/UX 구현</li>
+        <li>SSE 기반 실시간 알림 시스템 적용</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
     <td align="center" width="150px">
       <a href="https://github.com/claudia99503">
         <img src="https://github.com/claudia99503.png" width="150" height="150" alt="claudia99503"/>
       </a>
+      김민서
     </td>
+  </tr>
+  <tr>
     <td align="center" width="150px">
       <a href="https://github.com/HopeFullee">
         <img src="https://github.com/HopeFullee.png" width="150" height="150" alt="HopeFullee"/>
       </a>
+      이소망
     </td>
+  </tr>
+  <tr>
     <td align="center" width="150px">
       <a href="https://github.com/yoorli">
         <img src="https://github.com/yoorli.png" width="150" height="150" alt="yoorli"/>
       </a>
+      이율리
     </td>
+  </tr>
+  <tr>
     <td align="center" width="150px">
       <a href="https://github.com/wooktori">
         <img src="https://github.com/wooktori.png" width="150" height="150" alt="wooktori"/>
       </a>
+      유환욱
     </td>
-  </tr>
-  <tr>
-    <td align="center">김치영(FE/Lead)</td>
-    <td align="center">김민서(FE)</td>
-    <td align="center">이소망(FE)</td>
-    <td align="center">이율리(FE)</td>
-    <td align="center">유환욱(FE)</td>
   </tr>
 </table>
 
