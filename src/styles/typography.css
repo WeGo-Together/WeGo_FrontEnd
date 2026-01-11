@@ -19,6 +19,10 @@
   @apply text-display-lg font-bold;
 }
 
+@utility text-display-lg-skeleton {
+  @apply my-[6px] h-[48px] rounded-md;
+}
+
 /* display-md */
 @utility text-display-md {
   @apply text-[36px] leading-[44px] tracking-[-0.02em];
@@ -38,6 +42,10 @@
 
 @utility text-display-md-bold {
   @apply text-display-md font-bold;
+}
+
+@utility text-display-md-skeleton {
+  @apply my-[4px] h-[36px] rounded-md;
 }
 
 /* display-sm */
@@ -61,9 +69,13 @@
   @apply text-display-sm font-bold;
 }
 
+@utility text-display-sm-skeleton {
+  @apply my-[4px] h-[30px] rounded-md;
+}
+
 /* display-xs */
 @utility text-display-xs {
-  @apply text-[30px] leading-[38px];
+  @apply text-[24px] leading-[32px];
 }
 
 @utility text-display-xs-regular {
@@ -80,6 +92,10 @@
 
 @utility text-display-xs-bold {
   @apply text-display-xs font-bold;
+}
+
+@utility text-display-xs-skeleton {
+  @apply my-[4px] h-[24px] rounded-md;
 }
 
 /* text-xl */
@@ -103,6 +119,10 @@
   @apply text-text-xl font-bold;
 }
 
+@utility text-text-xl-skeleton {
+  @apply my-[5px] h-[20px] rounded-md;
+}
+
 /* text-lg */
 @utility text-text-lg {
   @apply text-[18px] leading-[28px];
@@ -122,6 +142,10 @@
 
 @utility text-text-lg-bold {
   @apply text-text-lg font-bold;
+}
+
+@utility text-text-lg-skeleton {
+  @apply my-[5px] h-[18px] rounded-md;
 }
 
 /* text-md */
@@ -145,6 +169,10 @@
   @apply text-text-md font-bold;
 }
 
+@utility text-text-md-skeleton {
+  @apply my-[4px] h-[16px] rounded-sm;
+}
+
 /* text-sm */
 @utility text-text-sm {
   @apply text-[14px] leading-[20px];
@@ -164,6 +192,10 @@
 
 @utility text-text-sm-bold {
   @apply text-text-sm font-bold;
+}
+
+@utility text-text-sm-skeleton {
+  @apply my-[3px] h-[14px] rounded-sm;
 }
 
 /* text-xs */
@@ -187,6 +219,10 @@
   @apply text-text-xs font-bold;
 }
 
+@utility text-text-xs-skeleton {
+  @apply my-[3px] h-[12px] rounded-sm;
+}
+
 /* text-2xs */
 @utility text-text-2xs {
   @apply text-[10px] leading-[14px];
@@ -206,4 +242,8 @@
 
 @utility text-text-2xs-bold {
   @apply text-text-2xs font-bold;
+}
+
+@utility text-text-2xs-skeleton {
+  @apply my-[2px] h-[10px] rounded-sm;
 }
