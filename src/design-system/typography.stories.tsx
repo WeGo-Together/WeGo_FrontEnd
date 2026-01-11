@@ -5,7 +5,8 @@ const Typography = () => {
   const displays = [
     {
       name: 'Display LG',
-      styleInfo: 'Font size: 48px | Line height: 60px | Letter spacing: -2%',
+      baseStyleInfo: 'Font size: 48px | Line height: 60px | Letter spacing: -2%',
+      skeletonStyleInfo: 'Height: 48px | margin: 6px 0 | border-radius: 6px',
       base: 'text-display-lg',
       sizes: [
         'text-display-lg-regular',
@@ -13,10 +14,12 @@ const Typography = () => {
         'text-display-lg-semibold',
         'text-display-lg-bold',
       ],
+      skeleton: 'text-display-lg-skeleton',
     },
     {
       name: 'Display MD',
-      styleInfo: 'Font size: 36px | Line height: 44px | Letter spacing: -2%',
+      baseStyleInfo: 'Font size: 36px | Line height: 44px | Letter spacing: -2%',
+      skeletonStyleInfo: 'Height: 36px | margin: 4px 0 | border-radius: 6px',
       base: 'text-display-md',
       sizes: [
         'text-display-md-regular',
@@ -24,10 +27,12 @@ const Typography = () => {
         'text-display-md-semibold',
         'text-display-md-bold',
       ],
+      skeleton: 'text-display-md-skeleton',
     },
     {
       name: 'Display SM',
-      styleInfo: 'Font size: 30px | Line height: 38px',
+      baseStyleInfo: 'Font size: 30px | Line height: 38px',
+      skeletonStyleInfo: 'Height: 30px | margin: 4px 0 | border-radius: 6px',
       base: 'text-display-sm',
       sizes: [
         'text-display-sm-regular',
@@ -35,17 +40,20 @@ const Typography = () => {
         'text-display-sm-semibold',
         'text-display-sm-bold',
       ],
+      skeleton: 'text-display-sm-skeleton',
     },
     {
       name: 'Display XS',
       base: 'text-display-xs',
-      styleInfo: 'Font size: 24px | Line height: 32px',
+      baseStyleInfo: 'Font size: 24px | Line height: 32px',
+      skeletonStyleInfo: 'Height: 24px | margin: 4px 0 | border-radius: 6px',
       sizes: [
         'text-display-xs-regular',
         'text-display-xs-medium',
         'text-display-xs-semibold',
         'text-display-xs-bold',
       ],
+      skeleton: 'text-display-xs-skeleton',
     },
   ];
 
@@ -53,68 +61,80 @@ const Typography = () => {
     {
       name: 'Text XL',
       base: 'text-text-xl',
-      styleInfo: 'Font size: 20px | Line height: 30px',
+      baseStyleInfo: 'Font size: 20px | Line height: 30px',
+      skeletonStyleInfo: 'Height: 20px | margin: 5px 0 | border-radius: 6px',
       sizes: [
         'text-text-xl-regular',
         'text-text-xl-medium',
         'text-text-xl-semibold',
         'text-text-xl-bold',
       ],
+      skeleton: 'text-text-xl-skeleton',
     },
     {
       name: 'Text LG',
       base: 'text-text-lg',
-      styleInfo: 'Font size: 18px | Line height: 28px',
+      baseStyleInfo: 'Font size: 18px | Line height: 28px',
+      skeletonStyleInfo: 'Height: 18px | margin: 5px 0 | border-radius: 6px',
       sizes: [
         'text-text-lg-regular',
         'text-text-lg-medium',
         'text-text-lg-semibold',
         'text-text-lg-bold',
       ],
+      skeleton: 'text-text-lg-skeleton',
     },
     {
       name: 'Text MD',
       base: 'text-text-md',
-      styleInfo: 'Font size: 16px | Line height: 24px',
+      baseStyleInfo: 'Font size: 16px | Line height: 24px',
+      skeletonStyleInfo: 'Height: 16px | margin: 4px 0 | border-radius: 4px',
       sizes: [
         'text-text-md-regular',
         'text-text-md-medium',
         'text-text-md-semibold',
         'text-text-md-bold',
       ],
+      skeleton: 'text-text-md-skeleton',
     },
     {
       name: 'Text SM',
       base: 'text-text-sm',
-      styleInfo: 'Font size: 14px | Line height: 20px',
+      baseStyleInfo: 'Font size: 14px | Line height: 20px',
+      skeletonStyleInfo: 'Height: 14px | margin: 3px 0 | border-radius: 4px',
       sizes: [
         'text-text-sm-regular',
         'text-text-sm-medium',
         'text-text-sm-semibold',
         'text-text-sm-bold',
       ],
+      skeleton: 'text-text-sm-skeleton',
     },
     {
       name: 'Text XS',
       base: 'text-text-xs',
-      styleInfo: 'Font size: 12px | Line height: 18px',
+      baseStyleInfo: 'Font size: 12px | Line height: 18px',
+      skeletonStyleInfo: 'Height: 12px | margin: 3px 0 | border-radius: 4px',
       sizes: [
         'text-text-xs-regular',
         'text-text-xs-medium',
         'text-text-xs-semibold',
         'text-text-xs-bold',
       ],
+      skeleton: 'text-text-xs-skeleton',
     },
     {
       name: 'Text 2XS',
       base: 'text-text-2xs',
-      styleInfo: 'Font size: 10px | Line height: 14px',
+      baseStyleInfo: 'Font size: 10px | Line height: 14px',
+      skeletonStyleInfo: 'Height: 10px | margin: 2px 0 | border-radius: 4px',
       sizes: [
         'text-text-2xs-regular',
         'text-text-2xs-medium',
         'text-text-2xs-semibold',
         'text-text-2xs-bold',
       ],
+      skeleton: 'text-text-2xs-skeleton',
     },
   ];
 
@@ -131,7 +151,7 @@ const Typography = () => {
             <div key={display.base} className='space-y-4'>
               <div className='flex flex-row gap-4'>
                 <h3 className='w-50 text-lg font-semibold text-gray-600'>{display.name}</h3>
-                <span className='text-gray-500'>{display.styleInfo}</span>
+                <span className='text-gray-500'>{display.baseStyleInfo}</span>
               </div>
               <div className='space-y-2'>
                 {display.sizes.map((size) => {
@@ -158,7 +178,7 @@ const Typography = () => {
             <div key={text.base} className='space-y-4'>
               <div className='flex flex-row gap-4'>
                 <h3 className='w-50 text-lg font-semibold text-gray-600'>{text.name}</h3>
-                <span className='text-gray-500'>{text.styleInfo}</span>
+                <span className='text-gray-500'>{text.baseStyleInfo}</span>
               </div>
               <div className='space-y-2'>
                 {text.sizes.map((size) => {
@@ -171,6 +191,44 @@ const Typography = () => {
                     </div>
                   );
                 })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+      {/* Skeleton Styles */}
+      <section>
+        <h2 className='mb-6 border-b pb-2 text-2xl font-bold'>Skeleton Styles</h2>
+
+        {/* Display Skeletons */}
+        <div className='mb-8 space-y-8'>
+          <h3 className='text-xl font-semibold text-gray-700'>Display Skeletons</h3>
+          {displays.map((display) => (
+            <div key={display.skeleton} className='space-y-4'>
+              <div className='flex flex-row gap-4'>
+                <h4 className='w-50 text-lg font-semibold text-gray-600'>{display.name}</h4>
+                <span className='text-gray-500'>{display.skeletonStyleInfo}</span>
+              </div>
+              <div className='flex items-center gap-4'>
+                <span className='w-50 text-sm text-gray-500'>{display.skeleton}</span>
+                <div className={`${display.skeleton} w-64 animate-pulse bg-gray-200`} />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Text Skeletons */}
+        <div className='space-y-8'>
+          <h3 className='text-xl font-semibold text-gray-700'>Text Skeletons</h3>
+          {texts.map((text) => (
+            <div key={text.skeleton} className='space-y-4'>
+              <div className='flex flex-row gap-4'>
+                <h4 className='w-50 text-lg font-semibold text-gray-600'>{text.name}</h4>
+                <span className='text-gray-500'>{text.skeletonStyleInfo}</span>
+              </div>
+              <div className='flex items-center gap-4'>
+                <span className='w-50 text-sm text-gray-500'>{text.skeleton}</span>
+                <div className={`${text.skeleton} w-64 animate-pulse bg-gray-200`} />
               </div>
             </div>
           ))}

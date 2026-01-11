@@ -27,3 +27,9 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+/* Storybook 환경에서만 배경색 오버라이드 */
+body:has(#storybook-root) {
+  background: white;
+  color: black;
+}
