@@ -3,7 +3,6 @@ import { ProfileImage } from '@/components/shared/profile-image';
 type CardProfileProps = {
   nickName: string;
   profileImage: string | null;
-  size?: number;
 };
 
 export const CardProfile = ({ nickName, profileImage }: CardProfileProps) => {
