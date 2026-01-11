@@ -1,7 +1,8 @@
 import { AnyFieldApi } from '@tanstack/react-form';
 
 import { Icon } from '@/components/icon';
-import { ImageInput, ImageInputProps, ImageWithFallback } from '@/components/ui';
+import { ProfileImage } from '@/components/shared';
+import { ImageInput, ImageInputProps } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
 type ImageUploadPropsWithoutChildren = Omit<ImageInputProps, 'children'>;
@@ -26,10 +27,9 @@ export const ImageField = ({ field, initialImages }: Props) => {
             <>
               {Object.entries(nextImages).map(([url, _file]) => (
                 <div key={url} className='relative aspect-square size-24'>
-                  <ImageWithFallback
-                    className='rounded-full border-1 border-[rgba(0,0,0,0.04)]'
-                    alt='프로필 이미지'
-                    fill
+                  <ProfileImage
+                    className='border-1 border-[rgba(0,0,0,0.04)]'
+                    size='xl'
                     src={url}
                   />
                   <button

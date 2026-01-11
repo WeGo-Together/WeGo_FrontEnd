@@ -1,6 +1,4 @@
-import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
-
-import { ImageWithFallback } from '@/components/ui';
+import { ProfileImage } from '@/components/shared';
 import { User } from '@/types/service/user';
 
 interface Props {
@@ -11,15 +9,8 @@ export const ProfileCard = ({ user }: Props) => {
   const { profileImage, nickName, profileMessage } = user;
   return (
     <div className='flex-col-center mb-6'>
-      <div className='relative mb-3 size-24 overflow-hidden rounded-full'>
-        <ImageWithFallback
-          className='object-cover'
-          alt='프로필 이미지'
-          fallbackSrc={DEFAULT_PROFILE_IMAGE}
-          fill
-          loading='eager'
-          src={profileImage || ''}
-        />
+      <div className='mb-3'>
+        <ProfileImage size='xl' src={profileImage} />
       </div>
       <h1 className='text-text-xl-bold text-gray-900'>{nickName}</h1>
       <p className='text-text-sm-medium text-gray-600'>{profileMessage}</p>

@@ -18,7 +18,7 @@ export const CardThumbnail = ({ title, thumbnail, isPending, isFinished }: CardT
         alt={title}
         fallbackSrc={DEFAULT_GROUP_LIST_IMAGE}
         height={100}
-        src={thumbnail ?? ''}
+        src={thumbnail ?? null}
       />
       {isPending && (
         <div className='absolute top-1.5 left-1.5'>

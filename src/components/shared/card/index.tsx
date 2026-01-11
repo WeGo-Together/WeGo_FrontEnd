@@ -18,7 +18,7 @@ type CardProps = {
   nickName: string;
   participantCount: number;
   maxParticipants: number;
-  profileImage?: string | null;
+  profileImage: string | null;
   onClick?: () => void;
   leaveAndChatActions?: {
     onLeave: () => void;

@@ -3,9 +3,7 @@ import { useRouter } from 'next/navigation';
 
 import { useMemo } from 'react';
 
-import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
-
-import { ImageWithFallback } from '@/components/ui';
+import { ProfileImage } from '@/components/shared';
 import { useChatListSocket, useGetChatList } from '@/hooks/use-chat';
 import { cn } from '@/lib/utils';
 
@@ -49,15 +47,7 @@ export const ChatList = ({ userId, accessToken }: IProps) => {
               onClick={() => handleClick(chat.chatRoomId)}
             >
               {/* 프로필 이미지 - 이미지 수정 필요💥💥*/}
-              <div className='relative size-12 overflow-hidden rounded-full'>
-                <ImageWithFallback
-                  className='object-cover'
-                  alt='프로필 이미지'
-                  fill
-                  loading='eager'
-                  src={chat.thumbnail || DEFAULT_PROFILE_IMAGE}
-                />
-              </div>
+              <ProfileImage size='md' src={chat.thumbnail} />
 
               {/* 텍스트 영역 */}
               <div className='flex flex-1 flex-col'>

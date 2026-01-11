@@ -27,7 +27,6 @@ interface KickProps {
     targetUserId: string;
     targetUserName: string;
   };
-  groupId?: string;
 }
 
 type Props = BaseProps | KickProps;
@@ -36,9 +35,10 @@ export const GroupModal = (props: Props) => {
   const { type } = props;
 
   const params = useParams();
-  const groupId = props.groupId || (params as { groupId: string }).groupId;
-  const { replace } = useRouter();
+  const groupId = (type !== 'kick' && props.groupId) || (params as { groupId: string }).groupId;
   const pathname = usePathname();
+
+  const { replace } = useRouter();
   const { run } = useToast();
 
   const { mutateAsync: attendMutate, isPending: isAttending } = useAttendGroup({ groupId });
@@ -66,6 +66,7 @@ export const GroupModal = (props: Props) => {
     delete: async () => {
       await deleteMutate();
       await revalidateGroupAction(groupId);
+
       if (!pathname.startsWith('/schedule')) {
         replace('/');
       }
