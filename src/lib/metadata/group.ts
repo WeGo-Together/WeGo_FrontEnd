@@ -56,8 +56,7 @@ export const generateGroupMetadata = async (groupId: string): Promise<Metadata> 
         canonical: currentUrl,
       },
     };
-  } catch (error) {
-    console.error('Failed to fetch group data for metadata:', error);
+  } catch {
     return {
       title: `모임 상세 정보 | WeGo`,
       description: '사용자의 모임을 확인해보세요.',
