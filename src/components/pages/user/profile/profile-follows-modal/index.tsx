@@ -4,13 +4,8 @@ import { Suspense } from 'react';
 
 import { UseSuspenseInfiniteQueryResult } from '@tanstack/react-query';
 
-import {
-  ImageWithFallback,
-  ModalContent,
-  ModalDescription,
-  ModalTitle,
-  useModal,
-} from '@/components/ui';
+import { ProfileImage } from '@/components/shared';
+import { ModalContent, ModalDescription, ModalTitle, useModal } from '@/components/ui';
 import { useGetFolloweesInfinite, useGetFollowersInfinite } from '@/hooks/use-follower';
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 import { CommonErrorResponse } from '@/types/service/common';
@@ -86,13 +81,7 @@ const FollowList = ({
           className='flow-row flex gap-4 py-2'
           onClick={close}
         >
-          <ImageWithFallback
-            width={48}
-            className='aspect-square rounded-full'
-            alt='프로필 이미지'
-            height={48}
-            src={item.profileImage}
-          />
+          <ProfileImage size='md' src={item.profileImage} />
           <div>
             <p className='text-text-md-bold text-gray-800'>{item.nickname}</p>
             <p className='text-text-sm-medium text-gray-600'>{item.profileMessage}</p>

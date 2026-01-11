@@ -1,4 +1,4 @@
-import { ImageWithFallback } from '@/components/ui';
+import { ProfileImage } from '@/components/shared';
 import { formatKoreanTime } from '@/lib/formatDateTime';
 import { ChatMessage } from '@/types/service/chat';
 
@@ -13,13 +13,7 @@ export const OtherChat = ({ item }: IProps) => {
   const time = timestamp ?? createdAt;
   return (
     <div className='flex'>
-      <ImageWithFallback
-        width={40}
-        className='mr-3 size-10 rounded-full object-cover'
-        alt='프로필 이미지'
-        height={40}
-        src={senderProfileImage || ''}
-      />
+      <ProfileImage className='mr-3' size='sm' src={senderProfileImage} />
 
       <div className='mr-1.5 max-w-60'>
         <span className='text-text-xs-medium text-gray-800'>{senderName}</span>

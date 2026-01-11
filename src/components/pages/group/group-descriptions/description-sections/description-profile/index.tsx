@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { ImageWithFallback } from '@/components/ui';
+import { ProfileImage } from '@/components/shared';
 import { PendingBadge } from '@/components/ui';
 import { GetGroupDetailsResponse } from '@/types/service/group';
 
@@ -24,14 +24,7 @@ export const DescriptionProfile = ({
   return (
     <div className='flex-between w-full select-none'>
       <Link href={`/profile/${userId}`} className='flex gap-3'>
-        <ImageWithFallback
-          width={40}
-          className='object-fit h-10 w-10 shrink-0 rounded-full'
-          alt='프로필 사진'
-          height={40}
-          src={profileImage ?? ''}
-        />
-
+        <ProfileImage size='sm' src={profileImage} />
         <div className='flex flex-col justify-center *:line-clamp-1'>
           <p className='text-text-md-semibold text-gray-800'>{nickName}</p>
           {profileMessage && <p className='text-text-xs-regular text-gray-600'>{profileMessage}</p>}

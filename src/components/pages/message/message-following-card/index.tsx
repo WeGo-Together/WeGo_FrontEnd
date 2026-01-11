@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 
 import { useState } from 'react';
 
-import { ImageWithFallback } from '@/components/ui';
+import { ProfileImage } from '@/components/shared';
 import { useCreateDMChat } from '@/hooks/use-chat/use-chat-dm';
 import { cn } from '@/lib/utils';
 
@@ -53,15 +53,8 @@ export const FollowingCard = ({
       className='flex cursor-pointer items-center gap-3 bg-white p-5 hover:bg-gray-50'
       onClick={handleClick}
     >
-      <div className='relative size-12 overflow-hidden rounded-full'>
-        <ImageWithFallback
-          className='object-cover'
-          alt='프로필 이미지'
-          fill
-          loading='eager'
-          src={profileImage}
-        />
-      </div>
+      <ProfileImage size='md' src={profileImage} />
+
       <div className='flex flex-1 flex-col'>
         <span className='text-text-md-bold text-gray-800'>{nickname}</span>
         <span

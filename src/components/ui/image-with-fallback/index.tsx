@@ -5,17 +5,11 @@ import Image, { ImageProps } from 'next/image';
 import { useEffect, useState } from 'react';
 
 interface ImageWithFallbackProps extends Omit<ImageProps, 'src' | 'onError'> {
-  src: string;
-  fallbackSrc?: string;
+  src: string | null;
+  fallbackSrc: string;
 }
 
-import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
-
-export const ImageWithFallback = ({
-  src,
-  fallbackSrc = DEFAULT_PROFILE_IMAGE,
-  ...rest
-}: ImageWithFallbackProps) => {
+export const ImageWithFallback = ({ src, fallbackSrc, ...rest }: ImageWithFallbackProps) => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -23,12 +17,14 @@ export const ImageWithFallback = ({
     setError(false);
   }, [src]);
 
-  const imgSrc = error || !src || src === 'null' ? fallbackSrc : src;
+  const imgSrc = error || !src || src === null ? fallbackSrc : src;
 
   return (
     <Image
       {...rest}
       draggable={false}
+      loading='eager'
+      quality={100}
       src={imgSrc}
       unoptimized
       onError={(e) => {

@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 
-import { Button, ImageWithFallback } from '@/components/ui';
+import { ProfileImage } from '@/components/shared';
+import { Button } from '@/components/ui';
 import { GetJoinRequestsResponse } from '@/types/service/group';
 
 type JoinRequestItem = GetJoinRequestsResponse['items'][number];
@@ -19,14 +20,7 @@ export const PendingMemberCard = ({ member, onReject, onApprove }: Props) => {
   return (
     <div className='bg-mono-white rounded-3xl px-5 py-[26px] shadow-sm'>
       <Link href={profileUrl} className='flex gap-3'>
-        <ImageWithFallback
-          width={40}
-          className='object-fit h-10 w-10 shrink-0 rounded-full'
-          alt={`${member.nickName} 프로필`}
-          draggable={false}
-          height={40}
-          src={member.profileImage ?? ''}
-        />
+        <ProfileImage size='sm' src={member.profileImage} />
 
         <div className='min-w-0 flex-1'>
           <h4 className='text-text-md-semibold h-6 text-gray-800'>{member.nickName}</h4>

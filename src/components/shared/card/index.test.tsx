@@ -38,7 +38,7 @@ describe('Card', () => {
     render(<Card {...defaultProps} />);
 
     // profileImage가 null이면 기본 프로필 이미지가 렌더링되어야 한다
-    const profileImg = screen.getByRole('img', { name: defaultProps.nickName });
+    const profileImg = screen.getByRole('img', { name: '프로필 이미지' });
     expect(profileImg).toBeInTheDocument();
   });
 
@@ -64,6 +64,6 @@ describe('Card', () => {
 
     // 썸네일 alt는 title, 프로필 alt는 nickName
     expect(screen.getByAltText(defaultProps.title)).toBeInTheDocument();
-    expect(screen.getByAltText(defaultProps.nickName)).toBeInTheDocument();
+    expect(screen.getByAltText('프로필 이미지')).toBeInTheDocument();
   });
 });

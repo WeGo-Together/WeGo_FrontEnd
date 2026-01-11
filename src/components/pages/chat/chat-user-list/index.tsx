@@ -1,12 +1,9 @@
 'use client';
 
-import Image from 'next/image';
-
 import { useState } from 'react';
 
-import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
-
 import { Icon } from '@/components/icon';
+import { ProfileImage } from '@/components/shared';
 import { useModal } from '@/components/ui';
 import { useGetParticipants } from '@/hooks/use-chat';
 
@@ -65,13 +62,7 @@ export const UserList = ({ onClose, roomId, roomType, userId }: UserListProps) =
           <div key={user.userId}>
             <div className='bg-mono-white flex h-22 items-center gap-4 p-5'>
               <div className='h-12 w-12 overflow-hidden rounded-full'>
-                <Image
-                  width={48}
-                  className='h-full w-full object-cover'
-                  alt='profile'
-                  height={48}
-                  src={user.profileImage || DEFAULT_PROFILE_IMAGE}
-                />
+                <ProfileImage size='md' src={user.profileImage} />
               </div>
 
               <div className='flex-1'>

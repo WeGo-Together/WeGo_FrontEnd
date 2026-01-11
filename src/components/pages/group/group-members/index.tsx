@@ -8,8 +8,8 @@ import clsx from 'clsx';
 
 import { Icon } from '@/components/icon';
 import { GroupModal } from '@/components/pages/group/group-modal';
-import { AnimateDynamicHeight } from '@/components/shared';
-import { Button, ImageWithFallback } from '@/components/ui';
+import { AnimateDynamicHeight, ProfileImage } from '@/components/shared';
+import { Button } from '@/components/ui';
 import { useModal } from '@/components/ui';
 import { GetGroupDetailsResponse, KickGroupMemberParams } from '@/types/service/group';
 
@@ -49,13 +49,7 @@ export const GroupMembers = ({ members, isHost }: Props) => {
               <div className='flex-col-center gap-1.5'>
                 <div className='relative'>
                   <Link href={`/profile/${userId}`}>
-                    <ImageWithFallback
-                      width={64}
-                      className='object-fit h-16 w-16 rounded-full'
-                      alt='프로필 사진'
-                      height={64}
-                      src={profileImage ?? ''}
-                    />
+                    <ProfileImage size='lg' src={profileImage} />
                   </Link>
                   {isHost && idx !== 0 && (
                     <button
