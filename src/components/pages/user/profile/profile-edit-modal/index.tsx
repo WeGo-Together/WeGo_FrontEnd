@@ -21,7 +21,7 @@ import {
 } from '@/lib/schema/mypage';
 import { UpdateMyInfoPayloads, User } from '@/types/service/user';
 
-import { ImageField, MBTIField, MessageField, NickNameField } from '../profile-edit-fields';
+import { ImageField, MBTIField, MessageField, NickNameField } from './profile-edit-fields';
 
 interface Props {
   user: User;

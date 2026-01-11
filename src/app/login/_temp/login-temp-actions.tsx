@@ -1,6 +1,6 @@
 'use client';
 
-import { MyPageActionButton } from '@/components/pages/user/mypage/mypage-setting-button';
+import { MyPageActionButton } from '@/components/pages/user/mypage/mypage-setting/mypage-setting-button';
 import { useLogout, useWithdraw } from '@/hooks/use-auth';
 
 const LoginTempActions = () => {

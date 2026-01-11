@@ -26,8 +26,16 @@
   @apply flex flex-col items-center justify-between;
 }
 
-@utility shadow-card {
-  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.08);
+@utility shadow-md {
+  box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.06);
+}
+
+@utility shadow-sm {
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.02);
+}
+
+@utility shadow-xs {
+  box-shadow: 0 -4px 6px 0 rgba(0, 0, 0, 0.02);
 }
 
 @utility scroll-stable {

@@ -63,7 +63,7 @@ export const ProfileFollowsBadge = ({ user }: Props) => {
   }, [queryClient, user.userId]);
 
   return (
-    <div className='flex-center bg-mono-white shadow-card mb-4 rounded-3xl py-4'>
+    <div className='flex-center bg-mono-white mb-4 rounded-3xl py-4 shadow-sm'>
       {listMap.map((item, index) => (
         <Fragment key={item.label}>
           <button

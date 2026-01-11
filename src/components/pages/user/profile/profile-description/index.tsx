@@ -1,9 +1,6 @@
+import { Icon, IconId } from '@/components/icon';
+import { cn } from '@/lib/utils';
 import { User } from '@/types/service/user';
-
-import {
-  ProfileDescriptionBadge,
-  ProfileDescriptionBadgeProps,
-} from '../profile-description-badge';
 
 const formatISO = (dateString: string) => {
   const date = new Date(dateString);
@@ -18,7 +15,11 @@ interface Props {
 }
 
 export const ProfileDescription = ({ user }: Props) => {
-  const listMap: ProfileDescriptionBadgeProps[] = [
+  const listMap: {
+    label: string;
+    iconId: IconId;
+    value: string;
+  }[] = [
     {
       label: 'MBTI',
       iconId: 'symbol',
@@ -41,10 +42,27 @@ export const ProfileDescription = ({ user }: Props) => {
     },
   ];
 
+  const PLACEHOLDER = '-';
+
   return (
-    <div className='bg-mono-white shadow-card mt-6 flex flex-col gap-5 rounded-3xl px-6 py-6.25'>
+    <div className='bg-mono-white mt-6 flex flex-col gap-5 rounded-3xl px-6 py-6.25 shadow-md'>
       {listMap.map((item) => (
-        <ProfileDescriptionBadge key={item.label} badgeItems={item} />
+        <div key={item.label} className='flex flex-row items-center gap-4'>
+          <div className='flex-center size-10 rounded-xl bg-gray-100'>
+            <Icon id={item.iconId} className='text-mint-500 size-6' />
+          </div>
+          <div className='flex flex-col'>
+            <span className='text-text-xs-medium text-gray-500'>{item.label}</span>
+            <span
+              className={cn(
+                'text-text-md-semibold h-6 text-gray-700',
+                !item.value && 'text-text-md-regular text-gray-500',
+              )}
+            >
+              {item.value || PLACEHOLDER}
+            </span>
+          </div>
+        </div>
       ))}
     </div>
   );
