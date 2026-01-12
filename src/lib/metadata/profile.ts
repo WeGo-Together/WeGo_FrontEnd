@@ -52,8 +52,7 @@ export const generateProfileMetadata = async (userId: number): Promise<Metadata>
         canonical: currentUrl,
       },
     };
-  } catch (error) {
-    console.error('Failed to fetch user profile for metadata:', error);
+  } catch {
     return {
       title: `사용자 프로필 | WeGo`,
       description: '사용자의 프로필과 리뷰를 확인해보세요.',

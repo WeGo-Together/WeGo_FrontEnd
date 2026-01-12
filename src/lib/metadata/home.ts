@@ -107,8 +107,7 @@ export const generateHomeMetadata = async (keyword?: string): Promise<Metadata> 
         canonical: currentUrl,
       },
     };
-  } catch (error) {
-    console.error('Failed to generate home metadata:', error);
+  } catch {
     return {
       title: 'WeGo - 함께하는 모임 플랫폼',
       description: 'WeGo에서 함께할 다양한 모임을 탐색하고 참여하세요.',
