@@ -43,12 +43,12 @@ const DEFAULT_WIDTH_HEIGHT = Object.freeze({
     height: 240,
   },
   lg: {
-    width: 80,
-    height: 80,
-  },
-  md: {
     width: 100,
     height: 100,
+  },
+  md: {
+    width: 80,
+    height: 80,
   },
   sm: {
     width: 56,
