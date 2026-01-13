@@ -117,6 +117,18 @@
       </a>
       이소망
     </td>
+    <td>
+      <h3>🖌️ 기획 & 디자인 초안</h3>
+      <ul>
+        <li>프로젝트의 UI 디자인 초안 작업 (Figma)</li>
+        <li>UI 초안을 바탕으로 화면 기획서 작성</li>
+      </ul>
+      <h3>💻 기능 개발</h3>
+      <ul>
+        <li>모임 상세 페이지 UI/UX 구현</li>
+        <li>모임 생성 페이지 UI/UX 구현</li>
+      </ul>
+    </td>
   </tr>
   <tr>
     <td align="center" width="150px">
