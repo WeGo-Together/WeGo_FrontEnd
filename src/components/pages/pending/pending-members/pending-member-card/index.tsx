@@ -18,27 +18,25 @@ export const PendingMemberCard = ({ member, onReject, onApprove }: Props) => {
   const profileUrl = `/profile/${member.userId}`;
 
   return (
-    <div className='bg-mono-white rounded-3xl px-5 py-[26px] shadow-sm'>
-      <Link href={profileUrl} className='flex gap-3'>
-        <ProfileImage size='sm' src={member.profileImage} />
+    <div className='bg-mono-white rounded-3xl px-5 py-6.5 shadow-sm'>
+      <Link href={profileUrl} className='flex items-center gap-3'>
+        <ProfileImage className='shrink-0' size='sm' src={member.profileImage} />
 
-        <div className='min-w-0 flex-1'>
-          <h4 className='text-text-md-semibold h-6 text-gray-800'>{member.nickName}</h4>
-        </div>
+        <h4 className='text-text-md-semibold truncate text-gray-800'>{member.nickName}</h4>
       </Link>
 
       {member.joinRequestMessage && (
-        <p className='text-text-md-medium mt-4 line-clamp-2 max-h-12 min-h-6 text-gray-600'>
+        <p className='text-text-md-medium mt-4 line-clamp-2 max-h-12 min-h-6 break-all text-gray-600'>
           {member.joinRequestMessage}
         </p>
       )}
 
       <div className='mt-4 flex gap-2'>
-        <Button className='flex-1' size='sm' variant='tertiary' onClick={onReject}>
+        <Button size='sm' variant='tertiary' onClick={onReject}>
           거절하기
         </Button>
         <Button
-          className='bg-mint-500 text-text-sm-bold text-mono-white hover:bg-mint-600 active:bg-mint-700 flex-1'
+          className='bg-mint-500 text-text-sm-bold text-mono-white hover:bg-mint-600 active:bg-mint-700'
           size='sm'
           variant='primary'
           onClick={onApprove}
