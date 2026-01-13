@@ -6,7 +6,7 @@ import { DEFAULT_PROFILE_IMAGE } from 'constants/default-images';
 import { ImageWithFallback } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
-const profileVariants = cva('object-cover overflow-hidden rounded-full', {
+const profileVariants = cva('object-cover overflow-hidden rounded-full select-none', {
   variants: {
     size: {
       xl: 'size-24',

@@ -1,13 +1,12 @@
 'use client';
 
-import Image from 'next/image';
-
 import { useRef, useState } from 'react';
 
 import { AnyFieldApi } from '@tanstack/react-form';
 
 import { Icon } from '@/components/icon';
 import { ImageLoadingBar } from '@/components/pages/create-group/fields/images-field/image-loading-bar';
+import { GroupImage } from '@/components/shared';
 import { Hint } from '@/components/ui';
 import { useUploadGroupImages } from '@/hooks/use-group/use-group-upload-images';
 import { cn } from '@/lib/utils';
@@ -58,55 +57,56 @@ export const GroupImagesField = ({ field }: Props) => {
 
   return (
     <div className='space-y-1'>
-      <div className='mt-6 flex flex-row gap-2'>
-        <button
-          className={cn(
-            'flex-center bg-mono-white group relative aspect-square w-full max-w-20 cursor-pointer rounded-2xl border-1 border-gray-300', // 기본 스타일
-            'hover:bg-gray-50', // hover 스타일
-            'transition-all duration-300', // animation 스타일
-          )}
-          aria-label='이미지 선택 버튼'
-          disabled={isPending}
-          type='button'
-          onClick={onUploadImageButtonClick}
-        >
-          {isPending ? (
-            <ImageLoadingBar />
-          ) : (
-            <Icon
-              id='plus'
-              className={cn(
-                'size-6 text-gray-600', // 기본 스타일
-                'group-hover:scale-120', // hover 스타일
-                'transition-all duration-300', // animation 스타일
-              )}
+      <ul className='mt-6 flex gap-2'>
+        <li className='relative aspect-square w-full max-w-20'>
+          <button
+            className={cn(
+              'flex-center bg-mono-white group size-full cursor-pointer rounded-2xl border-1 border-gray-300', // 기본 스타일
+              'hover:bg-gray-50',
+              'transition-all duration-300',
+            )}
+            aria-label='이미지 선택 버튼'
+            disabled={isPending}
+            type='button'
+            onClick={onUploadImageButtonClick}
+          >
+            {isPending ? (
+              <ImageLoadingBar />
+            ) : (
+              <Icon
+                id='plus'
+                className={cn(
+                  'size-6 text-gray-600',
+                  'group-hover:scale-120',
+                  'transition-all duration-300',
+                )}
+              />
+            )}
+            <input
+              ref={inputRef}
+              className='hidden'
+              accept='image/*'
+              multiple
+              type='file'
+              onChange={(e) => onUploadImage(e)}
             />
-          )}
-          <input
-            ref={inputRef}
-            className='hidden'
-            accept='image/*'
-            multiple
-            type='file'
-            onChange={(e) => onUploadImage(e)}
-          />
-        </button>
+          </button>
+        </li>
+
         {field.state.value.map(
           ({ imageUrl100x100 }: PreUploadGroupImageResponse['images'][0], idx: number) => (
-            <div key={imageUrl100x100} className='relative aspect-square w-full max-w-20'>
-              <Image
-                className='border-mono-black/5 h-full w-full rounded-2xl border-1 object-cover select-none'
-                alt='썸네일 이미지'
-                draggable={false}
-                fill
+            <li key={imageUrl100x100} className='relative aspect-square w-full max-w-20'>
+              <GroupImage
+                className='border-mono-black/5 size-full border-1'
+                size='md'
                 src={imageUrl100x100}
               />
 
               <button
                 className={cn(
-                  'flex-center bg-mono-white/80 group absolute top-1.5 right-2 size-4 cursor-pointer rounded-full', // 기본 스타일
-                  'hover:bg-mono-white hover:scale-110', // hover 스타일
-                  'transition-all duration-300', // animation 스타일
+                  'flex-center bg-mono-white/80 absolute top-1.5 right-2 size-4 cursor-pointer rounded-full',
+                  'hover:bg-mono-white hover:scale-110',
+                  'transition-all duration-300',
                 )}
                 aria-label='이미지 삭제 버튼'
                 type='button'
@@ -114,10 +114,11 @@ export const GroupImagesField = ({ field }: Props) => {
               >
                 <Icon id='small-x-1' className='size-1.5 text-gray-700' />
               </button>
-            </div>
+            </li>
           ),
         )}
-      </div>
+      </ul>
+
       {preUploadError && <Hint message={preUploadError} />}
       <p className='text-text-sm-medium px-2 text-gray-500 select-none'>
         최대 3개까지 업로드할 수 있어요.

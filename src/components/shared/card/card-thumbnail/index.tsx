@@ -1,25 +1,18 @@
-import { DEFAULT_GROUP_LIST_IMAGE } from 'constants/default-images';
-
-import { ImageWithFallback, PendingBadge } from '@/components/ui';
+import { GroupImage } from '@/components/shared/group-image';
+import { PendingBadge } from '@/components/ui';
 
 type CardThumbnailProps = {
   title: string;
-  thumbnail?: string;
+  thumbnail?: string | null;
   isPending?: boolean;
   isFinished?: boolean;
 };
 
-export const CardThumbnail = ({ title, thumbnail, isPending, isFinished }: CardThumbnailProps) => {
+export const CardThumbnail = ({ thumbnail, isPending, isFinished }: CardThumbnailProps) => {
   return (
-    <div className='relative h-25 w-25 shrink-0 overflow-hidden rounded-2xl bg-gray-200'>
-      <ImageWithFallback
-        width={100}
-        className='h-full w-full object-cover'
-        alt={title}
-        fallbackSrc={DEFAULT_GROUP_LIST_IMAGE}
-        height={100}
-        src={thumbnail ?? null}
-      />
+    <div className='relative size-25 shrink-0'>
+      <GroupImage size='lg' src={thumbnail ?? null} />
+
       {isPending && (
         <div className='absolute top-1.5 left-1.5'>
           <PendingBadge variant='sm'>대기중</PendingBadge>

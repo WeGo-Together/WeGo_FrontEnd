@@ -63,7 +63,7 @@ describe('Card', () => {
     render(<Card {...defaultProps} images={[imageUrl]} profileImage={profileUrl} />);
 
     // 썸네일 alt는 title, 프로필 alt는 nickName
-    expect(screen.getByAltText(defaultProps.title)).toBeInTheDocument();
+    expect(screen.getByAltText('모임 이미지')).toBeInTheDocument();
     expect(screen.getByAltText('프로필 이미지')).toBeInTheDocument();
   });
 });
