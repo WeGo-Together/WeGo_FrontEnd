@@ -109,6 +109,14 @@
       </a>
       김민서
     </td>
+    <td>
+      <h3>💻 기능 개발</h3>
+      <ul>
+        <li>메인 페이지(전체 모임 목록 페이지) UI/UX 구현</li>
+        <li>나의 모임 일정 페이지 UI/UX 구현</li>
+        <li>승인제 모임 가입 신청 관리 페이지 UI/UX 구현</li>
+      </ul>
+    </td>
   </tr>
   <tr>
     <td align="center" width="150px">
