@@ -7,9 +7,9 @@ import { GROUP_LIST_PAGE_SIZE, INTERSECTION_OBSERVER_THRESHOLD } from '@/lib/con
 import { groupKeys } from '@/lib/query-key/query-key-group';
 import { GroupListItemResponse } from '@/types/service/group';
 
-import { Meetings } from '../meetings/index';
+import { ScheduleList } from '../../schedule-list/index';
 
-export default function Current() {
+export const Current = () => {
   const queryKey = groupKeys.myGroupsList('current') as ['myGroups', 'current'];
 
   const {
@@ -47,19 +47,19 @@ export default function Current() {
   });
 
   return (
-    <Meetings
+    <ScheduleList
       refetch={refetch}
       completedMessage={completedMessage}
       emptyStatePath='/'
       emptyStateType='current'
       error={error}
+      group={items}
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
       isLoading={isLoading}
-      meetings={items}
       sentinelRef={sentinelRef}
       showActions={true}
       tabType='current'
     />
   );
-}
+};

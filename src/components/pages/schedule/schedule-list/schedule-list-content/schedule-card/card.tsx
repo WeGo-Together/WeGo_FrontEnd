@@ -14,14 +14,14 @@ import { GroupListItemResponse } from '@/types/service/group';
 
 type TabType = 'current' | 'myPost' | 'past';
 
-interface ScheduleCardProps {
+interface Props {
   createdBy: GroupListItemResponse['createdBy'];
   groupId: string;
   isFinished: boolean;
   isHost: boolean;
   isPending: boolean;
   joinPolicy: GroupListItemResponse['joinPolicy'];
-  meeting: GroupListItemResponse;
+  group: GroupListItemResponse;
   modalType: 'pending' | 'leave' | 'delete';
   shouldFetchChatRoomId: boolean;
   showActions: boolean;
@@ -35,12 +35,12 @@ export const ScheduleCard = ({
   isHost,
   isPending,
   joinPolicy,
-  meeting,
+  group,
   modalType,
   shouldFetchChatRoomId,
   showActions,
   tabType,
-}: ScheduleCardProps) => {
+}: Props) => {
   const router = useRouter();
   const { open } = useModal();
 
@@ -65,8 +65,8 @@ export const ScheduleCard = ({
 
   return (
     <CardComponent
-      dateTime={formatDateTime(meeting.startTime)}
-      images={meeting.images}
+      dateTime={formatDateTime(group.startTime)}
+      images={group.images}
       isFinished={isFinished}
       isHost={isHost}
       isPending={isPending}
@@ -79,14 +79,14 @@ export const ScheduleCard = ({
             }
           : undefined
       }
-      location={meeting.location}
-      maxParticipants={meeting.maxParticipants}
+      location={group.location}
+      maxParticipants={group.maxParticipants}
       nickName={createdBy.nickName}
-      participantCount={meeting.participantCount}
+      participantCount={group.participantCount}
       profileImage={createdBy.profileImage}
       tabType={tabType}
-      tags={meeting.tags}
-      title={meeting.title}
+      tags={group.tags}
+      title={group.title}
       onClick={handleCardClick}
     />
   );
