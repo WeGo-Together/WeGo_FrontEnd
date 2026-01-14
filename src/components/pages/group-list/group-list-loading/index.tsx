@@ -6,7 +6,7 @@ export const GroupListSkeleton = () => (
     <div className='flex w-full flex-col px-4 py-4'>
       <div className='flex w-full flex-col gap-4'>
         {Array.from({ length: GROUP_LIST_PAGE_SIZE }).map((_, i) => (
-          <CardSkeleton key={i} />
+          <CardSkeleton key={i} showButtons={false} />
         ))}
       </div>
     </div>

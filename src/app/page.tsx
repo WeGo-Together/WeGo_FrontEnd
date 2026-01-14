@@ -19,12 +19,12 @@ export const generateMetadata = async ({ searchParams }: HomePageProps): Promise
 
 export default async function HomePage(_props: HomePageProps) {
   return (
-    <>
+    <div>
       <GroupSearchBar />
       <Suspense fallback={<GroupListSkeleton />}>
         <GroupList />
       </Suspense>
-    </>
+    </div>
   );
 }
 
@@ -33,7 +33,7 @@ const GroupListSkeleton = () => (
     <div className='flex w-full flex-col px-4 py-4'>
       <div className='flex w-full flex-col gap-4'>
         {Array.from({ length: GROUP_LIST_PAGE_SIZE }).map((_, i) => (
-          <CardSkeleton key={i} />
+          <CardSkeleton key={i} showButtons={false} />
         ))}
       </div>
     </div>

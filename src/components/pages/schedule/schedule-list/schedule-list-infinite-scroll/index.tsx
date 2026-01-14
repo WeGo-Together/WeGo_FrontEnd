@@ -1,6 +1,6 @@
 import { type RefObject } from 'react';
 
-interface MeetingsInfiniteScrollProps {
+interface Props {
   sentinelRef?: RefObject<HTMLDivElement | null>;
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
@@ -8,13 +8,13 @@ interface MeetingsInfiniteScrollProps {
   hasError: boolean;
 }
 
-export const MeetingsInfiniteScroll = ({
+export const ScheduleListInfiniteScroll = ({
   sentinelRef,
   hasNextPage,
   isFetchingNextPage,
   completedMessage,
   hasError,
-}: MeetingsInfiniteScrollProps) => {
+}: Props) => {
   if (hasNextPage && !hasError) {
     return (
       <>
