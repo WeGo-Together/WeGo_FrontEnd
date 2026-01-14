@@ -1,8 +1,8 @@
 interface CardSkeletonProps {
-  showButtons?: boolean;
+  showButtons: boolean;
 }
 
-export const CardSkeleton = ({ showButtons = false }: CardSkeletonProps = {}) => {
+export const CardSkeleton = ({ showButtons }: CardSkeletonProps) => {
   return (
     <div className='bg-mono-white flex w-full animate-pulse rounded-3xl p-4 shadow-sm'>
       <div className='flex w-full min-w-0 gap-4'>

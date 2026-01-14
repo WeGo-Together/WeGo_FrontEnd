@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { InfiniteData, QueryObserverResult, useInfiniteQuery } from '@tanstack/react-query';
+import { InfiniteData, QueryObserverResult, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 const STALE_TIME = 3 * 1000; // 3초
 const DEFAULT_ERROR_MESSAGE = '데이터를 불러오는데 실패했습니다.';
@@ -60,7 +60,7 @@ export function useInfiniteScroll<
   pageSize = 10,
   staleTime = STALE_TIME,
   errorMessage = DEFAULT_ERROR_MESSAGE,
-  enabled = true,
+  // enabled = true,
   completedMessage = '모든 데이터를 불러왔습니다.',
 }: UseInfiniteScrollParams<TItem, TQueryKey>): UseInfiniteScrollReturn<TItem> {
   type InfiniteScrollData = InfiniteData<InfiniteScrollResponse<TItem>, number | undefined>;
@@ -74,7 +74,7 @@ export function useInfiniteScroll<
     isFetching,
     isLoading,
     refetch,
-  } = useInfiniteQuery<
+  } = useSuspenseInfiniteQuery<
     InfiniteScrollResponse<TItem>,
     Error,
     InfiniteScrollData,
@@ -82,7 +82,7 @@ export function useInfiniteScroll<
     number | undefined
   >({
     queryKey,
-    enabled,
+    // enabled,
     queryFn: async ({ pageParam }) => {
       const response = await queryFn({
         cursor: pageParam,

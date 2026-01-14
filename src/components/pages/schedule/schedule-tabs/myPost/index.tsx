@@ -7,10 +7,10 @@ import { GROUP_LIST_PAGE_SIZE, INTERSECTION_OBSERVER_THRESHOLD } from '@/lib/con
 import { groupKeys } from '@/lib/query-key/query-key-group';
 import { GroupListItemResponse } from '@/types/service/group';
 
-import { Meetings } from '../meetings/index';
+import { ScheduleList } from '../../schedule-list/index';
 
-export default function History() {
-  const queryKey = groupKeys.myGroupsList('past') as ['myGroups', 'past'];
+export const MyPost = () => {
+  const queryKey = groupKeys.myGroupsList('myPost') as ['myGroups', 'myPost'];
 
   const {
     items,
@@ -23,12 +23,18 @@ export default function History() {
     refetch,
   } = useInfiniteScroll<GroupListItemResponse, typeof queryKey>({
     queryFn: async ({ cursor, size }) => {
-      return await API.groupService.getMyGroups({ type: 'past', cursor, size });
+      return await API.groupService.getMyGroups({
+        type: 'myPost',
+        cursor,
+        size,
+        filter: 'ACTIVE',
+        excludeStatuses: ['CLOSED'],
+      });
     },
     queryKey,
     pageSize: GROUP_LIST_PAGE_SIZE,
-    errorMessage: '모임 이력을 불러오는데 실패했습니다.',
-    completedMessage: '모든 모임 이력을 불러왔습니다.',
+    errorMessage: '나의 모임 목록을 불러오는데 실패했습니다.',
+    completedMessage: '모든 나의 모임을 불러왔습니다.',
   });
 
   const sentinelRef = useIntersectionObserver({
@@ -42,19 +48,19 @@ export default function History() {
   });
 
   return (
-    <Meetings
+    <ScheduleList
       refetch={refetch}
       completedMessage={completedMessage}
-      emptyStatePath='/'
-      emptyStateType='past'
+      emptyStatePath='/create-group'
+      emptyStateType='myPost'
       error={error}
+      group={items}
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
       isLoading={isLoading}
-      meetings={items}
       sentinelRef={sentinelRef}
-      showActions={false}
-      tabType='past'
+      showActions={true}
+      tabType='myPost'
     />
   );
-}
+};

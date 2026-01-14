@@ -19,12 +19,9 @@ export const CardThumbnail = ({ thumbnail, isPending, isFinished }: CardThumbnai
         </div>
       )}
       {isFinished && (
-        <>
-          <div className='absolute inset-0 bg-black/60' />
-          <div className='flex-center absolute inset-0'>
-            <span className='text-text-sm-bold text-mono-white'>모임 마감</span>
-          </div>
-        </>
+        <div className='flex-center absolute inset-0 rounded-2xl bg-black/60'>
+          <span className='text-text-sm-bold text-mono-white'>모임 마감</span>
+        </div>
       )}
     </div>
   );
