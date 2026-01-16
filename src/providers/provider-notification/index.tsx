@@ -30,7 +30,9 @@ export const NotificationProvider = ({ children, hasRefreshToken }: Notification
     return () => {
       disconnect();
     };
-  }, [connect, disconnect]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <NotificationContext.Provider value={{ unReadCount, receivedNewNotification }}>
       {children}
