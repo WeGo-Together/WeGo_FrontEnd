@@ -33,7 +33,6 @@ export const FollowingCardTable: Story = {
     nickname: '',
     profileImage: '',
     profileMessage: '',
-    type: 'following',
   },
   render: () => (
     <table className='w-full border-collapse'>
@@ -49,11 +48,7 @@ export const FollowingCardTable: Story = {
           <td className='p-4 align-top text-sm font-medium text-gray-900'>Following</td>
           <td className='p-4 align-top text-sm text-gray-600'>기본 팔로잉 카드</td>
           <td className='p-4'>
-            <FollowingCard
-              {...baseArgs}
-              profileMessage='안녕하세요! 반갑습니다 😊'
-              type='following'
-            />
+            <FollowingCard {...baseArgs} profileMessage='안녕하세요! 반갑습니다 😊' />
           </td>
         </tr>
         <tr className='border-b'>
@@ -65,7 +60,6 @@ export const FollowingCardTable: Story = {
             <FollowingCard
               {...baseArgs}
               profileMessage='안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요'
-              type='following'
             />
           </td>
         </tr>
@@ -73,48 +67,28 @@ export const FollowingCardTable: Story = {
           <td className='p-4 align-top text-sm font-medium text-gray-900'>Message</td>
           <td className='p-4 align-top text-sm text-gray-600'>읽지 않은 메시지 없음</td>
           <td className='p-4'>
-            <FollowingCard
-              {...baseArgs}
-              count={0}
-              profileMessage='알림 0개 테스트'
-              type='message'
-            />
+            <FollowingCard {...baseArgs} profileMessage='알림 0개 테스트' />
           </td>
         </tr>
         <tr className='border-b'>
           <td className='p-4 align-top text-sm font-medium text-gray-900'>Message</td>
           <td className='p-4 align-top text-sm text-gray-600'>읽지 않은 메시지 1개</td>
           <td className='p-4'>
-            <FollowingCard
-              {...baseArgs}
-              count={1}
-              profileMessage='알림 1개 테스트'
-              type='message'
-            />
+            <FollowingCard {...baseArgs} profileMessage='알림 1개 테스트' />
           </td>
         </tr>
         <tr className='border-b'>
           <td className='p-4 align-top text-sm font-medium text-gray-900'>Message</td>
           <td className='p-4 align-top text-sm text-gray-600'>읽지 않은 메시지 10개</td>
           <td className='p-4'>
-            <FollowingCard
-              {...baseArgs}
-              count={10}
-              profileMessage='알림 10개 테스트'
-              type='message'
-            />
+            <FollowingCard {...baseArgs} profileMessage='알림 10개 테스트' />
           </td>
         </tr>
         <tr className='border-b'>
           <td className='p-4 align-top text-sm font-medium text-gray-900'>Message</td>
           <td className='p-4 align-top text-sm text-gray-600'>읽지 않은 메시지 99개 이상</td>
           <td className='p-4'>
-            <FollowingCard
-              {...baseArgs}
-              count={100}
-              profileMessage='알림 100개 테스트'
-              type='message'
-            />
+            <FollowingCard {...baseArgs} profileMessage='알림 100개 테스트' />
           </td>
         </tr>
       </tbody>
