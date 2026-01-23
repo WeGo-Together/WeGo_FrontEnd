@@ -96,7 +96,7 @@ const ChatRoomPage = ({ accessToken, roomId, userId }: IProps) => {
   }
 
   return (
-    <div className='relative h-[calc(100vh-112px)] overflow-hidden'>
+    <div className='relative h-[calc(100dvh-112px)] overflow-hidden'>
       {/* 채팅 화면 */}
       <div
         className={`absolute inset-0 flex flex-col transition-transform duration-300 ease-in-out ${

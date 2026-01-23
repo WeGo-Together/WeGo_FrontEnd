@@ -17,7 +17,6 @@ export const FollowingList = ({ items }: FollowingListProps) => {
           nickname={item.nickname}
           profileImage={item.profileImage}
           profileMessage={item.profileMessage}
-          type='following'
           userId={item.userId}
         />
       ))}
