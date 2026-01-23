@@ -2,7 +2,7 @@
 
 'use client';
 
-import { Suspense, use } from 'react';
+import { use } from 'react';
 
 import { initMocks } from '@/mock';
 
@@ -32,8 +32,8 @@ export const MSWProvider = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <Suspense fallback={null}>
-      <MSWProviderWrapper>{children}</MSWProviderWrapper>
-    </Suspense>
+    // <Suspense fallback={null}>
+    <MSWProviderWrapper>{children}</MSWProviderWrapper>
+    // </Suspense>
   );
 };

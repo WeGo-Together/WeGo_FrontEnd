@@ -2,6 +2,8 @@ import '@/styles/globals.css';
 
 import type { Metadata } from 'next';
 
+import { Suspense } from 'react';
+
 import { LayoutWrapper } from '@/components/layout';
 import { initMocks } from '@/mock';
 
@@ -28,11 +30,13 @@ export default async function RootLayout({
   return (
     <html lang='ko'>
       <body className={`${pretendard.className} ${pretendard.variable} antialiased`}>
-        <Providers hasRefreshToken={hasRefreshToken}>
-          <div id='root'>
-            <LayoutWrapper>{children}</LayoutWrapper>
-          </div>
-        </Providers>
+        <Suspense fallback={null}>
+          <Providers hasRefreshToken={hasRefreshToken}>
+            <div id='root'>
+              <LayoutWrapper>{children}</LayoutWrapper>
+            </div>
+          </Providers>
+        </Suspense>
       </body>
     </html>
   );

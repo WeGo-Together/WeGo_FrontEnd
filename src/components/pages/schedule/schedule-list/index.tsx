@@ -2,17 +2,18 @@
 
 import { type RefObject } from 'react';
 
+import {
+  ScheduleListContent,
+  ScheduleListEmpty,
+  ScheduleListInfiniteScroll,
+} from '@/components/pages/schedule';
 import { ErrorMessage } from '@/components/shared';
 import { GroupListItemResponse } from '@/types/service/group';
 
 import { type TabType } from './constants';
-import { MeetingsContent } from './meetings-content';
-import { MeetingsEmpty } from './meetings-empty';
-import { MeetingsInfiniteScroll } from './meetings-infinite-scroll';
-import { MeetingsSkeleton } from './meetings-loading';
 
-type MeetingsProps = {
-  meetings: GroupListItemResponse[];
+type Props = {
+  group: GroupListItemResponse[];
   tabType: TabType;
   emptyStateType: TabType;
   emptyStatePath: string;
@@ -26,8 +27,8 @@ type MeetingsProps = {
   refetch?: () => Promise<unknown>;
 };
 
-export const Meetings = ({
-  meetings,
+export const ScheduleList = ({
+  group,
   tabType,
   emptyStateType,
   emptyStatePath,
@@ -39,10 +40,10 @@ export const Meetings = ({
   sentinelRef,
   completedMessage,
   refetch,
-}: MeetingsProps) => {
-  const isEmpty = meetings.length === 0;
+}: Props) => {
+  const isEmpty = group.length === 0;
   const hasError = !!error;
-  const hasItems = meetings.length > 0;
+  const hasItems = group.length > 0;
   const hasNoItems = isEmpty && !error && !isLoading;
   const showErrorOnly = hasError && isEmpty;
   const showErrorWithData = hasError && !isEmpty;
@@ -56,14 +57,10 @@ export const Meetings = ({
     }
   };
 
-  if (isLoading) {
-    return <MeetingsSkeleton />;
-  }
-
   return (
     <>
       {showEmptyState && (
-        <MeetingsEmpty emptyStatePath={emptyStatePath} emptyStateType={emptyStateType} />
+        <ScheduleListEmpty emptyStatePath={emptyStatePath} emptyStateType={emptyStateType} />
       )}
 
       {hasItems && (
@@ -74,7 +71,7 @@ export const Meetings = ({
             </div>
           )}
 
-          <MeetingsContent meetings={meetings} showActions={showActions} tabType={tabType} />
+          <ScheduleListContent group={group} showActions={showActions} tabType={tabType} />
 
           {showErrorWithData && (
             <div className='py-4'>
@@ -82,7 +79,7 @@ export const Meetings = ({
             </div>
           )}
 
-          <MeetingsInfiniteScroll
+          <ScheduleListInfiniteScroll
             completedMessage={completedMessage || ''}
             hasError={hasError}
             hasNextPage={hasNextPage || false}

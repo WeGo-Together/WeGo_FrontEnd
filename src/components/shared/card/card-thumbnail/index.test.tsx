@@ -4,7 +4,7 @@ import { CardThumbnail } from '.';
 
 describe('CardThumbnail', () => {
   const defaultProps = {
-    title: '썸네일 테스트',
+    title: '모임 이미지',
   };
 
   test('썸네일이 없으면 기본 그룹 이미지를 렌더링한다', () => {
