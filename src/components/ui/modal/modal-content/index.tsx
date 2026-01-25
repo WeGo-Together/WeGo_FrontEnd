@@ -1,3 +1,4 @@
+'use client';
 import { useEffect } from 'react';
 
 import * as m from 'motion/react-m';
