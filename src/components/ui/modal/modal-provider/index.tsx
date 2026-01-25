@@ -4,9 +4,6 @@ import { createPortal } from 'react-dom';
 
 import * as m from 'motion/react-m';
 
-import { Icon } from '@/components/icon';
-import { cn } from '@/lib/utils';
-
 interface ModalContextType {
   open: (context: React.ReactNode) => void;
   close: () => void;
@@ -145,9 +142,12 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
     };
   }, [isOpen]);
 
+  // portal은 mount 된 후에 생성
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
+    const onMount = () => {
+      setMounted(true);
+    };
+    onMount();
   }, []);
 
   return (
@@ -175,114 +175,5 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
           document.body,
         )}
     </ModalContext.Provider>
-  );
-};
-
-interface ModalContentProps {
-  children: React.ReactNode;
-  className?: string;
-}
-
-export const ModalContent = ({ children, className }: ModalContentProps) => {
-  const { modalContentRef } = useModal();
-
-  // focus 처리
-  useEffect(() => {
-    if (!modalContentRef.current) return;
-
-    const modal = modalContentRef.current;
-    const focusableElements = modal.querySelectorAll(
-      'button:not([disabled]), a[href]:not([tabindex="-1"]), input:not([disabled]):not([tabindex="-1"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
-    );
-    const firstElement = focusableElements[0] as HTMLElement;
-    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
-
-    firstElement?.focus();
-
-    const handleTab = (e: KeyboardEvent) => {
-      if (e.key !== 'Tab') return;
-
-      if (focusableElements.length === 0) {
-        e.preventDefault();
-        return;
-      }
-
-      if (e.shiftKey) {
-        // Shift + Tab
-        if (document.activeElement === firstElement) {
-          e.preventDefault();
-          lastElement?.focus();
-        }
-      } else {
-        // Tab
-        if (document.activeElement === lastElement) {
-          e.preventDefault();
-          firstElement?.focus();
-        }
-      }
-    };
-
-    modal.addEventListener('keydown', handleTab);
-    return () => modal.removeEventListener('keydown', handleTab);
-  }, [children, modalContentRef]);
-
-  return (
-    <m.div
-      ref={modalContentRef}
-      className={cn('w-full rounded-3xl bg-white p-5', className)}
-      animate={{
-        opacity: 1,
-        scale: 1,
-      }}
-      initial={{ opacity: 0, scale: 0.1 }}
-      onClick={(e) => {
-        e.stopPropagation();
-      }}
-    >
-      <div className='relative'>
-        {children}
-        <ModalCloseButton />
-      </div>
-    </m.div>
-  );
-};
-
-interface ModalTitleProps {
-  children: React.ReactNode;
-  className?: string;
-}
-
-export const ModalTitle = ({ children, className }: ModalTitleProps) => {
-  return (
-    <h2 id='modal-title' className={cn('text-text-md-semibold text-gray-800', className)}>
-      {children}
-    </h2>
-  );
-};
-
-interface ModalDescriptionProps {
-  children: string;
-  className?: string;
-}
-
-export const ModalDescription = ({ children, className }: ModalDescriptionProps) => {
-  return (
-    <p id='modal-description' className={cn('text-text-sm-medium text-gray-600', className)}>
-      {children}
-    </p>
-  );
-};
-
-export const ModalCloseButton = () => {
-  const { close } = useModal();
-  return (
-    <button
-      className='absolute top-0 right-0 rounded-sm transition-colors duration-300 hover:bg-gray-200 active:bg-gray-200'
-      aria-label='모달 닫기'
-      type='button'
-      onClick={close}
-    >
-      <Icon id='x-1' className='size-5 cursor-pointer text-gray-500' />
-    </button>
   );
 };
