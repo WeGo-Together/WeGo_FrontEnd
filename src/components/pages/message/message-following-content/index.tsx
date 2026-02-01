@@ -9,6 +9,7 @@ import { TabNavigation } from '@/components/shared';
 import { useInfiniteScroll } from '@/hooks/use-group/use-group-infinite-list';
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 import { INTERSECTION_OBSERVER_THRESHOLD } from '@/lib/constants/group-list';
+import { followKeys } from '@/lib/query-key/query-key-follow';
 
 const SOCIAL_TABS = [
   { label: '팔로잉', value: 'following' },
@@ -40,7 +41,7 @@ export const FollowingContent = ({ initialUserId, accessToken }: FollowingConten
         size,
       });
     },
-    queryKey: ['followers', initialUserId],
+    queryKey: followKeys.followers(initialUserId),
     completedMessage: '모든 팔로잉을 불러왔습니다.',
     enabled: !!initialUserId,
   });
@@ -81,7 +82,7 @@ export const FollowingContent = ({ initialUserId, accessToken }: FollowingConten
               {/* 5. 완료 메시지 */}
               {!hasNextPage && (
                 <div className='flex items-center justify-center p-4'>
-                  <span className='text-gray-500'>{completedMessage}</span>
+                  <span className='text-text-sm-medium text-gray-500'>{completedMessage}</span>
                 </div>
               )}
             </>

@@ -21,7 +21,7 @@ describe('버튼 컴포넌트 테스트', () => {
 
     const button = screen.getByRole('button');
 
-    expect(button).toHaveClass('bg-mint-400');
+    expect(button).toHaveClass('bg-mint-500');
     expect(button).toHaveClass('text-mono-white');
     expect(button).toHaveClass('text-text-md-bold');
     expect(button).toHaveClass('w-full');
