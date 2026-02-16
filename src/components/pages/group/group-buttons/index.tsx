@@ -24,7 +24,7 @@ export const GroupButtons = ({
   const canJoin = !isMember && !isPending && !isFinished;
 
   return (
-    <div className='sticky bottom-[56px] border-t-1 border-gray-200 bg-white px-4 py-3'>
+    <div className='sticky bottom-[56px] z-100 border-t-1 border-gray-200 bg-white px-4 py-3'>
       {canJoin && (
         <JoiningButton
           conditions={{ isGroupFull: status === 'FULL', isFreeGroup: joinPolicy === 'FREE' }}

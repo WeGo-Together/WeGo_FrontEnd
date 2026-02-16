@@ -15,6 +15,7 @@ export const LocationSearchModal = ({ LocationField }: Props) => {
 
   const handleComplete = (data: Address) => {
     const fullAddress = `${data.sido} ${data.sigungu} ${data.bname}`;
+    console.log(data);
     LocationField.handleChange(fullAddress);
     close();
   };
