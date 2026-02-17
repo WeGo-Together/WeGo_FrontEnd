@@ -1,5 +1,6 @@
 import {
   DescriptionDetail,
+  DescriptionMap,
   DescriptionProfile,
   DescriptionProgress,
   DescriptionSetting,
@@ -57,6 +58,7 @@ export const GroupDescriptions = ({
       <DescriptionTags tags={tags} />
       <DescriptionDetail detail={description} />
       <DescriptionSetting setting={{ address, startTime }} />
+      <DescriptionMap location={address.location} />
       <DescriptionProgress createdAt={createdAt} progress={{ maxParticipants, participantCount }} />
     </section>
   );
