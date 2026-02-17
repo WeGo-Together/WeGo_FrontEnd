@@ -45,6 +45,7 @@ jobs:
         env:
           NEXT_PUBLIC_API_BASE_URL: ${{ vars.NEXT_PUBLIC_API_BASE_URL }}
           NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID }}
+          NEXT_PUBLIC_KAKAOMAP_KEY: ${{ secrets.NEXT_PUBLIC_KAKAOMAP_KEY }}
 
       - name: Compress Files
         run: tar -czvf ${{ env.COMPRESSED_FILE_NAME }} .next package.json pnpm-lock.yaml public next.config.ts
