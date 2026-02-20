@@ -1,4 +1,4 @@
-import { authAPI } from '@/api/core';
+import { authAPI } from '@/api/core/auth';
 import { clearAccessToken, setAccessToken } from '@/lib/auth/token';
 import {
   GoogleOAuthExchangeRequest,

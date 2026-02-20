@@ -1,4 +1,4 @@
-import { baseAPI } from '@/api/core';
+import { baseAPI } from '@/api/core/base';
 import { GetNotificationListQueryParams, NotificationList } from '@/types/service/notification';
 
 export const notificationServiceRemote = () => ({

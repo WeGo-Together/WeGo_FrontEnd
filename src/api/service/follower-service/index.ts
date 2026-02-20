@@ -1,4 +1,4 @@
-import { baseAPI } from '@/api/core';
+import { baseAPI } from '@/api/core/base';
 import { GetFollowParams, GetFollowResponse } from '@/types/service/follow';
 import { FollowPathParams } from '@/types/service/user';
 
