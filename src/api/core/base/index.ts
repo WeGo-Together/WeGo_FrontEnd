@@ -39,6 +39,7 @@ baseInstance.interceptors.response.use(
         } else {
           const currentPath = window.location.pathname + window.location.search;
           window.location.href = `/login?error=unauthorized&path=${encodeURIComponent(currentPath)}`;
+          return;
         }
       }
     }

@@ -36,7 +36,7 @@ authInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    return new CommonErrorResponse(error.response?.data);
+    throw new CommonErrorResponse(error.response?.data);
   },
 );
 
