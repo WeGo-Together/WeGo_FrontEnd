@@ -31,7 +31,7 @@ export const clearAccessToken = () => {
   document.cookie = `${ACCESS_TOKEN_KEY}=; Max-Age=0; path=/`;
 };
 
-export const getAccesstoken = async () => {
+export const getAccessToken = async () => {
   const isServer = typeof window === 'undefined';
   if (isServer) {
     const { cookies } = await import('next/headers');

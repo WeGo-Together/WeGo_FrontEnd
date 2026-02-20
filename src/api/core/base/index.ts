@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getAccesstoken } from '@/lib/auth/token';
+import { getAccessToken } from '@/lib/auth/token';
 import { CommonErrorResponse } from '@/types/service/common';
 
 import { API } from '../..';
@@ -12,7 +12,7 @@ const baseInstance = axios.create({
 });
 
 baseInstance.interceptors.request.use(async (config) => {
-  const token = await getAccesstoken();
+  const token = await getAccessToken();
   if (token && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
   }
