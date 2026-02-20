@@ -1,4 +1,4 @@
-import { api } from '@/api/core';
+import { authAPI } from '@/api/core';
 import { clearAccessToken, setAccessToken } from '@/lib/auth/token';
 import {
   GoogleOAuthExchangeRequest,
@@ -13,47 +13,42 @@ import {
 export const authServiceRemote = () => ({
   // 로그인
   login: async (payload: LoginRequest) => {
-    const data = await api.post<LoginResponse>('/auth/login', payload, { withCredentials: true });
+    const data = await authAPI.post<LoginResponse>('/api/v1/auth/login', payload);
 
     setAccessToken(data.accessToken, data.expiresIn);
     return data;
   },
 
   // 회원가입
-  signup: (payload: SignupRequest) => api.post<SignupResponse>(`/auth/signup`, payload),
+  signup: async (payload: SignupRequest) => {
+    return authAPI.post<SignupResponse>(`/api/v1/auth/signup`, payload);
+  },
 
   // 로그아웃
   logout: async () => {
-    await api.post<void>('/auth/logout', null, { withCredentials: true });
+    await authAPI.post<void>('/api/v1/auth/logout', null);
     clearAccessToken();
   },
 
   // 액세스 토큰 재발급
-  refresh: async (redirect: boolean = true) => {
-    const data = await api.post<RefreshResponse>(
-      '/auth/refresh',
-      {},
-      { _retry: true, withCredentials: true, skipAuthRedirect: redirect },
-    );
-
+  refresh: async () => {
+    //prettier-ignore
+    const data = await authAPI.post<RefreshResponse>('/api/v1/auth/refresh', {});
     setAccessToken(data.accessToken, data.expiresIn);
     return data;
   },
 
   // 회원 탈퇴
   withdraw: async () => {
-    await api.delete<void>('/auth/withdraw', { withCredentials: true });
+    await authAPI.delete<void>('/api/v1/auth/withdraw');
     clearAccessToken();
   },
 
   // 구글 OAuth 코드 교환
   exchangeGoogleCode: async (payload: GoogleOAuthExchangeRequest) => {
-    const data = await api.post<GoogleOAuthExchangeResponse>('/auth/google', payload, {
-      withCredentials: true,
-    });
+    const data = await authAPI.post<GoogleOAuthExchangeResponse>('/api/v1/auth/google', payload);
 
     setAccessToken(data.accessToken, data.expiresIn);
-
     return data;
   },
 });

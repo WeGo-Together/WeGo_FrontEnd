@@ -30,3 +30,15 @@ export const clearAccessToken = () => {
 
   document.cookie = `${ACCESS_TOKEN_KEY}=; Max-Age=0; path=/`;
 };
+
+export const getAccessToken = async () => {
+  const isServer = typeof window === 'undefined';
+  if (isServer) {
+    const { cookies } = await import('next/headers');
+    const cookieStore = await cookies();
+    return cookieStore.get(ACCESS_TOKEN_KEY)?.value;
+  } else {
+    const match = document.cookie.match(new RegExp(`(^| )${ACCESS_TOKEN_KEY}=([^;]+)`));
+    return match ? decodeURIComponent(match[2]) : undefined;
+  }
+};
