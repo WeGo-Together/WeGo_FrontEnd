@@ -22,7 +22,7 @@ export const chatServiceRemote = () => ({
 
   // 1:1(DM) 채팅방 생성
   createDMChatRoom: async (payloads: CreateDMPayloads) => {
-    return baseAPI.post<ChattingRoom>('/chat/dm', payloads);
+    return baseAPI.post<ChattingRoom>('/api/v1/chat/dm', payloads);
   },
 
   // 메세지 이력 조회
