@@ -13,6 +13,7 @@ const createMockTokens = () => ({
   accessToken: 'mock-access-token',
   tokenType: 'Bearer' as const,
   expiresIn: 3600,
+  expiresAt: '2026-02-21T11:05:19.595700269',
 });
 
 export const createLoginResponse = (email: string, password: string): LoginResponse => {

@@ -1,17 +1,16 @@
 import axios from 'axios';
 
-import { getAccessToken } from '@/lib/auth/token';
 import { CommonErrorResponse } from '@/types/service/common';
 
 import { createApiHelper } from '../lib/apiHelper';
 
-const authInstance = axios.create({
+const refreshInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   timeout: 20000,
   withCredentials: true,
 });
 
-authInstance.interceptors.request.use(async (config) => {
+refreshInstance.interceptors.request.use(async (config) => {
   const isServer = typeof window === 'undefined';
 
   if (isServer) {
@@ -23,15 +22,10 @@ authInstance.interceptors.request.use(async (config) => {
     }
   }
 
-  const accessToken = await getAccessToken();
-  if (accessToken && config.headers) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
-
   return config;
 });
 
-authInstance.interceptors.response.use(
+refreshInstance.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -40,4 +34,4 @@ authInstance.interceptors.response.use(
   },
 );
 
-export const authAPI = createApiHelper(authInstance);
+export const refreshAPI = createApiHelper(refreshInstance);

@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const proxy = (request: NextRequest) => {
+import { API } from './api';
+
+export const proxy = async (request: NextRequest) => {
   const accessToken = request.cookies.get('accessToken');
   const refreshToken = request.cookies.get('refreshToken');
+  let hasValidToken = !!accessToken;
 
   const protectedPaths = ['/mypage', '/create-group', '/message', '/schedule', '/notification'];
   const isProtected = protectedPaths.some((path) => request.nextUrl.pathname.startsWith(path));
@@ -11,24 +14,45 @@ export const proxy = (request: NextRequest) => {
   const isPublic = publicPaths.some((path) => request.nextUrl.pathname.startsWith(path));
 
   // 인증된 사용자가 public 페이지 접근 시 홈으로
-  if (isPublic && (accessToken || refreshToken)) {
+  // refresh 중복 실행을 방지하기 위해 최상단으로 이동
+  if (isPublic && refreshToken) {
     return NextResponse.redirect(new URL('/', request.url));
+  }
+
+  // 일반 응답 생성
+  const response = NextResponse.next();
+
+  // accessToken이 없으면 refresh 실행하여 일반 응답에 set cookie 설정
+  if (!accessToken && refreshToken) {
+    try {
+      const res = await API.authService.refresh();
+      const data = res;
+      hasValidToken = true;
+      response.cookies.set('accessToken', data.accessToken, {
+        httpOnly: false,
+        maxAge: data.expiresIn,
+        domain: 'wego.monster',
+        secure: process.env.NODE_ENV === 'production',
+      });
+    } catch {
+      hasValidToken = false;
+    }
   }
 
   // 보호되지 않은 경로는 그냥 통과
   if (!isProtected) {
-    return NextResponse.next();
+    return response;
   }
 
-  // 둘 다 없으면 로그인 페이지로 redirect
-  if (!accessToken && !refreshToken) {
+  // accessToken 없으면 login redirect
+  if (!hasValidToken) {
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('error', 'unauthorized');
     loginUrl.searchParams.set('path', request.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  return NextResponse.next();
+  return response;
 };
 
 export const config = {
