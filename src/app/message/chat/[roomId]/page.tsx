@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: Promise<{ roomId: strin
   const accessToken = cookieStore.get('accessToken')?.value;
 
   const me = await API.userService.getMe();
-  const userId = me?.userId;
+  const userId = me.userId;
 
   return (
     <ChatRoomPage
