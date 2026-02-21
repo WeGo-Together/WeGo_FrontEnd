@@ -18,13 +18,17 @@ export const proxy = async (request: NextRequest) => {
 
   // accessToken이 없으면 refresh 실행하여 일반 응답에 set cookie 설정
   if (!accessToken && refreshToken) {
-    const res = await API.authService.refresh();
-    const data = res;
-    hasValidToken = true;
-    response.cookies.set('accessToken', data.accessToken, {
-      httpOnly: false,
-      maxAge: data.expiresIn,
-    });
+    try {
+      const res = await API.authService.refresh();
+      const data = res;
+      hasValidToken = true;
+      response.cookies.set('accessToken', data.accessToken, {
+        httpOnly: false,
+        maxAge: data.expiresIn,
+      });
+    } catch {
+      hasValidToken = false;
+    }
   }
 
   // 인증된 사용자가 public 페이지 접근 시 홈으로
