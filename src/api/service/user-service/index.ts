@@ -59,11 +59,6 @@ export const userServiceRemote = () => ({
     return baseAPI.get<User>(`/api/v1/users/me`);
   },
 
-  // 8-1. 본인 프로필 조회(redirect skip)
-  getMeSkipRedirect: async () => {
-    return baseAPI.get<User>(`/api/v1/users/me`);
-  },
-
   // 9. 이메일 중복 검사
   getEmailAvailability: async (queryParams: GetEmailAvailabilityQueryParams) => {
     return baseAPI.get<Availability>(`/api/v1/users/email/availability`, {
