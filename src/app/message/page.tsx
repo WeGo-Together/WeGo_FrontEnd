@@ -23,7 +23,7 @@ export default async function MessagePage() {
   const accessToken = cookieStore.get('accessToken')?.value || null;
   const queryClient = getQueryClient();
 
-  const me = await API.userService.getMeSkipRedirect();
+  const me = await API.userService.getMe();
   const userId = me.userId;
 
   await Promise.all([
