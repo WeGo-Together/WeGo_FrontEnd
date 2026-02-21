@@ -1,8 +1,4 @@
-import React, { createContext, SetStateAction, useContext, useEffect, useState } from 'react';
-
-import Cookies from 'js-cookie';
-
-import { API } from '@/api';
+import React, { createContext, SetStateAction, useContext, useState } from 'react';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -24,25 +20,6 @@ interface Props {
 
 export const AuthProvider = ({ children, hasRefreshToken }: Props) => {
   const [isAuthenticated, setIsAuthenticated] = useState(hasRefreshToken);
-
-  // 초기값 설정
-  // 페이지가 새로고침 될 때 accessToken이 없으면 refresh 시도, state update 실행
-  useEffect(() => {
-    const updateAuthenticated = async () => {
-      const hasAccessToken = !!Cookies.get('accessToken');
-      if (!hasAccessToken && hasRefreshToken) {
-        try {
-          await API.authService.refresh();
-          setIsAuthenticated(true);
-        } catch {
-          setIsAuthenticated(false);
-        }
-      } else if (hasAccessToken) {
-        setIsAuthenticated(true);
-      }
-    };
-    updateAuthenticated();
-  }, [hasRefreshToken]);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
