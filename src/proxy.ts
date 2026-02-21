@@ -13,6 +13,12 @@ export const proxy = async (request: NextRequest) => {
   const publicPaths = ['/login', '/signup'];
   const isPublic = publicPaths.some((path) => request.nextUrl.pathname.startsWith(path));
 
+  // 인증된 사용자가 public 페이지 접근 시 홈으로
+  // refresh 중복 실행을 방지하기 위해 최상단으로 이동
+  if (isPublic && refreshToken) {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
   // 일반 응답 생성
   const response = NextResponse.next();
 
@@ -31,11 +37,6 @@ export const proxy = async (request: NextRequest) => {
     } catch {
       hasValidToken = false;
     }
-  }
-
-  // 인증된 사용자가 public 페이지 접근 시 홈으로
-  if (isPublic && hasValidToken) {
-    return NextResponse.redirect(new URL('/', request.url));
   }
 
   // 보호되지 않은 경로는 그냥 통과
