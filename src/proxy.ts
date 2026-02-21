@@ -26,6 +26,7 @@ export const proxy = async (request: NextRequest) => {
         httpOnly: false,
         maxAge: data.expiresIn,
         domain: 'wego.monster',
+        secure: process.env.NODE_ENV === 'production',
       });
     } catch {
       hasValidToken = false;
