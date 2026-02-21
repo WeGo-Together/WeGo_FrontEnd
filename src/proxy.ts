@@ -25,6 +25,7 @@ export const proxy = async (request: NextRequest) => {
       response.cookies.set('accessToken', data.accessToken, {
         httpOnly: false,
         maxAge: data.expiresIn,
+        domain: 'wego.monster',
       });
     } catch {
       hasValidToken = false;
