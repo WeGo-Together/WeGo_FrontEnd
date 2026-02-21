@@ -1,4 +1,5 @@
-import { authAPI } from '@/api/core/auth';
+import { baseAPI } from '@/api/core/base';
+import { refreshAPI } from '@/api/core/refresh';
 import { clearAccessToken, setAccessToken } from '@/lib/auth/token';
 import {
   GoogleOAuthExchangeRequest,
@@ -13,7 +14,8 @@ import {
 export const authServiceRemote = () => ({
   // 로그인
   login: async (payload: LoginRequest) => {
-    const data = await authAPI.post<LoginResponse>('/api/v1/auth/login', payload);
+    //prettier-ignore
+    const data = await baseAPI.post<LoginResponse>('/api/v1/auth/login', payload, { withCredentials: true });
 
     setAccessToken(data.accessToken, data.expiresIn);
     return data;
@@ -21,32 +23,36 @@ export const authServiceRemote = () => ({
 
   // 회원가입
   signup: async (payload: SignupRequest) => {
-    return authAPI.post<SignupResponse>(`/api/v1/auth/signup`, payload);
+    return baseAPI.post<SignupResponse>(`/api/v1/auth/signup`, payload, { withCredentials: true });
   },
 
   // 로그아웃
   logout: async () => {
-    await authAPI.post<void>('/api/v1/auth/logout', null);
+    await baseAPI.post<void>('/api/v1/auth/logout', null, { withCredentials: true });
+
     clearAccessToken();
   },
 
   // 액세스 토큰 재발급
   refresh: async () => {
     //prettier-ignore
-    const data = await authAPI.post<RefreshResponse>('/api/v1/auth/refresh', {});
+    const data = await refreshAPI.post<RefreshResponse>('/api/v1/auth/refresh', null, { withCredentials: true });
+
     setAccessToken(data.accessToken, data.expiresIn);
     return data;
   },
 
   // 회원 탈퇴
   withdraw: async () => {
-    await authAPI.delete<void>('/api/v1/auth/withdraw');
+    await baseAPI.delete<void>('/api/v1/auth/withdraw', { withCredentials: true });
+
     clearAccessToken();
   },
 
   // 구글 OAuth 코드 교환
   exchangeGoogleCode: async (payload: GoogleOAuthExchangeRequest) => {
-    const data = await authAPI.post<GoogleOAuthExchangeResponse>('/api/v1/auth/google', payload);
+    //prettier-ignore
+    const data = await baseAPI.post<GoogleOAuthExchangeResponse>('/api/v1/auth/google', payload, { withCredentials: true });
 
     setAccessToken(data.accessToken, data.expiresIn);
     return data;
