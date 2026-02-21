@@ -20,6 +20,7 @@ export interface LoginResponse {
   accessToken: string;
   tokenType: 'Bearer';
   expiresIn: number;
+  expiresAt: string;
   user: {
     userId: number;
     email: string;
