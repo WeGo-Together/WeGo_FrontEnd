@@ -35,7 +35,7 @@ const ProfileLayout = async ({ children, params }: Props) => {
     queryClient
       .fetchQuery({
         queryKey: userKeys.me(),
-        queryFn: () => API.userService.getMeSkipRedirect(),
+        queryFn: () => API.userService.getMe(),
       })
       .catch(() => null),
   ]);

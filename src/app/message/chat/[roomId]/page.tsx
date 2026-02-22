@@ -9,7 +9,7 @@ export default async function Page({ params }: { params: Promise<{ roomId: strin
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
 
-  const me = await API.userService.getMeSkipRedirect();
+  const me = await API.userService.getMe();
   const userId = me.userId;
 
   return (
