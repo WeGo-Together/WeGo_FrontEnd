@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useContext } from 'react';
 
 import { useGetNotificationUnreadCount } from '@/hooks/use-notification';
-import { useConnectSSE } from '@/hooks/use-notification/use-notification-connect-sse';
+import { useSSEConnect, useSSEEvent } from '@/hooks/use-sse';
 
 interface NotificationContextType {
   unReadCount: number;
@@ -18,20 +18,14 @@ export const useNotification = () => {
 
 interface NotificationProviderProps {
   children: React.ReactNode;
-  hasRefreshToken: boolean;
 }
 
-export const NotificationProvider = ({ children, hasRefreshToken }: NotificationProviderProps) => {
+export const NotificationProvider = ({ children }: NotificationProviderProps) => {
   const { data: unReadCount = 0 } = useGetNotificationUnreadCount();
-  const { receivedNewNotification, connect, disconnect } = useConnectSSE(hasRefreshToken);
+  const { data: receivedData } = useSSEConnect();
+  useSSEEvent(receivedData);
 
-  useEffect(() => {
-    connect();
-    return () => {
-      disconnect();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const receivedNewNotification = !!receivedData;
 
   return (
     <NotificationContext.Provider value={{ unReadCount, receivedNewNotification }}>
