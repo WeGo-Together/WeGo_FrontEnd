@@ -9,34 +9,21 @@ export type NotificationType =
   | 'GROUP_JOIN_REJECTED'
   | 'GROUP_JOIN_KICKED';
 
-type NotificationTypeWithoutGroup = 'FOLLOW';
-type NotificationTypeWithGroup = Exclude<NotificationType, NotificationTypeWithoutGroup>;
-
-interface BaseNotification {
+export interface NotificationItem {
   id: number;
   message: string;
   readAt: string | null;
   createdAt: string;
+  type: NotificationType;
   user: {
     id: number;
     nickname: string;
   };
-}
-
-interface NotificationWithoutGroup extends BaseNotification {
-  type: NotificationTypeWithoutGroup;
-  group: null;
-}
-
-interface NotificationWithGroup extends BaseNotification {
-  type: NotificationTypeWithGroup;
   group: {
     id: number;
     title: string;
   } | null;
 }
-
-export type NotificationItem = NotificationWithoutGroup | NotificationWithGroup;
 
 export interface NotificationList {
   notifications: NotificationItem[];
