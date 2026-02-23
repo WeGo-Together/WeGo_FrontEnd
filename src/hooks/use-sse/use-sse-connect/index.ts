@@ -87,6 +87,7 @@ export const useSSEConnect = () => {
     es.onerror = async (_error) => {
       console.log('[DEBUG] SSE - 연결 오류 발생');
       es.close();
+      if (retryRefreshRef.current) return;
       reconnect();
     };
   };
