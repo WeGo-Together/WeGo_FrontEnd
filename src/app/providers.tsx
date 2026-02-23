@@ -19,7 +19,7 @@ export const Providers = ({ children, hasRefreshToken }: Props) => {
     <QueryProvider>
       <MSWProvider>
         <AuthProvider hasRefreshToken={hasRefreshToken}>
-          <NotificationProvider hasRefreshToken={hasRefreshToken}>
+          <NotificationProvider>
             <LazyMotionProvider>
               <ToastProvider>
                 <ModalProvider>{children}</ModalProvider>
