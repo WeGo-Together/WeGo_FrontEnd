@@ -10,6 +10,7 @@ export const useSSEConnect = () => {
 
   const eventSourceRef = useRef<EventSource | null>(null);
   const retryRefreshRef = useRef(false);
+  const isMountedRef = useRef(true);
 
   // SSE 연결 진입점
   const connect = () => {
@@ -51,6 +52,11 @@ export const useSSEConnect = () => {
 
   // SSE 연결 설정 함수
   const setupSSEConnection = (token: string) => {
+    if (!isMountedRef.current) {
+      console.log('[DEBUG] SSE - 언마운트된 컴포넌트, 연결 중단');
+      return;
+    }
+
     // 1. 기존 연결 정리
     if (eventSourceRef.current) {
       console.log('[DEBUG] SSE - 기존 연결 정리');
@@ -93,8 +99,12 @@ export const useSSEConnect = () => {
   };
 
   useEffect(() => {
+    isMountedRef.current = true;
     connect();
-    return () => disconnect();
+    return () => {
+      isMountedRef.current = false;
+      disconnect();
+    };
   }, []);
 
   // 알림 수신 후 3초 뒤 data가 null로 변경됨
