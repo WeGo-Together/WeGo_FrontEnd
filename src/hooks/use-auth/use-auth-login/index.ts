@@ -8,7 +8,7 @@ import axios, { AxiosError } from 'axios';
 
 import { API } from '@/api';
 import { normalizePath } from '@/lib/auth/utils';
-import { useAuth } from '@/providers';
+import { useAuthStore } from '@/stores';
 import { LoginRequest } from '@/types/service/auth';
 import { CommonErrorResponse } from '@/types/service/common';
 
@@ -29,7 +29,7 @@ export const useLogin = () => {
   const [loginError, setLoginError] = useState<string | null>(null);
   const clearLoginError = useCallback(() => setLoginError(null), []);
 
-  const { setIsAuthenticated } = useAuth();
+  const { setIsAuthenticated } = useAuthStore();
 
   const handleLogin = async (payload: LoginRequest, formApi: { reset: () => void }) => {
     setLoginError(null);
