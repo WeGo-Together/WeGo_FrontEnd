@@ -2,14 +2,16 @@
 import { useRouter } from 'next/navigation';
 
 import { Icon } from '@/components/icon';
-import { useUpdateNotificationReadAll } from '@/hooks/use-notification';
+import {
+  useGetNotificationUnreadCount,
+  useUpdateNotificationReadAll,
+} from '@/hooks/use-notification';
 import { cn } from '@/lib/utils';
-import { useNotification } from '@/providers';
 
 export const NotificationHeader = () => {
   const router = useRouter();
 
-  const { unReadCount } = useNotification();
+  const { unReadCount } = useGetNotificationUnreadCount();
   const { mutateAsync } = useUpdateNotificationReadAll();
 
   const handleHistoryBackClick = () => {

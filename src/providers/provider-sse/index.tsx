@@ -1,16 +1,41 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
+import { QueryKey, useQueryClient } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 
 import { API } from '@/api';
+import { groupKeys } from '@/lib/query-key/query-key-group';
+import { notificationKeys } from '@/lib/query-key/query-key-notification';
+import { userKeys } from '@/lib/query-key/query-key-user';
+import { useNotificationStore } from '@/stores';
 import { NotificationItem } from '@/types/service/notification';
 
-export const useSSEConnect = () => {
-  const [data, setData] = useState<NotificationItem | null>(null);
+const SSE_INVALIDATION_MAP: Partial<
+  Record<NotificationItem['type'], (data: NotificationItem) => QueryKey[]>
+> = {
+  FOLLOW: (data) => [userKeys.me(), userKeys.item(data.user.id)],
+  GROUP_CREATE: () => [groupKeys.lists()],
+  GROUP_DELETE: () => [groupKeys.lists()],
+  GROUP_JOIN: (data) => (data.group ? [groupKeys.detail(String(data.group.id))] : []),
+  GROUP_LEAVE: (data) => (data.group ? [groupKeys.detail(String(data.group.id))] : []),
+  GROUP_JOIN_APPROVED: (data) => (data.group ? [groupKeys.detail(String(data.group.id))] : []),
+  GROUP_JOIN_REJECTED: (data) => (data.group ? [groupKeys.detail(String(data.group.id))] : []),
+  GROUP_JOIN_KICKED: (data) => (data.group ? [groupKeys.detail(String(data.group.id))] : []),
+  GROUP_JOIN_REQUEST: (data) =>
+    data.group ? [groupKeys.joinRequests(String(data.group.id), 'PENDING')] : [],
+};
 
+interface Props {
+  children: React.ReactNode;
+}
+
+export const SSEProvider = ({ children }: Props) => {
   const eventSourceRef = useRef<EventSource | null>(null);
   const retryRefreshRef = useRef(false);
   const isMountedRef = useRef(true);
+  const queryClient = useQueryClient();
+
+  const { receivedData, setReceivedData, setHasNewNotification } = useNotificationStore();
 
   // SSE 연결 진입점
   const connect = () => {
@@ -81,9 +106,10 @@ export const useSSEConnect = () => {
     // 4. SSE 이벤트 수신 시
     es.addEventListener('notification', (event) => {
       try {
-        const receivedData = JSON.parse(event.data) as NotificationItem;
-        setData(receivedData);
-        console.log('[DEBUG] SSE - 수신 성공:', receivedData);
+        const data = JSON.parse(event.data) as NotificationItem;
+        console.log('[DEBUG] SSE - 수신 성공:', data);
+        setReceivedData(data);
+        setHasNewNotification(true);
       } catch (error) {
         console.error('[DEBUG] SSE - 데이터 파싱 실패:', error);
       }
@@ -107,16 +133,29 @@ export const useSSEConnect = () => {
     };
   }, []);
 
-  // 알림 수신 후 3초 뒤 data가 null로 변경됨
+  // 알림 수신 후 invalidate 처리
   useEffect(() => {
-    if (!data) return;
+    if (!receivedData) return;
 
+    queryClient.invalidateQueries({ queryKey: notificationKeys.unReadCount() });
+    queryClient.invalidateQueries({ queryKey: notificationKeys.list() });
+
+    const getQueryKeys = SSE_INVALIDATION_MAP[receivedData.type];
+    getQueryKeys?.(receivedData).forEach((queryKey) => {
+      queryClient.invalidateQueries({ queryKey });
+    });
+  }, [queryClient, receivedData]);
+
+  // 3초 뒤 data가 null로 변경됨
+  useEffect(() => {
+    if (!receivedData) return;
     const timer = setTimeout(() => {
-      setData(null);
+      setReceivedData(null);
+      setHasNewNotification(false);
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, [data]);
+  }, [receivedData, setReceivedData]);
 
-  return { data };
+  return <>{children}</>;
 };
