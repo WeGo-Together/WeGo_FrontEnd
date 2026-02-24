@@ -5,8 +5,8 @@ import {
   AuthProvider,
   LazyMotionProvider,
   MSWProvider,
-  NotificationProvider,
   QueryProvider,
+  SSEProvider,
 } from '@/providers';
 
 interface Props {
@@ -19,13 +19,13 @@ export const Providers = ({ children, hasRefreshToken }: Props) => {
     <QueryProvider>
       <MSWProvider>
         <AuthProvider hasRefreshToken={hasRefreshToken}>
-          <NotificationProvider>
+          <SSEProvider>
             <LazyMotionProvider>
               <ToastProvider>
                 <ModalProvider>{children}</ModalProvider>
               </ToastProvider>
             </LazyMotionProvider>
-          </NotificationProvider>
+          </SSEProvider>
         </AuthProvider>
       </MSWProvider>
     </QueryProvider>
