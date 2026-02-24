@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 
 import { Toast } from '@/components/ui';
 import { useToast } from '@/components/ui/toast/core';
-import { useAuth } from '@/providers';
+import { useAuthStore } from '@/stores';
 
 type Props = {
   error?: string | string[];
@@ -12,7 +12,7 @@ type Props = {
 
 export const LoginToastEffect = ({ error }: Props) => {
   const { run } = useToast();
-  const { setIsAuthenticated } = useAuth();
+  const { setIsAuthenticated } = useAuthStore();
   const lastErrorRef = useRef<string>('');
 
   useEffect(() => {

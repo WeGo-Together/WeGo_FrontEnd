@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { Icon } from '@/components/icon';
 import { CowBell } from '@/components/layout/header/cow-bell';
 import { HeaderLogin } from '@/components/layout/header/header-login';
-import { useAuth } from '@/providers';
+import { useAuthStore } from '@/stores';
 
 export const Header = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuthStore();
 
   return (
     <header className={`sticky top-0 z-100 w-full bg-white`}>

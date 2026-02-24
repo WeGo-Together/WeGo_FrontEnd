@@ -4,12 +4,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { Icon } from '@/components/icon';
-import { useAuth } from '@/providers';
+import { useAuthStore } from '@/stores';
 
 export const GNB = () => {
   const pathname = usePathname();
 
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuthStore();
 
   const highLightPath = (path: string) => {
     if (path === '/') {

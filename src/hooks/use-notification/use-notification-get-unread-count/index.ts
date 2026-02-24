@@ -2,10 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 
 import { API } from '@/api';
 import { notificationKeys } from '@/lib/query-key/query-key-notification';
-import { useAuth } from '@/providers';
+import { useAuthStore } from '@/stores';
 
 export const useGetNotificationUnreadCount = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuthStore();
   const queryResult = useQuery({
     queryKey: notificationKeys.unReadCount(),
     queryFn: () => API.notificationService.getUnreadCount(),
@@ -14,10 +14,10 @@ export const useGetNotificationUnreadCount = () => {
     retry: false,
   });
 
-  const finalData = isAuthenticated ? (queryResult.data ?? 0) : 0;
+  const unReadCount = isAuthenticated ? (queryResult.data ?? 0) : 0;
 
   return {
     ...queryResult,
-    data: finalData,
+    unReadCount,
   };
 };

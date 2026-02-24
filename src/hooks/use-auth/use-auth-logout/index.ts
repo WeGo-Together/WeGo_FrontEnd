@@ -4,12 +4,12 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { API } from '@/api';
 import { userKeys } from '@/lib/query-key/query-key-user';
-import { useAuth } from '@/providers';
+import { useAuthStore } from '@/stores';
 
 export const useLogout = () => {
   const queryClient = useQueryClient();
 
-  const { setIsAuthenticated } = useAuth();
+  const { setIsAuthenticated } = useAuthStore();
 
   const handleLogout = async () => {
     try {
