@@ -37,6 +37,9 @@ baseInstance.interceptors.response.use(
         if (isServer) {
           throw refreshError;
         } else {
+          if (window.location.pathname === '/login') {
+            throw errorResponse;
+          }
           const currentPath = window.location.pathname + window.location.search;
           window.location.href = `/login?error=unauthorized&path=${encodeURIComponent(currentPath)}`;
           return;
