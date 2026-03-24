@@ -7,7 +7,6 @@ import { Suspense } from 'react';
 import { LayoutWrapper } from '@/components/layout';
 import { initMocks } from '@/mock';
 
-import { pretendard } from '../lib/fonts';
 import { Providers } from './providers';
 
 export const metadata: Metadata = {
@@ -29,7 +28,7 @@ export default async function RootLayout({
 
   return (
     <html lang='ko'>
-      <body className={`${pretendard.className} ${pretendard.variable} antialiased`}>
+      <body className='antialiased'>
         <Suspense fallback={null}>
           <Providers hasRefreshToken={hasRefreshToken}>
             <div id='root'>
