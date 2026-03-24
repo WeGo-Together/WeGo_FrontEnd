@@ -2,13 +2,6 @@ import { render, screen } from '@testing-library/react';
 
 import { type CardTag, CardTags, getLastVisibleIndex } from '.';
 
-// ResizeObserver 목
-global.ResizeObserver = class ResizeObserver {
-  observe = jest.fn();
-  disconnect = jest.fn();
-  unobserve = jest.fn();
-} as unknown as typeof global.ResizeObserver;
-
 describe('getLastVisibleIndex', () => {
   it('태그들이 카드 너비를 넘어가지 않으면 모든 태그를 표시한다', () => {
     const maxWidth = 300;
